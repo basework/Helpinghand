@@ -18,17 +18,24 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
-  useEffect(() => { setMounted(true) }, [])
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (!mounted) return
-    if (localStorage.getItem("tivexx-user")) {
+
+    const storedUser = localStorage.getItem("tivexx-user")
+    if (storedUser) {
       router.push("/dashboard")
     }
   }, [mounted, router])
 
   const handleWhatsAppSupport = () => {
-    window.open(`https://wa.me/2349059089490?text=${encodeURIComponent("hello, am from Tivexx.")}`, "_blank")
+    const phoneNumber = "2349059089490"
+    const message = encodeURIComponent("hello, am from Tivexx.")
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
+    window.open(whatsappUrl, "_blank")
   }
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -37,85 +44,71 @@ export default function LoginPage() {
     setError("")
 
     try {
-      // STEP 1: Try Supabase Auth first
+      let fullUser: any = null
+
+      // STEP 1: FIRST - Try Supabase Auth login
       const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password
       })
 
       if (!authError && authData?.user) {
-        // User in Supabase Auth → fetch name + balances
-        const { data: userData } = await supabase
+        // Pull EVERYTHING using the auth user id
+        const { data } = await supabase
           .from("users")
-          .select("name, balance, referral_balance, referral_code")
+          .select("*")
           .eq("id", authData.user.id)
           .single()
 
-        localStorage.setItem(
-          "tivexx-user",
-          JSON.stringify({
-            name: userData?.name || "User",
-            email: authData.user.email,
-            balance: Number(userData?.balance || 0),
-            referralBalance: Number(userData?.referral_balance || 0),
-            referralCode: userData?.referral_code || "",
+        fullUser = data
+      } else {
+        // STEP 2: Legacy fallback - match by email + plaintext password
+        const { data: localUser } = await supabase
+          .from("users")
+          .select("*")
+          .eq("email", email)
+          .single()
+
+        if (!localUser || localUser.password !== password) {
+          setError("Invalid email or password")
+          setLoading(false)
+          return
+        }
+
+        fullUser = localUser
+
+        // Optional silent migration to Supabase Auth
+        try {
+          await supabase.auth.signUp({
+            email,
+            password,
+            options: { data: { name: localUser.name } }
           })
-        )
-
-        router.push("/dashboard")
-        return
+        } catch (err) {
+          // Ignore - we don't care if it fails
+        }
       }
 
-      // STEP 2: Legacy user (not in Supabase Auth yet)
-      const { data: localUser, error: localError } = await supabase
-        .from("users")
-        .select("name, email, password, balance, referral_balance, referral_code")
-        .eq("email", email)
-        .single()
-
-      if (localError || !localUser) {
-        setError("Invalid email or password")
-        setLoading(false)
-        return
-      }
-
-      if (localUser.password !== password) {
-        setError("Invalid email or password")
-        setLoading(false)
-        return
-      }
-
-      // Optional silent migration
-      try {
-        await supabase.auth.signUp({
-          email,
-          password,
-          options: { data: { name: localUser.name } }
-        })
-      } catch {}
-
-      // Save REAL data
-      localStorage.setItem(
-        "tivexx-user",
-        JSON.stringify({
-          name: localUser.name || "User",
-          email: localUser.email,
-          balance: Number(localUser.balance || 0),
-          referralBalance: Number(localUser.referral_balance || 0),
-          referralCode: localUser.referral_code || "",
-        })
-      )
+      // Save the ENTIRE user object (every column) to localStorage
+      localStorage.setItem("tivexx-user", JSON.stringify({
+        ...fullUser,
+        balance: Number(fullUser?.balance || 0),
+        referral_balance: Number(fullUser?.referral_balance || 0),
+        referral_count: Number(fullUser?.referral_count || 0),
+      }))
 
       router.push("/dashboard")
 
     } catch (err) {
-      setError("Login failed. Try again.")
+      setError("Login failed")
     } finally {
       setLoading(false)
     }
   }
 
-  if (!mounted) return null
+  if (!mounted) {
+    return null
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 relative">
@@ -125,7 +118,12 @@ export default function LoginPage() {
             <Logo className="w-64 mb-4" />
           </div>
 
-          <h1 className="text-2xl font-semibold text-center text-white animate-fade-in" style={{ animationDelay: "0.3s" }}>
+>
+
+          <h1
+            className="text-2xl font-semibold text-center text-white animate-fade-in"
+            style={{ animationDelay: "0.3s" }}
+          >
             Login to continue
           </h1>
 
@@ -145,6 +143,7 @@ export default function LoginPage() {
                 required
                 className="h-14 rounded-full bg-white/90 px-6 border border-purple-300"
               />
+
               <Input
                 type="password"
                 placeholder="Enter Password"
