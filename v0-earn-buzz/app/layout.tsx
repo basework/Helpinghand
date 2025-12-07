@@ -25,7 +25,7 @@ export default function RootLayout({
       <head>
         <meta name="theme-color" content="#ea580c" />
         <Script
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5493079165674219"
+          src="https://www.effectivegatecpm.com/ss7byyvk?key=1948aa06d1b260e8127ecf7f05d7529c"
           strategy="afterInteractive"
           crossOrigin="anonymous"
           async
