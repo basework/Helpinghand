@@ -41,6 +41,10 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <main className="min-h-screen max-w-md mx-auto bg-[#fff5f0]">{children}</main>
         </ThemeProvider>
+        <script
+          type="text/javascript"
+          src="//pl28209576.effectivegatecpm.com/71/ca/09/71ca0984089e0fbe2cc7c3c996349ffd.js"
+        ></script>
       </body>
     </html>
   )
