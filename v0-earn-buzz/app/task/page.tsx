@@ -19,6 +19,15 @@ interface Task {
 
 const AVAILABLE_TASKS: Task[] = [
   {
+    id: "effectivegatecpm-ad",
+    platform: "Effective Gate CPM",
+    description: "Tap our ad link to earn bonus rewards",
+    category: "Advertisement",
+    reward: 5000,
+    link: "https://www.effectivegatecpm.com/ss7byyvk?key=1948aa06d1b260e8127ecf7f05d7529c",
+    icon: "🎯",
+  },
+  {
     id: "telegram-channel",
     platform: "Telegram",
     description: "join our telegram channel",
