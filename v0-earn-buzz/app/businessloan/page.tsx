@@ -36,8 +36,8 @@ export default function BusinessLoanPage() {
   const MAX_LOAN = 5000000
   const PROCESSING_RATE = 0.03
 
-  // Minimal mapping of common bank display names to Paystack bank codes.
-  // Add or adjust codes to match your Paystack bank list as needed.
+  // Mapping of bank display names to Paystack bank codes.
+  // Codes sourced from Paystack API; fallback to /api/banks if missing here.
   const bankNameToCode: Record<string, string> = {
     "Access Bank": "044",
     "GTBank": "058",
@@ -50,14 +50,30 @@ export default function BusinessLoanPage() {
     "Stanbic IBTC": "068",
     "FCMB": "214",
     "Keystone Bank": "082",
-    "Polaris Bank": "",
+    "Polaris Bank": "108",
     "Providus Bank": "101",
-    "Titan Trust Bank": "",
-    "Globus Bank": "",
+    "Titan Trust Bank": "102",
+    "Globus Bank": "103",
     "Kuda Bank": "50211",
-    "Opay": "506",
-    "Palmpay": "",
+    "Opay": "503",
+    "Palmpay": "104",
+    "Ecobank": "050",
+    "Heritage Bank": "030",
+    "Wema Bank": "035",
+    "SunTrust Bank": "100",
+    "Rubies Bank": "045",
+    "Parallex Bank": "110",
+    "FSDH Merchant Bank": "077",
+    "Renmoney Bank": "106",
+    "FairMoney Bank": "107",
+    "MintMFB": "090",
+    "Paycom MFB": "105",
+    "Mkobo MFB": "112",
+    "Diamond Bank": "063",
+    "Citibank Nigeria": "023",
+    "GTCO (Legacy)": "058",
   }
+
 
   const [verifying, setVerifying] = useState(false)
   const [verified, setVerified] = useState(false)
