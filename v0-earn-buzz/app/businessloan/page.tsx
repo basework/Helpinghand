@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, CheckCircle, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -35,6 +35,33 @@ export default function BusinessLoanPage() {
   const MIN_LOAN = 500000
   const MAX_LOAN = 5000000
   const PROCESSING_RATE = 0.03
+
+  // Minimal mapping of common bank display names to Paystack bank codes.
+  // Add or adjust codes to match your Paystack bank list as needed.
+  const bankNameToCode: Record<string, string> = {
+    "Access Bank": "044",
+    "GTBank": "058",
+    "First Bank": "011",
+    "UBA": "033",
+    "Zenith Bank": "057",
+    "Fidelity Bank": "070",
+    "Union Bank": "032",
+    "Sterling Bank": "232",
+    "Stanbic IBTC": "068",
+    "FCMB": "214",
+    "Keystone Bank": "082",
+    "Polaris Bank": "",
+    "Providus Bank": "101",
+    "Titan Trust Bank": "",
+    "Globus Bank": "",
+    "Kuda Bank": "50211",
+    "Opay": "506",
+    "Palmpay": "",
+  }
+
+  const [verifying, setVerifying] = useState(false)
+  const [verified, setVerified] = useState(false)
+  const [verifyError, setVerifyError] = useState<string | null>(null)
 
   const numericValue = (val: string) => {
     const n = Number(val.toString().replace(/[^0-9.]/g, ""))
@@ -77,6 +104,54 @@ export default function BusinessLoanPage() {
       router.push(url.toString())
     }, 450)
   }
+
+  // Live computed values (no state needed)
+  const loanAmountNum = Math.floor(numericValue(loanAmount))
+  const processingFee = loanAmountNum > 0 ? Math.ceil(loanAmountNum * PROCESSING_RATE) : 0
+  const totalPayableNow = loanAmountNum > 0 ? loanAmountNum + processingFee : 0
+
+  // Auto-verify account when 10-digit account number and a mapped bank code are present
+  useEffect(() => {
+    setVerifyError(null)
+    setVerified(false)
+    const cleaned = accountNumber.replace(/\D/g, "")
+    const code = bankNameToCode[selectedBank] || ""
+    if (cleaned.length !== 10 || !code) return
+
+    let mounted = true
+    const t = setTimeout(async () => {
+      if (!mounted) return
+      setVerifying(true)
+      setVerifyError(null)
+      try {
+        const res = await fetch(`/api/verify-account`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ account_number: cleaned, bank_code: code }),
+        })
+        const data = await res.json()
+        if (!res.ok || data.error) {
+          setVerifyError(data.error || data.message || "Failed to verify account")
+          setVerified(false)
+        } else {
+          const resolvedName = data.account_name || data.data?.account_name || ""
+          setAccountName(resolvedName)
+          setVerified(true)
+          setVerifyError(null)
+        }
+      } catch (err) {
+        setVerifyError("Failed to verify account")
+        setVerified(false)
+      } finally {
+        setVerifying(false)
+      }
+    }, 450)
+
+    return () => {
+      mounted = false
+      clearTimeout(t)
+    }
+  }, [accountNumber, selectedBank])
 
   return (
     <div className="min-h-screen text-white bg-gradient-to-br from-emerald-800 via-emerald-700 to-emerald-900">
