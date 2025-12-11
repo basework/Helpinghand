@@ -7,6 +7,11 @@ export default function SetupWithdrawalAccountPage() {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
   const [accountNumber, setAccountNumber] = useState<string>("")
   const [accountName, setAccountName] = useState<string>("")
+  const [banksList, setBanksList] = useState<Array<{ name: string; code: string }>>([])
+  const [bankCode, setBankCode] = useState<string>("")
+  const [verifying, setVerifying] = useState<boolean>(false)
+  const [verified, setVerified] = useState<boolean>(false)
+  const [verifyError, setVerifyError] = useState<string>("")
   const [loading, setLoading] = useState(true)
   const [transitioning, setTransitioning] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
@@ -79,6 +84,64 @@ export default function SetupWithdrawalAccountPage() {
     const timer = setTimeout(() => setLoading(false), 5000)
     return () => clearTimeout(timer)
   }, [])
+
+  // Fetch banks from server (Paystack via server route)
+  useEffect(() => {
+    let mounted = true
+    ;(async () => {
+      try {
+        const res = await fetch(`/api/banks`)
+        if (!res.ok) return
+        const data = await res.json()
+        if (mounted && data && data.banks) {
+          setBanksList(data.banks)
+        }
+      } catch (err) {
+        // ignore
+      }
+    })()
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  // Verify account function
+  async function verifyAccount() {
+    setVerifyError("")
+    setVerifying(true)
+    try {
+      const res = await fetch(`/api/verify-account`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ account_number: accountNumber.replace(/\D/g, ""), bank_code: bankCode }),
+      })
+      const data = await res.json()
+      if (!res.ok || data.error) {
+        setVerifyError(data.error || "Failed to verify account")
+        setVerified(false)
+      } else {
+        const resolvedName = data.account_name || data.data?.account_name || ""
+        setAccountName(resolvedName)
+        setVerified(true)
+      }
+    } catch (err) {
+      setVerifyError("Failed to verify account")
+      setVerified(false)
+    } finally {
+      setVerifying(false)
+    }
+  }
+
+  // Auto-trigger verification when a full 10-digit account number is entered and a bank is selected
+  useEffect(() => {
+    const cleaned = accountNumber.replace(/\D/g, "")
+    if (cleaned.length === 10 && bankCode) {
+      const t = setTimeout(() => {
+        verifyAccount()
+      }, 350)
+      return () => clearTimeout(t)
+    }
+  }, [accountNumber, bankCode])
 
   const handleProceed = () => {
     if (!bank || !accountNumber || !accountName) return
@@ -171,7 +234,25 @@ export default function SetupWithdrawalAccountPage() {
             </button>
             {dropdownOpen && (
               <ul className="absolute z-40 mt-2 w-full max-h-72 overflow-y-auto rounded-md border border-green-200 bg-white shadow-lg animate-bounceIn">
-                {BANKS.map((b, idx) => (
+                {(banksList.length ? banksList.map((b, idx) => (
+                  <li
+                    key={idx}
+                    onClick={() => {
+                      setBank(b.name)
+                      setBankCode(b.code)
+                      setDropdownOpen(false)
+                      setAccountNumber("")
+                      setAccountName("")
+                      setVerified(false)
+                      setVerifyError("")
+                    }}
+                    className={`px-4 py-3 cursor-pointer select-none text-sm text-green-800 hover:bg-green-100 transition ${
+                      bank === b.name ? "bg-green-50 font-medium" : ""
+                    }`}
+                  >
+                    {b.name}
+                  </li>
+                )) : BANKS.map((b, idx) => (
                   <li
                     key={idx}
                     onClick={() => {
@@ -179,6 +260,9 @@ export default function SetupWithdrawalAccountPage() {
                       setDropdownOpen(false)
                       setAccountNumber("")
                       setAccountName("")
+                      setVerified(false)
+                      setVerifyError("")
+                      setBankCode("")
                     }}
                     className={`px-4 py-3 cursor-pointer select-none text-sm text-green-800 hover:bg-green-100 transition ${
                       bank === b ? "bg-green-50 font-medium" : ""
@@ -186,7 +270,7 @@ export default function SetupWithdrawalAccountPage() {
                   >
                     {b}
                   </li>
-                ))}
+                )))}
               </ul>
             )}
           </div>
@@ -194,25 +278,69 @@ export default function SetupWithdrawalAccountPage() {
           {/* Account Number */}
           <div>
             <label className="block text-sm font-medium text-green-800 mb-2">Account Number</label>
-            <input
-              value={accountNumber}
-              onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, ""))}
-              placeholder="Enter account number"
-              inputMode="numeric"
-              maxLength={10}
-              className="w-full rounded-md border border-green-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
-            />
+            <div className="flex gap-2">
+              <input
+                value={accountNumber}
+                onChange={(e) => {
+                  const v = e.target.value.replace(/\D/g, "")
+                  setAccountNumber(v)
+                  setVerified(false)
+                  setVerifyError("")
+                }}
+                placeholder="Enter account number"
+                inputMode="numeric"
+                maxLength={10}
+                className="flex-1 rounded-md border border-green-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+              />
+
+              <button
+                onClick={async () => {
+                  // manual verify
+                  if (accountNumber.replace(/\D/g, "").length !== 10 || !bankCode) return
+                  await verifyAccount()
+                }}
+                disabled={accountNumber.replace(/\D/g, "").length !== 10 || !bankCode || verifying}
+                className={`rounded-md px-4 py-3 text-sm font-semibold transition-all ${
+                  accountNumber.replace(/\D/g, "").length !== 10 || !bankCode
+                    ? "bg-green-200 text-green-700 cursor-not-allowed"
+                    : "bg-green-600 text-white hover:bg-green-700"
+                }`}
+              >
+                {verifying ? (
+                  <span className="inline-flex items-center gap-2">
+                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                    Verifying
+                  </span>
+                ) : (
+                  "Verify"
+                )}
+              </button>
+            </div>
+            {verifyError && <p className="text-sm text-red-600 mt-2">{verifyError}</p>}
           </div>
 
           {/* Account Name */}
           <div>
-            <label className="block text-sm font-medium text-green-800 mb-2">Account Name</label>
+            <label className="block text-sm font-medium text-green-800 mb-2">
+              Account Name
+              {verified && <span className="ml-2 inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Verified ✓</span>}
+            </label>
             <input
               value={accountName}
-              onChange={(e) => setAccountName(e.target.value)}
+              onChange={(e) => {
+                if (!verified) setAccountName(e.target.value)
+              }}
               placeholder="Enter account name"
-              className="w-full rounded-md border border-green-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+              disabled={verified}
+              className={`w-full rounded-md border px-4 py-3 focus:outline-none focus:ring-2 transition ${
+                verified
+                  ? "border-green-400 bg-green-50 text-green-900 cursor-not-allowed focus:ring-green-300"
+                  : "border-green-300 bg-white focus:ring-green-400"
+              }`}
             />
+            {verified && (
+              <p className="text-xs text-green-700 mt-1">Resolved from bank lookup</p>
+            )}
           </div>
 
           {/* Proceed Button */}
