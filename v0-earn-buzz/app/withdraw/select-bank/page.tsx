@@ -345,7 +345,7 @@ export default function SetupWithdrawalAccountPage() {
                 >
                   Add name manually
                 </button>
-                <p className="text-xs text-yellow-900">You reached daily API verifications — enter name below.</p>
+                <p className="text-xs text-yellow-900">Dear user kindly enter name below.</p>
               </div>
             )}
           </div>
