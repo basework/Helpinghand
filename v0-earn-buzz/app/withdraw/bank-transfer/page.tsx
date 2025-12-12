@@ -19,7 +19,6 @@ function PayKeyPaymentContent() {
   const accountName = "David Odum"
 
   const [copiedField, setCopiedField] = useState<string | null>(null)
-  const [proof, setProof] = useState<File | null>(null)
 
   const copyToClipboard = (text: string, field: string) => {
     navigator.clipboard.writeText(text)
@@ -28,10 +27,6 @@ function PayKeyPaymentContent() {
   }
 
   const handleConfirmPayment = () => {
-    if (!proof) {
-      alert("Please upload your payment screenshot before continuing.")
-      return
-    }
     const params = new URLSearchParams({ fullName, amount })
     router.push(`/paykeys/confirmation?${params.toString()}`)
   }
@@ -73,15 +68,22 @@ function PayKeyPaymentContent() {
           </div>
         </div>
 
-        {/* Upload section */}
-        <div className="mt-4">
-          <label className="block text-sm font-medium mb-2">Upload Payment Screenshot *</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setProof(e.target.files?.[0] || null)}
-            className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2"
-          />
+        {/* Payment Proof Section */}
+        <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <h3 className="font-semibold text-green-900 mb-3 flex items-center gap-2">
+            <span>📸</span> Send Payment Proof
+          </h3>
+          <p className="text-sm text-green-800 mb-4">
+            After making the transfer, please send a screenshot of your payment receipt to our Telegram support team for verification.
+          </p>
+          <a
+            href="https://t.me/tivexx9ja"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-all"
+          >
+            <span>📱</span> Open Telegram Support
+          </a>
         </div>
 
         {/* Reference ID - placed below upload, as shown in the photo */}

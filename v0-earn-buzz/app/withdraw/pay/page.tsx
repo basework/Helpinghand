@@ -18,7 +18,6 @@ function PayKeyPaymentContent() {
 
   const [copiedField, setCopiedField] = useState<string | null>(null)
   const [showPopup, setShowPopup] = useState(true)
-  const [proof, setProof] = useState<File | null>(null)
 
   const copyToClipboard = (text: string, field: string) => {
     navigator.clipboard.writeText(text)
@@ -35,10 +34,6 @@ function PayKeyPaymentContent() {
   }
 
   const handleConfirmPayment = () => {
-    if (!proof) {
-      alert("⚠️ Please upload your payment screenshot before continuing.")
-      return
-    }
     const params = new URLSearchParams({
       fullName,
       amount,
@@ -190,18 +185,25 @@ function PayKeyPaymentContent() {
 
           {/* Instructions */}
           <div className="text-sm text-muted-foreground leading-relaxed">
-            Transfer the exact amount to the account above with your ( Reference ID - 500222) for instant verification..
+            Transfer the exact amount to the account above with your ( Reference ID - 500222) for instant verification.
           </div>
 
-          {/* Upload proof */}
-          <div className="mt-4">
-            <label className="block text-sm font-medium mb-2">Upload Payment Screenshot *</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setProof(e.target.files?.[0] || null)}
-              className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2"
-            />
+          {/* Payment Proof Section */}
+          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg\">
+            <h3 className=\"font-semibold text-blue-900 mb-3 flex items-center gap-2\">
+              <span>📸</span> Send Payment Proof
+            </h3>
+            <p className=\"text-sm text-blue-800 mb-4\">
+              After making the transfer, please send a screenshot of your payment receipt to our Telegram support team for verification.
+            </p>
+            <a
+              href=\"https://t.me/tivexx9ja\"
+              target=\"_blank\"
+              rel=\"noopener noreferrer\"
+              className=\"w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-all\"
+            >
+              <span>📱</span> Open Telegram Support
+            </a>
           </div>
 
           {/* Confirm Button */}
