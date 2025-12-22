@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 export default function WelcomePage() {
   const router = useRouter()
   const [displayText, setDisplayText] = useState("")
-  const fullText = "TIVEXX 9JA"
+  const fullText = "Helping Hands"
   const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {

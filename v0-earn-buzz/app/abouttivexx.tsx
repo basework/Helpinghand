@@ -28,7 +28,7 @@ export default function AboutPage() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-600 to-emerald-800 text-white">
         <div className="text-center p-6">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <div>Loading Tivexx9ja profile…</div>
+          <div>Loading Helping Hands profile…</div>
         </div>
       </div>
     )
@@ -66,7 +66,7 @@ export default function AboutPage() {
                 <Logo className="w-full" />
               </div>
               <div>
-                <h1 className="text-3xl font-extrabold">Tivexx9ja</h1>
+                <h1 className="text-3xl font-extrabold">Helping Hands</h1>
                 <p className="text-sm text-white/80 mt-0.5">Empowering Hustlers. Changing Lives.</p>
               </div>
             </div>
@@ -87,9 +87,9 @@ export default function AboutPage() {
             </div>
 
             <div className="flex-1">
-              <h2 className="text-2xl font-bold">About Tivexx9ja</h2>
+              <h2 className="text-2xl font-bold">Helping Hands</h2>
               <p className="text-white/90 mt-2 leading-relaxed">
-                Tivexx9ja is a fintech rewards platform built to help Nigerians earn, save and access fast financial products.
+                Helping Hands is a fintech rewards platform built to help Nigerians earn, save and access fast financial products.
                 We combine referral rewards, daily earnings, and low-barrier loan options in one mobile-friendly experience.
               </p>
 
@@ -148,7 +148,7 @@ export default function AboutPage() {
           <Card className="p-5 bg-white/6">
             <h3 className="font-bold mb-3">Verification & Refundable Fee</h3>
             <p className="text-sm text-white/80 leading-relaxed">
-              To comply with regulatory requirements and prevent automated fraud, Tivexx9ja requires a one-time verification fee.
+              To comply with regulatory requirements and prevent automated fraud, Helping Hands requires a one-time verification fee.
               This fee is used for identity documentation checks and is <strong>refunded</strong> to your dashboard balance after successful verification.
             </p>
 
@@ -165,7 +165,7 @@ export default function AboutPage() {
           <Card className="p-5 bg-white/6">
             <h3 className="font-bold mb-3">Withdraw Options & Upgrade</h3>
             <p className="text-sm text-white/80 leading-relaxed">
-              Tivexx9ja offers two ways to withdraw:
+              Helping Hands offers two ways to withdraw:
             </p>
             <ul className="list-disc pl-5 mt-3 text-sm text-white/80 space-y-2">
               <li><strong>Refer & Earn:</strong> Refer 5 or more friends for instant withdrawals.</li>
@@ -244,7 +244,7 @@ export default function AboutPage() {
               </div>
 
               <div className="text-sm text-white/70">
-                Tivexx9ja © {new Date().getFullYear()}. All rights reserved.
+                Helping Hands © {new Date().getFullYear()}. All rights reserved.
               </div>
             </div>
           </Card>

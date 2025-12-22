@@ -24,21 +24,21 @@ export default function ReferPage() {
   const [origin, setOrigin] = useState('') // ← WILL BE SET IN useEffect
 
   const referralMessages = [
-    "Join Tivexx 9ja now and start earning instantly! Complete simple tasks and get paid today!",
-    "Ready to earn from home? Tivexx 9ja pays you for simple tasks! Join now and watch your wallet grow!",
-    "Don't miss out! Tivexx 9ja gives you instant bonuses and daily earnings — sign up and start winning!",
-    "Tivexx 9ja lets you earn money daily — invite friends and claim free rewards!",
-    "Turn your phone into an ATM! Join Tivexx 9ja and get paid every day!",
-    "Earn ₦10,000 per referral and get instant signup bonuses — Tivexx 9ja is the real deal!",
-    "Get rewarded for every invite! Join Tivexx 9ja and earn without stress!",
-    "Tivexx 9ja pays you for completing simple tasks — join today and start earning!",
-    "Make money online easily! Tivexx 9ja gives you instant bonuses and daily claims!",
-    "Earn fast, withdraw easily! Tivexx 9ja is your ticket to daily income!",
-    "Invite friends, earn ₦10,000 each! Start your earning journey with Tivexx 9ja today!",
-    "Need cash fast? Tivexx 9ja gives you loans in just 5 minutes — no BVN required!",
-    "Get instant loans without BVN! Tivexx 9ja makes borrowing stress-free!",
-    "Need urgent money? Tivexx 9ja offers quick loans in minutes — sign up now!",
-    "Take loans easily and start earning too! Tivexx 9ja is your one-stop money app!",
+    "Join Helping Hands now and start earning instantly! Complete simple tasks and get paid today!",
+    "Ready to earn from home? Helping Hands pays you for simple tasks! Join now and watch your wallet grow!",
+    "Don't miss out! Helping Hands gives you instant bonuses and daily earnings — sign up and start winning!",
+    "Helping Hands lets you earn money daily — invite friends and claim free rewards!",
+    "Turn your phone into an ATM! Join Helping Hands and get paid every day!",
+    "Earn ₦10,000 per referral and get instant signup bonuses — Helping Hands is the real deal!",
+    "Get rewarded for every invite! Join Helping Hands and earn without stress!",
+    "Helping Hands pays you for completing simple tasks — join today and start earning!",
+    "Make money online easily! Helping Hands gives you instant bonuses and daily claims!",
+    "Earn fast, withdraw easily! Helping Hands is your ticket to daily income!",
+    "Invite friends, earn ₦10,000 each! Start your earning journey with Helping Hands today!",
+    "Need cash fast? Helping Hands gives you loans in just 5 minutes — no BVN required!",
+    "Get instant loans without BVN! Helping Hands makes borrowing stress-free!",
+    "Need urgent money? Helping Hands offers quick loans in minutes — sign up now!",
+    "Take loans easily and start earning too! Helping Hands is your one-stop money app!",
   ]
 
   // ALL BROWSER LOGIC IN useEffect

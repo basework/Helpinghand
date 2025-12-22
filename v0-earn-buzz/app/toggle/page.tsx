@@ -71,7 +71,7 @@ export default function UpgradeTiersPage() {
       <div className="text-center space-y-2 mb-8 animate-slide-down">
         <h1 className="text-3xl font-extrabold tracking-wide">Upgrade Your Tier</h1>
         <p className="text-sm text-white/80">
-          One-time lifetime upgrade to unlock premium Tivexx9ja features.
+          One-time lifetime upgrade to unlock premium Helping Hands features.
         </p>
       </div>
 

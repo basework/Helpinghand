@@ -22,7 +22,7 @@ function PayKeyConfirmationContent() {
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-500 to-green-700 text-white relative overflow-hidden">
         <div className="animate-glow text-center z-20">
           <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <h1 className="text-4xl font-extrabold tracking-wider mb-2">Tivexx9ja</h1>
+          <h1 className="text-4xl font-extrabold tracking-wider mb-2">Helping Hands</h1>
           <p className="text-lg font-medium opacity-90">Confirming your payment...</p>
         </div>
         <div className="absolute inset-0 bg-gradient-to-br from-green-400/30 to-green-800/30 animate-gradientMove"></div>
@@ -60,7 +60,7 @@ function PayKeyConfirmationContent() {
         ))}
       </div>
 
-      <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow">Tivexx9ja</h1>
+      <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow">Helping Hands</h1>
 
       <div className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/10 border border-green-300 shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl overflow-hidden text-center">
         {/* Error Icon */}

@@ -39,16 +39,16 @@ export default function AboutPage() {
           <Logo className="w-60 hover:scale-105 transition-transform duration-300" />
         </div>
 
-        <h1 className="text-3xl font-bold text-center text-green-700">About Tivexx9ja</h1>
+        <h1 className="text-3xl font-bold text-center text-green-700">About Helping Hands</h1>
 
         <div className="space-y-5 leading-relaxed">
           <p>
-            Tivexx9ja is a fast-rising Nigerian digital platform built to empower individuals through financial growth, earning opportunities, and access to smart online services — all in one place.  
+            Helping Hands is a fast-rising Nigerian digital platform built to empower individuals through financial growth, earning opportunities, and access to smart online services — all in one place.  
             Our goal is simple: to help Nigerians earn, grow, and live better in this tough economy.
           </p>
 
           <p>
-            At Tivexx9ja, we provide users with access to a sustainable earning system through referrals, simple online tasks, and digital tools that pay real value for your effort.  
+            At Helping Hands, we provide users with access to a sustainable earning system through referrals, simple online tasks, and digital tools that pay real value for your effort.  
             Every user matters to us — and that’s why our team works daily to stabilize the platform, improve performance, and roll out better features.
           </p>
 
@@ -58,7 +58,7 @@ export default function AboutPage() {
             Please avoid using <strong>Opay</strong> for verification or transactions — every other Nigerian bank is supported.
           </p>
 
-          <h2 className="text-xl font-semibold text-green-700">What You Can Do on Tivexx9ja</h2>
+          <h2 className="text-xl font-semibold text-green-700">What You Can Do on Helping Hands</h2>
           <ul className="list-disc pl-6 space-y-2">
             <li>Earn from daily tasks and referrals</li>
             <li>Withdraw earnings instantly anytime, any day</li>
@@ -77,8 +77,8 @@ export default function AboutPage() {
           </p>
 
           <p className="font-medium text-green-800">
-            Tivexx9ja is not just a platform — it’s a movement built to help Nigerians earn online, support one another, and make digital income possible for everyone.  
-            The economy isn’t getting easier — but with Tivexx9ja, your hustle will always pay off.
+            Helping Hands is not just a platform — it’s a movement built to help Nigerians earn online, support one another, and make digital income possible for everyone.  
+            The economy isn’t getting easier — but with Helping Hands, your hustle will always pay off.
           </p>
         </div>
 
@@ -86,16 +86,16 @@ export default function AboutPage() {
         <div className="pt-6 border-t">
           <h3 className="text-lg font-semibold mb-2 text-green-700">Contact Us</h3>
           <p>
-            Telegram: <Link href="https://t.me/Tivexx9jaSupport" className="text-green-700 hover:underline">@Tivexx9jaSupport</Link>  
+            Telegram: <Link href="https://t.me/HelpingHandsSupport" className="text-green-700 hover:underline">@HelpingHandsSupport</Link>  
             <br />
-            Email: <a href="mailto:support@tivexx9ja.com" className="text-green-700 hover:underline">support@tivexx9ja.com</a>  
+            Email: <a href="mailto:support@HelpingHands.com" className="text-green-700 hover:underline">support@HelpingHands.com</a>  
             <br />
             Address: Lagos, Nigeria
           </p>
         </div>
 
         <div className="text-center text-sm text-gray-500 mt-10">
-          © 2025 Tivexx9ja. All rights reserved.
+          © 2025 Helping Hands. All rights reserved.
         </div>
       </div>
     </div>

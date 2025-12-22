@@ -33,7 +33,7 @@ function PayKeyPaymentContent() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-br from-green-500 to-green-700 overflow-y-auto py-10 px-4 text-white">
-      <h1 className="text-5xl font-extrabold mb-6 text-center">Tivexx9ja</h1>
+      <h1 className="text-5xl font-extrabold mb-6 text-center">Helping Hands</h1>
 
       <Card className="max-w-md w-full p-6 space-y-6 bg-white/10 border border-green-300 shadow-2xl rounded-2xl">
         <div className="text-center">
@@ -108,7 +108,7 @@ export default function PayKeyPaymentPage() {
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-500 to-green-700 text-white">
         <div className="text-center">
           <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <h1 className="text-4xl font-extrabold tracking-wider mb-2">Tivexx9ja</h1>
+          <h1 className="text-4xl font-extrabold tracking-wider mb-2">Helping Hands</h1>
           <p className="text-lg font-medium">Loading Payment Details...</p>
         </div>
       </div>

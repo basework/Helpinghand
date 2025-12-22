@@ -31,7 +31,7 @@ export default function VerifyMePage() {
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-500 to-green-700 text-white overflow-y-auto py-10 px-4 animate-fade-in">
       <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow flex items-center justify-center">
-        Tivexx9ja
+        Helping Hands
       </h1>
 
       <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/10 border border-green-300 shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">

@@ -6,7 +6,7 @@ export function Logo({ className = "" }: LogoProps) {
   return (
     <div className={`flex items-center justify-center ${className}`}>
       <div className="relative">
-        <div className="text-4xl font-bold text-orange-600 tracking-tight">TIVEXX</div>
+        <div className="text-4xl font-bold text-orange-600 tracking-tight">Helping Hands</div>
 
         <div className="text-sm text-gray-200 text-center mt-1 font-medium">Financial Services</div>
 

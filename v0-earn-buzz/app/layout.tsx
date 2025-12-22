@@ -7,9 +7,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Tivexx 9Ja",
+  title: "Helping Hands",
   description:
-    "Tivexx 9ja is a financial & earning app that offers weekly cash rewards to new users",
+    "Helping Hands is a financial & earning app that offers weekly cash rewards to new users",
   manifest: "/manifest.json",
   generator: "v0.dev",
 }

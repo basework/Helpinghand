@@ -256,7 +256,7 @@ export default function DashboardPage() {
     { name: "Investments", emoji: "📈", link: "/investment", color: "text-violet-600", bgColor: "" },
     { name: "Daily Tasks", emoji: "🎁", link: "/task", color: "text-yellow-600", bgColor: "" },
     {
-      name: "Tivexx Channel",
+      name: "Helping Hands Channel",
       emoji: "📢",
       link: "https://t.me/Tivexx9jacommunity",
       external: true,
@@ -697,7 +697,7 @@ export default function DashboardPage() {
       <div className="mt-6">
         <div className="why-glow bg-gradient-to-br from-black via-green-950 to-black rounded-2xl p-6 mb-6 mx-2 border border-green-500/30 relative overflow-hidden">
           <div className="text-center mb-4 relative z-10">
-            <h2 className="text-2xl font-bold text-white mb-2">Why Tivexx9ja⁉️</h2>
+            <h2 className="text-2xl font-bold text-white mb-2">Why Helping Hands⁉️</h2>
             <div className="w-16 h-1 bg-gradient-to-r from-green-500 to-yellow-400 mx-auto mb-4"></div>
           </div>
 
@@ -754,7 +754,7 @@ export default function DashboardPage() {
         </Link>
         <Link href="/abouttivexx" className="flex flex-col items-center text-gray-400 hover:text-green-400">
           <Gamepad2 className="h-6 w-6" />
-          <span className="text-xs font-medium">About Tivexx</span>
+          <span className="text-xs font-medium">About Helping Hands</span>
         </Link>
         <Link href="/refer" className="flex flex-col items-center text-gray-400 hover:text-green-400">
           <User className="h-6 w-6" />

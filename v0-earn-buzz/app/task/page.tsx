@@ -50,7 +50,7 @@ const AVAILABLE_TASKS: Task[] = [
   {
     id: "whatsapp-channel",
     platform: "WhatsApp",
-    description: "join Tivexx whatsapp channel",
+    description: "join Helping Hands whatsapp channel",
     category: "Social Media",
     reward: 5000,
     link: "https://whatsapp.com/channel/0029VbBollDDeOMzEi5fXV38",

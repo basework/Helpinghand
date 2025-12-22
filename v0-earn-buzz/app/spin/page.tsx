@@ -37,7 +37,7 @@ export default function AboutPage() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0b6b3a] via-[#153d2f] to-[#071218] p-6">
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent mb-4" />
-          <div className="text-lg font-medium">Loading Tivexx9ja</div>
+          <div className="text-lg font-medium">Loading Helping Hands</div>
         </div>
       </div>
     )
@@ -47,9 +47,9 @@ export default function AboutPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0b6b3a] via-[#153d2f] to-[#071218] p-6">
         <Card className="max-w-lg w-full p-6 text-center">
-          <h2 className="text-xl font-bold mb-2">Welcome to Tivexx9ja</h2>
+          <h2 className="text-xl font-bold mb-2">Welcome to Helping Hands</h2>
           <p className="text-sm text-gray-600">
-            Sign in to access the full About page and learn how Tivexx9ja helps thousands of Nigerians earn, grow and withdraw without fees.
+            Sign in to access the full About page and learn how Helping Handshelps thousands of Nigerians earn, grow and withdraw without fees.
           </p>
           <div className="mt-6 flex gap-3 justify-center">
             <Button onClick={() => router.push("/login")} className="bg-amber-400 text-black">
@@ -82,7 +82,7 @@ export default function AboutPage() {
 
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-extrabold leading-tight animate-glow">Tivexx9ja</h1>
+          <h1 className="text-3xl md:text-4xl font-extrabold leading-tight animate-glow">Helping Hands</h1>
           <p className="text-sm text-green-100 mt-2">Nigeria's most reliable earning and financial empowerment platform</p>
         </div>
 
@@ -95,7 +95,7 @@ export default function AboutPage() {
             <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up">
               <h2 className="text-xl font-bold text-emerald-200 mb-2">Our Mission</h2>
               <p className="text-sm text-white/80 leading-relaxed">
-                Tivexx9ja was created to empower Nigerians with real earning opportunities, fast withdrawals and trusted digital services. 
+                Helping Hands was created to empower Nigerians with real earning opportunities, fast withdrawals and trusted digital services. 
                 Our system helps users support their families, grow their hustle, fund education and improve their financial life.
               </p>
 
@@ -131,7 +131,7 @@ export default function AboutPage() {
 
             {/* Why trust Tivexx */}
             <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up">
-              <h3 className="text-lg font-bold mb-2">Why Nigerians Trust Tivexx9ja</h3>
+              <h3 className="text-lg font-bold mb-2">Why Nigerians Trust Helping Hands</h3>
               <ul className="text-sm text-white/80 space-y-2 list-disc pl-5">
                 <li>No hidden charges and no withdrawal fees.</li>
                 <li>Super fast customer support through Telegram.</li>
@@ -164,7 +164,7 @@ export default function AboutPage() {
               <div className="text-sm text-white/80 mb-2">Official Notice</div>
               <div className="text-xl font-bold text-amber-300">Verified Platform</div>
               <p className="text-xs text-white/70 mt-2">
-                Tivexx9ja strictly follows identity checks and fraud prevention systems to protect all users and ensure transparent earnings.
+                Helping Hands strictly follows identity checks and fraud prevention systems to protect all users and ensure transparent earnings.
               </p>
 
               <div className="mt-4 space-y-3">

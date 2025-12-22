@@ -164,7 +164,7 @@ export default function SetupWithdrawalAccountPage() {
       <div className="flex flex-col items-center justify-center min-h-screen bg-green-600 text-white relative overflow-hidden">
         <div className="animate-glow text-center">
           <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <h1 className="text-3xl font-extrabold tracking-widest mb-2">Tivexx 9ja</h1>
+          <h1 className="text-3xl font-extrabold tracking-widest mb-2">Helping Hands</h1>
           <p className="text-lg font-medium opacity-90">
             {transitioning ? "Redirecting securely..." : "Loading secure setup..."}
           </p>
