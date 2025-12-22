@@ -40,7 +40,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
   const steps = [
     {
       icon: Gift,
-      title: "Welcome to Tivexx9ja!",
+      title: "Welcome to Helping Hands!",
       description:
         "Earn welcome bonus and daily cash by completing easy tasks. But first, join our Telegram channel for updates!",
       colorClass: "text-green-700",
@@ -178,7 +178,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
               <CheckCircle2 className="h-16 w-16 text-green-600 mx-auto" />
               <h3 className="text-2xl font-bold mt-4 text-green-700">Congratulations!</h3>
               <p className="text-gray-600 mt-2">
-                You’re all set to start earning with Tivexx9ja.
+                You’re all set to start earning with Helping Hands.
               </p>
               <div className="mt-5">
                 <Button
