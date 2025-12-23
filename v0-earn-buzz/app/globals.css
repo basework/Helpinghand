@@ -9,6 +9,9 @@
   --tiv-3: #4F5D75;
   --tiv-4: #7261A3;
   --tiv-5: var(--tiv-4);
+  /* Subtle gold accent used sparingly for highlights */
+  --tiv-gold: #D4AF37;
+  --tiv-gold-opaque: rgba(212,175,55,0.08);
 }
 
 /* Tivexx utility classes (CTAs and basic helpers) */
@@ -36,6 +39,12 @@
 .text-tiv-3 { color: var(--tiv-3); }
 .border-tiv-2 { border-color: var(--tiv-2); }
 .border-tiv-4 { border-color: var(--tiv-4); }
+
+/* Gold accent utilities (use sparingly) */
+.text-tiv-gold { color: var(--tiv-gold); }
+.bg-tiv-gold { background-color: var(--tiv-gold); }
+.border-tiv-gold { border-color: var(--tiv-gold); }
+.accent-tiv-gold { box-shadow: 0 8px 30px var(--tiv-gold-opaque); }
 
 /* Tailwind green -> Tivexx mapping (applies globally so existing green utilities pick up the new palette)
    Non-destructive: uses Tivexx variables and !important so these utilities immediately reflect the new colors.
@@ -132,8 +141,8 @@
       </defs>\
       <rect width='100%' height='100%' fill='url(#t1)' opacity='0.95'/>\
       <circle cx='18%' cy='26%' r='320' fill='url(#t2)' opacity='0.55' filter='url(#blur)'/>\
-      <ellipse cx='76%' cy='68%' rx='420' ry='260' fill='#395756' opacity='0.32' filter='url(#blur)'/>\
-      <rect width='100%' height='100%' fill='rgba(0,0,0,0.06)' />\
+      <ellipse cx='76%' cy='68%' rx='420' ry='260' fill='#395756' opacity='0.32' filter='url(#blur)'/>\      <!-- Subtle gold highlight: small blurred circle to add warmth -->\
+      <circle cx='48%' cy='12%' r='160' fill='#D4AF37' opacity='0.07' filter='url(#blur)'/>      <rect width='100%' height='100%' fill='rgba(0,0,0,0.06)' />\
     </svg>");
   background-size: cover;
   background-position: center;
