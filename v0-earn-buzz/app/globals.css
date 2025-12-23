@@ -106,6 +106,39 @@
   }
 }
 
+/* Tivexx hero background (SVG mesh) — blends #395756, #4F5D75, #7261A3, #A67DB8 */
+.bg-tivexx-hero {
+  background-image: url("data:image/svg+xml;utf8,\
+    <svg xmlns='http://www.w3.org/2000/svg' width='1600' height='900' viewBox='0 0 1600 900' preserveAspectRatio='none'>\
+      <defs>\
+        <linearGradient id='t1' x1='0' x2='1'>\
+          <stop offset='0' stop-color='#395756'/>\
+          <stop offset='1' stop-color='#4F5D75'/>\
+        </linearGradient>\
+        <linearGradient id='t2' x1='0' x2='1'>\
+          <stop offset='0' stop-color='#7261A3'/>\
+          <stop offset='1' stop-color='#A67DB8'/>\
+        </linearGradient>\
+        <filter id='blur'><feGaussianBlur stdDeviation='120' /></filter>\
+      </defs>\
+      <rect width='100%' height='100%' fill='url(#t1)' opacity='0.95'/>\
+      <circle cx='18%' cy='26%' r='320' fill='url(#t2)' opacity='0.55' filter='url(#blur)'/>\
+      <ellipse cx='76%' cy='68%' rx='420' ry='260' fill='#395756' opacity='0.32' filter='url(#blur)'/>\
+      <rect width='100%' height='100%' fill='rgba(0,0,0,0.06)' />\
+    </svg>");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+}
+
+/* Soft overlay utility to improve CTA/text contrast when needed */
+.bg-tivexx-hero--overlay {
+  background: linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.28) 100%);
+  mix-blend-mode: normal;
+  pointer-events: none;
+}
+
 /* Smooth input fields styling */
 input,
 textarea,
