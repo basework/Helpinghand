@@ -260,8 +260,8 @@ export default function BusinessLoanPage() {
                     disabled={accountNumber.replace(/\D/g, "").length !== 10 || !selectedBank || verifying}
                     className={`rounded-lg px-4 py-2 text-sm font-semibold transition-all ${
                       accountNumber.replace(/\D/g, "").length !== 10 || !selectedBank
-                        ? "bg-emerald-700/40 text-white/60 cursor-not-allowed"
-                        : "bg-emerald-600 text-white hover:bg-emerald-700"
+                        ? "bg-[#4F5D75]/40 text-white/60 cursor-not-allowed"
+                        : "bg-[#4F5D75] text-white hover:bg-[#4F5D75]"
                     }`}
                   >
                     {verifying ? (
@@ -318,7 +318,7 @@ export default function BusinessLoanPage() {
             <div className="mt-6">
               <Button
                 onClick={handleContinue}
-                className="w-full py-4 rounded-xl text-lg font-bold bg-gradient-to-r from-purple-800 via-purple-600 to-emerald-500 hover:from-purple-700 hover:to-emerald-600 transform transition-all shadow-2xl"
+                className="w-full py-4 rounded-xl text-lg font-bold bg-gradient-to-r from-purple-800 via-purple-600 to-[#4F5D75] hover:from-purple-700 hover:to-[#4F5D75] transform transition-all shadow-2xl"
                 disabled={submitting}
               >
                 {submitting ? "Redirecting to Payment..." : "Continue to Processing Fee"}
