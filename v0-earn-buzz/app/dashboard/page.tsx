@@ -368,22 +368,22 @@ export default function DashboardPage() {
 
   if (!userData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-green-900 to-black">
+      <div className="min-h-screen flex items-center justify-center bg-tivexx-blend">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto"></div>
-          <p className="mt-4 text-green-300">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white/40 mx-auto"></div>
+          <p className="mt-4 text-tiv-2">Loading...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen pb-4 bg-gradient-to-br from-gray-900 via-green-900 to-black">
+    <div className="min-h-screen pb-4 bg-tivexx-blend">
       <ScrollingText />
 
       {showClaimSuccess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-          <div className="bg-green-600 text-white px-8 py-4 rounded-2xl shadow-2xl animate-bounce">
+          <div className="btn-tivexx px-8 py-4 rounded-2xl shadow-2xl animate-bounce">
             <p className="text-xl font-bold text-center">🎉 Congrats!</p>
             <p className="text-lg text-center">₦1,000 has been claimed and added to your balance</p>
           </div>
@@ -396,7 +396,7 @@ export default function DashboardPage() {
             <DialogTitle className="text-center text-xl">⏰ Wait Required</DialogTitle>
             <DialogDescription className="text-center space-y-4 pt-4">
               <p className="text-base">You must wait 5 hours before claiming again.</p>
-              <p className="text-2xl font-bold text-green-600">{formatPauseTime()}</p>
+              <p className="text-2xl font-bold text-tiv-4">{formatPauseTime()}</p>
               <p className="text-sm">In the meantime, you can earn by referring or taking loans.</p>
             </DialogDescription>
           </DialogHeader>
@@ -406,7 +406,7 @@ export default function DashboardPage() {
                 setShowPauseDialog(false)
                 router.push("/refer")
               }}
-              className="flex-1 bg-green-600 hover:bg-green-700"
+              className="flex-1 btn-tivexx"
             >
               Refer Friends
             </Button>
@@ -415,7 +415,7 @@ export default function DashboardPage() {
                 setShowPauseDialog(false)
                 router.push("/loan")
               }}
-              className="flex-1 bg-purple-600 hover:bg-purple-700"
+              className="flex-1 btn-cta"
             >
               Take Loan
             </Button>
@@ -437,7 +437,7 @@ export default function DashboardPage() {
                 setShowReminderDialog(false)
                 window.open("https://t.me/Tivexx9jacommunity", "_blank")
               }}
-              className="flex-1 bg-blue-600 hover:bg-blue-700"
+              className="flex-1 btn-tivexx"
             >
               Join Channel
             </Button>
@@ -446,7 +446,7 @@ export default function DashboardPage() {
                 setShowReminderDialog(false)
                 router.push("/refer")
               }}
-              className="flex-1 bg-green-600 hover:bg-green-700"
+              className="flex-1 btn-tivexx"
             >
               Refer More Friends
             </Button>
@@ -465,7 +465,7 @@ export default function DashboardPage() {
 
       {showWithdrawalNotification && <WithdrawalNotification onClose={handleCloseWithdrawalNotification} />}
 
-      <div className="text-white rounded-xl p-5 bg-gradient-to-br from-gray-900 via-green-900 to-black shadow-md border border-green-800/30 px-5 py-2.5 mx-2.5 mt-8 mb-4">
+      <div className="text-white rounded-xl p-5 bg-white/6 backdrop-blur-lg border border-tivexx shadow-md px-5 py-2.5 mx-2.5 mt-8 mb-4">
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-2">
             <div className="relative w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-md overflow-hidden">
@@ -476,7 +476,7 @@ export default function DashboardPage() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <span className="font-semibold text-xl text-green-700">{userData?.name.charAt(0)}</span>
+                <span className="font-semibold text-xl text-tiv-4">{userData?.name.charAt(0)}</span>
               )}
 
               <input
@@ -504,7 +504,7 @@ export default function DashboardPage() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="relative h-10 w-10 rounded-full bg-blue-600 hover:bg-blue-500 animate-bounce"
+                  className="relative h-10 w-10 rounded-full btn-tivexx animate-bounce"
                 >
                   <Headphones className="h-5 w-5 text-white" />
                 </Button>
@@ -518,7 +518,7 @@ export default function DashboardPage() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="relative h-10 w-10 rounded-full bg-green-600 hover:bg-green-500 animate-bounce"
+                  className="relative h-10 w-10 rounded-full btn-tivexx animate-bounce"
                 >
                   <Bell className="h-5 w-5 text-white" />
                   <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
@@ -576,17 +576,17 @@ export default function DashboardPage() {
         <div className="mt-4 bg-white/10 backdrop-blur-sm rounded-xl p-4">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <Clock className="h-5 w-5 text-green-300" />
+              <Clock className="h-5 w-5 text-tiv-2" />
               <span className="text-sm font-medium">Next Reward</span>
             </div>
-            <span className="text-lg font-bold text-green-300">
+            <span className="text-lg font-bold text-tiv-2">
               {pauseEndTime ? formatPauseTime() : formatTime(timeRemaining)}
             </span>
           </div>
           <Button
             onClick={handleClaim}
             disabled={!canClaim && !pauseEndTime}
-            className={`w-full ${canClaim || pauseEndTime ? "bg-green-500 hover:bg-green-600 animate-pulse animate-bounce-slow" : "bg-gray-400 cursor-not-allowed"} text-white font-semibold py-3 rounded-lg transition-all flex items-center justify-center gap-2`}
+            className={`w-full ${canClaim || pauseEndTime ? "btn-tivexx animate-pulse animate-bounce-slow" : "bg-gray-400 cursor-not-allowed"} font-semibold py-3 rounded-lg transition-all flex items-center justify-center gap-2`}
           >
             <Gift className="h-5 w-5" />
             {pauseEndTime
@@ -602,23 +602,23 @@ export default function DashboardPage() {
 
         <div className="flex justify-between items-center mt-6">
           <Link href="/history" className="flex-1 mr-2">
-            <Button className="w-full hover:bg-green-500 rounded-full py-3 h-auto flex items-center justify-center gap-2 text-white bg-green-700/50 border border-green-600/30">
-              <div className="w-8 h-8 rounded-full bg-green-900 flex items-center justify-center">
-                <History className="h-4 w-4 text-green-300" />
+            <Button className="w-full hover:bg-tivexx-blend rounded-full py-3 h-auto flex items-center justify-center gap-2 text-white bg-white/6 border border-tivexx">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                <History className="h-4 w-4 text-tiv-2" />
               </div>
               <span>History</span>
             </Button>
           </Link>
           <Link href="/withdraw" className="flex-1 ml-2">
-            <Button className="w-full hover:bg-green-500 rounded-full py-3 h-auto flex items-center justify-center gap-2 text-white bg-green-700/50 border border-green-600/30 animate-bounce-slow">
-              <div className="w-8 h-8 rounded-full bg-green-900 flex items-center justify-center">
+            <Button className="w-full hover:bg-tivexx-blend rounded-full py-3 h-auto flex items-center justify-center gap-2 text-white bg-white/6 border border-tivexx animate-bounce-slow">
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"
                   height="18"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#4ade80"
+                  stroke="#7261A3"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -695,7 +695,7 @@ export default function DashboardPage() {
       </div>
 
       <div className="mt-6">
-        <div className="why-glow bg-gradient-to-br from-black via-green-950 to-black rounded-2xl p-6 mb-6 mx-2 border border-green-500/30 relative overflow-hidden">
+        <div className="why-glow bg-white/6 backdrop-blur-lg rounded-2xl p-6 mb-6 mx-2 border border-tivexx relative overflow-hidden">
           <div className="text-center mb-4 relative z-10">
             <h2 className="text-2xl font-bold text-white mb-2">Why Helping Hands⁉️</h2>
             <div className="w-16 h-1 bg-gradient-to-r from-green-500 to-yellow-400 mx-auto mb-4"></div>
@@ -734,7 +734,7 @@ export default function DashboardPage() {
           </div>
 
           <Link href="/refer">
-            <Button className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold py-3 rounded-full text-lg">
+            <Button className="w-full btn-tivexx font-bold py-3 rounded-full text-lg">
               Invite & Earn Now
             </Button>
           </Link>
@@ -747,7 +747,7 @@ export default function DashboardPage() {
         </div>
       )}
 
-      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-br from-gray-900 via-green-900 to-black border-t border-green-800/30 shadow-lg flex justify-around items-center h-16 max-w-md mx-auto z-50">
+      <div className="fixed bottom-0 left-0 right-0 bg-tivexx-blend border-t border-tivexx shadow-lg flex justify-around items-center h-16 max-w-md mx-auto z-50">
         <Link href="/dashboard" className="flex flex-col items-center text-green-400">
           <Home className="h-6 w-6" />
           <span className="text-xs font-medium">Home</span>
