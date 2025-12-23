@@ -93,7 +93,7 @@ export default function AboutPage() {
 
             {/* Mission */}
             <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up">
-              <h2 className="text-xl font-bold text-emerald-200 mb-2">Our Mission</h2>
+              <h2 className="text-xl font-bold text-tiv-5 mb-2">Our Mission</h2>
               <p className="text-sm text-white/80 leading-relaxed">
                 Helping Hands was created to empower Nigerians with real earning opportunities, fast withdrawals and trusted digital services. 
                 Our system helps users support their families, grow their hustle, fund education and improve their financial life.
@@ -102,15 +102,15 @@ export default function AboutPage() {
               <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <div className="p-3 rounded-lg bg-white/4 border border-white/8 text-center">
                   <div className="text-xs text-white/70">Active Users</div>
-                  <div className="text-2xl font-bold text-amber-300">100,000+</div>
+                  <div className="text-2xl font-bold text-tiv-2">100,000+</div>
                 </div>
                 <div className="p-3 rounded-lg bg-white/4 border border-white/8 text-center">
                   <div className="text-xs text-white/70">Total Payouts</div>
-                  <div className="text-2xl font-bold text-emerald-300">Millions</div>
+                  <div className="text-2xl font-bold text-tiv-2">Millions</div>
                 </div>
                 <div className="p-3 rounded-lg bg-white/4 border border-white/8 text-center">
                   <div className="text-xs text-white/70">Support</div>
-                  <div className="text-2xl font-bold text-purple-300">24/7</div>
+                  <div className="text-2xl font-bold text-tiv-4">24/7</div>
                 </div>
               </div>
             </Card>
@@ -170,7 +170,7 @@ export default function AboutPage() {
               <div className="mt-4 space-y-3">
                 <Button
                   onClick={() => window.open("https://t.me/tivexx9jasupport", "_blank")}
-                  className="w-full bg-gradient-to-r from-purple-800 via-purple-700 to-green-600 text-white"
+                  className="w-full btn-tivexx"
                 >
                   Contact Support
                 </Button>

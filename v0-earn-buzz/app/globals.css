@@ -185,4 +185,9 @@ select:focus,
 
 /* small helper text color */
 .text-tivexx-muted { color: rgba(255,255,255,0.75); }
-
+/* Tivexx named text colors */
+.text-tiv-1 { color: var(--tiv-1); }
+.text-tiv-2 { color: var(--tiv-2); }
+.text-tiv-3 { color: var(--tiv-3); }
+.text-tiv-4 { color: var(--tiv-4); }
+.text-tiv-5 { color: var(--tiv-5); }
