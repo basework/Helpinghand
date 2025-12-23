@@ -4,17 +4,17 @@
 
 /* Tivexx palette variables */
 :root {
-  --tiv-1: #1B3022;
-  --tiv-2: #395756; /* CTA bold color */
-  --tiv-3: #4F5D75;
-  --tiv-4: #7261A3;
+  --tiv-1: #396c4a;
+  --tiv-2: #2b9a96; /* CTA bold color */
+  --tiv-3: #2655a5;
+  --tiv-4: #7b5fce;
   --tiv-5: var(--tiv-4);
   /* Subtle gold accent used sparingly for highlights */
   --tiv-gold: #D4AF37;
   --tiv-gold-opaque: rgba(212,175,55,0.08);
   /* Soft light-blue accent (added) */
-  --tiv-blue: #C9DBEE;
-  --tiv-blue-opaque: rgba(201,219,238,0.06);
+  --tiv-blue: #8ebff4;
+  --tiv-blue-opaque: rgba(6, 13, 20, 0.06);
 } 
 
 /* Tivexx utility classes (CTAs and basic helpers) */
@@ -161,9 +161,31 @@
 
 /* Soft overlay utility to improve CTA/text contrast when needed */
 .bg-tivexx-hero--overlay {
-  background: linear-gradient(180deg, rgba(60, 16, 16, 0.18) 0%, #15080847  100%);
+  /* Layered blend: animated soft radial glows + dark veil to improve contrast */
+  /* Use explicit hex (8-digit) colors to match the glow keyframe precisely */
+  background-image:
+    radial-gradient(30% 30% at 12% 18%, #10B9810F, transparent 24%),
+    radial-gradient(40% 40% at 82% 72%, #8B5CF619, transparent 28%),
+    linear-gradient(180deg, #0000002E, #00000047);
+  background-repeat: no-repeat;
+  background-size: 120% 120%, 140% 140%, 100% 100%;
+  background-position: 12% 18%, 82% 72%, 0% 0%;
   mix-blend-mode: normal;
   pointer-events: none;
+  animation: bgGlow 6s ease-in-out infinite;
+}
+
+@keyframes bgGlow {
+  0% {
+    background-position: 12% 18%, 82% 72%, 0% 0%;
+    opacity: 1;
+  }
+  50% {
+    background-position: 18% 26%, 76% 66%, 0% 0%;
+  }
+  100% {
+    background-position: 12% 18%, 82% 72%, 0% 0%;
+  }
 }
 
 /* Smooth input fields styling */
