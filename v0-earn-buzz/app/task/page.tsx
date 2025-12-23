@@ -285,11 +285,13 @@ export default function TaskPage() {
           }
 
           return (
-            <div key={task.id} className="task-float">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-[#4F5D75]/30 shadow-lg task-float__inner">
-                <div className="flex items-start gap-4">
-                  <div className="text-4xl">{task.icon}</div>
-                  <div className="flex-1">
+            <div
+              key={task.id}
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-[#4F5D75]/30 shadow-lg"
+            >
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">{task.icon}</div>
+                <div className="flex-1">
                   <h3 className="text-lg font-bold text-white">{task.platform}</h3>
                   <p className="text-sm text-gray-300 mt-1">{task.description}</p>
                   <p className="text-xs text-tiv-2 mt-1">{task.category}</p>
@@ -358,31 +360,6 @@ export default function TaskPage() {
           animation: liquid-flow 2s linear infinite;
           filter: drop-shadow(0 0 6px rgba(79,93,117,0.7));
         }
-
-        /* Task float + slow press-squeeze */
-        @keyframes taskFloatY {
-          0% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-          100% { transform: translateY(0); }
-        }
-        .task-float {
-          animation: taskFloatY 8s ease-in-out infinite;
-          will-change: transform;
-          display: block;
-        }
-        .task-float:nth-child(odd) { animation-duration: 7.8s; }
-        .task-float:nth-child(3n) { animation-duration: 8.6s; }
-
-        .task-float__inner {
-          transition: transform 380ms cubic-bezier(.2,.8,.2,1);
-          transform-origin: center;
-          will-change: transform;
-        }
-        .task-float:active .task-float__inner,
-        .task-float:focus-within .task-float__inner {
-          transform: scale(0.96) translateY(6px);
-        }
-
         .bubble {
           position: absolute;
           bottom: 0;
