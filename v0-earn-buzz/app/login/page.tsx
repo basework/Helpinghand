@@ -110,7 +110,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-tivexx-blend relative">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 relative">
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-md flex flex-col items-center gap-8">
           <div className="animate-bounce">
@@ -138,7 +138,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-14 rounded-full bg-white/90 px-6 border border-tivexx"
+                className="h-14 rounded-full bg-white/90 px-6 border border-purple-300"
               />
 
               <Input
@@ -147,7 +147,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="h-14 rounded-full bg-white/90 px-6 border border-tivexx"
+                className="h-14 rounded-full bg-white/90 px-6 border border-purple-300"
               />
             </div>
 
@@ -171,7 +171,7 @@ export default function LoginPage() {
       <div className="fixed bottom-6 left-6">
         <button
           onClick={handleWhatsAppSupport}
-          className="w-14 h-14 btn-tivexx-cta rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110"
+          className="w-14 h-14 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110"
           aria-label="Contact WhatsApp Support"
         >
           <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">

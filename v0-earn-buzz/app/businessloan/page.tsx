@@ -182,7 +182,7 @@ export default function BusinessLoanPage() {
 
 
   return (
-    <div className="min-h-screen text-white bg-tivexx-blend">
+    <div className="min-h-screen text-white bg-gradient-to-br from-emerald-800 via-emerald-700 to-emerald-900">
       {/* Subtle glow background */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-[#065f46]/40 via-[#10b981]/20 to-[#064e3b]/50" />
 
@@ -203,15 +203,15 @@ export default function BusinessLoanPage() {
         <main className="space-y-6">
           <Card className="p-6 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/10 shadow-2xl">
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-full bg-gradient-to-br from-[#7261A3] to-[#A67DB8] text-black shadow-md">
+              <div className="p-3 rounded-full bg-gradient-to-br from-emerald-400 to-amber-400 text-black shadow-md">
                 <CheckCircle className="h-6 w-6" />
               </div>
               <div>
                 <h3 className="text-lg font-bold">Loan Overview</h3>
                 <p className="text-sm text-white/80 mt-2">
-                  Borrow between <span className="font-semibold text-tiv-2">{formatCurrency(MIN_LOAN)}</span> and{" "}
-                  <span className="font-semibold text-tiv-2">{formatCurrency(MAX_LOAN)}</span>. A one-time processing
-                  fee of <span className="font-semibold text-tiv-5">3%</span> is required and will be charged now.
+                  Borrow between <span className="font-semibold text-emerald-300">{formatCurrency(MIN_LOAN)}</span> and{" "}
+                  <span className="font-semibold text-emerald-300">{formatCurrency(MAX_LOAN)}</span>. A one-time processing
+                  fee of <span className="font-semibold text-amber-300">3%</span> is required and will be charged now.
                 </p>
                 <p className="mt-3 text-sm text-white/70">Repayment: <span className="font-semibold">12 months</span>. No collateral or BVN required.</p>
               </div>
@@ -278,10 +278,10 @@ export default function BusinessLoanPage() {
               <div>
                 <Label className="text-sm text-white/80">Select Bank</Label>
                 <Select value={selectedBank} onValueChange={setSelectedBank}>
-                    <SelectTrigger className="mt-2 h-12 bg-tivexx-gradient text-white border border-white/20">
+                  <SelectTrigger className="mt-2 h-12 bg-gradient-to-r from-green-700 via-purple-800 to-green-700 text-white border border-white/20">
                     <SelectValue placeholder="Choose your bank" />
                   </SelectTrigger>
-                  <SelectContent className="text-white bg-tivexx-blend border border-white/20 max-h-60 overflow-y-auto">
+                  <SelectContent className="text-white bg-gradient-to-b from-green-900 via-purple-900 to-green-900 border border-white/20 max-h-60 overflow-y-auto">
                     {banks.map((b) => (
                       <SelectItem key={b} value={b}>
                         {b}
@@ -305,7 +305,7 @@ export default function BusinessLoanPage() {
                     {verifying ? (
                       <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                     ) : verified ? (
-                      <CheckCircle className="w-5 h-5 text-tiv-2" />
+                      <CheckCircle className="w-5 h-5 text-emerald-300" />
                     ) : null}
                   </div>
                 </div>
@@ -318,7 +318,7 @@ export default function BusinessLoanPage() {
             <div className="mt-6">
               <Button
                 onClick={handleContinue}
-                className="w-full py-4 rounded-xl text-lg font-bold btn-tivexx-cta"
+                className="w-full py-4 rounded-xl text-lg font-bold bg-gradient-to-r from-purple-800 via-purple-600 to-emerald-500 hover:from-purple-700 hover:to-emerald-600 transform transition-all shadow-2xl"
                 disabled={submitting}
               >
                 {submitting ? "Redirecting to Payment..." : "Continue to Processing Fee"}

@@ -19,16 +19,16 @@ function PayKeyConfirmationContent() {
   if (!showResult) {
     // Tivexx-style loading popup
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-tivexx-gradient text-white relative overflow-hidden">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-500 to-green-700 text-white relative overflow-hidden">
         <div className="animate-glow text-center z-20">
           <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <h1 className="text-4xl font-extrabold tracking-wider mb-2">Helping Hands</h1>
           <p className="text-lg font-medium opacity-90">Confirming your payment...</p>
         </div>
-        <div className="absolute inset-0 bg-tivexx-blend animate-gradientMove"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-green-400/30 to-green-800/30 animate-gradientMove"></div>
 
         <style jsx global>{`
-          @keyframes glow { 0% { text-shadow:0 0 5px #4F5D75,0 0 10px #7261A3,0 0 20px #7261A3; } 50% { text-shadow:0 0 10px #4F5D75,0 0 20px #7261A3,0 0 40px #A67DB8; } 100% { text-shadow:0 0 5px #4F5D75,0 0 10px #7261A3,0 0 20px #7261A3; } }
+          @keyframes glow { 0% { text-shadow:0 0 5px #34d399,0 0 10px #10b981,0 0 20px #10b981; } 50% { text-shadow:0 0 10px #34d399,0 0 20px #10b981,0 0 40px #059669; } 100% { text-shadow:0 0 5px #34d399,0 0 10px #10b981,0 0 20px #10b981; } }
           @keyframes gradientMove { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
           .animate-glow { animation: glow 2s infinite alternate; }
           .animate-gradientMove { background-size: 200% 200%; animation: gradientMove 6s ease infinite; }
@@ -40,9 +40,9 @@ function PayKeyConfirmationContent() {
 
   // Failed payment display with animated gradient + particles
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-start bg-tivexx-blend text-white overflow-y-auto py-10 px-4 animate-fade-in">
+    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-500 to-green-700 text-white overflow-y-auto py-10 px-4 animate-fade-in">
       {/* Animated gradient overlay */}
-      <div className="absolute inset-0 bg-tivexx-blend animate-gradientMove -z-10"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-green-800/20 animate-gradientMove -z-10"></div>
 
       {/* Floating particles */}
       <div className="absolute inset-0 overflow-hidden -z-10">
@@ -62,7 +62,7 @@ function PayKeyConfirmationContent() {
 
       <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow">Helping Hands</h1>
 
-      <div className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/10 border border-tivexx shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl overflow-hidden text-center">
+      <div className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/10 border border-green-300 shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl overflow-hidden text-center">
         {/* Error Icon */}
         <div className="w-24 h-24 mx-auto bg-red-500 rounded-full flex items-center justify-center mb-4 animate-bounce-slow">
           <XCircle className="h-16 w-16 text-white" />
@@ -71,7 +71,7 @@ function PayKeyConfirmationContent() {
         {/* Error Message */}
         <div className="space-y-4">
           <h1 className="text-2xl font-bold text-red-400">Transaction verification failed!</h1>
-          <p className="text-tivex-muted leading-relaxed text-sm">
+          <p className="text-green-100 leading-relaxed text-sm">
             Your payment could not be confirmed. Reason: No payment received or invalid payment method. <br />
             If you have made the payment, kindly send your payment proof to our support team immediately.
           </p>
@@ -79,20 +79,20 @@ function PayKeyConfirmationContent() {
 
         {/* Not Available Info */}
         <div className="w-full p-4 border border-gray-300 rounded-lg flex items-center justify-between bg-white/10 mt-4">
-          <span className="text-tivex-muted font-medium">Invalid Payment</span>
+          <span className="text-green-100 font-medium">Invalid Payment</span>
           <span className="text-red-400 text-lg">🚫</span>
         </div>
 
         {/* Action Buttons */}
         <div className="space-y-3 mt-6">
           <button
-            className="w-full h-12 border border-tivexx bg-white/10 hover:bg-white/6 text-white rounded-lg font-semibold transition-all"
+            className="w-full h-12 border border-green-300 bg-white/10 hover:bg-green-100/20 text-white rounded-lg font-semibold transition-all"
             onClick={() => router.push("/dashboard")}
           >
             Go to Dashboard
           </button>
           <button
-            className="w-full h-12 btn-tivexx-claim text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-all animate-buttonGlow"
+            className="w-full h-12 bg-gradient-to-r from-purple-800 via-purple-700 to-green-600 hover:from-purple-900 hover:to-green-700 text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-all animate-buttonGlow"
             onClick={() => window.open("https://t.me/tivexx9jasupport", "_blank")}
           >
             {/* Rotating Telegram logo */}
@@ -114,7 +114,7 @@ function PayKeyConfirmationContent() {
         @keyframes glow { 0%, 100% { text-shadow:0 0 5px #34d399,0 0 10px #10b981,0 0 20px #10b981; } 50% { text-shadow:0 0 10px #34d399,0 0 20px #10b981,0 0 40px #059669; } }
         @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         @keyframes particle { 0% { transform: translateY(0) translateX(0); opacity: 0.6; } 50% { transform: translateY(-20px) translateX(15px); opacity: 0.3; } 100% { transform: translateY(0) translateX(0); opacity: 0.6; } }
-        @keyframes buttonGlow { 0%,100% { box-shadow: 0 0 5px #7261A3,0 0 10px #4F5D75,0 0 20px #A67DB8; } 50% { box-shadow: 0 0 10px #4F5D75,0 0 20px #7261A3,0 0 40px #A67DB8; } }
+        @keyframes buttonGlow { 0%,100% { box-shadow: 0 0 5px #10b981,0 0 10px #34d399,0 0 20px #059669; } 50% { box-shadow: 0 0 10px #34d399,0 0 20px #10b981,0 0 40px #059669; } }
         @keyframes spinSlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .animate-fade-in { animation: fadeIn 0.8s ease-in-out; }
@@ -134,7 +134,7 @@ export default function PayKeyConfirmationPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex flex-col items-center justify-center min-h-screen bg-tivexx-blend text-white relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-500 to-green-700 text-white relative overflow-hidden">
           <div className="animate-glow text-center z-20">
             <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <h1 className="text-4xl font-extrabold tracking-wider mb-2">Tivexx9ja</h1>

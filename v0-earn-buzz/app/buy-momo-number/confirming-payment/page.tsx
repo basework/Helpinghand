@@ -143,7 +143,7 @@ export default function ConfirmingPaymentPage() {
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-600">Status</span>
-            <span className={`font-semibold ${progress < 100 ? "text-orange-600" : "text-tiv-4"}`}>
+            <span className={`font-semibold ${progress < 100 ? "text-orange-600" : "text-green-600"}`}>
               {progress < 100 ? "Processing..." : "Confirmed"}
             </span>
           </div>

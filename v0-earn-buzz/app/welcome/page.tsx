@@ -30,21 +30,21 @@ export default function WelcomePage() {
   }, [router])
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-br from-gray-900 via-tiv-3 to-black">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-br from-gray-900 via-green-900 to-black">
       <div className="text-center">
         <h1 className="text-6xl font-bold text-white mb-8 font-mono">
           {displayText}
           <span className="animate-pulse">|</span>
         </h1>
 
-        <p className="text-xl text-tivex-muted mb-8 animate-fade-in" style={{ animationDelay: "3s" }}>
+        <p className="text-xl text-green-100 mb-8 animate-fade-in" style={{ animationDelay: "3s" }}>
           Financial Services
         </p>
 
         <div className="flex justify-center space-x-2 animate-fade-in" style={{ animationDelay: "4s" }}>
-          <div className="w-3 h-3 bg-tiv-3 rounded-full animate-bounce" style={{ animationDelay: "0s" }}></div>
-          <div className="w-3 h-3 bg-tiv-3 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
-          <div className="w-3 h-3 bg-tiv-3 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
+          <div className="w-3 h-3 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: "0s" }}></div>
+          <div className="w-3 h-3 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }}></div>
+          <div className="w-3 h-3 bg-green-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }}></div>
         </div>
       </div>
     </div>

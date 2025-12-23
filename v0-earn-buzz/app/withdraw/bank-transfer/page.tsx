@@ -32,10 +32,10 @@ function PayKeyPaymentContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start bg-tivexx-blend overflow-y-auto py-10 px-4 text-white">
+    <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-br from-green-500 to-green-700 overflow-y-auto py-10 px-4 text-white">
       <h1 className="text-5xl font-extrabold mb-6 text-center">Helping Hands</h1>
 
-      <Card className="max-w-md w-full p-6 space-y-6 bg-white/10 border border-tivexx shadow-2xl rounded-2xl">
+      <Card className="max-w-md w-full p-6 space-y-6 bg-white/10 border border-green-300 shadow-2xl rounded-2xl">
         <div className="text-center">
           <h2 className="text-lg font-semibold mb-2">Complete this bank transfer to proceed</h2>
           <p className="text-2xl font-extrabold text-yellow-300">₦ {amount}</p>
@@ -55,7 +55,7 @@ function PayKeyPaymentContent() {
             <Button
               variant="outline"
               size="sm"
-              className="btn-tivexx-cta text-white border-tivexx hover:shadow-xl"
+              className="bg-green-500 text-white border-green-500 hover:bg-green-600"
               onClick={() => copyToClipboard(accountNumber, "account")}
             >
               {copiedField === "account" ? "Copied!" : "Copy"}
@@ -69,11 +69,11 @@ function PayKeyPaymentContent() {
         </div>
 
         {/* Payment Proof Section */}
-        <div className="mt-4 p-4 bg-tivexx-blend border border-tivexx rounded-lg">
-          <h3 className="font-semibold text-tiv-4 mb-3 flex items-center gap-2">
+        <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <h3 className="font-semibold text-green-900 mb-3 flex items-center gap-2">
             <span>📸</span> Send Payment Proof
           </h3>
-          <p className="text-sm text-tiv-4 mb-4">
+          <p className="text-sm text-green-800 mb-4">
             After making the transfer, please send a screenshot of your payment receipt to our Telegram support team for verification.
           </p>
           <a
@@ -92,7 +92,7 @@ function PayKeyPaymentContent() {
         </div>
 
         <Button
-          className="w-full h-12 btn-tivexx-cta text-white font-semibold mt-2 hover:opacity-95"
+          className="w-full h-12 bg-gradient-to-r from-purple-800 to-green-600 hover:from-purple-900 hover:to-green-700 text-white font-semibold mt-2"
           onClick={handleConfirmPayment}
         >
           I have made this bank Transfer
@@ -105,7 +105,7 @@ function PayKeyPaymentContent() {
 export default function PayKeyPaymentPage() {
   return (
     <Suspense fallback={
-      <div className="flex flex-col items-center justify-center min-h-screen bg-tivexx-gradient text-white">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-500 to-green-700 text-white">
         <div className="text-center">
           <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <h1 className="text-4xl font-extrabold tracking-wider mb-2">Helping Hands</h1>

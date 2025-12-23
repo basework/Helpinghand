@@ -53,7 +53,7 @@ export default function WithdrawalReceiptPage() {
     <div className="min-h-screen bg-gray-50 pb-20">
       {showFixPopup && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-tivexx-blend rounded-xl p-6 max-w-sm mx-auto relative shadow-2xl border-2 border-tivexx">
+          <div className="bg-gradient-to-br from-green-600 to-black rounded-xl p-6 max-w-sm mx-auto relative shadow-2xl border-2 border-green-400">
             <div className="text-center">
               <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <AlertCircle className="w-8 h-8 text-white" />
@@ -72,7 +72,7 @@ export default function WithdrawalReceiptPage() {
 
               <Button
                 onClick={handleUnderstand}
-                className="w-full bg-white hover:bg-gray-100 text-tiv-4 py-3 rounded-lg font-semibold"
+                className="w-full bg-white hover:bg-gray-100 text-green-700 py-3 rounded-lg font-semibold"
               >
                 I Understand
               </Button>
@@ -115,7 +115,7 @@ export default function WithdrawalReceiptPage() {
 
             <div className="flex justify-between items-center py-2 border-b border-gray-100">
               <span className="text-gray-600 font-medium">Amount:</span>
-              <span className="text-tiv-4 font-bold text-xl">₦{withdrawAmount.toLocaleString()}</span>
+              <span className="text-green-600 font-bold text-xl">₦{withdrawAmount.toLocaleString()}</span>
             </div>
 
             <div className="flex justify-between items-center py-2 border-b border-gray-100">
@@ -151,7 +151,7 @@ export default function WithdrawalReceiptPage() {
 
         <Button
           onClick={handleVerifyNow}
-          className="w-full mt-6 py-6 btn-tivexx-cta rounded-xl text-lg font-semibold"
+          className="w-full mt-6 py-6 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-xl text-lg font-semibold"
         >
           Verify Now
         </Button>

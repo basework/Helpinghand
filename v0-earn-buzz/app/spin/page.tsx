@@ -34,7 +34,7 @@ export default function AboutPage() {
 
   if (!loaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-tivexx-blend p-6">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0b6b3a] via-[#153d2f] to-[#071218] p-6">
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent mb-4" />
           <div className="text-lg font-medium">Loading Helping Hands</div>
@@ -45,14 +45,14 @@ export default function AboutPage() {
 
   if (!userData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-tivexx-blend p-6">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0b6b3a] via-[#153d2f] to-[#071218] p-6">
         <Card className="max-w-lg w-full p-6 text-center">
           <h2 className="text-xl font-bold mb-2">Welcome to Helping Hands</h2>
           <p className="text-sm text-gray-600">
             Sign in to access the full About page and learn how Helping Handshelps thousands of Nigerians earn, grow and withdraw without fees.
           </p>
           <div className="mt-6 flex gap-3 justify-center">
-            <Button onClick={() => router.push("/login")} className="btn-cta">
+            <Button onClick={() => router.push("/login")} className="bg-amber-400 text-black">
               Sign in
             </Button>
             <Button onClick={() => router.push("/dashboard")} variant="ghost" className="border border-white/10">
@@ -65,7 +65,7 @@ export default function AboutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-tivexx-blend text-white">
+    <div className="min-h-screen bg-gradient-to-br from-[#0b6b3a] via-[#153d2f] to-[#071218] text-white">
       
       {/* Back button */}
       <div className="fixed top-4 left-4 z-50">
@@ -83,7 +83,7 @@ export default function AboutPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-extrabold leading-tight animate-glow">Helping Hands</h1>
-          <p className="text-sm text-tivex-muted mt-2">Nigeria's most reliable earning and financial empowerment platform</p>
+          <p className="text-sm text-green-100 mt-2">Nigeria's most reliable earning and financial empowerment platform</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -93,7 +93,7 @@ export default function AboutPage() {
 
             {/* Mission */}
             <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up">
-              <h2 className="text-xl font-bold text-tiv-5 mb-2">Our Mission</h2>
+              <h2 className="text-xl font-bold text-emerald-200 mb-2">Our Mission</h2>
               <p className="text-sm text-white/80 leading-relaxed">
                 Helping Hands was created to empower Nigerians with real earning opportunities, fast withdrawals and trusted digital services. 
                 Our system helps users support their families, grow their hustle, fund education and improve their financial life.
@@ -102,22 +102,22 @@ export default function AboutPage() {
               <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <div className="p-3 rounded-lg bg-white/4 border border-white/8 text-center">
                   <div className="text-xs text-white/70">Active Users</div>
-                  <div className="text-2xl font-bold text-tiv-2">100,000+</div>
+                  <div className="text-2xl font-bold text-amber-300">100,000+</div>
                 </div>
                 <div className="p-3 rounded-lg bg-white/4 border border-white/8 text-center">
                   <div className="text-xs text-white/70">Total Payouts</div>
-                  <div className="text-2xl font-bold text-tiv-2">Millions</div>
+                  <div className="text-2xl font-bold text-emerald-300">Millions</div>
                 </div>
                 <div className="p-3 rounded-lg bg-white/4 border border-white/8 text-center">
                   <div className="text-xs text-white/70">Support</div>
-                  <div className="text-2xl font-bold text-tiv-4">24/7</div>
+                  <div className="text-2xl font-bold text-purple-300">24/7</div>
                 </div>
               </div>
             </Card>
 
             {/* NEW SECTION YOU REQUESTED */}
             <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up">
-              <h2 className="text-xl font-bold text-tiv-5 mb-3">What You Can Do on Tivexx9ja</h2>
+              <h2 className="text-xl font-bold text-emerald-200 mb-3">What You Can Do on Tivexx9ja</h2>
 
               <ul className="space-y-3 text-sm text-white/85 leading-relaxed list-disc pl-5">
                 <li>Earn ₦1,000 every 1 minute by claiming through the daily earnings button.</li>
@@ -170,7 +170,7 @@ export default function AboutPage() {
               <div className="mt-4 space-y-3">
                 <Button
                   onClick={() => window.open("https://t.me/tivexx9jasupport", "_blank")}
-                  className="w-full btn-tivexx-cta"
+                  className="w-full bg-gradient-to-r from-purple-800 via-purple-700 to-green-600 text-white"
                 >
                   Contact Support
                 </Button>
