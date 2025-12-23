@@ -182,9 +182,9 @@ export default function BusinessLoanPage() {
 
 
   return (
-    <div className="min-h-screen text-white bg-gradient-to-br from-emerald-800 via-emerald-700 to-emerald-900">
+    <div className="min-h-screen text-white bg-tiv-3">
       {/* Subtle glow background */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-green-700/40 via-green-600/20 to-green-900/50" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-[#4F5D75]/40 via-[#4F5D75]/20 to-[#4F5D75]/50" />
 
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Header */}
@@ -193,7 +193,7 @@ export default function BusinessLoanPage() {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
-            <h1 className="text-4xl font-extrabold leading-tight tracking-tight drop-shadow-[0_6px_20px_rgba(16,185,129,0.25)]">
+            <h1 className="text-4xl font-extrabold leading-tight tracking-tight drop-shadow-[0_6px_20px_rgba(79,93,117,0.25)]">
               Helping Hands Business Loan
             </h1>
             <p className="text-sm text-white/80 mt-1">Fast disbursement • One-time processing fee • Repayment: 12 months</p>
@@ -203,14 +203,14 @@ export default function BusinessLoanPage() {
         <main className="space-y-6">
           <Card className="p-6 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/10 shadow-2xl">
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-full bg-gradient-to-br from-emerald-400 to-amber-400 text-black shadow-md">
+              <div className="p-3 rounded-full bg-gradient-to-br from-[#4F5D75] to-amber-400 text-black shadow-md">
                 <CheckCircle className="h-6 w-6" />
               </div>
               <div>
                 <h3 className="text-lg font-bold">Loan Overview</h3>
                 <p className="text-sm text-white/80 mt-2">
-                  Borrow between <span className="font-semibold text-emerald-300">{formatCurrency(MIN_LOAN)}</span> and{" "}
-                  <span className="font-semibold text-emerald-300">{formatCurrency(MAX_LOAN)}</span>. A one-time processing
+                  Borrow between <span className="font-semibold text-tiv-3">{formatCurrency(MIN_LOAN)}</span> and{" "}
+                  <span className="font-semibold text-tiv-3">{formatCurrency(MAX_LOAN)}</span>. A one-time processing
                   fee of <span className="font-semibold text-amber-300">3%</span> is required and will be charged now.
                 </p>
                 <p className="mt-3 text-sm text-white/70">Repayment: <span className="font-semibold">12 months</span>. No collateral or BVN required.</p>
@@ -278,10 +278,10 @@ export default function BusinessLoanPage() {
               <div>
                 <Label className="text-sm text-white/80">Select Bank</Label>
                 <Select value={selectedBank} onValueChange={setSelectedBank}>
-                  <SelectTrigger className="mt-2 h-12 bg-gradient-to-r from-green-700 via-purple-800 to-green-700 text-white border border-white/20">
+                  <SelectTrigger className="mt-2 h-12 bg-gradient-to-r from-[#4F5D75] via-purple-800 to-[#4F5D75] text-white border border-white/20">
                     <SelectValue placeholder="Choose your bank" />
                   </SelectTrigger>
-                  <SelectContent className="text-white bg-gradient-to-b from-green-900 via-purple-900 to-green-900 border border-white/20 max-h-60 overflow-y-auto">
+                  <SelectContent className="text-white bg-gradient-to-b from-[#4F5D75] via-purple-900 to-[#4F5D75] border border-white/20 max-h-60 overflow-y-auto">
                     {banks.map((b) => (
                       <SelectItem key={b} value={b}>
                         {b}
@@ -305,7 +305,7 @@ export default function BusinessLoanPage() {
                     {verifying ? (
                       <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                     ) : verified ? (
-                      <CheckCircle className="w-5 h-5 text-emerald-300" />
+                      <CheckCircle className="w-5 h-5 text-tiv-3" />
                     ) : null}
                   </div>
                 </div>
