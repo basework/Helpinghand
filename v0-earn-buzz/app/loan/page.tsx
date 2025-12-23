@@ -121,7 +121,7 @@ export default function LoanPage() {
             <div className="flex gap-3">
               <Button
                 onClick={() => router.push("/businessloan")}
-                className="flex-1 btn-tivexx-cta text-white"
+                className="flex-1 btn-tivexx text-white"
               >
                 Apply for Business Loan
               </Button>
@@ -148,7 +148,7 @@ export default function LoanPage() {
                 setShowApproval(false)
                 setShowBusinessLoanPopup(true)
               }}
-              className="w-full btn-tivexx-cta hover:opacity-95"
+              className="w-full btn-tivexx hover:opacity-95"
             >
               Next
             </Button>
@@ -258,7 +258,7 @@ export default function LoanPage() {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full mt-6 btn-tivexx-cta py-6 text-lg">
+              <Button type="submit" className="w-full mt-6 btn-tivexx py-6 text-lg">
                 Continue to Step 2
               </Button>
             </div>
@@ -295,7 +295,7 @@ export default function LoanPage() {
               <Button
                 type="submit"
                 disabled={!incomeRange}
-                className="w-full mt-6 btn-tivexx-cta py-6 text-lg disabled:opacity-50"
+                className="w-full mt-6 btn-tivexx py-6 text-lg disabled:opacity-50"
               >
                 Submit Application
               </Button>

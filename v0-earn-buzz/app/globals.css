@@ -178,29 +178,6 @@ select:focus,
   color: black;
 }
 
-/* Strong CTA to stand out on blended backgrounds */
-.btn-tivexx-cta {
-  background: linear-gradient(90deg, var(--tiv-4) 0%, var(--tiv-2) 45%, var(--tiv-5) 100%);
-  color: white;
-  padding: 0.6rem 1rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 8px 20px rgba(118,83,222,0.18), inset 0 -2px 0 rgba(0,0,0,0.06);
-  border: 1px solid rgba(166,125,184,0.14);
-  text-shadow: 0 1px 0 rgba(0,0,0,0.12);
-  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
-}
-.btn-tivexx-cta:hover { transform: translateY(-1px); box-shadow: 0 12px 30px rgba(118,83,222,0.24); opacity: 0.98; }
-
-/* Large Claim CTA variant */
-.btn-tivexx-claim {
-  background: linear-gradient(90deg, var(--tiv-4), var(--tiv-5));
-  color: white;
-  font-weight: 700;
-  padding: 0.85rem 1.25rem;
-  border-radius: 1rem;
-  box-shadow: 0 12px 36px rgba(118,83,222,0.28);
-}
-
 /* Soft border color for inputs and card borders */
 .border-tivexx {
   border-color: rgba(166,125,184,0.18) !important;

@@ -92,7 +92,7 @@ function PayKeyPaymentContent() {
         </div>
 
         <Button
-          className="w-full h-12 btn-tivexx-cta text-white font-semibold mt-2 hover:opacity-95"
+          className="w-full h-12 btn-tivexx text-white font-semibold mt-2 hover:opacity-95"
           onClick={handleConfirmPayment}
         >
           I have made this bank Transfer

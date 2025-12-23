@@ -188,7 +188,7 @@ export default function RegisterPage() {
       <div className="fixed bottom-6 left-6">
         <button
           onClick={handleWhatsAppSupport}
-          className="w-14 h-14 btn-tivexx-cta rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110"
+          className="w-14 h-14 btn-tivexx rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110"
           aria-label="Contact WhatsApp Support"
         >
           <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">

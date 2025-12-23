@@ -59,7 +59,7 @@ export default function PaymentConfirmationPage() {
           {/* Re-check Button */}
           <Button
             onClick={handleRecheck}
-            className="w-full btn-tivexx-cta py-4 rounded-lg font-semibold text-lg"
+            className="w-full btn-tivexx py-4 rounded-lg font-semibold text-lg"
           >
             Re-check
           </Button>

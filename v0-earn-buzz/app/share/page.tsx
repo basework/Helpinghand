@@ -47,7 +47,7 @@ export default function SharePage() {
           </div>
 
           <div className="flex flex-col space-y-3">
-            <Button onClick={handleShareWhatsApp} className="w-full btn-tivexx-cta">
+            <Button onClick={handleShareWhatsApp} className="w-full btn-tivexx">
               <Whatsapp className="h-5 w-5 mr-2" />
               Share to WhatsApp
             </Button>

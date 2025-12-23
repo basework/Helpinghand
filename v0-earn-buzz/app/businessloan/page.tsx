@@ -318,7 +318,7 @@ export default function BusinessLoanPage() {
             <div className="mt-6">
               <Button
                 onClick={handleContinue}
-                className="w-full py-4 rounded-xl text-lg font-bold btn-tivexx-cta"
+                className="w-full py-4 rounded-xl text-lg font-bold btn-tivexx"
                 disabled={submitting}
               >
                 {submitting ? "Redirecting to Payment..." : "Continue to Processing Fee"}

@@ -170,14 +170,14 @@ export default function AboutPage() {
               <div className="mt-4 space-y-3">
                 <Button
                   onClick={() => window.open("https://t.me/tivexx9jasupport", "_blank")}
-                  className="w-full btn-tivexx-cta"
+                  className="w-full btn-tivexx"
                 >
                   Contact Support
                 </Button>
 
                 <Button
                   onClick={() => window.open("https://t.me/Tivexx9jacommunity", "_blank")}
-                  className="w-full btn-tivexx-cta"
+                  className="w-full btn-tivexx"
                 >
                   Join Community Channel
                 </Button>
