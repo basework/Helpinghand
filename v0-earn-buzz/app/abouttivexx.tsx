@@ -80,7 +80,7 @@ export default function AboutPage() {
         </div>
 
         {/* Hero card */}
-        <Card floating className="p-6 mb-6 bg-white/6 backdrop-blur-md border border-white/10 shadow-2xl rounded-2xl">
+        <Card className="p-6 mb-6 bg-white/6 backdrop-blur-md border border-white/10 shadow-2xl rounded-2xl">
           <div className="flex flex-col md:flex-row items-start gap-6">
             <div className="flex-none p-4 rounded-full bg-gradient-to-br from-emerald-300 to-amber-300 text-black shadow-md animate-bounce">
               <ShieldCheck className="h-8 w-8" />

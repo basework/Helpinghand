@@ -21,9 +21,8 @@ export default function BuzzPage() {
 
       <div className="p-4 max-w-md mx-auto">
         {/* Active Buzz Code Card */}
-        <div className="floating-card">
-          <div className="floating-card__inner bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl p-6 mb-4 text-white">
-            <div className="flex items-center justify-between mb-4">
+        <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl p-6 mb-4 text-white">
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center">
               <div className="bg-white/20 rounded-full p-2 mr-3">
                 <Zap className="w-5 h-5" />
@@ -40,12 +39,10 @@ export default function BuzzPage() {
             <div className="font-mono text-lg font-bold">BZ-2024-8901</div>
           </div>
         </div>
-      </div>
 
         {/* Purchase New Code Card */}
-        <div className="floating-card">
-          <div className="floating-card__inner bg-white border border-gray-200 rounded-xl p-6 mb-4">
-            <div className="flex items-center mb-4">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 mb-4">
+          <div className="flex items-center mb-4">
             <div className="bg-gray-100 rounded-full p-2 mr-3">
               <CreditCard className="w-5 h-5 text-gray-600" />
             </div>
@@ -65,12 +62,10 @@ export default function BuzzPage() {
             Buy New Buzz Code
           </button>
         </div>
-      </div>
 
         {/* Recent Activity */}
-        <div className="floating-card">
-          <div className="floating-card__inner bg-white border border-gray-200 rounded-xl p-6">
-            <h3 className="font-semibold text-gray-900 mb-4">Recent Activity</h3>
+        <div className="bg-white border border-gray-200 rounded-xl p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">Recent Activity</h3>
           <div className="space-y-3">
             <div className="flex items-center justify-between py-2">
               <div className="flex items-center">

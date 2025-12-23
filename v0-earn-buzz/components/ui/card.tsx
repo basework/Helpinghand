@@ -2,40 +2,19 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  floating?: boolean
-}
-
 const Card = React.forwardRef<
   HTMLDivElement,
-  CardProps
->(({ className, floating, ...props }, ref) => {
-  if (floating) {
-    return (
-      <div className="floating-card">
-        <div
-          ref={ref}
-          className={cn(
-            "floating-card__inner border bg-card text-card-foreground shadow-sm opacity-100 rounded-lg leading-4",
-            className
-          )}
-          {...props}
-        />
-      </div>
-    )
-  }
-
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        "border bg-card text-card-foreground shadow-sm opacity-100 rounded-lg leading-4",
-        className
-      )}
-      {...props}
-    />
-  )
-})
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn(
+      "border bg-card text-card-foreground shadow-sm opacity-100 rounded-lg leading-4",
+      className
+    )}
+    {...props}
+  />
+))
 Card.displayName = "Card"
 
 const CardHeader = React.forwardRef<

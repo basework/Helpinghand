@@ -201,7 +201,7 @@ export default function BusinessLoanPage() {
         </div>
 
         <main className="space-y-6">
-          <Card floating className="p-6 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/10 shadow-2xl">
+          <Card className="p-6 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/10 shadow-2xl">
             <div className="flex items-start gap-4">
               <div className="p-3 rounded-full bg-gradient-to-br from-[#4F5D75] to-amber-400 text-black shadow-md">
                 <CheckCircle className="h-6 w-6" />
@@ -218,7 +218,7 @@ export default function BusinessLoanPage() {
             </div>
           </Card>
 
-          <Card floating className="p-6 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/10 shadow-2xl">
+          <Card className="p-6 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/10 shadow-2xl">
             <h2 className="text-2xl font-bold mb-4">Apply for Business Loan</h2>
 
             <div className="grid grid-cols-1 gap-4">
