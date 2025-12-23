@@ -303,3 +303,36 @@ select:focus,
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+/* Reusable floating card pattern (used across card/list components)
+   - .floating-card wraps the interactive element to provide float motion
+   - .floating-card__inner is the visual element which scales on press/focus
+*/
+@keyframes floatY {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+.floating-card {
+  animation: floatY 6s ease-in-out infinite;
+  will-change: transform;
+  display: block;
+}
+/* Add slight variation per item for organic motion */
+.floating-card:nth-child(odd) { animation-duration: 5.6s; }
+.floating-card:nth-child(3n) { animation-duration: 6.3s; }
+
+.floating-card__inner {
+  transition: transform 260ms cubic-bezier(.2,.8,.2,1);
+  transform-origin: center;
+}
+/* On press (tap) squeeze while preserving float translation */
+.floating-card:active .floating-card__inner,
+.floating-card:focus-within .floating-card__inner {
+  transform: scale(0.96) translateY(4px);
+}
+
+/* Backwards-compatible task classes (keeps existing page-specific styles working) */
+.task-float { animation: floatY 6s ease-in-out infinite; will-change: transform; }
+.task-float__inner { transition: transform 260ms cubic-bezier(.2,.8,.2,1); transform-origin: center; }
+.task-float:active .task-float__inner, .task-float:focus-within .task-float__inner { transform: scale(0.96) translateY(4px); }

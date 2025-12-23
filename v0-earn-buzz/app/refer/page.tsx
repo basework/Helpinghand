@@ -138,59 +138,69 @@ export default function ReferPage() {
           </Link>
           <h1 className="text-2xl font-bold">Refer & Earn</h1>
         </div>
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
-          <Gift className="h-16 w-16 mx-auto mb-4 text-yellow-300" />
-          <h2 className="text-3xl font-bold mb-2">Earn ₦10,000</h2>
-          <p className="text-tiv-3">For every friend you refer!</p>
+        <div className="floating-card">
+          <div className="floating-card__inner bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
+            <Gift className="h-16 w-16 mx-auto mb-4 text-yellow-300" />
+            <h2 className="text-3xl font-bold mb-2">Earn ₦10,000</h2>
+            <p className="text-tiv-3">For every friend you refer!</p>
+          </div>
         </div>
       </div>
 
       <div className="px-6 mt-8">
         <h3 className="text-xl font-bold text-white mb-4">How It Works</h3>
         <div className="space-y-4">
-          <div className="flex items-start gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-green-700/30">
-            <div className="w-10 h-10 rounded-full bg-tiv-3 flex items-center justify-center flex-shrink-0">
-              <Share2 className="h-5 w-5 text-tiv-3" />
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-1">Share Your Link</h4>
-              <p className="text-sm text-gray-300">Share your unique referral link with friends and family</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-green-700/30">
-            <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center flex-shrink-0">
-              <Users className="h-5 w-5 text-green-300" />
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-1">They Sign Up</h4>
-              <p className="text-sm text-gray-300">Your friends register using your referral code</p>
+          <div className="floating-card">
+            <div className="floating-card__inner flex items-start gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-green-700/30">
+              <div className="w-10 h-10 rounded-full bg-tiv-3 flex items-center justify-center flex-shrink-0">
+                <Share2 className="h-5 w-5 text-tiv-3" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-white mb-1">Share Your Link</h4>
+                <p className="text-sm text-gray-300">Share your unique referral link with friends and family</p>
+              </div>
             </div>
           </div>
-          <div className="flex items-start gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-green-700/30">
-            <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center flex-shrink-0">
-              <Wallet className="h-5 w-5 text-green-300" />
+          <div className="floating-card">
+            <div className="floating-card__inner flex items-start gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-green-700/30">
+              <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center flex-shrink-0">
+                <Users className="h-5 w-5 text-green-300" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-white mb-1">They Sign Up</h4>
+                <p className="text-sm text-gray-300">Your friends register using your referral code</p>
+              </div>
             </div>
-            <div>
-              <h4 className="font-semibold text-white mb-1">Earn Rewards</h4>
-              <p className="text-sm text-gray-300">Get ₦10,000 credited to your account instantly</p>
+          </div>
+          <div className="floating-card">
+            <div className="floating-card__inner flex items-start gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-green-700/30">
+              <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center flex-shrink-0">
+                <Wallet className="h-5 w-5 text-green-300" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-white mb-1">Earn Rewards</h4>
+                <p className="text-sm text-gray-300">Get ₦10,000 credited to your account instantly</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div className="px-6 mt-8">
-        <div className="mt-4 bg-white/10 backdrop-blur-sm rounded-xl p-4 shadow-sm border border-green-700/30">
-          <p className="text-sm text-gray-300 mb-2">Your Referral Link</p>
-          <div className="flex items-center gap-2">
-            <input
-              type="text"
-              value={origin ? `${origin}${referralLink}` : 'Loading...'}
-              readOnly
-              className="flex-1 text-sm text-white bg-gray-800/50 rounded-lg px-3 py-2 border border-green-700/30"
-            />
-            <Button onClick={handleCopy} variant="outline" size="icon" disabled={!origin}>
-              <Copy className="h-4 w-4" />
-            </Button>
+        <div className="floating-card">
+          <div className="floating-card__inner mt-4 bg-white/10 backdrop-blur-sm rounded-xl p-4 shadow-sm border border-green-700/30">
+            <p className="text-sm text-gray-300 mb-2">Your Referral Link</p>
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={origin ? `${origin}${referralLink}` : 'Loading...'}
+                readOnly
+                className="flex-1 text-sm text-white bg-gray-800/50 rounded-lg px-3 py-2 border border-green-700/30"
+              />
+              <Button onClick={handleCopy} variant="outline" size="icon" disabled={!origin}>
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -208,15 +218,19 @@ export default function ReferPage() {
         <div className="bg-gradient-to-br from-green-800/50 to-green-900/50 backdrop-blur-sm rounded-2xl p-6 border border-green-700/30">
           <h3 className="text-lg font-bold text-white mb-4 text-center">Your Referral Stats</h3>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center shadow-sm border border-green-700/30">
-              <p className="text-3xl font-bold text-tiv-2">{userData?.referral_count || 0}</p>
-              <p className="text-sm text-gray-300 mt-1">Total Referrals</p>
+            <div className="floating-card">
+              <div className="floating-card__inner bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center shadow-sm border border-green-700/30">
+                <p className="text-3xl font-bold text-tiv-2">{userData?.referral_count || 0}</p>
+                <p className="text-sm text-gray-300 mt-1">Total Referrals</p>
+              </div>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center shadow-sm border border-green-700/30">
-              <p className="text-3xl font-bold text-green-400">
-                {userData ? formatCurrency(userData.referral_balance) : '₦0'}
-              </p>
-              <p className="text-sm text-gray-300 mt-1">Total Earned</p>
+            <div className="floating-card">
+              <div className="floating-card__inner bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center shadow-sm border border-green-700/30">
+                <p className="text-3xl font-bold text-green-400">
+                  {userData ? formatCurrency(userData.referral_balance) : '₦0'}
+                </p>
+                <p className="text-sm text-gray-300 mt-1">Total Earned</p>
+              </div>
             </div>
           </div>
         </div>

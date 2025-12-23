@@ -46,7 +46,7 @@ export default function AboutPage() {
   if (!userData) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-700 via-green-900 to-black p-6">
-        <Card className="max-w-lg w-full p-6 text-center">
+        <Card floating className="max-w-lg w-full p-6 text-center">
           <h2 className="text-xl font-bold mb-2">Welcome to Helping Hands</h2>
           <p className="text-sm text-gray-600">
             Sign in to access the full About page and learn how Helping Handshelps thousands of Nigerians earn, grow and withdraw without fees.

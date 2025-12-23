@@ -204,8 +204,9 @@ export default function LoanPage() {
       <div className="p-6 max-w-md mx-auto">
         {step === 1 && (
           <form onSubmit={handleKycSubmit} className="space-y-6">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <h2 className="text-2xl font-bold text-white mb-6">Step 1: KYC Information</h2>
+            <div className="floating-card">
+              <div className="floating-card__inner bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <h2 className="text-2xl font-bold text-white mb-6">Step 1: KYC Information</h2>
 
               <div className="space-y-4">
                 <div>
@@ -262,13 +263,15 @@ export default function LoanPage() {
                 Continue to Step 2
               </Button>
             </div>
+          </div>
           </form>
         )}
 
         {step === 2 && (
           <form onSubmit={handleIncomeSubmit} className="space-y-6">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <h2 className="text-2xl font-bold text-white mb-6">Step 2: Annual Income</h2>
+            <div className="floating-card">
+              <div className="floating-card__inner bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                <h2 className="text-2xl font-bold text-white mb-6">Step 2: Annual Income</h2>
 
               <div className="space-y-3">
                 {[
@@ -300,6 +303,7 @@ export default function LoanPage() {
                 Submit Application
               </Button>
             </div>
+          </div>
           </form>
         )}
       </div>
