@@ -337,7 +337,7 @@ export default function TaskPage() {
                   onClick={() => handleTaskClick(task)}
                   className="w-full mt-4 bg-tiv-1 hover:bg-tiv-1 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2"
                 >
-                  Start Task
+                  Start Task.
                 </Button>
               )}
             </div>
