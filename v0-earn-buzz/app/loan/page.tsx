@@ -52,7 +52,7 @@ export default function LoanPage() {
 
   if (!mounted || !userData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-purple-700 to-[#4F5D75]">
+      <div className="min-h-screen flex items-center justify-center bg-[#4F5D75]">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
           <p className="mt-4 text-white">Loading...</p>
@@ -111,7 +111,7 @@ export default function LoanPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-700 to-[#4F5D75] pb-20">
+    <div className="min-h-screen bg-[#4F5D75] pb-20">
       {/* Restriction Popup */}
       {showRestrictionPopup && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
