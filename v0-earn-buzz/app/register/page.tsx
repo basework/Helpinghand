@@ -102,7 +102,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-tivexx-blend relative">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 relative">
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-md flex flex-col items-center gap-8">
           <div className="animate-fade-in">
@@ -138,7 +138,7 @@ export default function RegisterPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="h-14 rounded-full bg-white/90 px-6 border border-tivexx"
+                className="h-14 rounded-full bg-white/90 px-6 border border-purple-300"
               />
 
               <Input
@@ -147,7 +147,7 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-14 rounded-full bg-white/90 px-6 border border-tivexx"
+                className="h-14 rounded-full bg-white/90 px-6 border border-purple-300"
               />
 
               <Input
@@ -156,7 +156,7 @@ export default function RegisterPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="h-14 rounded-full bg-white/90 px-6 border border-tivexx"
+                className="h-14 rounded-full bg-white/90 px-6 border border-purple-300"
               />
 
               <Input
@@ -164,7 +164,7 @@ export default function RegisterPage() {
                 placeholder="Referral Code (Optional)"
                 value={referralCode}
                 readOnly
-                className="h-14 rounded-full bg-gray-200 px-6 border border-tivexx cursor-not-allowed"
+                className="h-14 rounded-full bg-gray-200 px-6 border border-purple-300 cursor-not-allowed"
               />
             </div>
 
