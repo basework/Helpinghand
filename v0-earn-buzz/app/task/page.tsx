@@ -251,8 +251,8 @@ export default function TaskPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-black pb-20 relative">
-      <div className="bg-gradient-to-r from-green-700 to-green-600 text-white p-6 rounded-b-3xl shadow-lg">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-[#4F5D75] to-black pb-20 relative">
+      <div className="bg-gradient-to-r from-[#4F5D75] to-[#4F5D75] text-white p-6 rounded-b-3xl shadow-lg">
         <div className="flex items-center mb-4">
           <Link href="/dashboard">
             <Button variant="ghost" size="icon" className="text-white hover:bg-tiv-2/50 mr-2">
@@ -287,7 +287,7 @@ export default function TaskPage() {
           return (
             <div
               key={task.id}
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-green-700/30 shadow-lg"
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-[#4F5D75]/30 shadow-lg"
             >
               <div className="flex items-start gap-4">
                 <div className="text-4xl">{task.icon}</div>
@@ -302,9 +302,9 @@ export default function TaskPage() {
               </div>
 
               {isVerifying ? (
-                <div className="relative w-full mt-4 bg-gray-800 h-6 rounded-xl overflow-hidden border border-green-700/50">
+                <div className="relative w-full mt-4 bg-gray-800 h-6 rounded-xl overflow-hidden border border-[#4F5D75]/50">
                   <div
-                    className="absolute left-0 top-0 h-full bg-gradient-to-r from-green-500 via-emerald-400 to-green-600 animate-liquid-flow"
+                    className="absolute left-0 top-0 h-full bg-gradient-to-r from-[#4F5D75] via-[#4F5D75] to-[#4F5D75] animate-liquid-flow"
                     style={{ width: `${progress}%` }}
                   />
                   <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -358,7 +358,7 @@ export default function TaskPage() {
         .animate-liquid-flow {
           background-size: 1000px 100%;
           animation: liquid-flow 2s linear infinite;
-          filter: drop-shadow(0 0 6px rgba(0, 255, 120, 0.7));
+          filter: drop-shadow(0 0 6px rgba(79,93,117,0.7));
         }
         .bubble {
           position: absolute;
