@@ -4,9 +4,9 @@
 
 /* Tivexx palette variables */
 :root {
-  --tiv-1: #69379a;
-  --tiv-2: #2b9a96; /* CTA bold color */
-  --tiv-3: #2655a5;
+  --tiv-1: #6d2e46;
+  --tiv-2: #a26769; /* CTA bold color */
+  --tiv-3: #c4cddb;
   --tiv-4: #7b5fce;
   --tiv-5: var(--tiv-4);
   /* Subtle gold accent used sparingly for highlights */
