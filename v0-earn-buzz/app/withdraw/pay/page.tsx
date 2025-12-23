@@ -46,7 +46,7 @@ function PayKeyPaymentContent() {
       {/* Purple-themed Popup */}
       {showPopup && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl border border-purple-300">
+          <div className="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl border border-tivexx">
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-bold text-lg text-gray-900">⚠️ Important Payment Notice</h3>

@@ -34,7 +34,7 @@ export default function AboutPage() {
 
   if (!loaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0b6b3a] via-[#153d2f] to-[#071218] p-6">
+      <div className="min-h-screen flex items-center justify-center bg-tivexx-blend p-6">
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent mb-4" />
           <div className="text-lg font-medium">Loading Helping Hands</div>
@@ -52,7 +52,7 @@ export default function AboutPage() {
             Sign in to access the full About page and learn how Helping Handshelps thousands of Nigerians earn, grow and withdraw without fees.
           </p>
           <div className="mt-6 flex gap-3 justify-center">
-            <Button onClick={() => router.push("/login")} className="bg-amber-400 text-black">
+            <Button onClick={() => router.push("/login")} className="btn-cta">
               Sign in
             </Button>
             <Button onClick={() => router.push("/dashboard")} variant="ghost" className="border border-white/10">
@@ -65,7 +65,7 @@ export default function AboutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0b6b3a] via-[#153d2f] to-[#071218] text-white">
+    <div className="min-h-screen bg-tivexx-blend text-white">
       
       {/* Back button */}
       <div className="fixed top-4 left-4 z-50">

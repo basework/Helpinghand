@@ -110,7 +110,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 relative">
+    <div className="min-h-screen flex flex-col bg-tivexx-blend relative">
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-md flex flex-col items-center gap-8">
           <div className="animate-bounce">
@@ -138,7 +138,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="h-14 rounded-full bg-white/90 px-6 border border-purple-300"
+                className="h-14 rounded-full bg-white/90 px-6 border border-tivexx"
               />
 
               <Input
@@ -147,7 +147,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="h-14 rounded-full bg-white/90 px-6 border border-purple-300"
+                className="h-14 rounded-full bg-white/90 px-6 border border-tivexx"
               />
             </div>
 
