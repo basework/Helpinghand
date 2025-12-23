@@ -71,7 +71,7 @@ export default function PaymentResultPage() {
           </Link>
           <Button
             onClick={() => router.push("/support")}
-            className="w-full btn-tivexx-cta font-semibold py-2 rounded-lg transition-colors duration-300"
+            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition-colors duration-300"
           >
             Contact Support
           </Button>

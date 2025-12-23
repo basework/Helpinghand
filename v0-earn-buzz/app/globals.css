@@ -13,20 +13,21 @@
 
 /* Tivexx utility classes (CTAs and basic helpers) */
 .btn-tivexx-cta {
-  background: linear-gradient(90deg, var(--tiv-2), var(--tiv-3));
+  background: var(--tiv-1);
   color: white;
-  box-shadow: 0 6px 20px rgba(57, 87, 86, 0.18);
+  box-shadow: 0 6px 20px rgba(27, 48, 34, 0.18);
   transition: transform .12s ease, box-shadow .12s ease;
 }
 .btn-tivexx-cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 30px rgba(57, 87, 86, 0.2);
+  filter: brightness(1.05);
+  box-shadow: 0 10px 30px rgba(27, 48, 34, 0.2);
 }
 .btn-tivexx-claim {
-  background: var(--tiv-2);
+  background: var(--tiv-1);
   color: white;
-  box-shadow: 0 6px 18px rgba(57, 87, 86, 0.14);
-}
+  box-shadow: 0 6px 18px rgba(27, 48, 34, 0.14);
+} 
 .bg-tiv-1 { background-color: var(--tiv-1); }
 .bg-tiv-2 { background-color: var(--tiv-2); }
 .bg-tiv-3 { background-color: var(--tiv-3); }
@@ -36,6 +37,43 @@
 .border-tiv-2 { border-color: var(--tiv-2); }
 .border-tiv-4 { border-color: var(--tiv-4); }
 
+/* Tailwind green -> Tivexx mapping (applies globally so existing green utilities pick up the new palette)
+   Non-destructive: uses Tivexx variables and !important so these utilities immediately reflect the new colors.
+*/
+.bg-green-50 { background-color: var(--tiv-4) !important; }
+.bg-green-100 { background-color: var(--tiv-4) !important; }
+.bg-green-200 { background-color: var(--tiv-3) !important; }
+.bg-green-300 { background-color: var(--tiv-3) !important; }
+.bg-green-400 { background-color: var(--tiv-3) !important; }
+.bg-green-500 { background-color: var(--tiv-1) !important; }
+.bg-green-600 { background-color: var(--tiv-1) !important; }
+.bg-green-700 { background-color: var(--tiv-3) !important; }
+.bg-green-900 { background-color: var(--tiv-1) !important; }
+
+/* Hover utilities (Tailwind escape) */
+.hover\:bg-green-500:hover,
+.hover\:bg-green-600:hover,
+.hover\:bg-green-700:hover { background-color: var(--tiv-1) !important; } 
+
+/* Text color mapping */
+.text-green-600, .text-green-700, .text-green-800 { color: var(--tiv-2) !important; }
+.text-green-100, .text-green-200, .text-green-300 { color: var(--tiv-3) !important; }
+
+/* Borders */
+.border-green-200 { border-color: var(--tiv-4) !important; }
+.border-green-300 { border-color: var(--tiv-3) !important; }
+.border-green-400 { border-color: var(--tiv-2) !important; }
+.border-green-500, .border-green-600 { border-color: var(--tiv-2) !important; }
+.border-green-700 { border-color: var(--tiv-3) !important; }
+
+/* Common gradient stop overrides used by Tailwind gradients */
+.from-green-500 { --tw-gradient-from: var(--tiv-2); }
+.to-green-700 { --tw-gradient-to: var(--tiv-3); }
+.via-green-700 { --tw-gradient-stops: var(--tw-gradient-from), var(--tiv-3), var(--tw-gradient-to); }
+/* Catch Tailwind opacity-suffixed background utilities like bg-green-500/10, bg-green-500/20 */
+[class*="bg-green-500/"] { background-color: rgba(27,48,34,0.12) !important; }
+[class*="bg-green-700/"] { background-color: rgba(27,48,34,0.12) !important; }
+[class*="bg-green-900/"] { background-color: rgba(27,48,34,0.12) !important; }
 @layer utilities {
   .animate-slide-in-right {
     animation: slideInRight 0.5s ease-out forwards;

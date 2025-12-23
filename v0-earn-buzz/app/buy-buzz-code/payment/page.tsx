@@ -130,7 +130,7 @@ export default function BuyBuzzCodePayment() {
               <div className="space-y-3">
                 <button
                   onClick={handleChangeBank}
-                  className="w-full btn-tivexx-cta rounded-lg font-semibold text-sm transition-colors"
+                  className="w-full bg-green-600 hover:bg-green-700 rounded-lg font-semibold text-sm transition-colors"
                 >
                   Select Different Bank
                 </button>

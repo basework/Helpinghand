@@ -335,7 +335,7 @@ export default function TaskPage() {
               ) : (
                 <Button
                   onClick={() => handleTaskClick(task)}
-                  className="w-full mt-4 btn-tivexx-cta text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2"
+                  className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2"
                 >
                   Start Task
                 </Button>

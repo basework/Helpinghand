@@ -144,7 +144,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
                   {showProceed && (
                     <Button
                       onClick={handleNext}
-                      className="w-full btn-tivexx-cta"
+                      className="w-full bg-green-600 hover:bg-green-700 text-white"
                     >
                       Proceed
                     </Button>
@@ -154,7 +154,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
                 <div className="mt-6">
                   <Button
                     onClick={handleNext}
-                    className="w-full btn-tivexx-cta"
+                    className="w-full bg-green-600 hover:bg-green-700 text-white"
                   >
                     {currentStep === steps.length - 1 ? "Finish Tutorial" : "Next"}
                   </Button>
@@ -183,7 +183,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
               <div className="mt-5">
                 <Button
                   onClick={onClose}
-                  className="btn-tivexx-cta px-6 py-2 rounded-lg"
+                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg"
                 >
                   Proceed to Dashboard
                 </Button>
