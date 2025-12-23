@@ -517,15 +517,15 @@ export default function DashboardPage() {
                 const key = `qa-${idx}`
                 return (
                   item.external ? (
-                    <a key={key} href={item.link} target="_blank" rel="noopener noreferrer" className="focus:outline-none">
-                      <div style={{ animationDelay: `${idx * 80}ms` }} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/6 transition transform hover:-translate-y-1 hover:scale-102 active:scale-95">
+                    <a key={key} href={item.link} target="_blank" rel="noopener noreferrer" className="focus:outline-none" aria-label={`Quick action ${item.name}`}>
+                      <div style={{ animationDelay: `${idx * 80}ms` }} tabIndex={0} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/6 transition transform hover:-translate-y-1 hover:scale-102 active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500/40">
                         <div className={`w-9 h-9 flex items-center justify-center ${item.color} rounded-md`}>{item.emoji ? <span className="text-lg">{item.emoji}</span> : Icon && <Icon size={18} />}</div>
                         <div className="text-sm font-medium text-white">{item.name}</div>
                       </div>
                     </a>
                   ) : (
-                    <Link key={key} href={item.link || "#"} className="focus:outline-none">
-                      <div style={{ animationDelay: `${idx * 80}ms` }} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/6 transition transform hover:-translate-y-1 hover:scale-102 active:scale-95">
+                    <Link key={key} href={item.link || "#"} className="focus:outline-none" aria-label={`Quick action ${item.name}`}>
+                      <div style={{ animationDelay: `${idx * 80}ms` }} tabIndex={0} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/6 transition transform hover:-translate-y-1 hover:scale-102 active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500/40">
                         <div className={`w-9 h-9 flex items-center justify-center ${item.color} rounded-md`}>{item.emoji ? <span className="text-lg">{item.emoji}</span> : Icon && <Icon size={18} />}</div>
                         <div className="text-sm font-medium text-white">{item.name}</div>
                       </div>
