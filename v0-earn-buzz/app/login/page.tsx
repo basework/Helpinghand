@@ -44,6 +44,12 @@ export default function LoginPage() {
     setError("")
 
     try {
+      if (!supabase) {
+        setError("Supabase client not available in this environment")
+        setLoading(false)
+        return
+      }
+
       let fullUser: any = null
 
       // STEP 1: Try Supabase Auth login first

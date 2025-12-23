@@ -194,7 +194,7 @@ export default function BusinessLoanPage() {
           </Button>
           <div>
             <h1 className="text-4xl font-extrabold leading-tight tracking-tight drop-shadow-[0_6px_20px_rgba(16,185,129,0.25)]">
-              Tivexx9ja Business Loan
+              Helping Hands Business Loan
             </h1>
             <p className="text-sm text-white/80 mt-1">Fast disbursement • One-time processing fee • Repayment: 12 months</p>
           </div>
