@@ -12,7 +12,10 @@
   /* Subtle gold accent used sparingly for highlights */
   --tiv-gold: #D4AF37;
   --tiv-gold-opaque: rgba(212,175,55,0.08);
-}
+  /* Soft light-blue accent (added) */
+  --tiv-blue: #C9DBEE;
+  --tiv-blue-opaque: rgba(201,219,238,0.06);
+} 
 
 /* Tivexx utility classes (CTAs and basic helpers) */
 .btn-tivexx-cta {
@@ -45,6 +48,12 @@
 .bg-tiv-gold { background-color: var(--tiv-gold); }
 .border-tiv-gold { border-color: var(--tiv-gold); }
 .accent-tiv-gold { box-shadow: 0 8px 30px var(--tiv-gold-opaque); }
+
+/* Light-blue accent utilities (use sparingly) */
+.text-tiv-blue { color: var(--tiv-blue); }
+.bg-tiv-blue { background-color: var(--tiv-blue); }
+.border-tiv-blue { border-color: var(--tiv-blue); }
+.accent-tiv-blue { box-shadow: 0 8px 30px var(--tiv-blue-opaque); }
 
 /* Tailwind green -> Tivexx mapping (applies globally so existing green utilities pick up the new palette)
    Non-destructive: uses Tivexx variables and !important so these utilities immediately reflect the new colors.
