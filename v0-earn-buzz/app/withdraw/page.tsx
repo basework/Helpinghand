@@ -148,7 +148,7 @@ export default function WithdrawPage() {
 
         {/* Requirements */}
         <div className="bg-purple-50 rounded-2xl p-6 border border-purple-100 shadow-inner">
-          <h3 className="text-tiv-4 font-bold text-lg mb-3">Withdrawal Requirements</h3>
+          <h3 className="text-purple-700 font-bold text-lg mb-3">Withdrawal Requirements</h3>
           <ul className="text-left space-y-2 text-purple-900">
             <li>• Minimum balance: ₦200,000</li>
             <li>• At least 5 active referrals</li>

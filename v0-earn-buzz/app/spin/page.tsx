@@ -45,7 +45,7 @@ export default function AboutPage() {
 
   if (!userData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-tivexx-blend p-6">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0b6b3a] via-[#153d2f] to-[#071218] p-6">
         <Card className="max-w-lg w-full p-6 text-center">
           <h2 className="text-xl font-bold mb-2">Welcome to Helping Hands</h2>
           <p className="text-sm text-gray-600">
@@ -117,7 +117,7 @@ export default function AboutPage() {
 
             {/* NEW SECTION YOU REQUESTED */}
             <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up">
-              <h2 className="text-xl font-bold text-tiv-5 mb-3">What You Can Do on Tivexx9ja</h2>
+              <h2 className="text-xl font-bold text-emerald-200 mb-3">What You Can Do on Tivexx9ja</h2>
 
               <ul className="space-y-3 text-sm text-white/85 leading-relaxed list-disc pl-5">
                 <li>Earn ₦1,000 every 1 minute by claiming through the daily earnings button.</li>
