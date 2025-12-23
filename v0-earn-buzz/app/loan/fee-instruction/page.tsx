@@ -49,7 +49,7 @@ export default function LoanFeeInstructionPage() {
       </div>
 
       <div className="p-6 text-center">
-        <h1 className="text-2xl font-bold text-tiv-4 mb-4">Your Loan Details</h1>
+        <h1 className="text-2xl font-bold text-purple-700 mb-4">Your Loan Details</h1>
         <p className="text-gray-600 mb-6">Please review the details before proceeding to payment.</p>
       </div>
 

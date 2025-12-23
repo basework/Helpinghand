@@ -92,7 +92,7 @@ function PayKeyConfirmationContent() {
             Go to Dashboard
           </button>
           <button
-            className="w-full h-12 btn-tivexx text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-all animate-buttonGlow"
+            className="w-full h-12 bg-gradient-to-r from-purple-800 via-purple-700 to-green-600 hover:from-purple-900 hover:to-green-700 text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-all animate-buttonGlow"
             onClick={() => window.open("https://t.me/tivexx9jasupport", "_blank")}
           >
             {/* Rotating Telegram logo */}

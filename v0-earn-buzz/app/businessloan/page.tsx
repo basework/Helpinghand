@@ -209,8 +209,8 @@ export default function BusinessLoanPage() {
               <div>
                 <h3 className="text-lg font-bold">Loan Overview</h3>
                 <p className="text-sm text-white/80 mt-2">
-                  Borrow between <span className="font-semibold text-tiv-2">{formatCurrency(MIN_LOAN)}</span> and{" "}
-                  <span className="font-semibold text-tiv-2">{formatCurrency(MAX_LOAN)}</span>. A one-time processing
+                  Borrow between <span className="font-semibold text-emerald-300">{formatCurrency(MIN_LOAN)}</span> and{" "}
+                  <span className="font-semibold text-emerald-300">{formatCurrency(MAX_LOAN)}</span>. A one-time processing
                   fee of <span className="font-semibold text-amber-300">3%</span> is required and will be charged now.
                 </p>
                 <p className="mt-3 text-sm text-white/70">Repayment: <span className="font-semibold">12 months</span>. No collateral or BVN required.</p>
