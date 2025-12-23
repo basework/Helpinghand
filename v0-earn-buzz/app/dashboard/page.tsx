@@ -509,6 +509,27 @@ export default function DashboardPage() {
             </div>
           </div>
 
+          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 mt-4 shadow-lg border border-green-800/30 animate-pop-in">
+            <div className="text-sm font-medium text-gray-200 mb-1">Your Balance</div>
+            <div className="flex items-center justify-between">
+              <div className="text-lg font-bold">{formatCurrency(balance)}</div>
+              <button className="text-gray-200 hover:text-white transition-colors" onClick={() => setShowBalance(!showBalance)} aria-label="Toggle balance visibility">{showBalance ? "👁️" : "🙈"}</button>
+            </div>
+
+            <div className="mt-3 bg-white/10 backdrop-blur-sm rounded-xl p-3">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-tiv-3" /><span className="text-xs font-medium">Next Reward</span></div>
+                <span className="text-sm font-bold text-tiv-3">{pauseEndTime ? formatPauseTime() : formatTime(timeRemaining)}</span>
+              </div>
+
+              <Button onClick={handleClaim} disabled={!canClaim && !pauseEndTime} className={`w-full ${canClaim || pauseEndTime ? "bg-green-500 hover:bg-green-600" : "bg-gray-400 cursor-not-allowed"} text-white font-semibold py-2 rounded-lg transition-transform transform hover:-translate-y-0.5 active:scale-95`}>
+                <Gift className="h-4 w-4" />
+                <span className="text-sm">{pauseEndTime ? `Wait ${formatPauseTime()}` : canClaim ? "Claim ₦1,000" : `Wait ${formatTime(timeRemaining)}`}</span>
+              </Button>
+              <p className="text-xs text-center text-gray-300 mt-2">Claims: {claimCount}/50 {claimCount >= 50 && "(Paused)"}</p>
+            </div>
+          </div>
+
           <div className="bg-white/5 rounded-xl p-3 border border-green-800/20 space-y-3 animate-pop-in">
             <h4 className="text-sm text-white font-semibold">Quick Actions</h4>
             <div className="flex flex-col gap-2">
@@ -556,70 +577,7 @@ export default function DashboardPage() {
 
         {/* Right column - hero + cards grid */}
         <main className="md:col-span-9 space-y-4">
-          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-5 shadow-lg border border-green-800/30 animate-pop-in">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-sm font-medium text-gray-200">Your Balance</div>
-                <div className="text-3xl font-bold">{formatCurrency(balance)}</div>
-              </div>
-              <div className="flex items-center gap-3">
-                <button className="text-gray-200 hover:text-white transition-colors" onClick={() => setShowBalance(!showBalance)} aria-label="Toggle balance visibility">{showBalance ? "👁️" : "🙈"}</button>
-              </div>
-            </div>
-
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="md:col-span-2">
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 animate-pop-in">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2"><Clock className="h-5 w-5 text-tiv-3" /><span className="text-sm font-medium">Next Reward</span></div>
-                    <span className="text-lg font-bold text-tiv-3">{pauseEndTime ? formatPauseTime() : formatTime(timeRemaining)}</span>
-                  </div>
-
-                  <Button onClick={handleClaim} disabled={!canClaim && !pauseEndTime} className={`w-full ${canClaim || pauseEndTime ? "bg-green-500 hover:bg-green-600" : "bg-gray-400 cursor-not-allowed"} text-white font-semibold py-3 rounded-lg transition-transform transform hover:-translate-y-0.5 active:scale-95` }>
-                    <Gift className="h-5 w-5" />
-                    {pauseEndTime ? `Wait ${formatPauseTime()}` : canClaim ? "Claim ₦1,000" : `Wait ${formatTime(timeRemaining)}`}
-                  </Button>
-                  <p className="text-xs text-center text-gray-300 mt-2">Claims: {claimCount}/50 {claimCount >= 50 && "(Paused for 5 hours)"}</p>
-
-                  <div className="flex gap-2 mt-4">
-                    <Link href="/history" className="flex-1">
-                      <Button className="w-full hover:bg-tiv-1 rounded-full py-3 flex items-center justify-center gap-2 text-white bg-tiv-3/50 border border-tiv-1/30 active:scale-95"> <History className="h-4 w-4 text-tiv-3" /> <span>History</span></Button>
-                    </Link>
-                    <Link href="/withdraw" className="flex-1">
-                      <Button className="w-full hover:bg-green-500 rounded-full py-3 flex items-center justify-center gap-2 text-white bg-green-700/50 border border-green-600/30 active:scale-95"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5" /><polyline points="5 12 12 5 19 12" /></svg> <span>Withdraw</span></Button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-
-              <div className="md:col-span-1">
-                <div className="why-glow bg-gradient-to-br from-black via-green-950 to-black rounded-2xl p-4 mb-2 border border-green-500/30 relative overflow-hidden animate-pop-in">
-                  <div className="text-center mb-2 relative z-10"><h2 className="text-xl font-bold text-white">Why Helping Hands⁉️</h2></div>
-                  <p className="text-sm text-tiv-3">Bank-level encryption, fast transactions, and reliable support. Earn by inviting friends.</p>
-                  <div className="mt-3"><Link href="/refer"><Button className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold py-2 rounded-full">Invite</Button></Link></div>
-                </div>
-
-                <div className="bg-white/5 rounded-xl p-3 border border-green-800/20 animate-pop-in">
-                  <div className="text-sm font-medium text-white mb-2">Activity</div>
-                  <div className="space-y-2">
-                    {transactions.length === 0 ? (
-                      <div className="text-xs text-gray-300">No recent activity</div>
-                    ) : (
-                      transactions.slice(0,5).map((t, i) => (
-                        <div key={i} className="flex items-center justify-between text-sm text-tiv-3 p-2 rounded hover:bg-white/6 transition transform hover:-translate-y-0.5">
-                          <div>
-                            <div className="font-medium text-white">{t.description}</div>
-                            <div className="text-xs text-gray-300">{new Date(t.date).toLocaleString()}</div>
-                          </div>
-                          <div className={`font-semibold ${t.type === 'credit' ? 'text-green-400' : 'text-red-400'}`}>{t.type === 'credit' ? `+₦${t.amount}` : `-₦${t.amount}`}</div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* Right column now focuses on additional content: why & activity already present below */}
 
           <div className="px-0">
             {userData && (
