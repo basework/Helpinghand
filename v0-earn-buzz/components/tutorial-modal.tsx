@@ -183,7 +183,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
               <div className="mt-5">
                 <Button
                   onClick={onClose}
-                  className="btn-tivexx px-6 py-2 rounded-lg"
+                  className="btn-tivexx-cta px-6 py-2 rounded-lg"
                 >
                   Proceed to Dashboard
                 </Button>
