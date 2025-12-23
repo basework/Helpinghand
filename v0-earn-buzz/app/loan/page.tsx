@@ -111,7 +111,7 @@ export default function LoanPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-700 to-green-900 pb-20">
+    <div className="min-h-screen bg-tivexx-blend pb-20">
       {/* Restriction Popup */}
       {showRestrictionPopup && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
@@ -121,7 +121,7 @@ export default function LoanPage() {
             <div className="flex gap-3">
               <Button
                 onClick={() => router.push("/businessloan")}
-                className="flex-1 bg-purple-600 hover:bg-purple-700 text-white"
+                className="flex-1 btn-tivexx text-white"
               >
                 Apply for Business Loan
               </Button>
@@ -172,7 +172,7 @@ export default function LoanPage() {
               <Button
                 onClick={() => router.push("/dashboard")}
                 variant="outline"
-                className="w-full border border-purple-600 text-purple-700"
+                className="w-full border border-tivexx text-tiv-4"
               >
                 Back to Dashboard
               </Button>
@@ -184,7 +184,7 @@ export default function LoanPage() {
       {isLoading && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-8 max-w-sm mx-auto shadow-2xl text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-600 border-t-transparent mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-white/40 border-t-transparent mx-auto mb-4"></div>
             <p className="text-gray-800 font-semibold">Processing your loan application...</p>
             <p className="text-gray-600 text-sm mt-2">Please wait</p>
           </div>

@@ -45,14 +45,14 @@ export default function AboutPage() {
 
   if (!userData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0b6b3a] via-[#153d2f] to-[#071218] p-6">
+      <div className="min-h-screen flex items-center justify-center bg-tivexx-blend p-6">
         <Card className="max-w-lg w-full p-6 text-center">
           <h2 className="text-xl font-bold mb-2">Welcome to Helping Hands</h2>
           <p className="text-sm text-gray-600">
             Sign in to access the full About page and learn how Helping Hands helps thousands of Nigerians earn, grow and withdraw without fees.
           </p>
           <div className="mt-6 flex gap-3 justify-center">
-            <Button onClick={() => router.push("/login")} className="bg-amber-400 text-black">
+            <Button onClick={() => router.push("/login")} className="btn-cta">
               Sign in
             </Button>
             <Button onClick={() => router.push("/dashboard")} variant="ghost" className="border border-white/10">
@@ -177,7 +177,7 @@ export default function AboutPage() {
 
                 <Button
                   onClick={() => window.open("https://t.me/Tivexx9jacommunity", "_blank")}
-                  className="w-full bg-amber-400 text-black"
+                  className="w-full btn-tivexx"
                 >
                   Join Community Channel
                 </Button>

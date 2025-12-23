@@ -144,7 +144,7 @@ export default function HistoryPage() {
       case "claim":
         return "bg-blue-100 text-blue-700 border-blue-200"
       case "task":
-        return "bg-purple-100 text-purple-700 border-purple-200"
+        return "bg-[rgba(114,97,163,0.08)] text-tiv-4 border-[rgba(114,97,163,0.12)]"
       case "signup":
         return "bg-yellow-100 text-yellow-700 border-yellow-200"
       case "referral":

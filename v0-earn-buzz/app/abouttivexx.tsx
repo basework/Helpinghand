@@ -25,7 +25,7 @@ export default function AboutPage() {
 
   if (!userData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-600 to-emerald-800 text-white">
+      <div className="min-h-screen flex items-center justify-center bg-tivexx-blend text-white">
         <div className="text-center p-6">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <div>Loading Helping Hands profile…</div>
@@ -35,7 +35,7 @@ export default function AboutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-700 via-green-700 to-[#064e3b] text-white">
+    <div className="min-h-screen bg-tivexx-blend text-white">
       {/* subtle animated background elements */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-tr from-[#064e3b]/70 to-[#10b981]/10" />
@@ -82,7 +82,7 @@ export default function AboutPage() {
         {/* Hero card */}
         <Card className="p-6 mb-6 bg-white/6 backdrop-blur-md border border-white/10 shadow-2xl rounded-2xl">
           <div className="flex flex-col md:flex-row items-start gap-6">
-            <div className="flex-none p-4 rounded-full bg-gradient-to-br from-emerald-300 to-amber-300 text-black shadow-md animate-bounce">
+            <div className="flex-none p-4 rounded-full bg-gradient-to-br from-[#7261A3] to-[#A67DB8] text-black shadow-md animate-bounce">
               <ShieldCheck className="h-8 w-8" />
             </div>
 
@@ -114,7 +114,7 @@ export default function AboutPage() {
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <Card className="p-4 bg-white/6">
             <div className="flex items-start gap-3">
-              <Gift className="h-6 w-6 text-emerald-300" />
+              <Gift className="h-6 w-6 text-tiv-2" />
               <div>
                 <h3 className="font-bold">Welcome Bonus</h3>
                 <p className="text-sm text-white/80 mt-1">New users may qualify for bonuses and starter earnings as shown on the app.</p>
@@ -124,7 +124,7 @@ export default function AboutPage() {
 
           <Card className="p-4 bg-white/6">
             <div className="flex items-start gap-3">
-              <Users className="h-6 w-6 text-emerald-300" />
+              <Users className="h-6 w-6 text-tiv-2" />
               <div>
                 <h3 className="font-bold">Refer & Earn</h3>
                 <p className="text-sm text-white/80 mt-1">Refer friends — minimum of <strong>5 referrals</strong> unlocks withdrawals and higher bonuses. Top referrers get premium access.</p>
@@ -134,7 +134,7 @@ export default function AboutPage() {
 
           <Card className="p-4 bg-white/6">
             <div className="flex items-start gap-3">
-              <CreditCard className="h-6 w-6 text-emerald-300" />
+              <CreditCard className="h-6 w-6 text-tiv-2" />
               <div>
                 <h3 className="font-bold">Fast Withdrawals</h3>
                 <p className="text-sm text-white/80 mt-1">Withdraw anytime after meeting the requirements — or use the new upgrade toggle to withdraw without referrals.</p>
@@ -196,7 +196,7 @@ export default function AboutPage() {
                   <Button onClick={() => router.push("/loan")} className="bg-white/10 hover:bg-white/20">
                     Apply for Loan
                   </Button>
-                  <Button onClick={() => router.push("/businessloan")} className="bg-emerald-300 text-black">
+                  <Button onClick={() => router.push("/businessloan")} className="btn-cta">
                     Business Loans
                   </Button>
                 </div>
