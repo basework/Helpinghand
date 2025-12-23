@@ -157,7 +157,7 @@ export function ScrollingText() {
   const message = shuffled[index] || ""
 
   return (
-    <div className="bg-gradient-to-r from-green-600 to-green-700 text-white py-2 px-4 overflow-hidden">
+    <div className="bg-tivexx-blend text-white py-2 px-4 overflow-hidden">
       <div className="whitespace-nowrap animate-marquee">
         <span className="text-sm font-medium">{message}</span>
       </div>

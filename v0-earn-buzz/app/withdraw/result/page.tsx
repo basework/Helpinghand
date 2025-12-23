@@ -60,12 +60,12 @@ export default function WithdrawResultPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white p-6">
       {/* Success Icon */}
-      <div className="w-32 h-32 bg-green-500 rounded-full flex items-center justify-center mb-6">
+      <div className="w-32 h-32 bg-[var(--tiv-2)] rounded-full flex items-center justify-center mb-6">
         <CheckCircle className="h-16 w-16 text-white" />
       </div>
 
       {/* Success Message */}
-      <h2 className="text-2xl font-bold text-green-600 mb-4 text-center">Withdrawal Successful!</h2>
+      <h2 className="text-2xl font-bold text-tiv-4 mb-4 text-center">Withdrawal Successful!</h2>
 
       <p className="text-center mb-8 max-w-md">
         Your withdrawal request has been processed successfully. The funds will be credited to your account within 24

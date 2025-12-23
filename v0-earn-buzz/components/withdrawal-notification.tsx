@@ -119,20 +119,20 @@ export function WithdrawalNotification({ onClose }: WithdrawalNotificationProps)
         isVisible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
       }`}
     >
-      <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-lg shadow-lg border border-green-800/30 p-4 mx-auto max-w-sm relative overflow-hidden">
-        <div className="absolute bottom-2 left-0 w-full h-4 bg-green-500/10 animate-pulse-light blur-md"></div>
+      <div className="bg-tivexx-blend rounded-lg shadow-lg border border-tivexx p-4 mx-auto max-w-sm relative overflow-hidden">
+        <div className="absolute bottom-2 left-0 w-full h-4 bg-tivexx-blend animate-pulse-light blur-md"></div>
         <div className="flex items-center">
-          <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center mr-3">
-            <CheckCircle className="w-5 h-5 text-green-400" />
+          <div className="w-8 h-8 bg-white/5 rounded-full flex items-center justify-center mr-3">
+            <CheckCircle className="w-5 h-5 text-tiv-4" />
           </div>
           <div className="flex-1">
             <div className="text-sm font-medium text-white">Withdrawal Successful!</div>
             <div className="text-xs text-gray-300 mt-1">
               <span className="font-medium">{notificationData.name}</span> just withdrew{" "}
-              <span className="font-semibold text-green-400">{notificationData.amount}</span>
+              <span className="font-semibold text-tiv-4">{notificationData.amount}</span>
             </div>
             <div className="relative mt-1">
-              <span className="text-[11px] text-green-300 font-medium inline-block animate-wiggle">
+              <span className="text-[11px] text-tiv-3 font-medium inline-block animate-wiggle">
                 🇳🇬 Location: {notificationData.state}
               </span>
             </div>

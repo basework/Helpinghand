@@ -251,17 +251,17 @@ export default function TaskPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-black pb-20 relative">
-      <div className="bg-gradient-to-r from-green-700 to-green-600 text-white p-6 rounded-b-3xl shadow-lg">
+    <div className="min-h-screen bg-tivexx-blend pb-20 relative">
+      <div className="bg-tivexx-blend text-white p-6 rounded-b-3xl shadow-lg">
         <div className="flex items-center mb-4">
           <Link href="/dashboard">
-            <Button variant="ghost" size="icon" className="text-white hover:bg-green-500/50 mr-2">
+            <Button variant="ghost" size="icon" className="text-white hover:bg-tivexx-blend/50 mr-2">
               <ArrowLeft className="h-6 w-6" />
             </Button>
           </Link>
           <h1 className="text-2xl font-bold">Available Tasks</h1>
         </div>
-        <p className="text-green-100 text-center">Earn Rewards Per Task</p>
+        <p className="text-tivex-muted text-center">Earn Rewards Per Task</p>
       </div>
 
       <div className="px-4 mt-6 space-y-4">
@@ -287,24 +287,24 @@ export default function TaskPage() {
           return (
             <div
               key={task.id}
-              className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-green-700/30 shadow-lg"
+              className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-tivexx/30 shadow-lg"
             >
               <div className="flex items-start gap-4">
                 <div className="text-4xl">{task.icon}</div>
                 <div className="flex-1">
                   <h3 className="text-lg font-bold text-white">{task.platform}</h3>
                   <p className="text-sm text-gray-300 mt-1">{task.description}</p>
-                  <p className="text-xs text-green-400 mt-1">{task.category}</p>
-                  <p className="text-xl font-bold text-green-400 mt-2">
+                  <p className="text-xs text-tiv-3 mt-1">{task.category}</p>
+                  <p className="text-xl font-bold text-tiv-3 mt-2">
                     ₦{task.reward.toLocaleString()}
                   </p>
                 </div>
               </div>
 
               {isVerifying ? (
-                <div className="relative w-full mt-4 bg-gray-800 h-6 rounded-xl overflow-hidden border border-green-700/50">
+                <div className="relative w-full mt-4 bg-gray-800 h-6 rounded-xl overflow-hidden border border-tivexx/50">
                   <div
-                    className="absolute left-0 top-0 h-full bg-gradient-to-r from-green-500 via-emerald-400 to-green-600 animate-liquid-flow"
+                    className="absolute left-0 top-0 h-full bg-tivexx-gradient animate-liquid-flow"
                     style={{ width: `${progress}%` }}
                   />
                   <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -335,7 +335,7 @@ export default function TaskPage() {
               ) : (
                 <Button
                   onClick={() => handleTaskClick(task)}
-                  className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2"
+                  className="w-full mt-4 btn-tivexx font-semibold py-3 rounded-xl flex items-center justify-center gap-2"
                 >
                   Start Task
                 </Button>

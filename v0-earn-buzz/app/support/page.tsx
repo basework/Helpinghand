@@ -87,7 +87,7 @@ export default function SupportPage() {
           <CardContent>
             <Button
               onClick={handleTelegramChannel}
-              className="w-full bg-green-600 hover:bg-blue-700 flex items-center gap-2"
+              className="w-full btn-tivexx hover:opacity-95 flex items-center gap-2"
             >
               <MessageSquare className="h-5 w-5" />
               Join Channel

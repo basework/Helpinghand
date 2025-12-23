@@ -90,7 +90,7 @@ export default function NotificationsPage() {
   const getIcon = (type: string) => {
     switch (type) {
       case "success":
-        return <CheckCircle className="h-5 w-5 text-green-500" />
+        return <CheckCircle className="h-5 w-5 text-tiv-4" />
       case "warning":
         return <AlertCircle className="h-5 w-5 text-orange-500" />
       default:
@@ -149,7 +149,7 @@ export default function NotificationsPage() {
                   notification.read
                     ? "border-l-gray-200 opacity-75"
                     : notification.type === "success"
-                      ? "border-l-green-500"
+                      ? "border-l-tiv-4"
                       : notification.type === "warning"
                         ? "border-l-orange-500"
                         : "border-l-blue-500"

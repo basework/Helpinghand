@@ -698,37 +698,37 @@ export default function DashboardPage() {
         <div className="why-glow bg-white/6 backdrop-blur-lg rounded-2xl p-6 mb-6 mx-2 border border-tivexx relative overflow-hidden">
           <div className="text-center mb-4 relative z-10">
             <h2 className="text-2xl font-bold text-white mb-2">Why Helping Hands⁉️</h2>
-            <div className="w-16 h-1 bg-gradient-to-r from-green-500 to-yellow-400 mx-auto mb-4"></div>
+            <div className="w-16 h-1 bg-tivexx-gradient mx-auto mb-4"></div>
           </div>
 
           <div className="space-y-3 mb-6 relative z-10">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-[var(--tiv-4)] rounded-full flex items-center justify-center flex-shrink-0">
                 <Shield className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h3 className="text-white font-semibold mb-1">100% Secure</h3>
-                <p className="text-green-200 text-sm">Bank-level encryption protects your transactions and personal data</p>
+                <p className="text-tivex-muted text-sm">Bank-level encryption protects your transactions and personal data</p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-[var(--tiv-5)] rounded-full flex items-center justify-center flex-shrink-0">
                 <TrendingUp className="w-5 h-5 text-black" />
               </div>
               <div>
                 <h3 className="text-white font-semibold mb-1">Lightning Fast</h3>
-                <p className="text-green-200 text-sm">Instant withdrawals and seamless transactions in seconds</p>
+                <p className="text-tivex-muted text-sm">Instant withdrawals and seamless transactions in seconds</p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-[var(--tiv-2)] rounded-full flex items-center justify-center flex-shrink-0">
                 <Users className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h3 className="text-white font-semibold mb-1">100% Reliable</h3>
-                <p className="text-green-200 text-sm">24/7 support and guaranteed service uptime</p>
+                <p className="text-tivex-muted text-sm">24/7 support and guaranteed service uptime</p>
               </div>
             </div>
           </div>
@@ -748,15 +748,15 @@ export default function DashboardPage() {
       )}
 
       <div className="fixed bottom-0 left-0 right-0 bg-tivexx-blend border-t border-tivexx shadow-lg flex justify-around items-center h-16 max-w-md mx-auto z-50">
-        <Link href="/dashboard" className="flex flex-col items-center text-green-400">
+        <Link href="/dashboard" className="flex flex-col items-center text-tiv-3">
           <Home className="h-6 w-6" />
           <span className="text-xs font-medium">Home</span>
         </Link>
-        <Link href="/abouttivexx" className="flex flex-col items-center text-gray-400 hover:text-green-400">
+        <Link href="/abouttivexx" className="flex flex-col items-center text-gray-400 hover:text-tiv-4">
           <Gamepad2 className="h-6 w-6" />
           <span className="text-xs font-medium">About Helping Hands</span>
         </Link>
-        <Link href="/refer" className="flex flex-col items-center text-gray-400 hover:text-green-400">
+        <Link href="/refer" className="flex flex-col items-center text-gray-400 hover:text-tiv-4">
           <User className="h-6 w-6" />
           <span className="text-xs font-medium">Refer & Earn</span>
         </Link>

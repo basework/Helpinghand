@@ -78,7 +78,7 @@ export default function CardsPage() {
               "Heavily secure"
             ].map((feature, index) => (
               <li key={index} className="flex items-center text-sm">
-                <span className="text-green-600 font-bold mr-3">✔</span>
+                <span className="text-tiv-4 font-bold mr-3">✔</span>
                 {feature}
               </li>
             ))}

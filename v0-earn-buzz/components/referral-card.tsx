@@ -67,11 +67,11 @@ const copyReferralLink = () => {
 
   if (loading) {
     return (
-      <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+      <Card className="bg-white/6 border-tivexx">
         <CardContent className="p-6">
           <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-green-200 rounded w-1/2"></div>
-            <div className="h-12 bg-green-200 rounded"></div>
+            <div className="h-8 bg-white/6 rounded w-1/2"></div>
+            <div className="h-12 bg-white/6 rounded"></div>
           </div>
         </CardContent>
       </Card>
@@ -79,9 +79,9 @@ const copyReferralLink = () => {
   }
 
   return (
-    <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200 shadow-lg">
+    <Card className="bg-white/6 border-tivexx shadow-lg">
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-green-800">
+        <CardTitle className="flex items-center gap-2 text-tiv-4">
           <Gift className="h-5 w-5" />
           Referral Rewards
         </CardTitle>
@@ -95,19 +95,19 @@ const copyReferralLink = () => {
         <div className="bg-white rounded-lg p-4 shadow-sm">
           <div className="text-sm text-gray-600 mb-2">Your Referral Code</div>
           <div className="flex items-center gap-2">
-            <div className="flex-1 bg-gray-100 rounded px-3 py-2 font-mono text-lg font-bold text-green-700">
+            <div className="flex-1 bg-gray-100 rounded px-3 py-2 font-mono text-lg font-bold text-tiv-4">
               {userData?.referral_code || "Loading..."}
             </div>
             <Button
               size="sm"
               variant="outline"
               onClick={copyReferralCode}
-              className="border-green-300 hover:bg-green-50 bg-transparent"
+              className="border-tivexx hover:bg-white/6 bg-transparent"
             >
               <Copy className="h-4 w-4" />
             </Button>
           </div>
-          <Button onClick={copyReferralLink} className="w-full mt-3 bg-green-600 hover:bg-green-700">
+          <Button onClick={copyReferralLink} className="w-full mt-3 btn-tivexx">
             Copy Referral Link
           </Button>
         </div>

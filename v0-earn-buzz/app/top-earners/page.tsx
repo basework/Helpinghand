@@ -154,7 +154,7 @@ export default function TopEarnersPage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="font-semibold text-green-600">{earner.amount}</div>
+                  <div className="font-semibold text-tiv-4">{earner.amount}</div>
                   <div className="text-xs text-gray-500">#{index + 1}</div>
                 </div>
               </div>

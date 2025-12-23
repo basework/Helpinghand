@@ -83,7 +83,7 @@ export default function AboutPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-extrabold leading-tight animate-glow">Helping Hands</h1>
-          <p className="text-sm text-green-100 mt-2">Nigeria's most reliable earning and financial empowerment platform</p>
+          <p className="text-sm text-tivex-muted mt-2">Nigeria's most reliable earning and financial empowerment platform</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

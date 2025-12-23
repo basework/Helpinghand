@@ -121,7 +121,7 @@ export default function DataPage() {
         </Link>
       </div>
 
-      <div className="bg-green-600 text-white p-3 flex items-center justify-between">
+      <div className="bg-tivexx-blend text-white p-3 flex items-center justify-between">
         <div className="text-sm">
           <span className="font-medium">Enjoy </span>
           <span className="text-yellow-300 font-bold">Glo&apos;s</span>
@@ -138,7 +138,7 @@ export default function DataPage() {
             <button
               key={network}
               className={`p-2 rounded-lg border text-center text-sm ${
-                selectedNetwork === network ? "border-green-600 bg-green-50" : "border-gray-200 bg-white"
+                selectedNetwork === network ? "border-tivexx bg-white/6" : "border-gray-200 bg-white"
               }`}
               onClick={() => setSelectedNetwork(network)}
             >
@@ -162,7 +162,7 @@ export default function DataPage() {
               <button
                 key={index}
                 className={`p-2 rounded-lg border text-center text-xs ${
-                  selectedPlan?.size === plan.size ? "border-green-600 bg-green-50" : "border-gray-200 bg-white"
+                  selectedPlan?.size === plan.size ? "border-tivexx bg-tivexx-blend" : "border-gray-200 bg-white"
                 }`}
                 onClick={() => setSelectedPlan(plan)}
               >

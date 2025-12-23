@@ -27,7 +27,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-white text-gray-800 pb-10">
       {/* Header */}
       <div className="flex items-center p-4 border-b shadow-sm">
-        <Link href="/dashboard" className="flex items-center gap-2 text-green-700 hover:underline">
+        <Link href="/dashboard" className="flex items-center gap-2 text-tiv-4 hover:underline">
           <ArrowLeft className="h-5 w-5" />
           <span className="font-medium">Back to Dashboard</span>
         </Link>
@@ -39,7 +39,7 @@ export default function AboutPage() {
           <Logo className="w-60 hover:scale-105 transition-transform duration-300" />
         </div>
 
-        <h1 className="text-3xl font-bold text-center text-green-700">About Helping Hands</h1>
+        <h1 className="text-3xl font-bold text-center text-tiv-4">About Helping Hands</h1>
 
         <div className="space-y-5 leading-relaxed">
           <p>
@@ -58,7 +58,7 @@ export default function AboutPage() {
             Please avoid using <strong>Opay</strong> for verification or transactions — every other Nigerian bank is supported.
           </p>
 
-          <h2 className="text-xl font-semibold text-green-700">What You Can Do on Helping Hands</h2>
+          <h2 className="text-xl font-semibold text-tiv-4">What You Can Do on Helping Hands</h2>
           <ul className="list-disc pl-6 space-y-2">
             <li>Earn from daily tasks and referrals</li>
             <li>Withdraw earnings instantly anytime, any day</li>
@@ -76,7 +76,7 @@ export default function AboutPage() {
             The more you refer, the higher your earnings and the greater your access to upcoming features.
           </p>
 
-          <p className="font-medium text-green-800">
+          <p className="font-medium text-tiv-4">
             Helping Hands is not just a platform — it’s a movement built to help Nigerians earn online, support one another, and make digital income possible for everyone.  
             The economy isn’t getting easier — but with Helping Hands, your hustle will always pay off.
           </p>
@@ -84,11 +84,11 @@ export default function AboutPage() {
 
         {/* Contact Section */}
         <div className="pt-6 border-t">
-          <h3 className="text-lg font-semibold mb-2 text-green-700">Contact Us</h3>
+          <h3 className="text-lg font-semibold mb-2 text-tiv-4">Contact Us</h3>
           <p>
-            Telegram: <Link href="https://t.me/HelpingHandsSupport" className="text-green-700 hover:underline">@HelpingHandsSupport</Link>  
+            Telegram: <Link href="https://t.me/HelpingHandsSupport" className="text-tiv-4 hover:underline">@HelpingHandsSupport</Link>  
             <br />
-            Email: <a href="mailto:support@HelpingHands.com" className="text-green-700 hover:underline">support@HelpingHands.com</a>  
+            Email: <a href="mailto:support@HelpingHands.com" className="text-tiv-4 hover:underline">support@HelpingHands.com</a>  
             <br />
             Address: Lagos, Nigeria
           </p>

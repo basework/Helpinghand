@@ -40,8 +40,9 @@ const promoItems: PromoItem[] = [
     image: "/images/promo-winners.png",
     buttonText: "Join Contest",
     buttonLink: "/earn-more",
-    bgColor: "bg-gradient-to-r from-green-500 to-teal-500",
+    bgColor: "bg-tivexx-blend",
   },
+
 ]
 
 interface PromoCarouselProps {

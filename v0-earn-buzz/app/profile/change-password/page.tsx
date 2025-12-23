@@ -103,7 +103,7 @@ export default function ChangePasswordPage() {
           {message && (
             <Alert
               variant={message.type === "success" ? "default" : "destructive"}
-              className={`mb-4 ${message.type === "success" ? "bg-green-50 border-green-200 text-green-800" : "bg-red-50 border-red-200 text-red-800"}`}
+              className={`mb-4 ${message.type === "success" ? "bg-white/6 border-tivexx text-tiv-4" : "bg-red-50 border-red-200 text-red-800"}`}
             >
               <AlertDescription>{message.text}</AlertDescription>
             </Alert>

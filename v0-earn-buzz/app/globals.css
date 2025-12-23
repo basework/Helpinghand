@@ -144,16 +144,16 @@ select:focus,
 /* Tivexx custom palette and blend utilities */
 :root {
   --tiv-1: #1B3022; /* deep green */
-  --tiv-2: #395756; /* teal */
-  --tiv-3: #4F5D75; /* slate blue */
-  --tiv-4: #7261A3; /* mid purple */
-  --tiv-5: #A67DB8; /* light purple */
+  --tiv-2: #3f9c99; /* teal */
+  --tiv-3: #262e3c; /* slate blue */
+  --tiv-4: #7653de; /* mid purple */
+  --tiv-5: #a330d4; /* light purple */
 }
 
 /* Smooth blended hero gradient */
 .bg-tivexx-gradient {
   background: linear-gradient(135deg, var(--tiv-1) 0%, var(--tiv-2) 25%, var(--tiv-3) 50%, var(--tiv-4) 75%, var(--tiv-5) 100%);
-  color: white;
+  color: lch(62.21% 31.54 255.82);
 }
 
 /* Rich blended background with soft radial color spots for texture */

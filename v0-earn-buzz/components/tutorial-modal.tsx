@@ -43,32 +43,32 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
       title: "Welcome to Helping Hands!",
       description:
         "Earn welcome bonus and daily cash by completing easy tasks. But first, join our Telegram channel for updates!",
-      colorClass: "text-green-700",
-      bgClass: "bg-green-50",
+      colorClass: "text-tiv-4",
+      bgClass: "bg-white/6",
     },
     {
       icon: Users,
       title: "Refer & Earn",
       description:
         "Invite friends and earn bonuses for each successful referral. The more you refer, the more you earn!",
-      colorClass: "text-emerald-600",
-      bgClass: "bg-emerald-50",
+      colorClass: "text-tiv-4",
+      bgClass: "bg-white/6",
     },
     {
       icon: TrendingUp,
       title: "Daily Earnings",
       description:
         "Claim rewards every 60 seconds. Tap the claim button and watch your wallet balance grow instantly.",
-      colorClass: "text-lime-700",
-      bgClass: "bg-lime-50",
+      colorClass: "text-tiv-4",
+      bgClass: "bg-white/6",
     },
     {
       icon: Wallet,
       title: "Withdraw Anytime",
       description:
         "After completing tasks and reaching minimum earnings, withdrawals unlock instantly.",
-      colorClass: "text-yellow-700",
-      bgClass: "bg-yellow-50",
+      colorClass: "text-tiv-4",
+      bgClass: "bg-white/6",
     },
   ]
 
@@ -135,7 +135,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
                   {!joinedChannel && (
                     <Button
                       onClick={handleJoinChannel}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center space-x-2"
+                      className="w-full btn-cta flex items-center justify-center space-x-2"
                     >
                       <Send className="h-4 w-4" />
                       <span>Join Telegram Channel</span>
@@ -144,7 +144,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
                   {showProceed && (
                     <Button
                       onClick={handleNext}
-                      className="w-full bg-green-600 hover:bg-green-700 text-white"
+                      className="w-full btn-tivexx"
                     >
                       Proceed
                     </Button>
@@ -154,7 +154,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
                 <div className="mt-6">
                   <Button
                     onClick={handleNext}
-                    className="w-full bg-green-600 hover:bg-green-700 text-white"
+                    className="w-full btn-tivexx"
                   >
                     {currentStep === steps.length - 1 ? "Finish Tutorial" : "Next"}
                   </Button>
@@ -167,7 +167,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
                   <span
                     key={i}
                     className={`h-2.5 w-2.5 rounded-full ${
-                      i === currentStep ? "bg-green-600 scale-110" : "bg-gray-300"
+                      i === currentStep ? "bg-tiv-4 scale-110" : "bg-gray-300"
                     }`}
                   />
                 ))}
@@ -175,15 +175,15 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
             </>
           ) : (
             <>
-              <CheckCircle2 className="h-16 w-16 text-green-600 mx-auto" />
-              <h3 className="text-2xl font-bold mt-4 text-green-700">Congratulations!</h3>
+              <CheckCircle2 className="h-16 w-16 text-tiv-4 mx-auto" />
+              <h3 className="text-2xl font-bold mt-4 text-tiv-4">Congratulations!</h3>
               <p className="text-gray-600 mt-2">
                 You’re all set to start earning with Helping Hands.
               </p>
               <div className="mt-5">
                 <Button
                   onClick={onClose}
-                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg"
+                  className="btn-tivexx px-6 py-2 rounded-lg"
                 >
                   Proceed to Dashboard
                 </Button>

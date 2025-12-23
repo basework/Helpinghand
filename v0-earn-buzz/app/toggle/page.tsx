@@ -67,7 +67,7 @@ export default function UpgradeTiersPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-600 via-purple-600 to-green-700 p-6 text-white animate-page-fade">
+    <div className="min-h-screen bg-tivexx-gradient p-6 text-white animate-page-fade">
       <div className="text-center space-y-2 mb-8 animate-slide-down">
         <h1 className="text-3xl font-extrabold tracking-wide">Upgrade Your Tier</h1>
         <p className="text-sm text-white/80">
@@ -82,7 +82,7 @@ export default function UpgradeTiersPage() {
             key={index}
             onClick={() => setActiveTier(index)}
             className="relative overflow-hidden h-32 w-full text-base font-semibold 
-                       bg-gradient-to-r from-green-500 via-purple-500 to-green-600
+                       bg-tivexx-gradient
                        rounded-2xl shadow-lg text-white hover:scale-[1.04]
                        transition-all duration-500 ease-in-out flex flex-col items-center justify-center space-y-1"
           >
@@ -98,7 +98,7 @@ export default function UpgradeTiersPage() {
       <div className="text-center mb-12 animate-slide-up">
         <Button
           onClick={() => window.open("https://t.me/tivexx9jasupport", "_blank")}
-          className="bg-white text-green-700 font-semibold hover:bg-white/80 rounded-xl px-5 py-2 shadow-md"
+          className="bg-white text-tiv-4 font-semibold hover:bg-white/80 rounded-xl px-5 py-2 shadow-md"
         >
           💬 Contact Support on Telegram
         </Button>
@@ -108,7 +108,7 @@ export default function UpgradeTiersPage() {
       {activeTier !== null && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 animate-fade-in">
           <div className="bg-white text-black rounded-2xl p-6 max-w-sm w-full mx-4 relative shadow-2xl animate-pop">
-            <h2 className="text-lg font-extrabold text-green-700 mb-3 text-center">
+            <h2 className="text-lg font-extrabold text-tiv-4 mb-3 text-center">
               {benefits[activeTier].tier} Benefits
             </h2>
             <ul className="list-disc list-inside text-sm text-gray-700 space-y-2 mb-5 max-h-60 overflow-y-auto">
