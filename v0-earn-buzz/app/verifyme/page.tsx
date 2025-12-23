@@ -101,7 +101,7 @@ export default function VerifyMePage() {
       <style jsx global>{`
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes glow { 0%, 100% { text-shadow:0 0 5px #34d399,0 0 10px #10b981,0 0 20px #10b981; } 50% { text-shadow:0 0 10px #34d399,0 0 20px #10b981,0 0 40px #059669; } }
+        @keyframes glow { 0%, 100% { text-shadow:0 0 5px var(--tiv-3),0 0 10px var(--tiv-2),0 0 20px var(--tiv-2); } 50% { text-shadow:0 0 10px var(--tiv-3),0 0 20px var(--tiv-2),0 0 40px var(--tiv-1); } }
         @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes slideInLeft { 0% { transform: translateX(-50px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }

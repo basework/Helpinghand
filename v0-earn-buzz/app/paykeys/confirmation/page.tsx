@@ -28,7 +28,7 @@ function PayKeyConfirmationContent() {
         <div className="absolute inset-0 bg-gradient-to-br from-green-400/30 to-green-800/30 animate-gradientMove"></div>
 
         <style jsx global>{`
-          @keyframes glow { 0% { text-shadow:0 0 5px #34d399,0 0 10px #10b981,0 0 20px #10b981; } 50% { text-shadow:0 0 10px #34d399,0 0 20px #10b981,0 0 40px #059669; } 100% { text-shadow:0 0 5px #34d399,0 0 10px #10b981,0 0 20px #10b981; } }
+          @keyframes glow { 0% { text-shadow:0 0 5px var(--tiv-3),0 0 10px var(--tiv-2),0 0 20px var(--tiv-2); } 50% { text-shadow:0 0 10px var(--tiv-3),0 0 20px var(--tiv-2),0 0 40px var(--tiv-1); } 100% { text-shadow:0 0 5px var(--tiv-3),0 0 10px var(--tiv-2),0 0 20px var(--tiv-2); } }
           @keyframes gradientMove { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
           .animate-glow { animation: glow 2s infinite alternate; }
           .animate-gradientMove { background-size: 200% 200%; animation: gradientMove 6s ease infinite; }
@@ -114,7 +114,7 @@ function PayKeyConfirmationContent() {
         @keyframes glow { 0%, 100% { text-shadow:0 0 5px #34d399,0 0 10px #10b981,0 0 20px #10b981; } 50% { text-shadow:0 0 10px #34d399,0 0 20px #10b981,0 0 40px #059669; } }
         @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         @keyframes particle { 0% { transform: translateY(0) translateX(0); opacity: 0.6; } 50% { transform: translateY(-20px) translateX(15px); opacity: 0.3; } 100% { transform: translateY(0) translateX(0); opacity: 0.6; } }
-        @keyframes buttonGlow { 0%,100% { box-shadow: 0 0 5px #10b981,0 0 10px #34d399,0 0 20px #059669; } 50% { box-shadow: 0 0 10px #34d399,0 0 20px #10b981,0 0 40px #059669; } }
+        @keyframes buttonGlow { 0%,100% { box-shadow: 0 0 5px var(--tiv-2),0 0 10px var(--tiv-3),0 0 20px var(--tiv-1); } 50% { box-shadow: 0 0 10px var(--tiv-3),0 0 20px var(--tiv-2),0 0 40px var(--tiv-1); } }
         @keyframes spinSlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .animate-fade-in { animation: fadeIn 0.8s ease-in-out; }
