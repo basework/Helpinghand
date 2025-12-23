@@ -310,7 +310,7 @@ export default function SetupWithdrawalAccountPage() {
                 className={`rounded-md px-4 py-3 text-sm font-semibold transition-all ${
                   accountNumber.replace(/\D/g, "").length !== 10 || !bankCode
                     ? "bg-tivexx-blend text-tiv-2 cursor-not-allowed"
-                    : "btn-tivexx text-white hover:opacity-95"
+                    : "btn-tivexx-cta text-white hover:opacity-95"
                 }`}
               >
                 {verifying ? (
@@ -357,7 +357,7 @@ export default function SetupWithdrawalAccountPage() {
             className={`w-full inline-flex items-center justify-center rounded-md px-4 py-3 text-sm font-semibold transition-all ${
               !bank || !accountNumber || !accountName
                 ? "bg-tivexx-blend text-tiv-2 cursor-not-allowed"
-                : "btn-tivexx text-white hover:opacity-95 hover:shadow-lg hover:scale-[1.02]"
+                : "btn-tivexx-cta text-white hover:opacity-95 hover:shadow-lg hover:scale-[1.02]"
             }`}
           >
             Proceed

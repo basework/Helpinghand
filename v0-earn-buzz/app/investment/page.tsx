@@ -13,7 +13,7 @@ export default function InvestmentPage() {
         {/* Buttons */}
         <div className="flex flex-col gap-3">
           <Link href="/dashboard">
-            <Button className="w-full btn-tivexx rounded-lg py-3">
+            <Button className="w-full btn-tivexx-cta rounded-lg py-3">
               ← Back to Dashboard
             </Button>
           </Link>

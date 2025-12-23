@@ -175,7 +175,7 @@ export default function WithdrawPage() {
           {showCashout ? (
             <Button
               onClick={handleCashout}
-              className="w-full py-5 text-lg font-semibold rounded-xl text-white btn-tivexx hover:scale-[1.02] transition-all shadow-lg animate-slide-in"
+              className="w-full py-5 text-lg font-semibold rounded-xl text-white btn-tivexx-cta hover:scale-[1.02] transition-all shadow-lg animate-slide-in"
             >
               WITHDRAW NOW
             </Button>
@@ -188,7 +188,7 @@ export default function WithdrawPage() {
                 </div>
               )}
               <Link href="/refer">
-                <Button className="w-full py-5 btn-tivexx text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-all shadow-md">
+                <Button className="w-full py-5 btn-tivexx-cta text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-all shadow-md">
                   <Share2 className="h-5 w-5" />
                   Refer Friends to Unlock Withdrawal
                 </Button>

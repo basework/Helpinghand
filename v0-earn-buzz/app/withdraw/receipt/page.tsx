@@ -151,7 +151,7 @@ export default function WithdrawalReceiptPage() {
 
         <Button
           onClick={handleVerifyNow}
-          className="w-full mt-6 py-6 btn-tivexx rounded-xl text-lg font-semibold"
+          className="w-full mt-6 py-6 btn-tivexx-cta rounded-xl text-lg font-semibold"
         >
           Verify Now
         </Button>

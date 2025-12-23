@@ -57,7 +57,7 @@ export default function LoanPaymentResultPage() {
           </Link>
           <Button
             onClick={() => router.push("/support")}
-            className="w-full btn-tivexx font-semibold py-2 rounded-lg transition-colors duration-300"
+            className="w-full btn-tivexx-cta font-semibold py-2 rounded-lg transition-colors duration-300"
           >
             Contact Support
           </Button>

@@ -84,7 +84,7 @@ export default function VerifyMePage() {
 
           <div className="w-full animate-slide-up">
             <Button
-              className="w-full py-4 text-lg font-semibold btn-tivexx hover:shadow-xl transition-all flex items-center justify-center space-x-2"
+              className="w-full py-4 text-lg font-semibold btn-tivexx-cta hover:shadow-xl transition-all flex items-center justify-center space-x-2"
               onClick={handleProceed}
             >
               <span>Proceed to Verification</span>

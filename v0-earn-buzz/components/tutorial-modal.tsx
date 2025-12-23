@@ -144,7 +144,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
                   {showProceed && (
                     <Button
                       onClick={handleNext}
-                      className="w-full btn-tivexx"
+                      className="w-full btn-tivexx-cta"
                     >
                       Proceed
                     </Button>
@@ -154,7 +154,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
                 <div className="mt-6">
                   <Button
                     onClick={handleNext}
-                    className="w-full btn-tivexx"
+                    className="w-full btn-tivexx-cta"
                   >
                     {currentStep === steps.length - 1 ? "Finish Tutorial" : "Next"}
                   </Button>

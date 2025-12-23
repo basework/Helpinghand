@@ -383,7 +383,7 @@ export default function DashboardPage() {
 
       {showClaimSuccess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-          <div className="btn-tivexx px-8 py-4 rounded-2xl shadow-2xl animate-bounce">
+          <div className="btn-tivexx-claim px-8 py-4 rounded-2xl shadow-2xl animate-bounce">
             <p className="text-xl font-bold text-center">🎉 Congrats!</p>
             <p className="text-lg text-center">₦1,000 has been claimed and added to your balance</p>
           </div>
@@ -406,7 +406,7 @@ export default function DashboardPage() {
                 setShowPauseDialog(false)
                 router.push("/refer")
               }}
-              className="flex-1 btn-tivexx"
+              className="flex-1 btn-tivexx-cta"
             >
               Refer Friends
             </Button>
@@ -437,7 +437,7 @@ export default function DashboardPage() {
                 setShowReminderDialog(false)
                 window.open("https://t.me/Tivexx9jacommunity", "_blank")
               }}
-              className="flex-1 btn-tivexx"
+              className="flex-1 btn-tivexx-cta"
             >
               Join Channel
             </Button>
@@ -446,7 +446,7 @@ export default function DashboardPage() {
                 setShowReminderDialog(false)
                 router.push("/refer")
               }}
-              className="flex-1 btn-tivexx"
+              className="flex-1 btn-tivexx-cta"
             >
               Refer More Friends
             </Button>
@@ -504,7 +504,7 @@ export default function DashboardPage() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="relative h-10 w-10 rounded-full btn-tivexx animate-bounce"
+                  className="relative h-10 w-10 rounded-full btn-tivexx-cta animate-bounce"
                 >
                   <Headphones className="h-5 w-5 text-white" />
                 </Button>
@@ -518,7 +518,7 @@ export default function DashboardPage() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="relative h-10 w-10 rounded-full btn-tivexx animate-bounce"
+                  className="relative h-10 w-10 rounded-full btn-tivexx-cta animate-bounce"
                 >
                   <Bell className="h-5 w-5 text-white" />
                   <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
@@ -586,7 +586,7 @@ export default function DashboardPage() {
           <Button
             onClick={handleClaim}
             disabled={!canClaim && !pauseEndTime}
-            className={`w-full ${canClaim || pauseEndTime ? "btn-tivexx animate-pulse animate-bounce-slow" : "bg-gray-400 cursor-not-allowed"} font-semibold py-3 rounded-lg transition-all flex items-center justify-center gap-2`}
+            className={`w-full ${canClaim || pauseEndTime ? "btn-tivexx-claim animate-pulse animate-bounce-slow" : "bg-gray-400 cursor-not-allowed"} font-semibold py-3 rounded-lg transition-all flex items-center justify-center gap-2`}
           >
             <Gift className="h-5 w-5" />
             {pauseEndTime
@@ -734,7 +734,7 @@ export default function DashboardPage() {
           </div>
 
           <Link href="/refer">
-            <Button className="w-full btn-tivexx font-bold py-3 rounded-full text-lg">
+            <Button className="w-full btn-tivexx-cta font-bold py-3 rounded-full text-lg">
               Invite & Earn Now
             </Button>
           </Link>

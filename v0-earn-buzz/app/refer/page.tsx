@@ -196,7 +196,7 @@ export default function ReferPage() {
       </div>
 
       <div className="px-6 mt-6 flex flex-col gap-4">
-        <Button onClick={shareWhatsApp} disabled={!origin} className="w-full btn-tivexx py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3">
+        <Button onClick={shareWhatsApp} disabled={!origin} className="w-full btn-tivexx-cta py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3">
           <Share2 className="h-5 w-5" /> Share on WhatsApp
         </Button>
         <Button onClick={shareTelegram} disabled={!origin} className="w-full bg-blue-500 hover:bg-blue-600 text-white py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3">
