@@ -53,6 +53,7 @@ export default function DashboardPage() {
   const [showPauseDialog, setShowPauseDialog] = useState(false)
   const [showReminderDialog, setShowReminderDialog] = useState(false)
   const [showClaimSuccess, setShowClaimSuccess] = useState(false)
+  const [transactions, setTransactions] = useState<any[]>([])
 
   const handleCloseWithdrawalNotification = useCallback(() => {
     setShowWithdrawalNotification(false)
@@ -357,6 +358,17 @@ export default function DashboardPage() {
   }, [router])
 
   useEffect(() => {
+    const stored = localStorage.getItem("tivexx-transactions")
+    if (stored) {
+      try {
+        setTransactions(JSON.parse(stored))
+      } catch (err) {
+        setTransactions([])
+      }
+    }
+  }, [])
+
+  useEffect(() => {
     if (userData && nameIndex < userData.name.length) {
       const timeout = setTimeout(() => {
         setDisplayedName(userData.name.slice(0, nameIndex + 1))
@@ -465,287 +477,157 @@ export default function DashboardPage() {
 
       {showWithdrawalNotification && <WithdrawalNotification onClose={handleCloseWithdrawalNotification} />}
 
-      <div className="text-white rounded-xl p-5 bg-gradient-to-br from-gray-900 via-green-900 to-black shadow-md border border-green-800/30 px-5 py-2.5 mx-2.5 mt-8 mb-4">
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center gap-2">
-            <div className="relative w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-md overflow-hidden">
-              {userData?.profilePicture ? (
-                <img
-                  src={userData.profilePicture || "/placeholder.svg"}
-                  alt={userData.name}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <span className="font-semibold text-xl text-tiv-2">{userData?.name.charAt(0)}</span>
-              )}
+      <div className="max-w-7xl mx-auto px-2 md:px-4 grid grid-cols-1 md:grid-cols-12 gap-4 mt-6">
+        {/* Left column - compact profile + quick actions */}
+        <aside className="md:col-span-3 space-y-4">
+          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 border border-green-800/30 shadow-lg animate-pop-in">
+            <div className="flex items-center gap-3">
+              <div className="relative w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-md overflow-hidden">
+                {userData?.profilePicture ? (
+                  <img src={userData.profilePicture || "/placeholder.svg"} alt={userData.name} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="font-semibold text-xl text-tiv-2">{userData?.name.charAt(0)}</span>
+                )}
 
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleProfileUpload}
-                className="absolute inset-0 opacity-0 cursor-pointer"
-                aria-label="Upload profile picture"
-              />
-            </div>
-
-            <div>
-              <div className="font-medium text-lg">
-                Hi, {displayedName} <span className="ml-1">👋</span>
+                <input type="file" accept="image/*" onChange={handleProfileUpload} className="absolute inset-0 opacity-0 cursor-pointer" aria-label="Upload profile picture" />
               </div>
-              <div className="text-sm text-gray-200">Welcome back!</div>
+
+              <div className="flex-1">
+                <div className="font-medium text-lg">Hi, {displayedName} <span className="ml-1">👋</span></div>
+                <div className="text-sm text-gray-200">Welcome back!</div>
+                <div className="mt-2 text-xs text-tiv-3">User ID: <span className="font-mono">{userData.userId}</span></div>
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="relative">
-              <p className="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-red-500 font-bold animate-bounce whitespace-nowrap">
-                Help
-              </p>
-              <Link href="https://t.me/Tivexx9jasupport" target="_blank">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="relative h-10 w-10 rounded-full bg-blue-600 hover:bg-blue-500 animate-bounce"
-                >
-                  <Headphones className="h-5 w-5 text-white" />
-                </Button>
+
+            <div className="flex gap-2 mt-3">
+              <Link href="/loan">
+                <Button className="flex-1 bg-purple-600 hover:scale-105 transform transition-transform active:scale-95">Loan</Button>
               </Link>
-            </div>
-            <div className="relative">
-              <p className="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-red-500 font-bold animate-bounce whitespace-nowrap">
-                News
-              </p>
-              <Link href="https://t.me/Tivexx9jacommunity" target="_blank">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="relative h-10 w-10 rounded-full bg-tiv-2 hover:opacity-95 animate-bounce"
-                >
-                  <Bell className="h-5 w-5 text-white" />
-                  <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
-                </Button>
+              <Link href="/withdraw">
+                <Button className="flex-1 bg-green-700 hover:scale-105 transform transition-transform active:scale-95">Withdraw</Button>
               </Link>
             </div>
           </div>
-        </div>
 
-        <div className="mt-4">
-          <div className="text-sm font-medium text-gray-200 mb-1">Your Balance</div>
-          <div className="flex justify-between items-center">
-            <div className="text-3xl font-bold">{formatCurrency(balance)}</div>
-            <button
-              className="text-gray-200 hover:text-white transition-colors"
-              onClick={() => setShowBalance(!showBalance)}
-              aria-label="Toggle balance visibility"
-            >
-              {showBalance ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-                  <circle cx="12" cy="12" r="3" />
-                  <line x1="2" y1="21" x2="22" y2="3" />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
-
-        <div className="mt-4 bg-white/10 backdrop-blur-sm rounded-xl p-4">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <Clock className="h-5 w-5 text-tiv-3" />
-              <span className="text-sm font-medium">Next Reward</span>
-            </div>
-            <span className="text-lg font-bold text-tiv-3">
-              {pauseEndTime ? formatPauseTime() : formatTime(timeRemaining)}
-            </span>
-          </div>
-          <Button
-            onClick={handleClaim}
-            disabled={!canClaim && !pauseEndTime}
-            className={`w-full ${canClaim || pauseEndTime ? "bg-green-500 hover:bg-green-600 animate-pulse animate-bounce-slow" : "bg-gray-400 cursor-not-allowed"} text-white font-semibold py-3 rounded-lg transition-all flex items-center justify-center gap-2`} 
-          >
-            <Gift className="h-5 w-5" />
-            {pauseEndTime
-              ? `Wait ${formatPauseTime()}`
-              : canClaim
-                ? "Claim ₦1,000"
-                : `Wait ${formatTime(timeRemaining)}`}
-          </Button>
-          <p className="text-xs text-center text-gray-300 mt-2">
-            Claims: {claimCount}/50 {claimCount >= 50 && "(Paused for 5 hours)"}
-          </p>
-        </div>
-
-        <div className="flex justify-between items-center mt-6">
-          <Link href="/history" className="flex-1 mr-2">
-            <Button className="w-full hover:bg-tiv-1 rounded-full py-3 h-auto flex items-center justify-center gap-2 text-white bg-tiv-3/50 border border-tiv-1/30">
-              <div className="w-8 h-8 rounded-full bg-tiv-1 flex items-center justify-center">
-                <History className="h-4 w-4 text-tiv-3" />
-              </div>
-              <span>History</span>
-            </Button>
-          </Link>
-          <Link href="/withdraw" className="flex-1 ml-2">
-            <Button className="w-full hover:bg-green-500 rounded-full py-3 h-auto flex items-center justify-center gap-2 text-white bg-green-700/50 border border-green-600/30 animate-bounce-slow">
-              <div className="w-8 h-8 rounded-full bg-tiv-1 flex items-center justify-center">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#4ade80"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 19V5" />
-                  <polyline points="5 12 12 5 19 12" />
-                </svg>
-              </div>
-              <span>Withdraw</span>
-            </Button>
-          </Link>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-4 gap-1 p-2 mt-3">
-        {menuItems.map((item, index) => {
-          const Icon = item.icon
-
-          if (item.action) {
-            return (
-              <button key={index} onClick={item.action} className="focus:outline-none">
-                <div className="flex flex-col items-center justify-center p-1 transition-all duration-300 transform hover:-translate-y-1">
-                  <div
-                    className={`w-10 h-10 flex items-center justify-center mb-1 ${item.color} drop-shadow-md animate-bounce-slow rounded-lg`}
-                  >
-                    {item.emoji ? (
-                      <span className="text-2xl">{item.emoji}</span>
-                    ) : (
-                      Icon && <Icon size={22} strokeWidth={1.5} className="animate-fade-in" />
-                    )}
-                  </div>
-                  <span className="text-xs font-medium text-center text-white">{item.name}</span>
-                </div>
-              </button>
-            )
-          }
-
-          if (item.external) {
-            return (
-              <a key={index} href={item.link} target="_blank" rel="noopener noreferrer" className="focus:outline-none">
-                <div className="flex flex-col items-center justify-center p-1 transition-all duration-300 transform hover:-translate-y-1">
-                  <div
-                    className={`w-10 h-10 flex items-center justify-center mb-1 ${item.color} drop-shadow-md animate-bounce-slow rounded-lg`}
-                  >
-                    {item.emoji ? (
-                      <span className="text-2xl">{item.emoji}</span>
-                    ) : (
-                      Icon && <Icon size={22} strokeWidth={1.5} className="animate-fade-in" />
-                    )}
-                  </div>
-                  <span className="text-xs font-medium text-center text-white">{item.name}</span>
-                </div>
-              </a>
-            )
-          }
-
-          return (
-            <Link key={index} href={item.link || "#"} className="focus:outline-none">
-              <div className="flex flex-col items-center justify-center p-1 transition-all duration-300 transform hover:-translate-y-1">
-                <div
-                  className={`w-10 h-10 flex items-center justify-center mb-1 ${item.color} drop-shadow-md animate-bounce-slow rounded-lg`}
-                >
-                  {item.emoji ? (
-                    <span className="text-2xl">{item.emoji}</span>
+          <div className="bg-white/5 rounded-xl p-3 border border-green-800/20 space-y-3 animate-pop-in">
+            <h4 className="text-sm text-white font-semibold">Quick Actions</h4>
+            <div className="flex flex-col gap-2">
+              {menuItems.map((item, idx) => {
+                const Icon = item.icon
+                const key = `qa-${idx}`
+                return (
+                  item.external ? (
+                    <a key={key} href={item.link} target="_blank" rel="noopener noreferrer" className="focus:outline-none">
+                      <div style={{ animationDelay: `${idx * 80}ms` }} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/6 transition transform hover:-translate-y-1 hover:scale-102 active:scale-95">
+                        <div className={`w-9 h-9 flex items-center justify-center ${item.color} rounded-md`}>{item.emoji ? <span className="text-lg">{item.emoji}</span> : Icon && <Icon size={18} />}</div>
+                        <div className="text-sm font-medium text-white">{item.name}</div>
+                      </div>
+                    </a>
                   ) : (
-                    Icon && <Icon size={22} strokeWidth={1.5} className="animate-fade-in" />
-                  )}
+                    <Link key={key} href={item.link || "#"} className="focus:outline-none">
+                      <div style={{ animationDelay: `${idx * 80}ms` }} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/6 transition transform hover:-translate-y-1 hover:scale-102 active:scale-95">
+                        <div className={`w-9 h-9 flex items-center justify-center ${item.color} rounded-md`}>{item.emoji ? <span className="text-lg">{item.emoji}</span> : Icon && <Icon size={18} />}</div>
+                        <div className="text-sm font-medium text-white">{item.name}</div>
+                      </div>
+                    </Link>
+                  )
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="bg-white/5 rounded-xl p-3 border border-green-800/20 animate-pop-in">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-sm text-white font-semibold">Help & Support</div>
+                <div className="text-xs text-tiv-3">24/7 support</div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Link href="https://t.me/Tivexx9jasupport" target="_blank">
+                  <Button className="h-9 w-9 rounded-full bg-blue-600 hover:bg-blue-500 active:scale-95"><Headphones className="h-4 w-4 text-white" /></Button>
+                </Link>
+                <Link href="https://t.me/Tivexx9jacommunity" target="_blank">
+                  <Button className="h-9 w-9 rounded-full bg-tiv-2 hover:opacity-95 active:scale-95"><Bell className="h-4 w-4 text-white" /><span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500 animate-pulse"></span></Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        {/* Right column - hero + cards grid */}
+        <main className="md:col-span-9 space-y-4">
+          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-5 shadow-lg border border-green-800/30 animate-pop-in">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-sm font-medium text-gray-200">Your Balance</div>
+                <div className="text-3xl font-bold">{formatCurrency(balance)}</div>
+              </div>
+              <div className="flex items-center gap-3">
+                <button className="text-gray-200 hover:text-white transition-colors" onClick={() => setShowBalance(!showBalance)} aria-label="Toggle balance visibility">{showBalance ? "👁️" : "🙈"}</button>
+              </div>
+            </div>
+
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="md:col-span-2">
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 animate-pop-in">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2"><Clock className="h-5 w-5 text-tiv-3" /><span className="text-sm font-medium">Next Reward</span></div>
+                    <span className="text-lg font-bold text-tiv-3">{pauseEndTime ? formatPauseTime() : formatTime(timeRemaining)}</span>
+                  </div>
+
+                  <Button onClick={handleClaim} disabled={!canClaim && !pauseEndTime} className={`w-full ${canClaim || pauseEndTime ? "bg-green-500 hover:bg-green-600" : "bg-gray-400 cursor-not-allowed"} text-white font-semibold py-3 rounded-lg transition-transform transform hover:-translate-y-0.5 active:scale-95` }>
+                    <Gift className="h-5 w-5" />
+                    {pauseEndTime ? `Wait ${formatPauseTime()}` : canClaim ? "Claim ₦1,000" : `Wait ${formatTime(timeRemaining)}`}
+                  </Button>
+                  <p className="text-xs text-center text-gray-300 mt-2">Claims: {claimCount}/50 {claimCount >= 50 && "(Paused for 5 hours)"}</p>
+
+                  <div className="flex gap-2 mt-4">
+                    <Link href="/history" className="flex-1">
+                      <Button className="w-full hover:bg-tiv-1 rounded-full py-3 flex items-center justify-center gap-2 text-white bg-tiv-3/50 border border-tiv-1/30 active:scale-95"> <History className="h-4 w-4 text-tiv-3" /> <span>History</span></Button>
+                    </Link>
+                    <Link href="/withdraw" className="flex-1">
+                      <Button className="w-full hover:bg-green-500 rounded-full py-3 flex items-center justify-center gap-2 text-white bg-green-700/50 border border-green-600/30 active:scale-95"> <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5" /><polyline points="5 12 12 5 19 12" /></svg> <span>Withdraw</span></Button>
+                    </Link>
+                  </div>
                 </div>
-                <span className="text-xs font-medium text-center text-white">{item.name}</span>
               </div>
-            </Link>
-          )
-        })}
-      </div>
 
-      <div className="mt-6">
-        <div className="why-glow bg-gradient-to-br from-black via-green-950 to-black rounded-2xl p-6 mb-6 mx-2 border border-green-500/30 relative overflow-hidden">
-          <div className="text-center mb-4 relative z-10">
-            <h2 className="text-2xl font-bold text-white mb-2">Why Helping Hands⁉️</h2>
-            <div className="w-16 h-1 bg-gradient-to-r from-green-500 to-yellow-400 mx-auto mb-4"></div>
-          </div>
+              <div className="md:col-span-1">
+                <div className="why-glow bg-gradient-to-br from-black via-green-950 to-black rounded-2xl p-4 mb-2 border border-green-500/30 relative overflow-hidden animate-pop-in">
+                  <div className="text-center mb-2 relative z-10"><h2 className="text-xl font-bold text-white">Why Helping Hands⁉️</h2></div>
+                  <p className="text-sm text-tiv-3">Bank-level encryption, fast transactions, and reliable support. Earn by inviting friends.</p>
+                  <div className="mt-3"><Link href="/refer"><Button className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold py-2 rounded-full">Invite</Button></Link></div>
+                </div>
 
-          <div className="space-y-3 mb-6 relative z-10">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-tiv-2 rounded-full flex items-center justify-center flex-shrink-0">
-                <Shield className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="text-white font-semibold mb-1">100% Secure</h3>
-                <p className="text-tiv-3 text-sm">Bank-level encryption protects your transactions and personal data</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center flex-shrink-0">
-                <TrendingUp className="w-5 h-5 text-black" />
-              </div>
-              <div>
-                <h3 className="text-white font-semibold mb-1">Lightning Fast</h3>
-                <p className="text-tiv-3 text-sm">Instant withdrawals and seamless transactions in seconds</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-tiv-2 rounded-full flex items-center justify-center flex-shrink-0">
-                <Users className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h3 className="text-white font-semibold mb-1">100% Reliable</h3>
-                <p className="text-tiv-3 text-sm">24/7 support and guaranteed service uptime</p>
+                <div className="bg-white/5 rounded-xl p-3 border border-green-800/20 animate-pop-in">
+                  <div className="text-sm font-medium text-white mb-2">Activity</div>
+                  <div className="space-y-2">
+                    {transactions.length === 0 ? (
+                      <div className="text-xs text-gray-300">No recent activity</div>
+                    ) : (
+                      transactions.slice(0,5).map((t, i) => (
+                        <div key={i} className="flex items-center justify-between text-sm text-tiv-3 p-2 rounded hover:bg-white/6 transition transform hover:-translate-y-0.5">
+                          <div>
+                            <div className="font-medium text-white">{t.description}</div>
+                            <div className="text-xs text-gray-300">{new Date(t.date).toLocaleString()}</div>
+                          </div>
+                          <div className={`font-semibold ${t.type === 'credit' ? 'text-green-400' : 'text-red-400'}`}>{t.type === 'credit' ? `+₦${t.amount}` : `-₦${t.amount}`}</div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <Link href="/refer">
-            <Button className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold py-3 rounded-full text-lg">
-              Invite & Earn Now
-            </Button>
-          </Link>
-        </div>
+          <div className="px-0">
+            {userData && (
+              <div className="animate-pop-in"><ReferralCard userId={userData.id || userData.userId} /></div>
+            )}
+          </div>
+        </main>
       </div>
-
-      {userData && (
-        <div className="px-4 mt-6">
-          <ReferralCard userId={userData.id || userData.userId} />
-        </div>
-      )}
 
       <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-br from-gray-900 via-green-900 to-black border-t border-green-800/30 shadow-lg flex justify-around items-center h-16 max-w-md mx-auto z-50">
         <Link href="/dashboard" className="flex flex-col items-center text-tiv-3">
@@ -805,6 +687,35 @@ export default function DashboardPage() {
             left: -120%;
           }
         }
+
+        /* Stronger entry + micro-interaction utils */
+        @keyframes pop-in {
+          0% { opacity: 0; transform: translateY(12px) scale(.995); }
+          60% { opacity: 1; transform: translateY(-6px) scale(1.02); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .animate-pop-in {
+          animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both;
+        }
+
+        .hover-pop:hover {
+          transform: translateY(-6px) scale(1.02);
+        }
+
+        .active-squeeze:active {
+          transform: scale(.97);
+        }
+
+        .transition-pop {
+          transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+        }
+
+        .hover-shadow:hover {
+          box-shadow: 0 14px 40px rgba(0,0,0,0.55);
+        }
+
+        .scale-102 { transform: scale(1.02); }
 
         .why-glow {
           position: relative;
