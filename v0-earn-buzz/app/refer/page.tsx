@@ -127,12 +127,12 @@ export default function ReferPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-tiv-3 to-black pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-black pb-20">
       {/* YOUR FULL JSX — SAME AS BEFORE */}
-      <div className="bg-tivexx-blend text-white p-6 rounded-b-3xl shadow-lg">
+      <div className="bg-gradient-to-r from-green-700 to-green-600 text-white p-6 rounded-b-3xl shadow-lg">
         <div className="flex items-center mb-6">
           <Link href="/dashboard">
-            <Button variant="ghost" size="icon" className="text-white hover:bg-[var(--tiv-2)]/50 mr-2">
+            <Button variant="ghost" size="icon" className="text-white hover:bg-green-500/50 mr-2">
               <ArrowLeft className="h-6 w-6" />
             </Button>
           </Link>
@@ -141,7 +141,7 @@ export default function ReferPage() {
         <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
           <Gift className="h-16 w-16 mx-auto mb-4 text-yellow-300" />
           <h2 className="text-3xl font-bold mb-2">Earn ₦10,000</h2>
-          <p className="text-tivex-muted">For every friend you refer!</p>
+          <p className="text-green-100">For every friend you refer!</p>
         </div>
       </div>
 
@@ -150,7 +150,7 @@ export default function ReferPage() {
         <div className="space-y-4">
           <div className="flex items-start gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-green-700/30">
             <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center flex-shrink-0">
-              <Share2 className="h-5 w-5 text-tiv-3" />
+              <Share2 className="h-5 w-5 text-green-300" />
             </div>
             <div>
               <h4 className="font-semibold text-white mb-1">Share Your Link</h4>
@@ -159,7 +159,7 @@ export default function ReferPage() {
           </div>
           <div className="flex items-start gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-green-700/30">
             <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center flex-shrink-0">
-              <Users className="h-5 w-5 text-tiv-3" />
+              <Users className="h-5 w-5 text-green-300" />
             </div>
             <div>
               <h4 className="font-semibold text-white mb-1">They Sign Up</h4>
@@ -168,7 +168,7 @@ export default function ReferPage() {
           </div>
           <div className="flex items-start gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-green-700/30">
             <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center flex-shrink-0">
-              <Wallet className="h-5 w-5 text-tiv-3" />
+              <Wallet className="h-5 w-5 text-green-300" />
             </div>
             <div>
               <h4 className="font-semibold text-white mb-1">Earn Rewards</h4>
@@ -179,14 +179,14 @@ export default function ReferPage() {
       </div>
 
       <div className="px-6 mt-8">
-        <div className="mt-4 bg-white/10 backdrop-blur-sm rounded-xl p-4 shadow-sm border border-tivexx/30">
+        <div className="mt-4 bg-white/10 backdrop-blur-sm rounded-xl p-4 shadow-sm border border-green-700/30">
           <p className="text-sm text-gray-300 mb-2">Your Referral Link</p>
           <div className="flex items-center gap-2">
             <input
               type="text"
               value={origin ? `${origin}${referralLink}` : 'Loading...'}
               readOnly
-              className="flex-1 text-sm text-white bg-gray-800/50 rounded-lg px-3 py-2 border border-tivexx/30"
+              className="flex-1 text-sm text-white bg-gray-800/50 rounded-lg px-3 py-2 border border-green-700/30"
             />
             <Button onClick={handleCopy} variant="outline" size="icon" disabled={!origin}>
               <Copy className="h-4 w-4" />
@@ -196,7 +196,7 @@ export default function ReferPage() {
       </div>
 
       <div className="px-6 mt-6 flex flex-col gap-4">
-        <Button onClick={shareWhatsApp} disabled={!origin} className="w-full btn-tivexx py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3">
+        <Button onClick={shareWhatsApp} disabled={!origin} className="w-full bg-green-500 hover:bg-green-600 text-white py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3">
           <Share2 className="h-5 w-5" /> Share on WhatsApp
         </Button>
         <Button onClick={shareTelegram} disabled={!origin} className="w-full bg-blue-500 hover:bg-blue-600 text-white py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3">
@@ -205,15 +205,15 @@ export default function ReferPage() {
       </div>
 
       <div className="px-6 mt-8 mb-6">
-        <div className="bg-tivexx-blend backdrop-blur-sm rounded-2xl p-6 border border-tivexx/30">
+        <div className="bg-gradient-to-br from-green-800/50 to-green-900/50 backdrop-blur-sm rounded-2xl p-6 border border-green-700/30">
           <h3 className="text-lg font-bold text-white mb-4 text-center">Your Referral Stats</h3>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center shadow-sm border border-green-700/30">
-              <p className="text-3xl font-bold text-tiv-3">{userData?.referral_count || 0}</p>
+              <p className="text-3xl font-bold text-green-400">{userData?.referral_count || 0}</p>
               <p className="text-sm text-gray-300 mt-1">Total Referrals</p>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center shadow-sm border border-green-700/30">
-              <p className="text-3xl font-bold text-tiv-3">
+              <p className="text-3xl font-bold text-green-400">
                 {userData ? formatCurrency(userData.referral_balance) : '₦0'}
               </p>
               <p className="text-sm text-gray-300 mt-1">Total Earned</p>

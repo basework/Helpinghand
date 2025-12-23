@@ -117,8 +117,8 @@ export default function RegisterPage() {
           </h1>
 
           {referralCode && (
-            <Alert className="bg-tivexx-blend border border-tivexx animate-fade-in">
-              <AlertDescription className="text-tiv-4 text-center">
+            <Alert className="bg-green-50 border-green-200 animate-fade-in">
+              <AlertDescription className="text-green-800 text-center">
                 🎉 You're signing up with referral code: <strong>{referralCode}</strong>
               </AlertDescription>
             </Alert>
@@ -188,7 +188,7 @@ export default function RegisterPage() {
       <div className="fixed bottom-6 left-6">
         <button
           onClick={handleWhatsAppSupport}
-          className="w-14 h-14 btn-tivexx rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110"
+          className="w-14 h-14 bg-green-500 hover:bg-green-600 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110"
           aria-label="Contact WhatsApp Support"
         >
           <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">

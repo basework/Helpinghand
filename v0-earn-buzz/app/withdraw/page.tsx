@@ -109,7 +109,7 @@ export default function WithdrawPage() {
   }
 
   return (
-    <div className="min-h-screen bg-tivexx-blend pb-24">
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white pb-24">
       {/* Header */}
       <div className="flex items-center p-4 bg-white/80 border-b shadow-sm backdrop-blur-md">
         <Link href="/dashboard">
@@ -117,18 +117,18 @@ export default function WithdrawPage() {
             <ArrowLeft className="h-6 w-6" />
           </Button>
         </Link>
-        <h1 className="text-xl font-bold text-tiv-4">Withdraw Funds</h1>
+        <h1 className="text-xl font-bold text-green-700">Withdraw Funds</h1>
       </div>
 
       <div className="p-6 max-w-md mx-auto text-center space-y-6">
         {/* Toggle Section */}
         <div className="flex justify-end items-center mb-2 animate-bounce-slow">
           <label className="flex items-center gap-2 cursor-pointer">
-            <span className="text-sm font-medium text-tiv-4">Withdraw Without Referral</span>
+            <span className="text-sm font-medium text-green-700">Withdraw Without Referral</span>
             <div
               onClick={() => setToggleActive(!toggleActive)}
               className={`relative w-12 h-6 rounded-full transition-all duration-300 ${
-                toggleActive ? "bg-tivexx-gradient" : "bg-gray-300"
+                toggleActive ? "bg-gradient-to-r from-green-600 to-purple-600" : "bg-gray-300"
               }`}
             >
               <div
@@ -143,7 +143,7 @@ export default function WithdrawPage() {
         {/* Balance Section */}
         <div className="bg-white rounded-3xl shadow-lg p-6 animate-fade-in">
           <p className="text-gray-600 text-sm mb-1">Available Balance</p>
-          <h2 className="text-4xl font-extrabold text-tiv-4">{formatCurrency(balance)}</h2>
+          <h2 className="text-4xl font-extrabold text-green-700">{formatCurrency(balance)}</h2>
         </div>
 
         {/* Requirements */}
@@ -164,7 +164,7 @@ export default function WithdrawPage() {
           </div>
           <div className="w-full bg-gray-200 rounded-full h-3">
             <div
-              className="bg-tivexx-gradient h-full rounded-full transition-all duration-700"
+              className="bg-gradient-to-r from-green-600 to-purple-600 h-full rounded-full transition-all duration-700"
               style={{ width: progressWidth }}
             />
           </div>
@@ -175,7 +175,7 @@ export default function WithdrawPage() {
           {showCashout ? (
             <Button
               onClick={handleCashout}
-              className="w-full py-5 text-lg font-semibold rounded-xl text-white btn-tivexx hover:scale-[1.02] transition-all shadow-lg animate-slide-in"
+              className="w-full py-5 text-lg font-semibold rounded-xl text-white bg-gradient-to-r from-green-600 to-purple-700 hover:scale-[1.02] transition-all shadow-lg animate-slide-in"
             >
               WITHDRAW NOW
             </Button>
@@ -188,7 +188,7 @@ export default function WithdrawPage() {
                 </div>
               )}
               <Link href="/refer">
-                <Button className="w-full py-5 btn-tivexx text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-all shadow-md">
+                <Button className="w-full py-5 bg-gradient-to-r from-purple-600 to-green-600 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-all shadow-md">
                   <Share2 className="h-5 w-5" />
                   Refer Friends to Unlock Withdrawal
                 </Button>
@@ -201,7 +201,7 @@ export default function WithdrawPage() {
         {showUpgradePopup && (
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 animate-fade-in">
             <div className="bg-white rounded-2xl shadow-2xl p-6 w-80 text-center">
-              <h2 className="text-lg font-bold text-tiv-4 mb-2">
+              <h2 className="text-lg font-bold text-green-700 mb-2">
                 Withdraw Without Referral
               </h2>
               <p className="text-gray-600 text-sm mb-4">
@@ -216,7 +216,7 @@ export default function WithdrawPage() {
                 </Button>
                 <Button
                   onClick={handleUpgradeConfirm}
-                  className="w-1/2 bg-tivexx-gradient text-white rounded-xl hover:scale-[1.02]"
+                  className="w-1/2 bg-gradient-to-r from-green-600 to-purple-600 text-white rounded-xl hover:scale-[1.02]"
                 >
                   Upgrade Account
                 </Button>

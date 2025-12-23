@@ -161,7 +161,7 @@ export default function SetupWithdrawalAccountPage() {
   // Loading popup
   if (loading || transitioning) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-tivexx-gradient text-white relative overflow-hidden">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-green-600 text-white relative overflow-hidden">
         <div className="animate-glow text-center">
           <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <h1 className="text-3xl font-extrabold tracking-widest mb-2">Helping Hands</h1>
@@ -170,7 +170,7 @@ export default function SetupWithdrawalAccountPage() {
           </p>
         </div>
 
-        <div className="absolute inset-0 bg-tivexx-blend/30 animate-gradientMove"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-green-500/30 to-green-800/30 animate-gradientMove"></div>
 
         <style jsx global>{`
           @keyframes glow {
@@ -211,11 +211,11 @@ export default function SetupWithdrawalAccountPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-tivexx-blend px-4 py-10 animate-fadeIn">
-      <div className="w-full max-w-xl bg-white border border-tivexx rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:scale-[1.01]">
-        <div className="px-6 py-6 border-b border-tivexx bg-tivexx-blend">
-          <h1 className="text-2xl font-bold text-tiv-4 animate-slideDown">Withdrawal Setup</h1>
-          <p className="text-sm text-tiv-4 mt-1">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-500 to-green-700 px-4 py-10 animate-fadeIn">
+      <div className="w-full max-w-xl bg-white border border-green-200 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:scale-[1.01]">
+        <div className="px-6 py-6 border-b border-green-100 bg-green-50">
+          <h1 className="text-2xl font-bold text-green-800 animate-slideDown">Withdrawal Setup</h1>
+          <p className="text-sm text-green-700 mt-1">
             Fill in your withdrawal details to receive payouts securely. Your information is protected.
           </p>
         </div>
@@ -223,24 +223,24 @@ export default function SetupWithdrawalAccountPage() {
         <div className="p-6 grid grid-cols-1 gap-5 animate-slideUp">
           {/* Bank Dropdown */}
           <div ref={dropdownRef} className="relative">
-            <label className="block text-sm font-medium text-tiv-4 mb-2">Bank</label>
+            <label className="block text-sm font-medium text-green-800 mb-2">Bank</label>
             <button
               type="button"
               aria-haspopup="listbox"
               aria-expanded={dropdownOpen}
               onClick={() => setDropdownOpen((v) => !v)}
-              className="w-full rounded-md border border-tivexx bg-white text-left px-4 py-3 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-[var(--tiv-2)] hover:shadow-md transition"
+              className="w-full rounded-md border border-green-300 bg-white text-left px-4 py-3 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-green-400 hover:shadow-md transition"
             >
-              <span className={bank ? "text-tiv-4" : "text-tiv-4"}>{bank}</span>
+              <span className={bank ? "text-green-900" : "text-green-500"}>{bank}</span>
               <svg
-                className={`w-5 h-5 text-tiv-4 transform transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
+                className={`w-5 h-5 text-green-600 transform transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
                 viewBox="0 0 24 24"
               >
                 <path d="M19 9l-7 7-7-7" fill="currentColor" />
               </svg>
             </button>
             {dropdownOpen && (
-              <ul className="absolute z-40 mt-2 w-full max-h-72 overflow-y-auto rounded-md border border-tivexx bg-white shadow-lg animate-bounceIn">
+              <ul className="absolute z-40 mt-2 w-full max-h-72 overflow-y-auto rounded-md border border-green-200 bg-white shadow-lg animate-bounceIn">
                 {(banksList.length ? banksList.map((b, idx) => (
                   <li
                     key={idx}
@@ -253,8 +253,8 @@ export default function SetupWithdrawalAccountPage() {
                       setVerified(false)
                       setVerifyError("")
                     }}
-                    className={`px-4 py-3 cursor-pointer select-none text-sm text-tiv-2 hover:bg-tivexx-blend transition ${
-                      bank === b.name ? "bg-tivexx-blend font-medium" : ""
+                    className={`px-4 py-3 cursor-pointer select-none text-sm text-green-800 hover:bg-green-100 transition ${
+                      bank === b.name ? "bg-green-50 font-medium" : ""
                     }`}
                   >
                     {b.name}
@@ -271,8 +271,8 @@ export default function SetupWithdrawalAccountPage() {
                       setVerifyError("")
                       setBankCode("")
                     }}
-                    className={`px-4 py-3 cursor-pointer select-none text-sm text-tiv-2 hover:bg-tivexx-blend transition ${
-                      bank === b ? "bg-tivexx-blend font-medium" : ""
+                    className={`px-4 py-3 cursor-pointer select-none text-sm text-green-800 hover:bg-green-100 transition ${
+                      bank === b ? "bg-green-50 font-medium" : ""
                     }`}
                   >
                     {b}
@@ -284,7 +284,7 @@ export default function SetupWithdrawalAccountPage() {
 
           {/* Account Number */}
           <div>
-            <label className="block text-sm font-medium text-tiv-4 mb-2">Account Number</label>
+            <label className="block text-sm font-medium text-green-800 mb-2">Account Number</label>
             <div className="flex gap-2">
               <input
                 value={accountNumber}
@@ -297,7 +297,7 @@ export default function SetupWithdrawalAccountPage() {
                 placeholder="Enter account number"
                 inputMode="numeric"
                 maxLength={10}
-                className="flex-1 rounded-md border border-tivexx px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--tiv-2)] transition"
+                className="flex-1 rounded-md border border-green-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
               />
 
               <button
@@ -309,8 +309,8 @@ export default function SetupWithdrawalAccountPage() {
                 disabled={accountNumber.replace(/\D/g, "").length !== 10 || !bankCode || verifying}
                 className={`rounded-md px-4 py-3 text-sm font-semibold transition-all ${
                   accountNumber.replace(/\D/g, "").length !== 10 || !bankCode
-                    ? "bg-tivexx-blend text-tiv-2 cursor-not-allowed"
-                    : "btn-tivexx text-white hover:opacity-95"
+                    ? "bg-green-200 text-green-700 cursor-not-allowed"
+                    : "bg-green-600 text-white hover:bg-green-700"
                 }`}
               >
                 {verifying ? (
@@ -328,9 +328,9 @@ export default function SetupWithdrawalAccountPage() {
 
           {/* Account Name */}
           <div>
-            <label className="block text-sm font-medium text-tiv-2 mb-2">
+            <label className="block text-sm font-medium text-green-800 mb-2">
               Account Name
-              {verified && <span className="ml-2 inline-block bg-white/6 text-tiv-4 text-xs px-2 py-1 rounded">Verified ✓</span>}
+              {verified && <span className="ml-2 inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Verified ✓</span>}
             </label>
             <input
               value={accountName}
@@ -341,12 +341,12 @@ export default function SetupWithdrawalAccountPage() {
               disabled={verified}
               className={`w-full rounded-md border px-4 py-3 focus:outline-none focus:ring-2 transition ${
                 verified
-                  ? "border-tivexx bg-white/6 text-tiv-4 cursor-not-allowed"
-                  : "border-tivexx bg-white focus:ring-[var(--tiv-2)]"
+                  ? "border-green-400 bg-green-50 text-green-900 cursor-not-allowed focus:ring-green-300"
+                  : "border-green-300 bg-white focus:ring-green-400"
               }`}
             />
             {verified && (
-              <p className="text-xs text-tiv-4 mt-1">Resolved from bank lookup</p>
+              <p className="text-xs text-green-700 mt-1">Resolved from bank lookup</p>
             )}
           </div>
 
@@ -356,8 +356,8 @@ export default function SetupWithdrawalAccountPage() {
             disabled={!bank || !accountNumber || !accountName}
             className={`w-full inline-flex items-center justify-center rounded-md px-4 py-3 text-sm font-semibold transition-all ${
               !bank || !accountNumber || !accountName
-                ? "bg-tivexx-blend text-tiv-2 cursor-not-allowed"
-                : "btn-tivexx text-white hover:opacity-95 hover:shadow-lg hover:scale-[1.02]"
+                ? "bg-green-200 text-green-700 cursor-not-allowed"
+                : "bg-green-600 text-white hover:bg-green-700 hover:shadow-lg hover:scale-[1.02]"
             }`}
           >
             Proceed

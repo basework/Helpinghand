@@ -16,11 +16,11 @@ export default function PaymentResultPage() {
   const isSuccess = status === "success"
   const message = isSuccess ? "Payment Received!" : "Payment Not Received"
   const icon = isSuccess ? (
-    <CheckCircle className="h-20 w-20 text-tiv-4" />
+    <CheckCircle className="h-20 w-20 text-green-500" />
   ) : (
     <XCircle className="h-20 w-20 text-red-500" />
   )
-  const textColor = isSuccess ? "text-tiv-4" : "text-red-700"
+  const textColor = isSuccess ? "text-green-700" : "text-red-700"
 
   const formatCurrencyNaira = (amount: number) => {
     return new Intl.NumberFormat("en-NG", {
@@ -71,7 +71,7 @@ export default function PaymentResultPage() {
           </Link>
           <Button
             onClick={() => router.push("/support")}
-            className="w-full btn-tivexx font-semibold py-2 rounded-lg transition-colors duration-300"
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition-colors duration-300"
           >
             Contact Support
           </Button>

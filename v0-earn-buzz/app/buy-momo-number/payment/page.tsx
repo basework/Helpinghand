@@ -123,7 +123,7 @@ export default function PaymentPage() {
                 onClick={() => handleCopy(bankDetails.accountNumber, setCopiedNumber)}
                 className="h-8 w-8 rounded-full"
               >
-                {copiedNumber ? <Check className="h-4 w-4 text-tiv-2" /> : <Copy className="h-4 w-4" /> }
+                {copiedNumber ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
               </Button>
             </div>
 

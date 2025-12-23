@@ -43,10 +43,10 @@ export default function PayBillsPage() {
       icon: Wifi,
       emoji: "📶",
       link: "/data",
-      color: "text-tiv-4",
-      bgColor: "bg-tivexx-blend",
-      borderColor: "border-tivexx",
-      hoverColor: "hover:bg-tivexx-blend",
+      color: "text-green-600",
+      bgColor: "bg-green-50",
+      borderColor: "border-green-200",
+      hoverColor: "hover:bg-green-100",
     },
   ]
 
