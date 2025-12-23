@@ -360,29 +360,40 @@ export default function TaskPage() {
           filter: drop-shadow(0 0 6px rgba(79,93,117,0.7));
         }
 
-        /* Task float + slow press-squeeze (subtle and accessible) */
+        /* Task float (faster) + hover color + quicker press-squeeze */
         @keyframes taskFloatY {
           0% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
+          50% { transform: translateY(-8px); }
           100% { transform: translateY(0); }
         }
         .task-float {
-          animation: taskFloatY 8s ease-in-out infinite;
+          animation: taskFloatY 3.8s ease-in-out infinite;
           will-change: transform;
           display: block;
         }
         /* Slight per-item variation for organic motion */
-        .task-float:nth-child(odd) { animation-duration: 7.8s; }
-        .task-float:nth-child(3n) { animation-duration: 8.6s; }
+        .task-float:nth-child(odd) { animation-duration: 3.6s; }
+        .task-float:nth-child(3n) { animation-duration: 4.1s; }
 
         .task-float__inner {
-          transition: transform 380ms cubic-bezier(.2,.8,.2,1);
+          transition: transform 180ms cubic-bezier(.2,.8,.2,1), background-color 180ms ease, box-shadow 180ms ease;
           transform-origin: center;
           will-change: transform;
         }
-        .task-float:active .task-float__inner,
+        /* Hover/focus changes color and shadow, reverts on mouse leave */
+        .task-float:hover .task-float__inner,
         .task-float:focus-within .task-float__inner {
-          transform: scale(0.96) translateY(6px);
+          background-color: rgba(255,255,255,0.12);
+          box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+          transform: translateY(-2px); /* subtle lift on hover */
+        }
+
+        /* Faster, snappier press squeeze */
+        .task-float:active .task-float__inner {
+          transform: scale(0.96) translateY(4px);
+        }
+        .task-float:focus-within .task-float__inner {
+          transform: scale(0.98) translateY(2px);
         }
 
         .bubble {
