@@ -57,7 +57,7 @@ export default function LoanPaymentResultPage() {
           </Link>
           <Button
             onClick={() => router.push("/support")}
-            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition-colors duration-300"
+            className="w-full bg-tiv-1 hover:bg-tiv-1 text-white font-semibold py-2 rounded-lg transition-colors duration-300"
           >
             Contact Support
           </Button>

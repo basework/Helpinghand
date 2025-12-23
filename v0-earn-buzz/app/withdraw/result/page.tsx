@@ -65,7 +65,7 @@ export default function WithdrawResultPage() {
       </div>
 
       {/* Success Message */}
-      <h2 className="text-2xl font-bold text-green-600 mb-4 text-center">Withdrawal Successful!</h2>
+      <h2 className="text-2xl font-bold text-tiv-2 mb-4 text-center">Withdrawal Successful!</h2>
 
       <p className="text-center mb-8 max-w-md">
         Your withdrawal request has been processed successfully. The funds will be credited to your account within 24

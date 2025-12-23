@@ -370,8 +370,8 @@ export default function DashboardPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-green-900 to-black">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto"></div>
-          <p className="mt-4 text-green-300">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-tiv-1 mx-auto"></div>
+          <p className="mt-4 text-tiv-3">Loading...</p>
         </div>
       </div>
     )
@@ -383,7 +383,7 @@ export default function DashboardPage() {
 
       {showClaimSuccess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-          <div className="bg-green-600 text-white px-8 py-4 rounded-2xl shadow-2xl animate-bounce">
+          <div className="bg-tiv-1 text-white px-8 py-4 rounded-2xl shadow-2xl animate-bounce">
             <p className="text-xl font-bold text-center">🎉 Congrats!</p>
             <p className="text-lg text-center">₦1,000 has been claimed and added to your balance</p>
           </div>
@@ -396,7 +396,7 @@ export default function DashboardPage() {
             <DialogTitle className="text-center text-xl">⏰ Wait Required</DialogTitle>
             <DialogDescription className="text-center space-y-4 pt-4">
               <p className="text-base">You must wait 5 hours before claiming again.</p>
-              <p className="text-2xl font-bold text-green-600">{formatPauseTime()}</p>
+              <p className="text-2xl font-bold text-tiv-2">{formatPauseTime()}</p>
               <p className="text-sm">In the meantime, you can earn by referring or taking loans.</p>
             </DialogDescription>
           </DialogHeader>
@@ -406,7 +406,7 @@ export default function DashboardPage() {
                 setShowPauseDialog(false)
                 router.push("/refer")
               }}
-              className="flex-1 bg-green-600 hover:bg-green-700"
+              className="flex-1 bg-tiv-1 hover:bg-tiv-1"
             >
               Refer Friends
             </Button>
@@ -446,7 +446,7 @@ export default function DashboardPage() {
                 setShowReminderDialog(false)
                 router.push("/refer")
               }}
-              className="flex-1 bg-green-600 hover:bg-green-700"
+              className="flex-1 bg-tiv-1 hover:bg-tiv-1"
             >
               Refer More Friends
             </Button>
@@ -476,7 +476,7 @@ export default function DashboardPage() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <span className="font-semibold text-xl text-green-700">{userData?.name.charAt(0)}</span>
+                <span className="font-semibold text-xl text-tiv-2">{userData?.name.charAt(0)}</span>
               )}
 
               <input
@@ -576,10 +576,10 @@ export default function DashboardPage() {
         <div className="mt-4 bg-white/10 backdrop-blur-sm rounded-xl p-4">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
-              <Clock className="h-5 w-5 text-green-300" />
+              <Clock className="h-5 w-5 text-tiv-3" />
               <span className="text-sm font-medium">Next Reward</span>
             </div>
-            <span className="text-lg font-bold text-green-300">
+            <span className="text-lg font-bold text-tiv-3">
               {pauseEndTime ? formatPauseTime() : formatTime(timeRemaining)}
             </span>
           </div>
@@ -602,16 +602,16 @@ export default function DashboardPage() {
 
         <div className="flex justify-between items-center mt-6">
           <Link href="/history" className="flex-1 mr-2">
-            <Button className="w-full hover:bg-green-500 rounded-full py-3 h-auto flex items-center justify-center gap-2 text-white bg-green-700/50 border border-green-600/30">
-              <div className="w-8 h-8 rounded-full bg-green-900 flex items-center justify-center">
-                <History className="h-4 w-4 text-green-300" />
+            <Button className="w-full hover:bg-tiv-1 rounded-full py-3 h-auto flex items-center justify-center gap-2 text-white bg-tiv-3/50 border border-tiv-1/30">
+              <div className="w-8 h-8 rounded-full bg-tiv-1 flex items-center justify-center">
+                <History className="h-4 w-4 text-tiv-3" />
               </div>
               <span>History</span>
             </Button>
           </Link>
           <Link href="/withdraw" className="flex-1 ml-2">
             <Button className="w-full hover:bg-green-500 rounded-full py-3 h-auto flex items-center justify-center gap-2 text-white bg-green-700/50 border border-green-600/30 animate-bounce-slow">
-              <div className="w-8 h-8 rounded-full bg-green-900 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-tiv-1 flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"
@@ -708,7 +708,7 @@ export default function DashboardPage() {
               </div>
               <div>
                 <h3 className="text-white font-semibold mb-1">100% Secure</h3>
-                <p className="text-green-200 text-sm">Bank-level encryption protects your transactions and personal data</p>
+                <p className="text-tiv-3 text-sm">Bank-level encryption protects your transactions and personal data</p>
               </div>
             </div>
 
@@ -718,7 +718,7 @@ export default function DashboardPage() {
               </div>
               <div>
                 <h3 className="text-white font-semibold mb-1">Lightning Fast</h3>
-                <p className="text-green-200 text-sm">Instant withdrawals and seamless transactions in seconds</p>
+                <p className="text-tiv-3 text-sm">Instant withdrawals and seamless transactions in seconds</p>
               </div>
             </div>
 
@@ -728,7 +728,7 @@ export default function DashboardPage() {
               </div>
               <div>
                 <h3 className="text-white font-semibold mb-1">100% Reliable</h3>
-                <p className="text-green-200 text-sm">24/7 support and guaranteed service uptime</p>
+                <p className="text-tiv-3 text-sm">24/7 support and guaranteed service uptime</p>
               </div>
             </div>
           </div>
@@ -748,7 +748,7 @@ export default function DashboardPage() {
       )}
 
       <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-br from-gray-900 via-green-900 to-black border-t border-green-800/30 shadow-lg flex justify-around items-center h-16 max-w-md mx-auto z-50">
-        <Link href="/dashboard" className="flex flex-col items-center text-green-400">
+        <Link href="/dashboard" className="flex flex-col items-center text-tiv-3">
           <Home className="h-6 w-6" />
           <span className="text-xs font-medium">Home</span>
         </Link>

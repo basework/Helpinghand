@@ -117,14 +117,14 @@ export default function WithdrawPage() {
             <ArrowLeft className="h-6 w-6" />
           </Button>
         </Link>
-        <h1 className="text-xl font-bold text-green-700">Withdraw Funds</h1>
+        <h1 className="text-xl font-bold text-tiv-2">Withdraw Funds</h1>
       </div>
 
       <div className="p-6 max-w-md mx-auto text-center space-y-6">
         {/* Toggle Section */}
         <div className="flex justify-end items-center mb-2 animate-bounce-slow">
           <label className="flex items-center gap-2 cursor-pointer">
-            <span className="text-sm font-medium text-green-700">Withdraw Without Referral</span>
+            <span className="text-sm font-medium text-tiv-2">Withdraw Without Referral</span>
             <div
               onClick={() => setToggleActive(!toggleActive)}
               className={`relative w-12 h-6 rounded-full transition-all duration-300 ${
@@ -143,7 +143,7 @@ export default function WithdrawPage() {
         {/* Balance Section */}
         <div className="bg-white rounded-3xl shadow-lg p-6 animate-fade-in">
           <p className="text-gray-600 text-sm mb-1">Available Balance</p>
-          <h2 className="text-4xl font-extrabold text-green-700">{formatCurrency(balance)}</h2>
+          <h2 className="text-4xl font-extrabold text-tiv-2">{formatCurrency(balance)}</h2>
         </div>
 
         {/* Requirements */}

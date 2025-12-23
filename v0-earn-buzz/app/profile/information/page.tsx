@@ -180,7 +180,7 @@ export default function ProfileInformationPage() {
             {/* Account Status */}
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-tiv-4 flex items-center justify-center mt-1">
-                <CheckCircle className="h-5 w-5 text-green-600" />
+                <CheckCircle className="h-5 w-5 text-tiv-2" />
               </div>
               <div>
                 <p className="text-sm text-gray-500">Account Status</p>

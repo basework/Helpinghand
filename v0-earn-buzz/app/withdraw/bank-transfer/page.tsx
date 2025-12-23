@@ -55,7 +55,7 @@ function PayKeyPaymentContent() {
             <Button
               variant="outline"
               size="sm"
-              className="bg-green-500 text-white border-green-500 hover:bg-green-600"
+              className="bg-tiv-1 text-white border-tiv-1 hover:bg-tiv-1"
               onClick={() => copyToClipboard(accountNumber, "account")}
             >
               {copiedField === "account" ? "Copied!" : "Copy"}

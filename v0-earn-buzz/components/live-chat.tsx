@@ -66,7 +66,7 @@ export function LiveChat({ onClose }: LiveChatProps) {
             </div>
             <div>
               <h3 className="font-semibold">Live Support</h3>
-              <p className="text-xs text-green-600">Online</p>
+              <p className="text-xs text-tiv-2">Online</p>
             </div>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose}>

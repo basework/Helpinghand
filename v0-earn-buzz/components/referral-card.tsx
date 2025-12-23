@@ -107,7 +107,7 @@ const copyReferralLink = () => {
               <Copy className="h-4 w-4" />
             </Button>
           </div>
-          <Button onClick={copyReferralLink} className="w-full mt-3 bg-green-600 hover:bg-green-700">
+          <Button onClick={copyReferralLink} className="w-full mt-3 bg-tiv-1 hover:bg-tiv-1">
             Copy Referral Link
           </Button>
         </div>

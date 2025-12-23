@@ -115,7 +115,7 @@ export default function WithdrawalReceiptPage() {
 
             <div className="flex justify-between items-center py-2 border-b border-gray-100">
               <span className="text-gray-600 font-medium">Amount:</span>
-              <span className="text-green-600 font-bold text-xl">₦{withdrawAmount.toLocaleString()}</span>
+              <span className="text-tiv-2 font-bold text-xl">₦{withdrawAmount.toLocaleString()}</span>
             </div>
 
             <div className="flex justify-between items-center py-2 border-b border-gray-100">

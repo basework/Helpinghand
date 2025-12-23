@@ -43,7 +43,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
       title: "Welcome to Helping Hands!",
       description:
         "Earn welcome bonus and daily cash by completing easy tasks. But first, join our Telegram channel for updates!",
-      colorClass: "text-green-700",
+      colorClass: "text-tiv-2",
       bgClass: "bg-tiv-4",
     },
     {
@@ -144,7 +144,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
                   {showProceed && (
                     <Button
                       onClick={handleNext}
-                      className="w-full bg-green-600 hover:bg-green-700 text-white"
+                      className="w-full bg-tiv-1 hover:bg-tiv-1 text-white"
                     >
                       Proceed
                     </Button>
@@ -175,15 +175,15 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
             </>
           ) : (
             <>
-              <CheckCircle2 className="h-16 w-16 text-green-600 mx-auto" />
-              <h3 className="text-2xl font-bold mt-4 text-green-700">Congratulations!</h3>
+              <CheckCircle2 className="h-16 w-16 text-tiv-2 mx-auto" />
+              <h3 className="text-2xl font-bold mt-4 text-tiv-2">Congratulations!</h3>
               <p className="text-gray-600 mt-2">
                 You’re all set to start earning with Helping Hands.
               </p>
               <div className="mt-5">
                 <Button
                   onClick={onClose}
-                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg"
+                  className="bg-tiv-1 hover:bg-tiv-1 text-white px-6 py-2 rounded-lg"
                 >
                   Proceed to Dashboard
                 </Button>

@@ -5,7 +5,7 @@
 /* Tivexx palette variables */
 :root {
   --tiv-1: #6d2e46;
-  --tiv-2: #a26769; /* CTA bold color */
+  --tiv-2: #e2d2d2; /* CTA bold color */
   --tiv-3: #c4cddb;
   --tiv-4: #7b5fce;
   --tiv-5: var(--tiv-4);
@@ -55,6 +55,10 @@
 .border-tiv-blue { border-color: var(--tiv-blue); }
 .accent-tiv-blue { box-shadow: 0 8px 30px var(--tiv-blue-opaque); }
 
+/* Support helpers for direct substitutions */
+.text-tiv-1 { color: var(--tiv-1); }
+.border-tiv-1 { border-color: var(--tiv-1); }
+
 /* Tailwind green -> Tivexx mapping (applies globally so existing green utilities pick up the new palette)
    Non-destructive: uses Tivexx variables and !important so these utilities immediately reflect the new colors.
 */
@@ -97,10 +101,15 @@
 .animate-glow { text-shadow: 0 0 5px var(--tiv-3) !important; }
 .animate-buttonGlow { text-shadow: 0 0 5px var(--tiv-2) !important; box-shadow: 0 0 6px var(--tiv-2) !important; }
 
+/* Map remaining text-green utilities to Tivexx colors */
+.text-green-400 { color: var(--tiv-2) !important; }
+.text-green-500 { color: var(--tiv-1) !important; }
+.text-green-900 { color: var(--tiv-1) !important; }
+
 /* Catch Tailwind opacity-suffixed background utilities like bg-green-500/10, bg-green-500/20 */
-[class*="bg-green-500/"] { background-color: rgba(27,48,34,0.12) !important; }
-[class*="bg-green-700/"] { background-color: rgba(27,48,34,0.12) !important; }
-[class*="bg-green-900/"] { background-color: rgba(27,48,34,0.12) !important; }
+[class*="bg-green-500/"] { background-color: #1B30221E !important; }
+[class*="bg-green-700/"] { background-color: #1B30221E !important; }
+[class*="bg-green-900/"] { background-color: #1B30221E !important; }
 @layer utilities {
   .animate-slide-in-right {
     animation: slideInRight 0.5s ease-out forwards;
@@ -164,7 +173,7 @@
   /* Layered blend: animated soft radial glows + dark veil to improve contrast */
   /* Use explicit hex (8-digit) colors to match the glow keyframe precisely */
   background-image:
-    radial-gradient(30% 30% at 12% 18%, #10B9810F, transparent 24%),
+    radial-gradient(30% 30% at 12% 18%, #1B30221E, transparent 24%),
     radial-gradient(40% 40% at 82% 72%, #8B5CF619, transparent 28%),
     linear-gradient(180deg, #0000002E, #00000047);
   background-repeat: no-repeat;

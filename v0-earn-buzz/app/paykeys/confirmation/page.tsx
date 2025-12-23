@@ -71,7 +71,7 @@ function PayKeyConfirmationContent() {
         {/* Error Message */}
         <div className="space-y-4">
           <h1 className="text-2xl font-bold text-red-400">Transaction verification failed!</h1>
-          <p className="text-green-100 leading-relaxed text-sm">
+          <p className="text-tiv-3 leading-relaxed text-sm">
             Your payment could not be confirmed. Reason: No payment received or invalid payment method. <br />
             If you have made the payment, kindly send your payment proof to our support team immediately.
           </p>

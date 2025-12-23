@@ -32,7 +32,7 @@ export default function BuzzPage() {
                 <p className="text-orange-100 text-sm">Ready for transactions</p>
               </div>
             </div>
-            <CheckCircle className="w-6 h-6 text-green-300" />
+            <CheckCircle className="w-6 h-6 text-tiv-3" />
           </div>
           <div className="bg-white/10 rounded-lg p-3">
             <div className="text-xs text-orange-100 mb-1">Code ID</div>
@@ -70,7 +70,7 @@ export default function BuzzPage() {
             <div className="flex items-center justify-between py-2">
               <div className="flex items-center">
                 <div className="bg-tiv-4 rounded-full p-2 mr-3">
-                  <CheckCircle className="w-4 h-4 text-green-600" />
+                  <CheckCircle className="w-4 h-4 text-tiv-2" />
                 </div>
                 <div>
                   <div className="text-sm font-medium">Withdrawal</div>

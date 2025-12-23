@@ -16,11 +16,11 @@ export default function PaymentResultPage() {
   const isSuccess = status === "success"
   const message = isSuccess ? "Payment Received!" : "Payment Not Received"
   const icon = isSuccess ? (
-    <CheckCircle className="h-20 w-20 text-green-500" />
+    <CheckCircle className="h-20 w-20 text-tiv-1" />
   ) : (
     <XCircle className="h-20 w-20 text-red-500" />
   )
-  const textColor = isSuccess ? "text-green-700" : "text-red-700"
+  const textColor = isSuccess ? "text-tiv-2" : "text-red-700"
 
   const formatCurrencyNaira = (amount: number) => {
     return new Intl.NumberFormat("en-NG", {

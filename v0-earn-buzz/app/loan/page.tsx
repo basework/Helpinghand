@@ -148,7 +148,7 @@ export default function LoanPage() {
                 setShowApproval(false)
                 setShowBusinessLoanPopup(true)
               }}
-              className="w-full bg-green-600 hover:bg-green-700"
+              className="w-full bg-tiv-1 hover:bg-tiv-1"
             >
               Next
             </Button>
@@ -258,7 +258,7 @@ export default function LoanPage() {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white py-6 text-lg">
+              <Button type="submit" className="w-full mt-6 bg-tiv-1 hover:bg-tiv-1 text-white py-6 text-lg">
                 Continue to Step 2
               </Button>
             </div>
