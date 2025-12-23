@@ -76,7 +76,7 @@ export default function HelpPage() {
 
         <div className="text-center mt-8">
           <p className="text-gray-600 mb-4">Still need help?</p>
-          <Button onClick={handleContactSupport} className="bg-green-600 hover:bg-green-700 text-white">
+          <Button onClick={handleContactSupport} className="btn-tivexx-cta">
             Contact our support team
           </Button>
         </div>

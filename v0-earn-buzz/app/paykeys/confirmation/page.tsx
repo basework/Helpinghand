@@ -86,7 +86,7 @@ function PayKeyConfirmationContent() {
         {/* Action Buttons */}
         <div className="space-y-3 mt-6">
           <button
-            className="w-full h-12 border border-green-300 bg-white/10 hover:bg-green-100/20 text-white rounded-lg font-semibold transition-all"
+            className="w-full h-12 border border-tiv-4 bg-white/10 hover:bg-tiv-4/20 text-white rounded-lg font-semibold transition-all"
             onClick={() => router.push("/dashboard")}
           >
             Go to Dashboard

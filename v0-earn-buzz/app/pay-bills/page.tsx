@@ -44,9 +44,9 @@ export default function PayBillsPage() {
       emoji: "📶",
       link: "/data",
       color: "text-green-600",
-      bgColor: "bg-green-50",
+      bgColor: "bg-tiv-4",
       borderColor: "border-green-200",
-      hoverColor: "hover:bg-green-100",
+      hoverColor: "hover:bg-tiv-4",
     },
   ]
 

@@ -41,7 +41,7 @@ export default function VersionPage() {
       {/* Content */}
       <div className="max-w-md mx-auto mt-6 px-4">
         <div className="bg-white rounded-xl shadow-md p-6 text-center">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-20 h-20 bg-tiv-4 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="h-10 w-10 text-green-600" />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Your App is Up to Date!</h2>

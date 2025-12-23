@@ -69,7 +69,7 @@ export default function BuzzPage() {
           <div className="space-y-3">
             <div className="flex items-center justify-between py-2">
               <div className="flex items-center">
-                <div className="bg-green-100 rounded-full p-2 mr-3">
+                <div className="bg-tiv-4 rounded-full p-2 mr-3">
                   <CheckCircle className="w-4 h-4 text-green-600" />
                 </div>
                 <div>

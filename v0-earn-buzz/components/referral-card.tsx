@@ -70,8 +70,8 @@ const copyReferralLink = () => {
       <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
         <CardContent className="p-6">
           <div className="animate-pulse space-y-4">
-            <div className="h-8 bg-green-200 rounded w-1/2"></div>
-            <div className="h-12 bg-green-200 rounded"></div>
+            <div className="h-8 bg-tiv-3 rounded w-1/2"></div>
+            <div className="h-12 bg-tiv-3 rounded"></div>
           </div>
         </CardContent>
       </Card>
@@ -102,12 +102,12 @@ const copyReferralLink = () => {
               size="sm"
               variant="outline"
               onClick={copyReferralCode}
-              className="border-green-300 hover:bg-green-50 bg-transparent"
+              className="border-tiv-4 hover:bg-tiv-4 bg-transparent"
             >
               <Copy className="h-4 w-4" />
             </Button>
           </div>
-          <Button onClick={copyReferralLink} className="w-full mt-3 bg-green-600 hover:bg-green-700">
+          <Button onClick={copyReferralLink} className="w-full mt-3 btn-tivexx-cta">
             Copy Referral Link
           </Button>
         </div>

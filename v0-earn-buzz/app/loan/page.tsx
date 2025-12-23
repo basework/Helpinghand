@@ -148,7 +148,7 @@ export default function LoanPage() {
                 setShowApproval(false)
                 setShowBusinessLoanPopup(true)
               }}
-              className="w-full bg-green-600 hover:bg-green-700"
+              className="w-full btn-tivexx-cta"
             >
               Next
             </Button>
@@ -258,7 +258,7 @@ export default function LoanPage() {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white py-6 text-lg">
+              <Button type="submit" className="w-full mt-6 btn-tivexx-cta text-white py-6 text-lg">
                 Continue to Step 2
               </Button>
             </div>
@@ -283,7 +283,7 @@ export default function LoanPage() {
                     onClick={() => setIncomeRange(option.value)}
                     className={`w-full p-4 rounded-lg border-2 transition-all ${
                       incomeRange === option.value
-                        ? "bg-green-600 border-green-400 text-white"
+                        ? "btn-tivexx-cta border-tiv-2 text-white"
                         : "bg-white/10 border-white/30 text-white hover:bg-white/20"
                     }`}
                   >
@@ -295,7 +295,7 @@ export default function LoanPage() {
               <Button
                 type="submit"
                 disabled={!incomeRange}
-                className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white py-6 text-lg disabled:opacity-50"
+                className="w-full mt-6 btn-tivexx-cta disabled:opacity-50 text-white py-6 text-lg"
               >
                 Submit Application
               </Button>

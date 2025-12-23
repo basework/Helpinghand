@@ -59,7 +59,7 @@ export default function PaymentConfirmationPage() {
           {/* Re-check Button */}
           <Button
             onClick={handleRecheck}
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-lg font-semibold text-lg"
+            className="w-full btn-tivexx-cta text-white py-4 rounded-lg font-semibold text-lg"
           >
             Re-check
           </Button>

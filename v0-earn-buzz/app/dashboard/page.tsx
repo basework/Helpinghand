@@ -383,9 +383,7 @@ export default function DashboardPage() {
 
       {showClaimSuccess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-          <div className="bg-green-600 text-white px-8 py-4 rounded-2xl shadow-2xl animate-bounce">
-            <p className="text-xl font-bold text-center">🎉 Congrats!</p>
-            <p className="text-lg text-center">₦1,000 has been claimed and added to your balance</p>
+          <div className="btn-tivexx-cta px-8 py-4 rounded-2xl shadow-2xl animate-bounce">
           </div>
         </div>
       )}
@@ -406,7 +404,7 @@ export default function DashboardPage() {
                 setShowPauseDialog(false)
                 router.push("/refer")
               }}
-              className="flex-1 bg-green-600 hover:bg-green-700"
+              className="flex-1 btn-tivexx-cta"
             >
               Refer Friends
             </Button>
@@ -446,7 +444,7 @@ export default function DashboardPage() {
                 setShowReminderDialog(false)
                 router.push("/refer")
               }}
-              className="flex-1 bg-green-600 hover:bg-green-700"
+              className="flex-1 btn-tivexx-cta"
             >
               Refer More Friends
             </Button>
@@ -518,7 +516,7 @@ export default function DashboardPage() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="relative h-10 w-10 rounded-full bg-green-600 hover:bg-green-500 animate-bounce"
+                  className="relative h-10 w-10 rounded-full bg-tiv-2 hover:opacity-95 animate-bounce"
                 >
                   <Bell className="h-5 w-5 text-white" />
                   <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
@@ -586,7 +584,7 @@ export default function DashboardPage() {
           <Button
             onClick={handleClaim}
             disabled={!canClaim && !pauseEndTime}
-            className={`w-full ${canClaim || pauseEndTime ? "bg-green-500 hover:bg-green-600 animate-pulse animate-bounce-slow" : "bg-gray-400 cursor-not-allowed"} text-white font-semibold py-3 rounded-lg transition-all flex items-center justify-center gap-2`}
+            className={`w-full ${canClaim || pauseEndTime ? "btn-tivexx-cta animate-pulse animate-bounce-slow" : "bg-gray-400 cursor-not-allowed"} text-white font-semibold py-3 rounded-lg transition-all flex items-center justify-center gap-2`}
           >
             <Gift className="h-5 w-5" />
             {pauseEndTime
@@ -602,7 +600,7 @@ export default function DashboardPage() {
 
         <div className="flex justify-between items-center mt-6">
           <Link href="/history" className="flex-1 mr-2">
-            <Button className="w-full hover:bg-green-500 rounded-full py-3 h-auto flex items-center justify-center gap-2 text-white bg-green-700/50 border border-green-600/30">
+            <Button className="w-full btn-tivexx-cta rounded-full py-3 h-auto flex items-center justify-center gap-2">
               <div className="w-8 h-8 rounded-full bg-green-900 flex items-center justify-center">
                 <History className="h-4 w-4 text-green-300" />
               </div>
@@ -610,7 +608,7 @@ export default function DashboardPage() {
             </Button>
           </Link>
           <Link href="/withdraw" className="flex-1 ml-2">
-            <Button className="w-full hover:bg-green-500 rounded-full py-3 h-auto flex items-center justify-center gap-2 text-white bg-green-700/50 border border-green-600/30 animate-bounce-slow">
+            <Button className="w-full btn-tivexx-cta rounded-full py-3 h-auto flex items-center justify-center gap-2 animate-bounce-slow">
               <div className="w-8 h-8 rounded-full bg-green-900 flex items-center justify-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -703,7 +701,7 @@ export default function DashboardPage() {
 
           <div className="space-y-3 mb-6 relative z-10">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-tiv-2 rounded-full flex items-center justify-center flex-shrink-0">
                 <Shield className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -723,7 +721,7 @@ export default function DashboardPage() {
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-tiv-2 rounded-full flex items-center justify-center flex-shrink-0">
                 <Users className="w-5 h-5 text-white" />
               </div>
               <div>

@@ -2,6 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Tivexx palette variables */
+:root {
+  --tiv-1: #1B3022;
+  --tiv-2: #395756; /* CTA bold color */
+  --tiv-3: #4F5D75;
+  --tiv-4: #7261A3;
+  --tiv-5: var(--tiv-4);
+}
+
+/* Tivexx utility classes (CTAs and basic helpers) */
+.btn-tivexx-cta {
+  background: linear-gradient(90deg, var(--tiv-2), var(--tiv-3));
+  color: white;
+  box-shadow: 0 6px 20px rgba(57, 87, 86, 0.18);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn-tivexx-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(57, 87, 86, 0.2);
+}
+.btn-tivexx-claim {
+  background: var(--tiv-2);
+  color: white;
+  box-shadow: 0 6px 18px rgba(57, 87, 86, 0.14);
+}
+.bg-tiv-1 { background-color: var(--tiv-1); }
+.bg-tiv-2 { background-color: var(--tiv-2); }
+.bg-tiv-3 { background-color: var(--tiv-3); }
+.bg-tiv-4 { background-color: var(--tiv-4); }
+.text-tiv-2 { color: var(--tiv-2); }
+.text-tiv-3 { color: var(--tiv-3); }
+.border-tiv-2 { border-color: var(--tiv-2); }
+.border-tiv-4 { border-color: var(--tiv-4); }
+
 @layer utilities {
   .animate-slide-in-right {
     animation: slideInRight 0.5s ease-out forwards;

@@ -161,7 +161,7 @@ export default function SetupWithdrawalAccountPage() {
   // Loading popup
   if (loading || transitioning) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-green-600 text-white relative overflow-hidden">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-tiv-3 text-white relative overflow-hidden">
         <div className="animate-glow text-center">
           <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <h1 className="text-3xl font-extrabold tracking-widest mb-2">Helping Hands</h1>
@@ -213,7 +213,7 @@ export default function SetupWithdrawalAccountPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-500 to-green-700 px-4 py-10 animate-fadeIn">
       <div className="w-full max-w-xl bg-white border border-green-200 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:scale-[1.01]">
-        <div className="px-6 py-6 border-b border-green-100 bg-green-50">
+        <div className="px-6 py-6 border-b border-tiv-4 bg-tiv-4">
           <h1 className="text-2xl font-bold text-green-800 animate-slideDown">Withdrawal Setup</h1>
           <p className="text-sm text-green-700 mt-1">
             Fill in your withdrawal details to receive payouts securely. Your information is protected.
@@ -254,7 +254,7 @@ export default function SetupWithdrawalAccountPage() {
                       setVerifyError("")
                     }}
                     className={`px-4 py-3 cursor-pointer select-none text-sm text-green-800 hover:bg-green-100 transition ${
-                      bank === b.name ? "bg-green-50 font-medium" : ""
+                      bank === b.name ? "bg-tiv-4 font-medium" : ""
                     }`}
                   >
                     {b.name}
@@ -272,7 +272,7 @@ export default function SetupWithdrawalAccountPage() {
                       setBankCode("")
                     }}
                     className={`px-4 py-3 cursor-pointer select-none text-sm text-green-800 hover:bg-green-100 transition ${
-                      bank === b ? "bg-green-50 font-medium" : ""
+                      bank === b ? "bg-tiv-4 font-medium" : ""
                     }`}
                   >
                     {b}
@@ -309,8 +309,8 @@ export default function SetupWithdrawalAccountPage() {
                 disabled={accountNumber.replace(/\D/g, "").length !== 10 || !bankCode || verifying}
                 className={`rounded-md px-4 py-3 text-sm font-semibold transition-all ${
                   accountNumber.replace(/\D/g, "").length !== 10 || !bankCode
-                    ? "bg-green-200 text-green-700 cursor-not-allowed"
-                    : "bg-green-600 text-white hover:bg-green-700"
+                    ? "bg-tiv-3 text-tiv-2 cursor-not-allowed"
+                    : "btn-tivexx-cta text-white hover:shadow-lg"
                 }`}
               >
                 {verifying ? (
@@ -330,7 +330,7 @@ export default function SetupWithdrawalAccountPage() {
           <div>
             <label className="block text-sm font-medium text-green-800 mb-2">
               Account Name
-              {verified && <span className="ml-2 inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Verified ✓</span>}
+              {verified && <span className="ml-2 inline-block bg-tiv-4 text-tiv-2 text-xs px-2 py-1 rounded">Verified ✓</span>}
             </label>
             <input
               value={accountName}
@@ -341,7 +341,7 @@ export default function SetupWithdrawalAccountPage() {
               disabled={verified}
               className={`w-full rounded-md border px-4 py-3 focus:outline-none focus:ring-2 transition ${
                 verified
-                  ? "border-green-400 bg-green-50 text-green-900 cursor-not-allowed focus:ring-green-300"
+                  ? "border-tiv-4 bg-tiv-4 text-tiv-2 cursor-not-allowed focus:ring-tiv-4"
                   : "border-green-300 bg-white focus:ring-green-400"
               }`}
             />
@@ -357,7 +357,7 @@ export default function SetupWithdrawalAccountPage() {
             className={`w-full inline-flex items-center justify-center rounded-md px-4 py-3 text-sm font-semibold transition-all ${
               !bank || !accountNumber || !accountName
                 ? "bg-green-200 text-green-700 cursor-not-allowed"
-                : "bg-green-600 text-white hover:bg-green-700 hover:shadow-lg hover:scale-[1.02]"
+                : "btn-tivexx-cta text-white hover:shadow-lg hover:scale-[1.02]"
             }`}
           >
             Proceed

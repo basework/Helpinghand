@@ -36,7 +36,7 @@ export default function VerifyMePage() {
 
       <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/10 border border-green-300 shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
         <div className="flex flex-col items-center space-y-6 relative z-10">
-          <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center animate-bounce-slow">
+          <div className="w-20 h-20 bg-tiv-2/20 rounded-full flex items-center justify-center animate-bounce-slow">
             <ShieldCheck className="h-12 w-12 text-green-200" />
           </div>
 

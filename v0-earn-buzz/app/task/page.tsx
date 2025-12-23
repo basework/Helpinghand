@@ -255,7 +255,7 @@ export default function TaskPage() {
       <div className="bg-gradient-to-r from-green-700 to-green-600 text-white p-6 rounded-b-3xl shadow-lg">
         <div className="flex items-center mb-4">
           <Link href="/dashboard">
-            <Button variant="ghost" size="icon" className="text-white hover:bg-green-500/50 mr-2">
+            <Button variant="ghost" size="icon" className="text-white hover:bg-tiv-2/50 mr-2">
               <ArrowLeft className="h-6 w-6" />
             </Button>
           </Link>
@@ -335,7 +335,7 @@ export default function TaskPage() {
               ) : (
                 <Button
                   onClick={() => handleTaskClick(task)}
-                  className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2"
+                  className="w-full mt-4 btn-tivexx-cta text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2"
                 >
                   Start Task
                 </Button>

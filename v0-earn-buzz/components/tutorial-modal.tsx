@@ -44,7 +44,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
       description:
         "Earn welcome bonus and daily cash by completing easy tasks. But first, join our Telegram channel for updates!",
       colorClass: "text-green-700",
-      bgClass: "bg-green-50",
+      bgClass: "bg-tiv-4",
     },
     {
       icon: Users,
@@ -144,7 +144,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
                   {showProceed && (
                     <Button
                       onClick={handleNext}
-                      className="w-full bg-green-600 hover:bg-green-700 text-white"
+                      className="w-full btn-tivexx-cta"
                     >
                       Proceed
                     </Button>
@@ -154,7 +154,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
                 <div className="mt-6">
                   <Button
                     onClick={handleNext}
-                    className="w-full bg-green-600 hover:bg-green-700 text-white"
+                    className="w-full btn-tivexx-cta"
                   >
                     {currentStep === steps.length - 1 ? "Finish Tutorial" : "Next"}
                   </Button>
@@ -167,7 +167,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
                   <span
                     key={i}
                     className={`h-2.5 w-2.5 rounded-full ${
-                      i === currentStep ? "bg-green-600 scale-110" : "bg-gray-300"
+                      i === currentStep ? "bg-tiv-2 scale-110" : "bg-gray-300"
                     }`}
                   />
                 ))}
@@ -183,7 +183,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
               <div className="mt-5">
                 <Button
                   onClick={onClose}
-                  className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg"
+                  className="btn-tivexx-cta px-6 py-2 rounded-lg"
                 >
                   Proceed to Dashboard
                 </Button>

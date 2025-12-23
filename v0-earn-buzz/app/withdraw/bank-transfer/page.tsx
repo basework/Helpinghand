@@ -55,7 +55,7 @@ function PayKeyPaymentContent() {
             <Button
               variant="outline"
               size="sm"
-              className="bg-green-500 text-white border-green-500 hover:bg-green-600"
+              className="btn-tivexx-cta text-white border border-tiv-2 hover:shadow-lg"
               onClick={() => copyToClipboard(accountNumber, "account")}
             >
               {copiedField === "account" ? "Copied!" : "Copy"}
@@ -69,7 +69,7 @@ function PayKeyPaymentContent() {
         </div>
 
         {/* Payment Proof Section */}
-        <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+        <div className="mt-4 p-4 bg-tiv-4 border border-tiv-4 rounded-lg">
           <h3 className="font-semibold text-green-900 mb-3 flex items-center gap-2">
             <span>📸</span> Send Payment Proof
           </h3>
