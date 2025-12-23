@@ -70,6 +70,15 @@
 .from-green-500 { --tw-gradient-from: var(--tiv-2); }
 .to-green-700 { --tw-gradient-to: var(--tiv-3); }
 .via-green-700 { --tw-gradient-stops: var(--tw-gradient-from), var(--tiv-3), var(--tw-gradient-to); }
+/* Additional via/stop mappings to catch deeper/tighter gradients */
+.via-green-600 { --tw-gradient-stops: var(--tw-gradient-from), var(--tiv-1), var(--tw-gradient-to); }
+.via-green-900 { --tw-gradient-stops: var(--tw-gradient-from), var(--tiv-1), var(--tw-gradient-to); }
+.via-green-950 { --tw-gradient-stops: var(--tw-gradient-from), var(--tiv-1), var(--tw-gradient-to); }
+
+/* Override common glow/text-shadow colors to Tivexx variables without changing animation timing */
+.animate-glow { text-shadow: 0 0 5px var(--tiv-3) !important; }
+.animate-buttonGlow { text-shadow: 0 0 5px var(--tiv-2) !important; box-shadow: 0 0 6px var(--tiv-2) !important; }
+
 /* Catch Tailwind opacity-suffixed background utilities like bg-green-500/10, bg-green-500/20 */
 [class*="bg-green-500/"] { background-color: rgba(27,48,34,0.12) !important; }
 [class*="bg-green-700/"] { background-color: rgba(27,48,34,0.12) !important; }
@@ -134,7 +143,7 @@
 
 /* Soft overlay utility to improve CTA/text contrast when needed */
 .bg-tivexx-hero--overlay {
-  background: linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.28) 100%);
+  background: linear-gradient(180deg, rgba(60, 16, 16, 0.18) 0%, #15080847  100%);
   mix-blend-mode: normal;
   pointer-events: none;
 }

@@ -35,15 +35,15 @@ export default function AboutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-700 via-green-700 to-[#064e3b] text-white">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-700 via-green-700 to-green-900 text-white">
       {/* subtle animated background elements */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-tr from-[#064e3b]/70 to-[#10b981]/10" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-green-900/70 to-green-500/10" />
         <svg className="absolute -z-0 opacity-10" style={{ right: "-8%", top: "-6%", width: "70%" }} viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <radialGradient id="rad2" cx="50%" cy="50%">
-              <stop offset="0%" stopColor="#34d399" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#10b981" stopOpacity="0.02" />
+              <stop offset="0%" stopColor="var(--tiv-3)" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="var(--tiv-2)" stopOpacity="0.02" />
             </radialGradient>
           </defs>
           <circle cx="300" cy="300" r="250" fill="url(#rad2)" />

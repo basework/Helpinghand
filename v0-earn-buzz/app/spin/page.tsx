@@ -34,7 +34,7 @@ export default function AboutPage() {
 
   if (!loaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0b6b3a] via-[#153d2f] to-[#071218] p-6">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-700 via-green-900 to-black p-6">
         <div className="text-center text-white">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent mb-4" />
           <div className="text-lg font-medium">Loading Helping Hands</div>
@@ -45,7 +45,7 @@ export default function AboutPage() {
 
   if (!userData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0b6b3a] via-[#153d2f] to-[#071218] p-6">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-700 via-green-900 to-black p-6">
         <Card className="max-w-lg w-full p-6 text-center">
           <h2 className="text-xl font-bold mb-2">Welcome to Helping Hands</h2>
           <p className="text-sm text-gray-600">
@@ -65,7 +65,7 @@ export default function AboutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0b6b3a] via-[#153d2f] to-[#071218] text-white">
+    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black text-white">
       
       {/* Back button */}
       <div className="fixed top-4 left-4 z-50">
