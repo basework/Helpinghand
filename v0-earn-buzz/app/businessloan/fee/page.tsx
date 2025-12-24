@@ -1,4 +1,3 @@
-```jsx
 "use client"
 
 import { Button } from "@/components/ui/button"
@@ -33,9 +32,9 @@ function LoanFeeContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-gradient-to-r from-green-700 to-green-900 p-4">
+      <div className="bg-primary p-4">
         <div className="flex items-center space-x-4">
           <Button variant="ghost" size="sm" onClick={() => router.back()} className="text-white hover:bg-white/10 p-2">
             <ArrowLeft className="h-5 w-5" />
@@ -45,23 +44,25 @@ function LoanFeeContent() {
       </div>
 
       <div className="p-6 space-y-6">
+        {/* Loan Summary */}
+
         {/* Processing Fee Card */}
-        <Card className="p-6 space-y-4 border-white/8 bg-white/6 backdrop-blur-lg">
-          <h2 className="text-lg font-semibold text-emerald-200">Processing Fee Required</h2>
+        <Card className="p-6 space-y-4 border-orange-200 bg-orange-50">
+          <h2 className="text-lg font-semibold text-orange-800">Processing Fee Required</h2>
 
           <div className="space-y-3">
-            <p className="text-sm text-white/80">
+            <p className="text-sm text-orange-700">
               To process your loan application, you need to pay a processing fee of 6% of the loan amount.
             </p>
 
-            <div className="bg-white/10 p-4 rounded-lg border border-white/8">
+            <div className="bg-white p-4 rounded-lg">
               <div className="flex justify-between items-center">
-                <span className="text-white/70">Processing Fee (6%):</span>
-                <span className="text-2xl font-bold text-amber-300">₦{processingFee.toLocaleString()}</span>
+                <span className="text-muted-foreground">Processing Fee (6%):</span>
+                <span className="text-2xl font-bold text-orange-600">₦{processingFee.toLocaleString()}</span>
               </div>
             </div>
 
-            <div className="text-xs text-emerald-200 space-y-1">
+            <div className="text-xs text-orange-600 space-y-1">
               <p>• This fee is required to activate your loan</p>
               <p>• Your loan will be disbursed immediately after payment</p>
               <p>• Processing fee is non-refundable</p>
@@ -71,14 +72,14 @@ function LoanFeeContent() {
 
         {/* Payment Button */}
         <Button
-          className="w-full h-12 text-lg font-medium bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
+          className="w-full h-12 text-lg font-medium bg-orange-600 hover:bg-orange-700"
           onClick={handlePayProcessingFee}
         >
           Pay Processing Fee - ₦{processingFee.toLocaleString()}
         </Button>
 
         {/* Disclaimer */}
-        <p className="text-xs text-white/60 text-center leading-relaxed">
+        <p className="text-xs text-muted-foreground text-center leading-relaxed">
           By proceeding, you agree to pay the processing fee. Your loan will be processed and disbursed to your account
           within 24 hours after successful payment verification.
         </p>
@@ -91,8 +92,8 @@ export default function LoanFeePage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black flex items-center justify-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-4 border-emerald-300 border-t-transparent"></div>
+        <div className="min-h-screen bg-background flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"></div>
         </div>
       }
     >
@@ -100,6 +101,3 @@ export default function LoanFeePage() {
     </Suspense>
   )
 }
-```                  </div>
-                </div>
-              </div>
