@@ -52,7 +52,7 @@ export default function LoanPage() {
 
   if (!mounted || !userData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#4F5D75]">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-700 via-green-900 to-black">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
           <p className="mt-4 text-white">Loading...</p>
@@ -111,7 +111,7 @@ export default function LoanPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#4F5D75] pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black pb-20">
       {/* Restriction Popup */}
       {showRestrictionPopup && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
@@ -121,7 +121,7 @@ export default function LoanPage() {
             <div className="flex gap-3">
               <Button
                 onClick={() => router.push("/businessloan")}
-                className="flex-1 bg-purple-600 hover:bg-purple-700 text-white"
+                className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
               >
                 Apply for Business Loan
               </Button>
@@ -138,17 +138,17 @@ export default function LoanPage() {
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-8 max-w-sm mx-auto shadow-2xl text-center">
             <div className="mb-6 animate-bounce">
-              <CheckCircle2 className="h-20 w-20 text-tiv-3 mx-auto" />
+              <CheckCircle2 className="h-20 w-20 text-emerald-500 mx-auto" />
             </div>
             <h2 className="text-2xl font-bold text-gray-800 mb-2">Congratulations!</h2>
             <p className="text-gray-600 mb-4">Your loan has been approved</p>
-            <p className="text-3xl font-bold text-tiv-3 mb-6">{formatCurrency(loanAmount)}</p>
+            <p className="text-3xl font-bold text-emerald-600 mb-6">{formatCurrency(loanAmount)}</p>
             <Button
               onClick={() => {
                 setShowApproval(false)
                 setShowBusinessLoanPopup(true)
               }}
-              className="w-full bg-tiv-1 hover:bg-tiv-1"
+              className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
             >
               Next
             </Button>
@@ -165,14 +165,14 @@ export default function LoanPage() {
             <div className="flex flex-col gap-3">
               <Button
                 onClick={() => router.push("/businessloan")}
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white"
+                className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white"
               >
                 Apply for Business Loan
               </Button>
               <Button
                 onClick={() => router.push("/dashboard")}
                 variant="outline"
-                className="w-full border border-purple-600 text-purple-700"
+                className="w-full border border-green-600 text-green-700"
               >
                 Back to Dashboard
               </Button>
@@ -184,7 +184,7 @@ export default function LoanPage() {
       {isLoading && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-8 max-w-sm mx-auto shadow-2xl text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-purple-600 border-t-transparent mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-4 border-green-600 border-t-transparent mx-auto mb-4"></div>
             <p className="text-gray-800 font-semibold">Processing your loan application...</p>
             <p className="text-gray-600 text-sm mt-2">Please wait</p>
           </div>
@@ -192,9 +192,9 @@ export default function LoanPage() {
       )}
 
       {/* Header */}
-      <div className="flex items-center p-4 bg-white/10 backdrop-blur-sm border-b border-white/20">
+      <div className="flex items-center p-4 bg-white/6 backdrop-blur-sm border-b border-white/8">
         <Link href="/dashboard">
-          <Button variant="ghost" size="icon" className="mr-2 text-white hover:bg-white/20">
+          <Button variant="ghost" size="icon" className="mr-2 text-white hover:bg-white/10">
             <ArrowLeft className="h-6 w-6" />
           </Button>
         </Link>
@@ -204,7 +204,7 @@ export default function LoanPage() {
       <div className="p-6 max-w-md mx-auto">
         {step === 1 && (
           <form onSubmit={handleKycSubmit} className="space-y-6">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+            <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-6 border border-white/8">
               <h2 className="text-2xl font-bold text-white mb-6">Step 1: KYC Information</h2>
 
               <div className="space-y-4">
@@ -215,7 +215,7 @@ export default function LoanPage() {
                     value={kycData.fullName}
                     onChange={(e) => setKycData({ ...kycData, fullName: e.target.value })}
                     required
-                    className="bg-white/20 border-white/30 text-white placeholder:text-white/50"
+                    className="bg-white/10 border-white/8 text-white placeholder:text-white/50"
                     placeholder="Enter your full name"
                   />
                 </div>
@@ -227,7 +227,7 @@ export default function LoanPage() {
                     value={kycData.dob}
                     onChange={(e) => setKycData({ ...kycData, dob: e.target.value })}
                     required
-                    className="bg-white/20 border-white/30 text-white"
+                    className="bg-white/10 border-white/8 text-white"
                   />
                 </div>
 
@@ -238,7 +238,7 @@ export default function LoanPage() {
                     value={kycData.address}
                     onChange={(e) => setKycData({ ...kycData, address: e.target.value })}
                     required
-                    className="bg-white/20 border-white/30 text-white placeholder:text-white/50"
+                    className="bg-white/10 border-white/8 text-white placeholder:text-white/50"
                     placeholder="Enter your address"
                   />
                 </div>
@@ -248,7 +248,7 @@ export default function LoanPage() {
                   <select
                     value={kycData.maritalStatus}
                     onChange={(e) => setKycData({ ...kycData, maritalStatus: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white"
+                    className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/8 text-white"
                   >
                     <option value="Single">Single</option>
                     <option value="Married">Married</option>
@@ -258,7 +258,7 @@ export default function LoanPage() {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full mt-6 bg-tiv-1 hover:bg-tiv-1 text-white py-6 text-lg">
+              <Button type="submit" className="w-full mt-6 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-6 text-lg">
                 Continue to Step 2
               </Button>
             </div>
@@ -267,7 +267,7 @@ export default function LoanPage() {
 
         {step === 2 && (
           <form onSubmit={handleIncomeSubmit} className="space-y-6">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+            <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-6 border border-white/8">
               <h2 className="text-2xl font-bold text-white mb-6">Step 2: Annual Income</h2>
 
               <div className="space-y-3">
@@ -283,8 +283,8 @@ export default function LoanPage() {
                     onClick={() => setIncomeRange(option.value)}
                     className={`w-full p-4 rounded-lg border-2 transition-all ${
                       incomeRange === option.value
-                        ? "bg-[#4F5D75] border-[#4F5D75] text-white"
-                        : "bg-white/10 border-white/30 text-white hover:bg-white/20"
+                        ? "bg-gradient-to-r from-green-600 to-green-700 border-green-500/30 text-white"
+                        : "bg-white/10 border-white/8 text-white hover:bg-white/15"
                     }`}
                   >
                     {option.label}
@@ -295,7 +295,7 @@ export default function LoanPage() {
               <Button
                 type="submit"
                 disabled={!incomeRange}
-                className="w-full mt-6 bg-[#4F5D75] hover:bg-[#4F5D75] disabled:opacity-50 text-white py-6 text-lg"
+                className="w-full mt-6 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 disabled:opacity-50 text-white py-6 text-lg"
               >
                 Submit Application
               </Button>
