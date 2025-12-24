@@ -120,7 +120,7 @@ export default function AboutPage() {
               <h2 className="text-xl font-bold text-emerald-200 mb-3">What You Can Do on Helping Hands</h2>
 
               <ul className="space-y-3 text-sm text-white/85 leading-relaxed list-disc pl-5">
-                <li>Earn ₦1,000 every 1 minute by claiming through the daily earnings button.</li>
+                <li>Earn ₦1,000. every 1 minute by claiming through the daily earnings button.</li>
                 <li>Earn ₦10,000 per verified referral with no limits. Some users earn from 50 to 300 referrals.</li>
                 <li>Access Quick Loans instantly with no collateral or BVN required.</li>
                 <li>Apply for Business Loans from ₦500,000 to ₦5,000,000 with a 3 percent processing fee and 12 months repayment.</li>
