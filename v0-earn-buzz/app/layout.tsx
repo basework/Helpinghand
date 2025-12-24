@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
+import PageShell from "@/components/PageShell"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -26,13 +27,11 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <main className="min-h-screen max-w-md mx-auto bg-[#fff5f0] relative overflow-hidden">
-            <div className="absolute inset-0 -z-10">
-              <div className="absolute inset-0 bg-tivexx-hero" />
-              <div className="absolute inset-0 bg-tivexx-hero--overlay" />
-            </div>
-            {children}
-          </main>
+          <PageShell exclude={["/dashboard"]}>
+            <main className="min-h-screen max-w-md mx-auto relative overflow-hidden">
+              {children}
+            </main>
+          </PageShell>
         </ThemeProvider>
       </body>
     </html>
