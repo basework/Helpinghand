@@ -76,7 +76,7 @@ export default function VerifyMePage() {
   }, [showNoReferralDialog])
 
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-500 to-green-700 text-white overflow-y-auto py-10 px-4 animate-fade-in">
+    <div className="min-h-screen relative flex flex-col items-center justify-start text-white overflow-y-auto py-10 px-4 animate-fade-in">
       <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow flex items-center justify-center">
         Helping Hands
       </h1>

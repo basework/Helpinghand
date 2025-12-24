@@ -211,7 +211,7 @@ export default function SetupWithdrawalAccountPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-500 to-green-700 px-4 py-10 animate-fadeIn">
+    <div className="min-h-screen flex items-center justify-center px-4 py-10 animate-fadeIn text-white">
       <div className="w-full max-w-xl bg-white border border-green-200 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:scale-[1.01] text-deep-brown">
         <div className="px-6 py-6 border-b border-tiv-4 bg-tiv-4">
           <h1 className="text-2xl font-bold text-deep-brown animate-slideDown">Withdrawal Setup</h1>

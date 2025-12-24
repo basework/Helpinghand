@@ -127,7 +127,7 @@ export default function ReferPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-black pb-20">
+    <div className="min-h-screen pb-20 text-white">
       {/* YOUR FULL JSX — SAME AS BEFORE */}
       <div className="bg-gradient-to-r from-green-700 to-green-600 text-white p-6 rounded-b-3xl shadow-lg">
         <div className="flex items-center mb-6">

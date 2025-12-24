@@ -25,7 +25,7 @@ export default function AboutPage() {
 
   if (!userData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-600 to-emerald-800 text-white">
+      <div className="min-h-screen flex items-center justify-center text-white">
         <div className="text-center p-6">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <div>Loading Helping Hands profile…</div>
@@ -35,7 +35,7 @@ export default function AboutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-700 via-green-700 to-green-900 text-white">
+    <div className="min-h-screen text-white">
       {/* subtle animated background elements */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-tr from-green-900/70 to-green-500/10" />

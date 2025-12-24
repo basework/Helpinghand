@@ -30,7 +30,7 @@ export default function WelcomePage() {
   }, [router])
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 bg-gradient-to-br from-gray-900 via-green-900 to-black">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 text-white">
       <div className="text-center">
         <h1 className="text-6xl font-bold text-white mb-8 font-mono">
           {displayText}

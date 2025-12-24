@@ -32,7 +32,7 @@ function PayKeyPaymentContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-br from-green-500 to-green-700 overflow-y-auto py-10 px-4 text-white">
+    <div className="min-h-screen flex flex-col items-center justify-start overflow-y-auto py-10 px-4 text-white">
       <h1 className="text-5xl font-extrabold mb-6 text-center">Helping Hands</h1>
 
       <Card className="max-w-md w-full p-6 space-y-6 bg-white/10 border border-green-300 shadow-2xl rounded-2xl">
