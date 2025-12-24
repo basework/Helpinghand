@@ -480,7 +480,7 @@ export default function DashboardPage() {
       {/* MAIN CONTENT - NOW STACKED VERTICALLY LIKE MOBILE */}
       <div className="max-w-md mx-auto px-4 space-y-4 mt-6">
         {/* Profile Card */}
-          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 border border-green-800/30 shadow-lg animate-pop-bounce">
+          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 border border-green-800/30 shadow-lg animate-pop-bounce-1">
           <div className="flex items-center gap-3">
             <div className="relative w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-md overflow-hidden">
               {userData?.profilePicture ? (
@@ -509,7 +509,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Balance Card */}
-          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 mt-4 shadow-lg border border-green-800/30 animate-pop-bounce">
+          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 mt-4 shadow-lg border border-green-800/30 animate-pop-bounce-2">
           <div className="text-sm font-medium text-gray-200 mb-1">Your Balance</div>
           <div className="flex items-center justify-between">
             <div className="text-lg font-bold">{formatCurrency(balance)}</div>
@@ -531,7 +531,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 space-y-3 animate-pop-bounce">
+        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 space-y-3 animate-pop-bounce-3">
           <h4 className="text-sm text-white font-semibold">Quick Actions</h4>
           <div className="flex flex-col gap-2 w-full">
             {menuItems.map((item, idx) => {
@@ -560,12 +560,12 @@ export default function DashboardPage() {
         </div>
 
         {/* Referral Card */}
-        <div className="animate-pop-bounce">
+        <div className="animate-pop-bounce-4">
           {userData && <ReferralCard userId={userData.id || userData.userId} />}
         </div>
 
         {/* Help & Support */}
-        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 animate-pop-bounce">
+        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 animate-pop-bounce-5">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm text-white font-semibold">Help & Support</div>
@@ -658,24 +658,29 @@ export default function DashboardPage() {
           animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both;
         }
 
-        /* Gentle continuous bounce used alongside pop-in for livelier UI */
-        @keyframes bounce-gentle {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
-        }
+        /* Distinct gentle bounce variants for each dashboard box */
+        @keyframes bounce-1 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        @keyframes bounce-2 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes bounce-3 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes bounce-4 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        @keyframes bounce-5 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
-        .animate-pop-bounce {
-          animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both, bounce-gentle 1.8s ease-in-out infinite;
-        }
+        /* Combined entry + per-card continuous bounce with small staggered delays */
+        .animate-pop-bounce-1 { animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both, bounce-1 1.6s ease-in-out 0s infinite; }
+        .animate-pop-bounce-2 { animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both, bounce-2 1.9s ease-in-out 0.15s infinite; }
+        .animate-pop-bounce-3 { animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both, bounce-3 1.4s ease-in-out 0.3s infinite; }
+        .animate-pop-bounce-4 { animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both, bounce-4 2.1s ease-in-out 0.45s infinite; }
+        .animate-pop-bounce-5 { animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both, bounce-5 1.7s ease-in-out 0.6s infinite; }
 
-        .hover-pop:hover {
-          transform: translateY(-6px) scale(1.02);
-        }
+        .hover-pop:hover { transform: translateY(-6px) scale(1.02); }
 
         /* Respect users who prefer reduced motion */
         @media (prefers-reduced-motion: reduce) {
-          .animate-pop-bounce,
-          .animate-bounce-gentle,
+          .animate-pop-bounce-1,
+          .animate-pop-bounce-2,
+          .animate-pop-bounce-3,
+          .animate-pop-bounce-4,
+          .animate-pop-bounce-5,
           .animate-pop-in {
             animation-duration: 0.001ms !important;
             animation-iteration-count: 1 !important;
