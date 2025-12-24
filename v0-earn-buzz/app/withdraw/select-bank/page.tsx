@@ -253,7 +253,7 @@ export default function SetupWithdrawalAccountPage() {
                       setVerified(false)
                       setVerifyError("")
                     }}
-                    className={`px-4 py-3 cursor-pointer select-none text-sm text-green-800 hover:bg-green-100 transition ${
+                    className={`px-4 py-3 cursor-pointer select-none text-sm text-deep-brown hover:bg-green-100 transition ${
                       bank === b.name ? "bg-tiv-4 font-medium" : ""
                     }`}
                   >
@@ -271,7 +271,7 @@ export default function SetupWithdrawalAccountPage() {
                       setVerifyError("")
                       setBankCode("")
                     }}
-                    className={`px-4 py-3 cursor-pointer select-none text-sm text-green-800 hover:bg-green-100 transition ${
+                    className={`px-4 py-3 cursor-pointer select-none text-sm text-deep-brown hover:bg-green-100 transition ${
                       bank === b ? "bg-tiv-4 font-medium" : ""
                     }`}
                   >
