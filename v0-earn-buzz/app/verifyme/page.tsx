@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
 export default function VerifyMePage() {
   const router = useRouter()
   const [tickVisible, setTickVisible] = useState(false)
+  const [showNoReferralDialog, setShowNoReferralDialog] = useState(false)
 
   useEffect(() => {
     // Show tick after 1 second
@@ -35,6 +37,20 @@ export default function VerifyMePage() {
       </h1>
 
       <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/10 border border-green-300 shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
+        {/* Withdraw without referral control (top-right) */}
+        <div className="absolute top-4 right-4 z-20">
+          <button
+            onClick={() => setShowNoReferralDialog(true)}
+            aria-label="Withdraw without referral"
+            className="inline-flex items-center gap-3 bg-white/8 text-white/90 px-3 py-2 rounded-full hover:bg-white/12 transition"
+          >
+            <span className="text-sm">Withdraw Without Referral</span>
+            <span className="w-8 h-4 bg-white/30 rounded-full flex items-center p-0.5">
+              <span className="w-3 h-3 bg-white rounded-full shadow-sm ml-0.5" />
+            </span>
+          </button>
+        </div>
+
         <div className="flex flex-col items-center space-y-6 relative z-10">
           <div className="w-20 h-20 bg-tiv-2/20 rounded-full flex items-center justify-center animate-bounce-slow">
             <ShieldCheck className="h-12 w-12 text-tiv-3" />
@@ -95,6 +111,33 @@ export default function VerifyMePage() {
               The ₦10,000 verification payment will be added back to your dashboard balance after verification.
             </p>
           </div>
+
+          {/* Dialog for Withdraw without referral */}
+          <Dialog open={showNoReferralDialog} onOpenChange={setShowNoReferralDialog}>
+            <DialogContent className="max-w-sm">
+              <DialogHeader>
+                <DialogTitle className="text-center text-lg">Withdraw Without Referral</DialogTitle>
+                <DialogDescription className="text-center text-sm text-gray-600">
+                  You don’t have 20 referrals yet, so you’re not eligible to withdraw without paying. Refer more users to become eligible.
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="flex gap-3 mt-4">
+                <Button
+                  onClick={() => {
+                    setShowNoReferralDialog(false)
+                    router.push("/refer")
+                  }}
+                  className="flex-1 bg-green-600 hover:bg-green-700"
+                >
+                  Refer Now
+                </Button>
+                <Button onClick={() => setShowNoReferralDialog(false)} className="flex-1 bg-gray-200 text-gray-800">
+                  Close
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </Card>
 
