@@ -187,7 +187,7 @@ export default function AboutPage() {
             <Card className="p-4 bg-white/5 border border-white/8 shadow-lg text-xs">
               <div className="font-semibold text-white/80">Our Promise</div>
               <p className="text-white/70 mt-2">
-                Withdrawals will remain free forever. Helping Hands will always ensure your balance is protected and paid.
+                Withdrawals will remain free forever,. Helping Hands will always ensure your balance is protected and paid.
               </p>
             </Card>
           </aside>
