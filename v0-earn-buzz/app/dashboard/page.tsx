@@ -499,12 +499,12 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="flex gap-3 mt-3 items-center justify-between">
-              <Link href="/loan" className="w-[40%]">
-                <Button className="w-full min-w-[120px] bg-purple-600 hover:scale-105 transform transition-transform active:scale-95 py-2">Loan</Button>
+            <div className="flex gap-1 mt-3 items-center justify-center">
+              <Link href="/loan" className="w-[45%]">
+                <Button className="w-full min-w-[140px] bg-purple-600 hover:scale-105 transform transition-transform active:scale-95 py-3 text-base rounded-lg">Loan</Button>
               </Link>
-              <Link href="/withdraw" className="w-[40%]">
-                <Button className="w-full min-w-[120px] bg-green-700 hover:scale-105 transform transition-transform active:scale-95 py-2">Withdraw</Button>
+              <Link href="/withdraw" className="w-[45%]">
+                <Button className="w-full min-w-[140px] bg-green-700 hover:scale-105 transform transition-transform active:scale-95 py-3 text-base rounded-lg">Withdraw</Button>
               </Link>
             </div>
           </div>
