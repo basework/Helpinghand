@@ -533,25 +533,25 @@ export default function DashboardPage() {
         {/* Quick Actions */}
         <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 space-y-3 animate-pop-in">
           <h4 className="text-sm text-white font-semibold">Quick Actions</h4>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="flex flex-col gap-2 w-full">
             {menuItems.map((item, idx) => {
               const Icon = item.icon
               const key = `qa-${idx}`
               const content = (
-                <div style={{ animationDelay: `${idx * 80}ms` }} className="flex flex-col items-center justify-center p-3 rounded-lg hover:bg-white/6 transition transform hover:-translate-y-1 hover:scale-102 active:scale-95">
-                  <div className={`w-10 h-10 flex items-center justify-center ${item.color} rounded-lg mb-2`}>
+                <div style={{ animationDelay: `${idx * 80}ms` }} className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white/6 transition transform hover:-translate-y-1 hover:scale-102 active:scale-95">
+                  <div className={`w-10 h-10 flex items-center justify-center ${item.color} rounded-md shrink-0`}>
                     {item.emoji ? <span className="text-xl">{item.emoji}</span> : Icon && <Icon size={20} />}
                   </div>
-                  <div className="text-xs font-medium text-white text-center">{item.name}</div>
+                  <div className="text-sm font-medium text-white">{item.name}</div>
                 </div>
               )
 
               return item.external ? (
-                <a key={key} href={item.link} target="_blank" rel="noopener noreferrer" className="focus:outline-none">
+                <a key={key} href={item.link} target="_blank" rel="noopener noreferrer" className="block w-full focus:outline-none">
                   {content}
                 </a>
               ) : (
-                <Link key={key} href={item.link || "#"} className="focus:outline-none">
+                <Link key={key} href={item.link || "#"} className="block w-full focus:outline-none">
                   {content}
                 </Link>
               )
