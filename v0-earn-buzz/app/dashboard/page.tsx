@@ -477,116 +477,115 @@ export default function DashboardPage() {
 
       {showWithdrawalNotification && <WithdrawalNotification onClose={handleCloseWithdrawalNotification} />}
 
-      <div className="max-w-7xl mx-auto px-2 md:px-4 grid grid-cols-1 md:grid-cols-12 gap-4 mt-6">
-        {/* Left column - compact profile + quick actions */}
-        <aside className="md:col-span-3 space-y-4">
-          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 border border-green-800/30 shadow-lg animate-pop-in">
-            <div className="flex items-center gap-3">
-              <div className="relative w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-md overflow-hidden">
-                {userData?.profilePicture ? (
-                  <img src={userData.profilePicture || "/placeholder.svg"} alt={userData.name} className="w-full h-full object-cover" />
-                ) : (
-                  <span className="font-semibold text-xl text-tiv-2">{userData?.name.charAt(0)}</span>
-                )}
-
-                <input type="file" accept="image/*" onChange={handleProfileUpload} className="absolute inset-0 opacity-0 cursor-pointer" aria-label="Upload profile picture" />
-              </div>
-
-              <div className="flex-1">
-                <div className="font-medium text-lg">Hi, {displayedName} <span className="ml-1">👋</span></div>
-                <div className="text-sm text-gray-200">Welcome back!</div>
-                <div className="mt-2 text-xs text-tiv-3">User ID: <span className="font-mono">{userData.userId}</span></div>
-              </div>
+      {/* MAIN CONTENT - NOW STACKED VERTICALLY LIKE MOBILE */}
+      <div className="max-w-md mx-auto px-4 space-y-4 mt-6">
+        {/* Profile Card */}
+        <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 border border-green-800/30 shadow-lg animate-pop-in">
+          <div className="flex items-center gap-3">
+            <div className="relative w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-md overflow-hidden">
+              {userData?.profilePicture ? (
+                <img src={userData.profilePicture || "/placeholder.svg"} alt={userData.name} className="w-full h-full object-cover" />
+              ) : (
+                <span className="font-semibold text-xl text-tiv-2">{userData?.name.charAt(0)}</span>
+              )}
+              <input type="file" accept="image/*" onChange={handleProfileUpload} className="absolute inset-0 opacity-0 cursor-pointer" aria-label="Upload profile picture" />
             </div>
 
-            <div className="flex gap-2 mt-3 items-center justify-start w-full">
-              <div className="w-full max-w-[360px] flex items-center gap-2">
-                <Link href="/loan" className="w-[48%]">
-                  <Button className="w-full min-w-[140px] bg-purple-600 hover:scale-105 transform transition-transform active:scale-95 py-3 text-base rounded-lg">Loan</Button>
+            <div className="flex-1">
+              <div className="font-medium text-lg">Hi, {displayedName} <span className="ml-1">👋</span></div>
+              <div className="text-sm text-gray-200">Welcome back!</div>
+              <div className="mt-2 text-xs text-tiv-3">User ID: <span className="font-mono">{userData.userId}</span></div>
+            </div>
+          </div>
+
+          <div className="flex gap-2 mt-3 items-center justify-between">
+            <Link href="/loan" className="flex-1">
+              <Button className="w-full bg-purple-600 hover:scale-105 transform transition-transform active:scale-95 py-3 text-base rounded-lg">Loan</Button>
+            </Link>
+            <Link href="/withdraw" className="flex-1">
+              <Button className="w-full bg-green-700 hover:scale-105 transform transition-transform active:scale-95 py-3 text-base rounded-lg">Withdraw</Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Balance Card */}
+        <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 shadow-lg border border-green-800/30 animate-pop-in">
+          <div className="text-sm font-medium text-gray-200 mb-1">Your Balance</div>
+          <div className="flex items-center justify-between">
+            <div className="text-lg font-bold">{formatCurrency(balance)}</div>
+            <button className="text-gray-200 hover:text-white transition-colors" onClick={() => setShowBalance(!showBalance)} aria-label="Toggle balance visibility">{showBalance ? "👁️" : "🙈"}</button>
+          </div>
+
+          <div className="mt-3 bg-white/10 backdrop-blur-sm rounded-xl p-3">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-tiv-3" /><span className="text-xs font-medium">Next Reward</span></div>
+              <span className="text-sm font-bold text-tiv-3">{pauseEndTime ? formatPauseTime() : formatTime(timeRemaining)}</span>
+            </div>
+
+            <Button onClick={handleClaim} disabled={!canClaim && !pauseEndTime} className={`w-full ${canClaim || pauseEndTime ? "bg-green-500 hover:bg-green-600" : "bg-gray-400 cursor-not-allowed"} text-white font-semibold py-2 rounded-lg transition-transform transform hover:-translate-y-0.5 active:scale-95`}>
+              <Gift className="h-4 w-4" />
+              <span className="text-sm">{pauseEndTime ? `Wait ${formatPauseTime()}` : canClaim ? "Claim ₦1,000" : `Wait ${formatTime(timeRemaining)}`}</span>
+            </Button>
+            <p className="text-xs text-center text-gray-300 mt-2">Claims: {claimCount}/50 {claimCount >= 50 && "(Paused)"}</p>
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 space-y-3 animate-pop-in">
+          <h4 className="text-sm text-white font-semibold">Quick Actions</h4>
+          <div className="grid grid-cols-2 gap-2">
+            {menuItems.map((item, idx) => {
+              const Icon = item.icon
+              const key = `qa-${idx}`
+              const content = (
+                <div style={{ animationDelay: `${idx * 80}ms` }} className="flex flex-col items-center justify-center p-3 rounded-lg hover:bg-white/6 transition transform hover:-translate-y-1 hover:scale-102 active:scale-95">
+                  <div className={`w-10 h-10 flex items-center justify-center ${item.color} rounded-lg mb-2`}>
+                    {item.emoji ? <span className="text-xl">{item.emoji}</span> : Icon && <Icon size={20} />}
+                  </div>
+                  <div className="text-xs font-medium text-white text-center">{item.name}</div>
+                </div>
+              )
+
+              return item.external ? (
+                <a key={key} href={item.link} target="_blank" rel="noopener noreferrer" className="focus:outline-none">
+                  {content}
+                </a>
+              ) : (
+                <Link key={key} href={item.link || "#"} className="focus:outline-none">
+                  {content}
                 </Link>
-                <Link href="/withdraw" className="w-[48%]">
-                  <Button className="w-full min-w-[140px] bg-green-700 hover:scale-105 transform transition-transform active:scale-95 py-3 text-base rounded-lg">Withdraw</Button>
-                </Link>
-              </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Referral Card */}
+        <div className="animate-pop-in">
+          {userData && <ReferralCard userId={userData.id || userData.userId} />}
+        </div>
+
+        {/* Help & Support */}
+        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 animate-pop-in">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-sm text-white font-semibold">Help & Support</div>
+              <div className="text-xs text-tiv-3">24/7 support</div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Link href="https://t.me/Tivexx9jasupport" target="_blank">
+                <Button className="h-10 w-10 rounded-full bg-blue-600 hover:bg-blue-500 active:scale-95">
+                  <Headphones className="h-5 w-5 text-white" />
+                </Button>
+              </Link>
+              <Link href="https://t.me/Tivexx9jacommunity" target="_blank">
+                <Button className="h-10 w-10 rounded-full bg-tiv-2 hover:opacity-95 active:scale-95 relative">
+                  <Bell className="h-5 w-5 text-white" />
+                  <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
+                </Button>
+              </Link>
             </div>
           </div>
-
-          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 mt-4 shadow-lg border border-green-800/30 animate-pop-in">
-            <div className="text-sm font-medium text-gray-200 mb-1">Your Balance</div>
-            <div className="flex items-center justify-between">
-              <div className="text-lg font-bold">{formatCurrency(balance)}</div>
-              <button className="text-gray-200 hover:text-white transition-colors" onClick={() => setShowBalance(!showBalance)} aria-label="Toggle balance visibility">{showBalance ? "👁️" : "🙈"}</button>
-            </div>
-
-            <div className="mt-3 bg-white/10 backdrop-blur-sm rounded-xl p-3">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-tiv-3" /><span className="text-xs font-medium">Next Reward</span></div>
-                <span className="text-sm font-bold text-tiv-3">{pauseEndTime ? formatPauseTime() : formatTime(timeRemaining)}</span>
-              </div>
-
-              <Button onClick={handleClaim} disabled={!canClaim && !pauseEndTime} className={`w-full ${canClaim || pauseEndTime ? "bg-green-500 hover:bg-green-600" : "bg-gray-400 cursor-not-allowed"} text-white font-semibold py-2 rounded-lg transition-transform transform hover:-translate-y-0.5 active:scale-95`}>
-                <Gift className="h-4 w-4" />
-                <span className="text-sm">{pauseEndTime ? `Wait ${formatPauseTime()}` : canClaim ? "Claim ₦1,000" : `Wait ${formatTime(timeRemaining)}`}</span>
-              </Button>
-              <p className="text-xs text-center text-gray-300 mt-2">Claims: {claimCount}/50 {claimCount >= 50 && "(Paused)"}</p>
-            </div>
-          </div>
-
-          <div className="bg-white/5 rounded-xl p-3 border border-green-800/20 space-y-3 animate-pop-in">
-            <h4 className="text-sm text-white font-semibold">Quick Actions</h4>
-            <div className="flex flex-col gap-2">
-              {menuItems.map((item, idx) => {
-                const Icon = item.icon
-                const key = `qa-${idx}`
-                return (
-                  item.external ? (
-                    <a key={key} href={item.link} target="_blank" rel="noopener noreferrer" className="focus:outline-none" aria-label={`Quick action ${item.name}`}>
-                      <div style={{ animationDelay: `${idx * 80}ms` }} tabIndex={0} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/6 transition transform hover:-translate-y-1 hover:scale-102 active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500/40">
-                        <div className={`w-9 h-9 flex items-center justify-center ${item.color} rounded-md`}>{item.emoji ? <span className="text-lg">{item.emoji}</span> : Icon && <Icon size={18} />}</div>
-                        <div className="text-sm font-medium text-white">{item.name}</div>
-                      </div>
-                    </a>
-                  ) : (
-                    <Link key={key} href={item.link || "#"} className="focus:outline-none" aria-label={`Quick action ${item.name}`}>
-                      <div style={{ animationDelay: `${idx * 80}ms` }} tabIndex={0} className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/6 transition transform hover:-translate-y-1 hover:scale-102 active:scale-95 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500/40">
-                        <div className={`w-9 h-9 flex items-center justify-center ${item.color} rounded-md`}>{item.emoji ? <span className="text-lg">{item.emoji}</span> : Icon && <Icon size={18} />}</div>
-                        <div className="text-sm font-medium text-white">{item.name}</div>
-                      </div>
-                    </Link>
-                  )
-                )
-              })}
-            </div>
-          </div>
-
-          <div className="bg-white/5 rounded-xl p-3 border border-green-800/20 animate-pop-in">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-sm text-white font-semibold">Help & Support</div>
-                <div className="text-xs text-tiv-3">24/7 support</div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Link href="https://t.me/Tivexx9jasupport" target="_blank">
-                  <Button className="h-9 w-9 rounded-full bg-blue-600 hover:bg-blue-500 active:scale-95"><Headphones className="h-4 w-4 text-white" /></Button>
-                </Link>
-                <Link href="https://t.me/Tivexx9jacommunity" target="_blank">
-                  <Button className="h-9 w-9 rounded-full bg-tiv-2 hover:opacity-95 active:scale-95"><Bell className="h-4 w-4 text-white" /><span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500 animate-pulse"></span></Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </aside>
-
-        {/* Right column - hero + cards grid */}
-        <main className="md:col-span-9 space-y-4">
-          {/* Right column now focuses on additional content: why & activity already present below */}
-
-          <div className="px-0">
-            {userData && (
-              <div className="animate-pop-in"><ReferralCard userId={userData.id || userData.userId} /></div>
-            )}
-          </div>
-        </main>
+        </div>
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-br from-gray-900 via-green-900 to-black border-t border-green-800/30 shadow-lg flex justify-around items-center h-16 max-w-md mx-auto z-50">
@@ -714,6 +713,13 @@ export default function DashboardPage() {
         .why-glow > * {
           position: relative;
           z-index: 1;
+        }
+
+        /* Ensure desktop view matches mobile */
+        @media (min-width: 768px) {
+          .max-w-md {
+            max-width: 28rem !important;
+          }
         }
       `}</style>
     </div>
