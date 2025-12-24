@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from "react"
@@ -182,9 +183,8 @@ export default function BusinessLoanPage() {
 
 
   return (
-    <div className="min-h-screen text-white bg-tiv-3">
-      {/* Subtle glow background */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-[#4F5D75]/40 via-[#4F5D75]/20 to-[#4F5D75]/50" />
+    <div className="min-h-screen text-white bg-gradient-to-br from-green-700 via-green-900 to-black">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-green-600/20 via-green-800/10 to-black/20" />
 
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Header */}
@@ -193,7 +193,7 @@ export default function BusinessLoanPage() {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
-            <h1 className="text-4xl font-extrabold leading-tight tracking-tight drop-shadow-[0_6px_20px_rgba(79,93,117,0.25)]">
+            <h1 className="text-4xl font-extrabold leading-tight tracking-tight drop-shadow-[0_6px_20px_rgba(16,185,129,0.25)]">
               Helping Hands Business Loan
             </h1>
             <p className="text-sm text-white/80 mt-1">Fast disbursement • One-time processing fee • Repayment: 12 months</p>
@@ -201,16 +201,16 @@ export default function BusinessLoanPage() {
         </div>
 
         <main className="space-y-6">
-          <Card className="p-6 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/10 shadow-2xl">
+          <Card className="p-6 rounded-3xl bg-white/6 backdrop-blur-lg border border-white/8 shadow-2xl">
             <div className="flex items-start gap-4">
-              <div className="p-3 rounded-full bg-gradient-to-br from-[#4F5D75] to-amber-400 text-black shadow-md">
+              <div className="p-3 rounded-full bg-gradient-to-br from-green-600 to-amber-300 text-black shadow-md">
                 <CheckCircle className="h-6 w-6" />
               </div>
               <div>
-                <h3 className="text-lg font-bold">Loan Overview</h3>
+                <h3 className="text-lg font-bold text-emerald-200">Loan Overview</h3>
                 <p className="text-sm text-white/80 mt-2">
-                  Borrow between <span className="font-semibold text-tiv-3">{formatCurrency(MIN_LOAN)}</span> and{" "}
-                  <span className="font-semibold text-tiv-3">{formatCurrency(MAX_LOAN)}</span>. A one-time processing
+                  Borrow between <span className="font-semibold text-emerald-300">{formatCurrency(MIN_LOAN)}</span> and{" "}
+                  <span className="font-semibold text-emerald-300">{formatCurrency(MAX_LOAN)}</span>. A one-time processing
                   fee of <span className="font-semibold text-amber-300">3%</span> is required and will be charged now.
                 </p>
                 <p className="mt-3 text-sm text-white/70">Repayment: <span className="font-semibold">12 months</span>. No collateral or BVN required.</p>
@@ -218,8 +218,8 @@ export default function BusinessLoanPage() {
             </div>
           </Card>
 
-          <Card className="p-6 rounded-3xl bg-white/10 backdrop-blur-lg border border-white/10 shadow-2xl">
-            <h2 className="text-2xl font-bold mb-4">Apply for Business Loan</h2>
+          <Card className="p-6 rounded-3xl bg-white/6 backdrop-blur-lg border border-white/8 shadow-2xl">
+            <h2 className="text-2xl font-bold mb-4 text-emerald-200">Apply for Business Loan</h2>
 
             <div className="grid grid-cols-1 gap-4">
               <div>
@@ -232,7 +232,7 @@ export default function BusinessLoanPage() {
                   placeholder="Enter amount between 500,000 and 5,000,000"
                   value={loanAmount}
                   onChange={(e) => setLoanAmount(e.target.value)}
-                  className="mt-2 h-12 bg-white/10 text-white placeholder:text-white/60"
+                  className="mt-2 h-12 bg-white/10 text-white placeholder:text-white/60 border border-white/8"
                 />
               </div>
 
@@ -248,7 +248,7 @@ export default function BusinessLoanPage() {
                       const v = e.target.value.replace(/\D/g, "")
                       if (v.length <= 10) setAccountNumber(v)
                     }}
-                    className="flex-1 h-12 bg-white/10 text-white placeholder:text-white/60"
+                    className="flex-1 h-12 bg-white/10 text-white placeholder:text-white/60 border border-white/8"
                     maxLength={10}
                   />
                   <button
@@ -260,8 +260,8 @@ export default function BusinessLoanPage() {
                     disabled={accountNumber.replace(/\D/g, "").length !== 10 || !selectedBank || verifying}
                     className={`rounded-lg px-4 py-2 text-sm font-semibold transition-all ${
                       accountNumber.replace(/\D/g, "").length !== 10 || !selectedBank
-                        ? "bg-[#4F5D75]/40 text-white/60 cursor-not-allowed"
-                        : "bg-[#4F5D75] text-white hover:bg-[#4F5D75]"
+                        ? "bg-white/10 text-white/60 cursor-not-allowed border border-white/8"
+                        : "bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 border border-green-500/20"
                     }`}
                   >
                     {verifying ? (
@@ -278,12 +278,12 @@ export default function BusinessLoanPage() {
               <div>
                 <Label className="text-sm text-white/80">Select Bank</Label>
                 <Select value={selectedBank} onValueChange={setSelectedBank}>
-                  <SelectTrigger className="mt-2 h-12 bg-gradient-to-r from-[#4F5D75] via-purple-800 to-[#4F5D75] text-white border border-white/20">
+                  <SelectTrigger className="mt-2 h-12 bg-gradient-to-r from-green-600 to-green-700 text-white border border-white/8">
                     <SelectValue placeholder="Choose your bank" />
                   </SelectTrigger>
-                  <SelectContent className="text-white bg-gradient-to-b from-[#4F5D75] via-purple-900 to-[#4F5D75] border border-white/20 max-h-60 overflow-y-auto">
+                  <SelectContent className="text-white bg-gradient-to-b from-green-700 via-green-800 to-green-900 border border-white/8 max-h-60 overflow-y-auto">
                     {banks.map((b) => (
-                      <SelectItem key={b} value={b}>
+                      <SelectItem key={b} value={b} className="hover:bg-white/10">
                         {b}
                       </SelectItem>
                     ))}
@@ -299,26 +299,26 @@ export default function BusinessLoanPage() {
                     placeholder="Account holder name"
                     value={accountName}
                     onChange={(e) => setAccountName(e.target.value)}
-                    className="h-12 pr-10 bg-white/10 text-white placeholder:text-white/60"
+                    className="h-12 pr-10 bg-white/10 text-white placeholder:text-white/60 border border-white/8"
                   />
                   <div className="absolute inset-y-0 right-3 flex items-center">
                     {verifying ? (
                       <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                     ) : verified ? (
-                      <CheckCircle className="w-5 h-5 text-tiv-3" />
+                      <CheckCircle className="w-5 h-5 text-emerald-300" />
                     ) : null}
                   </div>
                 </div>
-                {verifyError && <p className="text-sm text-yellow-300 mt-2">{verifyError}</p>}
+                {verifyError && <p className="text-sm text-amber-300 mt-2">{verifyError}</p>}
               </div>
             </div>
 
-            {error && <div className="mt-4 p-3 rounded-lg bg-red-100 text-red-700">{error}</div>}
+            {error && <div className="mt-4 p-3 rounded-lg bg-red-900/30 text-red-300 border border-red-800">{error}</div>}
 
             <div className="mt-6">
               <Button
                 onClick={handleContinue}
-                className="w-full py-4 rounded-xl text-lg font-bold bg-gradient-to-r from-purple-800 via-purple-600 to-[#4F5D75] hover:from-purple-700 hover:to-[#4F5D75] transform transition-all shadow-2xl"
+                className="w-full py-4 rounded-xl text-lg font-bold bg-gradient-to-r from-green-600 via-green-500 to-green-700 hover:from-green-700 hover:to-green-800 transform transition-all shadow-2xl"
                 disabled={submitting}
               >
                 {submitting ? "Redirecting to Payment..." : "Continue to Processing Fee"}
