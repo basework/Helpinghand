@@ -123,7 +123,7 @@ export default function VerifyMePage() {
                 ₦10,000
               </p>
               <p className="text-sm text-green-100 mt-1">
-                One-time verification fee, <strong>automatically refunded</strong> to your dashboard balance after successful verification.
+                One-time verification fee., <strong>automatically refunded</strong> to your dashboard balance after successful verification.
               </p>
             </div>
           </div>
