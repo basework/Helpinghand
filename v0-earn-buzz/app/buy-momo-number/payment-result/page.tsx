@@ -50,7 +50,7 @@ export default function PaymentResultPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#fff5f0] to-[#fff0e6] p-4 flex flex-col items-center justify-center text-center">
+    <div className="min-h-screen p-4 flex flex-col items-center justify-center text-center text-white">
       <div className="flex flex-col items-center justify-center w-full max-w-md">
         <div className="mb-6">{icon}</div>
         <h1 className={`text-3xl font-bold mb-2 ${textColor}`}>{message}</h1>

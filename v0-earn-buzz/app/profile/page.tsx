@@ -123,7 +123,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#fff5f0] to-[#fff0e6] pb-6">
+    <div className="min-h-screen pb-6 text-white">
       {/* Header */}
       <div className="flex items-center justify-between p-4 bg-white shadow-sm">
         <div className="flex items-center gap-3">

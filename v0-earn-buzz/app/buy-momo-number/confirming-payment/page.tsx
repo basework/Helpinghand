@@ -46,7 +46,7 @@ export default function ConfirmingPaymentPage() {
   }, [router])
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-orange-50 to-orange-100">
+    <div className="min-h-screen flex flex-col text-white">
       {/* Header */}
       <div className="bg-white shadow-sm p-4 border-b">
         <div className="flex items-center gap-3">

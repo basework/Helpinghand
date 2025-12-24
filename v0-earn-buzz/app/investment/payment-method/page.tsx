@@ -16,7 +16,7 @@ export default function PaymentMethodPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#fff5f0] to-[#fff0e6] p-4 flex flex-col items-center justify-center">
+    <div className="min-h-screen p-4 flex flex-col items-center justify-center text-white">
       <div className="w-full max-w-md">
         <div className="flex items-center mb-6">
           <Link href="/investment">

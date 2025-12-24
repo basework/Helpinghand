@@ -26,7 +26,7 @@ export default function LoanPaymentResultPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#fff5f0] to-[#fff0e6] p-4 flex flex-col items-center justify-center text-center">
+    <div className="min-h-screen p-4 flex flex-col items-center justify-center text-center text-white">
       {/* Removed the inner box, content now directly in the full background */}
       <div className="flex flex-col items-center justify-center w-full max-w-md">
         <div className="mb-6">{icon}</div>

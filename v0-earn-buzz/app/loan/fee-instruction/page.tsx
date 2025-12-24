@@ -39,7 +39,7 @@ export default function LoanFeeInstructionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#fff5f0] to-[#fff0e6] pb-6 px-4">
+    <div className="min-h-screen pb-6 px-4 text-white">
       {/* Header */}
       <div className="flex items-center p-4 border-b bg-white -mx-4">
         <Link href="/loan" className="flex items-center gap-2">

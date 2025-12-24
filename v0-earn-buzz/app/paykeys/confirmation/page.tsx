@@ -40,7 +40,7 @@ function PayKeyConfirmationContent() {
 
   // Failed payment display with animated gradient + particles
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-500 to-green-700 text-white overflow-y-auto py-10 px-4 animate-fade-in">
+    <div className="min-h-screen relative flex flex-col items-center justify-start text-white overflow-y-auto py-10 px-4 animate-fade-in">
       {/* Animated gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-green-800/20 animate-gradientMove -z-10"></div>
 
@@ -134,7 +134,7 @@ export default function PayKeyConfirmationPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-500 to-green-700 text-white relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen text-white relative overflow-hidden">
           <div className="animate-glow text-center z-20">
             <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <h1 className="text-4xl font-extrabold tracking-wider mb-2">Tivexx9ja</h1>

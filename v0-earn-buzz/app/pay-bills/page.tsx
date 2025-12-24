@@ -51,7 +51,7 @@ export default function PayBillsPage() {
   ]
 
   return (
-    <div className="min-h-screen pb-6 bg-gradient-to-b from-[#fff5f0] to-[#fff0e6]">
+    <div className="min-h-screen pb-6 text-white">
       {/* Header */}
       <div className="flex items-center p-4 border-b bg-white">
         <Link href="/dashboard" className="flex items-center gap-2">

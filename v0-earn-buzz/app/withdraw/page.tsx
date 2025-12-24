@@ -109,7 +109,7 @@ export default function WithdrawPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white pb-24">
+    <div className="min-h-screen pb-24 text-white">
       {/* Header */}
       <div className="flex items-center p-4 bg-white/80 border-b shadow-sm backdrop-blur-md">
         <Link href="/dashboard">

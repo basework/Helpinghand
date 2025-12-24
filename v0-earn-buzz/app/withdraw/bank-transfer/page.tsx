@@ -105,7 +105,7 @@ function PayKeyPaymentContent() {
 export default function PayKeyPaymentPage() {
   return (
     <Suspense fallback={
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-500 to-green-700 text-white">
+      <div className="flex flex-col items-center justify-center min-h-screen text-white">
         <div className="text-center">
           <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <h1 className="text-4xl font-extrabold tracking-wider mb-2">Helping Hands</h1>

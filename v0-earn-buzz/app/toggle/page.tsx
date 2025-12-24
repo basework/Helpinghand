@@ -67,7 +67,7 @@ export default function UpgradeTiersPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-600 via-purple-600 to-green-700 p-6 text-white animate-page-fade">
+    <div className="min-h-screen p-6 text-white animate-page-fade">
       <div className="text-center space-y-2 mb-8 animate-slide-down">
         <h1 className="text-3xl font-extrabold tracking-wide">Upgrade Your Tier</h1>
         <p className="text-sm text-white/80">

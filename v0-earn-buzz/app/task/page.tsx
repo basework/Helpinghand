@@ -251,7 +251,7 @@ export default function TaskPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-[#4F5D75] to-black pb-20 relative">
+    <div className="min-h-screen pb-20 relative text-white">
       <div className="bg-gradient-to-r from-[#4F5D75] to-[#4F5D75] text-white p-6 rounded-b-3xl shadow-lg">
         <div className="flex items-center mb-4">
           <Link href="/dashboard">

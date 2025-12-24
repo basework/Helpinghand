@@ -25,7 +25,7 @@ export default function SharePage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#fff5f0] to-[#fff0e6] p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 text-white">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-orange-700">Share Earn Buzz</CardTitle>
