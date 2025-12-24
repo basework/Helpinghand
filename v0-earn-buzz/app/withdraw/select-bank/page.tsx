@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from "react"
 
 export default function SetupWithdrawalAccountPage() {
-  const [bank, setBank] = useState<string>("Moniepoint")
+  const [bank, setBank] = useState<string>("")
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
   const [accountNumber, setAccountNumber] = useState<string>("")
   const [accountName, setAccountName] = useState<string>("")
@@ -231,7 +231,7 @@ export default function SetupWithdrawalAccountPage() {
               onClick={() => setDropdownOpen((v) => !v)}
               className="w-full rounded-md border border-green-300 bg-white text-left px-4 py-3 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-green-400 hover:shadow-md transition"
             >
-              <span className={bank ? "text-green-900" : "text-green-500"}>{bank}</span>
+              <span className={bank ? "text-green-900" : "text-green-500"}>{bank || "Select a bank"}</span>
               <svg
                 className={`w-5 h-5 text-green-600 transform transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
                 viewBox="0 0 24 24"
