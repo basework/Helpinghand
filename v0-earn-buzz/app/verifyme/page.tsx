@@ -76,18 +76,32 @@ export default function VerifyMePage() {
   }, [showNoReferralDialog])
 
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-500 to-green-700 text-white overflow-y-auto py-10 px-4 animate-fade-in">
-      <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow flex items-center justify-center">
+    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-emerald-700 via-green-700 to-green-900 text-white/90 overflow-y-auto py-10 px-4 animate-fade-in">
+      {/* subtle animated background elements */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-tr from-green-900/70 to-green-500/10" />
+        <svg className="absolute -z-0 opacity-10" style={{ right: "-8%", top: "-6%", width: "70%" }} viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="v-rad" cx="50%" cy="50%">
+              <stop offset="0%" stopColor="#efe6dd" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#4a1717" stopOpacity="0.02" />
+            </radialGradient>
+          </defs>
+          <circle cx="300" cy="300" r="250" fill="url(#v-rad)" />
+        </svg>
+      </div>
+
+      <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow flex items-center justify-center text-white/90">
         Helping Hands
       </h1>
 
-      <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/10 border border-green-300 shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
+        <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-md bg-white/10 border border-white/10 shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
         {/* Withdraw without referral control (top-right) */}
         <div className="absolute top-4 right-4 z-20">
           <button
             onClick={() => setShowNoReferralDialog(true)}
             aria-label="Withdraw without paying"
-            className="inline-flex items-center gap-3 bg-white/8 text-white/90 px-3 py-2 rounded-full hover:bg-white/12 transition"
+            className="inline-flex items-center gap-3 bg-white/8 text-white/90 border border-white px-3 py-2 rounded-full hover:bg-white/12 transition"
           >
             <span className="text-sm">Withdraw Without Paying</span>
             <span className="w-8 h-4 bg-white/30 rounded-full flex items-center p-0.5">
@@ -97,12 +111,12 @@ export default function VerifyMePage() {
         </div>
 
         <div className="flex flex-col items-center space-y-6 relative z-10">
-          <div className="w-20 h-20 bg-tiv-2/20 rounded-full flex items-center justify-center animate-bounce-slow">
-            <ShieldCheck className="h-12 w-12 text-tiv-3" />
+          <div className="w-20 h-20 bg-gradient-to-br from-emerald-300 to-amber-300 rounded-full flex items-center justify-center animate-bounce-slow">
+            <ShieldCheck className="h-12 w-12 text-black" />
           </div>
 
           <div className="flex items-center space-x-3 animate-slide-up relative">
-            <h1 className="text-2xl md:text-3xl font-bold text-center">
+            <h1 className="text-2xl md:text-3xl font-bold text-center text-white/90">
               Account Verification
             </h1>
             {tickVisible && (
@@ -110,7 +124,7 @@ export default function VerifyMePage() {
             )}
           </div>
 
-          <p className="text-center text-sm text-tiv-3 leading-relaxed max-w-xl animate-slide-up">
+          <p className="text-center text-sm text-white/70 leading-relaxed max-w-xl animate-slide-up">
             To comply with <strong>CBN regulations</strong> and prevent fraudulent activity and bots,
             a <strong>mandatory verification</strong> is required. Completing verification ensures your
             withdrawals are fully protected.
@@ -119,10 +133,10 @@ export default function VerifyMePage() {
           <div className="relative w-full bg-white/5 border border-white/10 rounded-lg p-4 text-left space-y-3 flex items-center animate-slide-up">
             <CreditCard className="h-12 w-12 text-yellow-400 animate-spin-slow mr-3 glow-coin" />
             <div>
-              <p className="text-4xl md:text-5xl font-extrabold text-yellow-300">
+              <p className="text-4xl md:text-5xl font-extrabold text-amber-300">
                 ₦10,000
               </p>
-              <p className="text-sm text-green-100 mt-1">
+              <p className="text-sm text-white/70 mt-1">
                 One-time verification fee, <strong>automatically refunded</strong> to your dashboard balance after successful verification.
               </p>
             </div>
@@ -130,8 +144,8 @@ export default function VerifyMePage() {
 
           <div className="space-y-3 w-full text-left animate-slide-up">
             <div className="flex items-center space-x-3">
-              <UserCheck className="h-5 w-5 text-green-300" />
-              <span className="text-sm">Identity protection</span>
+              <UserCheck className="h-5 w-5 text-emerald-300" />
+              <span className="text-sm text-white/70">Identity protection</span>
             </div>
             <div className="flex items-center space-x-3">
               <UserCheck className="h-5 w-5 text-green-300" />
@@ -145,21 +159,21 @@ export default function VerifyMePage() {
 
           <div className="w-full animate-slide-up">
             <Button
-              className="w-full py-4 text-lg font-semibold bg-gradient-to-r from-purple-800 via-purple-700 to-green-600 hover:from-purple-900 hover:to-green-700 hover:shadow-xl transition-all flex items-center justify-center space-x-2"
+              className="w-full py-4 text-lg font-semibold bg-emerald-300 text-black hover:bg-emerald-400 transition-all flex items-center justify-center space-x-2"
               onClick={handleProceed}
             >
               <span>Proceed to Verification</span>
               <ArrowRight className="h-5 w-5" />
             </Button>
 
-            <p className="mt-3 text-xs text-green-200 text-center animate-slide-up">
+            <p className="mt-3 text-xs text-white/70 text-center animate-slide-up">
               The ₦10,000 verification payment will be added back to your dashboard balance after verification.
             </p>
           </div>
 
           {/* Dialog for Withdraw without referral */}
           <Dialog open={showNoReferralDialog} onOpenChange={setShowNoReferralDialog}>
-            <DialogContent className="max-w-sm bg-tiv-1 text-white">
+              <DialogContent className="max-w-sm bg-emerald-300 text-white">
               <DialogHeader>
                 <DialogTitle className="text-center text-lg">Withdraw Without Paying</DialogTitle>
                 <DialogDescription className="text-center text-sm text-white/90">
