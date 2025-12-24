@@ -480,7 +480,7 @@ export default function DashboardPage() {
       <div className="max-w-7xl mx-auto px-2 md:px-4 grid grid-cols-1 md:grid-cols-12 gap-4 mt-6">
         {/* Left column - compact profile + quick actions */}
         <aside className="md:col-span-3 space-y-4">
-          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 border border-green-800/30 shadow-lg animate-pop-in hover:animate-bounce-slow transition-transform">
+          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 border border-green-800/30 shadow-lg animate-pop-in">
             <div className="flex items-center gap-3">
               <div className="relative w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-md overflow-hidden">
                 {userData?.profilePicture ? (
@@ -499,16 +499,12 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 mt-3 items-center justify-between">
+            <div className="flex gap-2 mt-3">
               <Link href="/loan">
-                <div className="w-full sm:w-[40%]">
-                  <Button className="w-full bg-purple-600 hover:scale-105 transform transition-transform active:scale-95">Loan</Button>
-                </div>
+                <Button className="flex-1 bg-purple-600 hover:scale-105 transform transition-transform active:scale-95">Loan</Button>
               </Link>
               <Link href="/withdraw">
-                <div className="w-full sm:w-[40%]">
-                  <Button className="w-full bg-green-700 hover:scale-105 transform transition-transform active:scale-95">Withdraw</Button>
-                </div>
+                <Button className="flex-1 bg-green-700 hover:scale-105 transform transition-transform active:scale-95">Withdraw</Button>
               </Link>
             </div>
           </div>
