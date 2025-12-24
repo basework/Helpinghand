@@ -22,8 +22,8 @@ export default function PageShell({ children, exclude = [] }: PageShellProps) {
         <svg className="absolute -z-0 opacity-10" style={{ right: "-8%", top: "-6%", width: "70%" }} viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <radialGradient id="ps-rad" cx="50%" cy="50%">
-              <stop offset="0%" stopColor="#efe6dd" stopOpacity="0.28" />
-              <stop offset="100%" stopColor="#6b2b2b" stopOpacity="0.03" />
+              <stop offset="0%" stopColor="#b48b61ff" stopOpacity="0.28" />
+              <stop offset="100%" stopColor="#572323ff" stopOpacity="0.03" />
             </radialGradient>
           </defs>
           <circle cx="300" cy="300" r="250" fill="url(#ps-rad)" />
