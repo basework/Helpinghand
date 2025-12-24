@@ -55,6 +55,9 @@
 .border-tiv-blue { border-color: var(--tiv-blue); }
 .accent-tiv-blue { box-shadow: 0 8px 30px var(--tiv-blue-opaque); }
 
+/* Deep brown text utility used on select pages */
+.text-deep-brown { color: #3e0404 !important; }
+
 /* Support helpers for direct substitutions */
 .text-tiv-1 { color: var(--tiv-1); }
 .border-tiv-1 { border-color: var(--tiv-1); }
