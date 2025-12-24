@@ -134,7 +134,7 @@ export default function HistoryPage() {
 
   const cancelClearHistory = () => setShowConfirmClear(false)
 
-  if (!userData) return <div className="p-6 text-center">Loading...</div>
+  if (!userData) return <div className="p-6 text-center text-white">Loading...</div>
 
   const totalAmount = transactions.reduce((sum, tx) => sum + tx.amount, 0)
   const totalTransactions = transactions.length
@@ -142,23 +142,23 @@ export default function HistoryPage() {
   const getColorClasses = (category: Transaction["category"]) => {
     switch (category) {
       case "claim":
-        return "bg-blue-100 text-blue-700 border-blue-200"
+        return "bg-blue-900/30 text-blue-300 border-blue-800/30"
       case "task":
-        return "bg-purple-100 text-purple-700 border-purple-200"
+        return "bg-purple-900/30 text-purple-300 border-purple-800/30"
       case "signup":
-        return "bg-yellow-100 text-yellow-700 border-yellow-200"
+        return "bg-amber-900/30 text-amber-300 border-amber-800/30"
       case "referral":
-        return "bg-tiv-4 text-tiv-2 border-tiv-4"
+        return "bg-emerald-900/30 text-emerald-300 border-emerald-800/30"
       default:
-        return "bg-gray-100 text-gray-700 border-gray-200"
+        return "bg-white/10 text-white border-white/20"
     }
   }
 
   return (
-    <div className="min-h-screen pb-6 bg-white">
+    <div className="min-h-screen pb-6 bg-gradient-to-br from-green-700 via-green-900 to-black">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b">
-        <Link href="/dashboard" className="flex items-center gap-2">
+      <div className="flex items-center justify-between p-4 border-b border-white/8 bg-white/6">
+        <Link href="/dashboard" className="flex items-center gap-2 text-white hover:text-white/80">
           <ArrowLeft className="h-5 w-5" />
           <span className="font-medium">Transaction History</span>
         </Link>
@@ -166,7 +166,7 @@ export default function HistoryPage() {
           <Button
             variant="ghost"
             size="sm"
-            className="text-red-500 hover:text-red-700 hover:bg-red-50"
+            className="text-red-300 hover:text-red-200 hover:bg-red-900/30"
             onClick={handleClearHistory}
           >
             <Trash2 className="h-4 w-4 mr-1" />
@@ -176,24 +176,24 @@ export default function HistoryPage() {
       </div>
 
       {/* Totals */}
-      <div className="p-4 border-b bg-gray-50 flex justify-between items-center">
+      <div className="p-4 border-b border-white/8 bg-white/6 flex justify-between items-center">
         <div></div>
         <div>
-          <p className="text-sm text-gray-500">Transactions</p>
-          <p className="text-lg font-bold">{totalTransactions}</p>
+          <p className="text-sm text-white/60">Transactions</p>
+          <p className="text-lg font-bold text-white">{totalTransactions}</p>
         </div>
       </div>
 
       {/* History List */}
       <div className="p-4">
         {transactions.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">No transactions yet</div>
+          <div className="text-center py-8 text-white/60">No transactions yet</div>
         ) : (
           <div className="space-y-3">
             {transactions.map((transaction) => (
               <div
                 key={transaction.id}
-                className={`flex items-center justify-between p-3 border rounded-lg shadow-sm transform transition duration-200 hover:scale-[1.02] ${getColorClasses(
+                className={`flex items-center justify-between p-3 border rounded-lg backdrop-blur-lg transform transition duration-200 hover:scale-[1.02] ${getColorClasses(
                   transaction.category
                 )}`}
               >
@@ -201,7 +201,7 @@ export default function HistoryPage() {
                   <div className="text-sm font-semibold">{transaction.description}</div>
                   <div className="text-xs opacity-70">{formatDate(transaction.date)}</div>
                 </div>
-                <div className="text-sm font-bold">+{formatCurrency(transaction.amount)}</div>
+                <div className="text-sm font-bold text-emerald-300">+{formatCurrency(transaction.amount)}</div>
               </div>
             ))}
           </div>
@@ -210,7 +210,7 @@ export default function HistoryPage() {
 
       {/* Confirmation Dialog */}
       {showConfirmClear && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-sm mx-4">
             <h3 className="text-lg font-semibold mb-2">Clear History</h3>
             <p className="text-gray-600 mb-4">
