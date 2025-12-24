@@ -251,17 +251,17 @@ export default function TaskPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-[#4F5D75] to-black pb-20 relative">
-      <div className="bg-gradient-to-r from-[#4F5D75] to-[#4F5D75] text-white p-6 rounded-b-3xl shadow-lg">
+    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black pb-20 relative">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white p-6 rounded-b-3xl shadow-lg">
         <div className="flex items-center mb-4">
           <Link href="/dashboard">
-            <Button variant="ghost" size="icon" className="text-white hover:bg-tiv-2/50 mr-2">
+            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 mr-2">
               <ArrowLeft className="h-6 w-6" />
             </Button>
           </Link>
           <h1 className="text-2xl font-bold">Available Tasks</h1>
         </div>
-        <p className="text-tiv-3 text-center">Earn Rewards Per Task</p>
+        <p className="text-green-100 text-center">Earn Rewards Per Task</p>
       </div>
 
       <div className="px-4 mt-6 space-y-4">
@@ -286,23 +286,23 @@ export default function TaskPage() {
 
           return (
             <div key={task.id} className="task-float">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-5 border border-[#4F5D75]/30 shadow-lg task-float__inner">
+              <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-5 border border-white/8 shadow-lg task-float__inner">
                 <div className="flex items-start gap-4">
                   <div className="text-4xl">{task.icon}</div>
                 <div className="flex-1">
                   <h3 className="text-lg font-bold text-white">{task.platform}</h3>
-                  <p className="text-sm text-gray-300 mt-1">{task.description}</p>
-                  <p className="text-xs text-tiv-2 mt-1">{task.category}</p>
-                  <p className="text-xl font-bold text-tiv-2 mt-2">
+                  <p className="text-sm text-white/80 mt-1">{task.description}</p>
+                  <p className="text-xs text-emerald-200 mt-1">{task.category}</p>
+                  <p className="text-xl font-bold text-amber-300 mt-2">
                     ₦{task.reward.toLocaleString()}
                   </p>
                 </div>
               </div>
 
               {isVerifying ? (
-                <div className="relative w-full mt-4 bg-gray-800 h-6 rounded-xl overflow-hidden border border-[#4F5D75]/50">
+                <div className="relative w-full mt-4 bg-white/10 h-6 rounded-xl overflow-hidden border border-white/8">
                   <div
-                    className="absolute left-0 top-0 h-full bg-gradient-to-r from-[#4F5D75] via-[#4F5D75] to-[#4F5D75] animate-liquid-flow"
+                    className="absolute left-0 top-0 h-full bg-gradient-to-r from-green-600 via-green-500 to-green-400 animate-liquid-flow"
                     style={{ width: `${progress}%` }}
                   />
                   <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -318,14 +318,14 @@ export default function TaskPage() {
               ) : cooldown ? (
                 <Button
                   disabled
-                  className="w-full mt-4 bg-gray-700 text-gray-300 cursor-not-allowed font-semibold py-3 rounded-xl flex items-center justify-center gap-2"
+                  className="w-full mt-4 bg-white/10 text-white/70 cursor-not-allowed font-semibold py-3 rounded-xl flex items-center justify-center gap-2 border border-white/8"
                 >
                   Available in: {formatTime(cooldown)}
                 </Button>
               ) : isCompleted ? (
                 <Button
                   disabled
-                  className="w-full mt-4 bg-gray-500 cursor-not-allowed text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2"
+                  className="w-full mt-4 bg-white/10 cursor-not-allowed text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 border border-white/8"
                 >
                   <CheckCircle2 className="h-5 w-5" />
                   Completed
@@ -333,9 +333,9 @@ export default function TaskPage() {
               ) : (
                 <Button
                   onClick={() => handleTaskClick(task)}
-                  className="w-full mt-4 bg-tiv-1 hover:bg-tiv-1 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2"
+                  className="w-full mt-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 border border-green-500/20"
                 >
-                  Start Task.
+                  Start Task
                 </Button>
               )}
             </div>
@@ -357,7 +357,7 @@ export default function TaskPage() {
         .animate-liquid-flow {
           background-size: 1000px 100%;
           animation: liquid-flow 2s linear infinite;
-          filter: drop-shadow(0 0 6px rgba(79,93,117,0.7));
+          filter: drop-shadow(0 0 6px rgba(22,163,74,0.7));
         }
 
         /* Task float (faster) + hover color + quicker press-squeeze */
@@ -385,7 +385,7 @@ export default function TaskPage() {
         .task-float:focus-within .task-float__inner {
           background-color: rgba(255,255,255,0.12);
           box-shadow: 0 12px 28px rgba(0,0,0,0.18);
-          transform: translateY(-2px); /* subtle lift on hover */
+          transform: translateY(-2px);
         }
 
         /* Faster, snappier press squeeze */
