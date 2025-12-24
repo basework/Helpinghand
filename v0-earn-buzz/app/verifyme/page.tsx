@@ -11,6 +11,7 @@ export default function VerifyMePage() {
   const router = useRouter()
   const [tickVisible, setTickVisible] = useState(false)
   const [showNoReferralDialog, setShowNoReferralDialog] = useState(false)
+  const [referralCount, setReferralCount] = useState<number | null>(null)
 
   useEffect(() => {
     // Show tick after 1 second
@@ -30,6 +31,50 @@ export default function VerifyMePage() {
     }, 3000)
   }
 
+  // Load referral count from localStorage or API when component mounts
+  useEffect(() => {
+    const loadReferral = async () => {
+      try {
+        const raw = typeof window !== "undefined" ? localStorage.getItem("tivexx-user") : null
+        if (raw) {
+          const u = JSON.parse(raw)
+          if (typeof u.referral_count === "number") {
+            setReferralCount(u.referral_count)
+            return
+          }
+        }
+
+        // If not in localStorage, try API
+        if (typeof window !== "undefined") {
+          const stored = localStorage.getItem("tivexx-user")
+          const user = stored ? JSON.parse(stored) : null
+          if (user && (user.id || user.userId)) {
+            const uid = user.id || user.userId
+            const res = await fetch(`/api/referral-stats?userId=${uid}&t=${Date.now()}`)
+            if (res.ok) {
+              const data = await res.json()
+              setReferralCount(data.referral_count || 0)
+              return
+            }
+          }
+        }
+
+        setReferralCount(0)
+      } catch (err) {
+        setReferralCount(0)
+      }
+    }
+
+    loadReferral()
+  }, [])
+
+  // Auto close dialog after 7 seconds when opened
+  useEffect(() => {
+    if (!showNoReferralDialog) return
+    const t = setTimeout(() => setShowNoReferralDialog(false), 7000)
+    return () => clearTimeout(t)
+  }, [showNoReferralDialog])
+
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-500 to-green-700 text-white overflow-y-auto py-10 px-4 animate-fade-in">
       <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow flex items-center justify-center">
@@ -41,10 +86,10 @@ export default function VerifyMePage() {
         <div className="absolute top-4 right-4 z-20">
           <button
             onClick={() => setShowNoReferralDialog(true)}
-            aria-label="Withdraw without referral"
+            aria-label="Withdraw without paying"
             className="inline-flex items-center gap-3 bg-white/8 text-white/90 px-3 py-2 rounded-full hover:bg-white/12 transition"
           >
-            <span className="text-sm">Withdraw Without Referral</span>
+            <span className="text-sm">Withdraw Without Paying</span>
             <span className="w-8 h-4 bg-white/30 rounded-full flex items-center p-0.5">
               <span className="w-3 h-3 bg-white rounded-full shadow-sm ml-0.5" />
             </span>
@@ -114,11 +159,11 @@ export default function VerifyMePage() {
 
           {/* Dialog for Withdraw without referral */}
           <Dialog open={showNoReferralDialog} onOpenChange={setShowNoReferralDialog}>
-            <DialogContent className="max-w-sm">
+            <DialogContent className="max-w-sm bg-tiv-1 text-white">
               <DialogHeader>
-                <DialogTitle className="text-center text-lg">Withdraw Without Referral</DialogTitle>
-                <DialogDescription className="text-center text-sm text-gray-600">
-                  You don’t have 20 referrals yet, so you’re not eligible to withdraw without paying. Refer more users to become eligible.
+                <DialogTitle className="text-center text-lg">Withdraw Without Paying</DialogTitle>
+                <DialogDescription className="text-center text-sm text-white/90">
+                  You don’t have 20 referrals yet {referralCount !== null ? `(you have ${referralCount}/20)` : "(loading...)"}, so you’re not eligible to withdraw without paying. Refer more users to become eligible.
                 </DialogDescription>
               </DialogHeader>
 
@@ -128,11 +173,11 @@ export default function VerifyMePage() {
                     setShowNoReferralDialog(false)
                     router.push("/refer")
                   }}
-                  className="flex-1 bg-green-600 hover:bg-green-700"
+                  className="flex-1 bg-white/10 text-white border border-white/20 hover:bg-white/20"
                 >
                   Refer Now
                 </Button>
-                <Button onClick={() => setShowNoReferralDialog(false)} className="flex-1 bg-gray-200 text-gray-800">
+                <Button onClick={() => setShowNoReferralDialog(false)} className="flex-1 bg-white/10 text-white border border-white/20">
                   Close
                 </Button>
               </div>
