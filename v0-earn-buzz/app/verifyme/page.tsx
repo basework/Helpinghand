@@ -76,19 +76,18 @@ export default function VerifyMePage() {
   }, [showNoReferralDialog])
 
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-emerald-600 to-emerald-800 text-white/90 overflow-y-auto py-10 px-4 animate-fade-in">
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-green-900/70 to-green-500/10" />
+    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-500 to-green-700 text-white overflow-y-auto py-10 px-4 animate-fade-in">
       <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow flex items-center justify-center">
         Helping Hands
       </h1>
 
-        <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-md bg-white/6 border border-white/10 shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
+      <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/10 border border-green-300 shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
         {/* Withdraw without referral control (top-right) */}
         <div className="absolute top-4 right-4 z-20">
           <button
             onClick={() => setShowNoReferralDialog(true)}
             aria-label="Withdraw without paying"
-            className="inline-flex items-center gap-3 bg-white/10 text-white/90 px-3 py-2 rounded-full hover:bg-white/20 transition border border-white/8"
+            className="inline-flex items-center gap-3 bg-white/8 text-white/90 px-3 py-2 rounded-full hover:bg-white/12 transition"
           >
             <span className="text-sm">Withdraw Without Paying</span>
             <span className="w-8 h-4 bg-white/30 rounded-full flex items-center p-0.5">
@@ -98,12 +97,12 @@ export default function VerifyMePage() {
         </div>
 
         <div className="flex flex-col items-center space-y-6 relative z-10">
-          <div className="w-20 h-20 bg-gradient-to-br from-emerald-300 to-amber-300 rounded-full flex items-center justify-center animate-bounce-slow">
-            <ShieldCheck className="h-12 w-12 text-white" />
+          <div className="w-20 h-20 bg-tiv-2/20 rounded-full flex items-center justify-center animate-bounce-slow">
+            <ShieldCheck className="h-12 w-12 text-tiv-3" />
           </div>
 
           <div className="flex items-center space-x-3 animate-slide-up relative">
-            <h1 className="text-2xl md:text-3xl font-bold text-center text-white/90">
+            <h1 className="text-2xl md:text-3xl font-bold text-center">
               Account Verification
             </h1>
             {tickVisible && (
@@ -111,19 +110,19 @@ export default function VerifyMePage() {
             )}
           </div>
 
-          <p className="text-center text-sm text-white/70 leading-relaxed max-w-xl animate-slide-up">
+          <p className="text-center text-sm text-tiv-3 leading-relaxed max-w-xl animate-slide-up">
             To comply with <strong>CBN regulations</strong> and prevent fraudulent activity and bots,
             a <strong>mandatory verification</strong> is required. Completing verification ensures your
             withdrawals are fully protected.
           </p>
 
           <div className="relative w-full bg-white/5 border border-white/10 rounded-lg p-4 text-left space-y-3 flex items-center animate-slide-up">
-            <CreditCard className="h-12 w-12 text-amber-300 animate-spin-slow mr-3 glow-coin" />
+            <CreditCard className="h-12 w-12 text-yellow-400 animate-spin-slow mr-3 glow-coin" />
             <div>
-              <p className="text-4xl md:text-5xl font-extrabold text-amber-300">
+              <p className="text-4xl md:text-5xl font-extrabold text-yellow-300">
                 ₦10,000
               </p>
-              <p className="text-sm text-white/70 mt-1">
+              <p className="text-sm text-green-100 mt-1">
                 One-time verification fee., <strong>automatically refunded</strong> to your dashboard balance after successful verification.
               </p>
             </div>
@@ -131,22 +130,22 @@ export default function VerifyMePage() {
 
           <div className="space-y-3 w-full text-left animate-slide-up">
             <div className="flex items-center space-x-3">
-              <UserCheck className="h-5 w-5 text-emerald-300" />
-              <span className="text-sm text-white/70">Identity protection</span>
+              <UserCheck className="h-5 w-5 text-green-300" />
+              <span className="text-sm">Identity protection</span>
             </div>
             <div className="flex items-center space-x-3">
-              <UserCheck className="h-5 w-5 text-emerald-300" />
-              <span className="text-sm text-white/70">Prevents fraud & bots</span>
+              <UserCheck className="h-5 w-5 text-green-300" />
+              <span className="text-sm">Prevents fraud & bots</span>
             </div>
             <div className="flex items-center space-x-3">
-              <UserCheck className="h-5 w-5 text-emerald-300" />
-              <span className="text-sm text-white/70">Unlocks withdrawals & premium features</span>
+              <UserCheck className="h-5 w-5 text-green-300" />
+              <span className="text-sm">Unlocks withdrawals & premium features</span>
             </div>
           </div>
 
           <div className="w-full animate-slide-up">
             <Button
-              className="w-full py-4 text-lg font-semibold bg-gradient-to-r from-emerald-700 via-green-700 to-green-900 hover:from-emerald-700 hover:to-green-900 hover:shadow-xl transition-all flex items-center justify-center space-x-2"
+              className="w-full py-4 text-lg font-semibold bg-gradient-to-r from-purple-800 via-purple-700 to-green-600 hover:from-purple-900 hover:to-green-700 hover:shadow-xl transition-all flex items-center justify-center space-x-2"
               onClick={handleProceed}
             >
               <span>Proceed to Verification</span>
@@ -160,7 +159,7 @@ export default function VerifyMePage() {
 
           {/* Dialog for Withdraw without referral */}
           <Dialog open={showNoReferralDialog} onOpenChange={setShowNoReferralDialog}>
-            <DialogContent className="max-w-sm bg-white/6 text-white/90">
+            <DialogContent className="max-w-sm bg-tiv-1 text-white">
               <DialogHeader>
                 <DialogTitle className="text-center text-lg">Withdraw Without Paying</DialogTitle>
                 <DialogDescription className="text-center text-sm text-white/90">
@@ -174,11 +173,11 @@ export default function VerifyMePage() {
                     setShowNoReferralDialog(false)
                     router.push("/refer")
                   }}
-                  className="flex-1 bg-white/10 text-white border border-white/8 hover:bg-white/20"
+                  className="flex-1 bg-white/10 text-white border border-white/20 hover:bg-white/20"
                 >
                   Refer Now
                 </Button>
-                <Button onClick={() => setShowNoReferralDialog(false)} className="flex-1 bg-white/10 text-white border border-white/8">
+                <Button onClick={() => setShowNoReferralDialog(false)} className="flex-1 bg-white/10 text-white border border-white/20">
                   Close
                 </Button>
               </div>
