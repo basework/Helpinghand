@@ -66,14 +66,14 @@ export default function AboutPage() {
                 <Logo className="w-full" />
               </div>
               <div>
-                <h1 className="text-3xl font-extrabold">Helping Hands</h1>
-                <p className="text-sm text-white/80 mt-0.5">Empowering Hustlers. Changing Lives.</p>
+                <h1 className="text-3xl font-extrabold text-white/90">Helping Hands</h1>
+                <p className="text-sm text-white/90 mt-0.5">Empowering Hustlers. Changing Lives.</p>
               </div>
             </div>
           </div>
 
           <div className="space-x-3">
-            <Button onClick={() => window.open("https://t.me/tivexx9jasupport", "_blank")} className="bg-white/10 hover:bg-white/20">
+            <Button onClick={() => window.open("https://t.me/tivexx9jasupport", "_blank")} className="bg-white/10 hover:bg-white/20 border border-white">
               <Phone className="h-4 w-4 mr-2" /> Support
             </Button>
           </div>
@@ -88,10 +88,7 @@ export default function AboutPage() {
 
             <div className="flex-1">
               <h2 className="text-2xl font-bold">Helping Hands</h2>
-              <p className="text-white/90 mt-2 leading-relaxed">
-                Helping Hands is a fintech rewards platform built to help Nigerians earn, save and access fast financial products.
-                We combine referral rewards, daily earnings, and low-barrier loan options in one mobile-friendly experience.
-              </p>
+              <p className="text-white/70 mt-2 leading-relaxed">                Helping Hands is a fintech rewards platform built to help Nigerians earn, save and access fast financial products. We combine referral rewards, daily earnings, and low-barrier loan options in one mobile-friendly experience.              </p>
 
               <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div className="p-3 rounded-lg bg-white/5 border border-white/6">
@@ -117,7 +114,7 @@ export default function AboutPage() {
               <Gift className="h-6 w-6 text-emerald-300" />
               <div>
                 <h3 className="font-bold">Welcome Bonus</h3>
-                <p className="text-sm text-white/80 mt-1">New users may qualify for bonuses and starter earnings as shown on the app.</p>
+                <p className="text-sm text-white/70 mt-1">New users may qualify for bonuses and starter earnings as shown on the app.</p>
               </div>
             </div>
           </Card>
@@ -127,7 +124,7 @@ export default function AboutPage() {
               <Users className="h-6 w-6 text-emerald-300" />
               <div>
                 <h3 className="font-bold">Refer & Earn</h3>
-                <p className="text-sm text-white/80 mt-1">Refer friends — minimum of <strong>5 referrals</strong> unlocks withdrawals and higher bonuses. Top referrers get premium access.</p>
+                <p className="text-sm text-white/70 mt-1">Refer friends — minimum of <strong>5 referrals</strong> unlocks withdrawals and higher bonuses. Top referrers get premium access.</p>
               </div>
             </div>
           </Card>
@@ -137,7 +134,7 @@ export default function AboutPage() {
               <CreditCard className="h-6 w-6 text-emerald-300" />
               <div>
                 <h3 className="font-bold">Fast Withdrawals</h3>
-                <p className="text-sm text-white/80 mt-1">Withdraw anytime after meeting the requirements — or use the new upgrade toggle to withdraw without referrals.</p>
+                <p className="text-sm text-white/70 mt-1">Withdraw anytime after meeting the requirements — or use the new upgrade toggle to withdraw without referrals.</p>
               </div>
             </div>
           </Card>
@@ -147,7 +144,7 @@ export default function AboutPage() {
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <Card className="p-5 bg-white/6">
             <h3 className="font-bold mb-3">Verification & Refundable Fee</h3>
-            <p className="text-sm text-white/80 leading-relaxed">
+            <p className="text-sm text-white/70 leading-relaxed">
               To comply with regulatory requirements and prevent automated fraud, Helping Hands requires a one-time verification fee.
               This fee is used for identity documentation checks and is <strong>refunded</strong> to your dashboard balance after successful verification.
             </p>
@@ -196,7 +193,7 @@ export default function AboutPage() {
                   <Button onClick={() => router.push("/loan")} className="bg-white/10 hover:bg-white/20">
                     Apply for Loan
                   </Button>
-                  <Button onClick={() => router.push("/businessloan")} className="bg-emerald-300 text-black">
+                  <Button onClick={() => router.push("/businessloan")} className="bg-amber-300 text-black">
                     Business Loans
                   </Button>
                 </div>
