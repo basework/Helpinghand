@@ -35,10 +35,10 @@ function PayKeyPaymentContent() {
     <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black overflow-y-auto py-10 px-4 text-white animate-page-bounce">
       <h1 className="text-5xl font-extrabold mb-6 text-center">Helping Hands</h1>
 
-      <Card className="max-w-md w-full p-6 space-y-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-2xl rounded-2xl">
+      <Card className="max-w-md w-full p-6 space-y-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-2xl rounded-2xl animate-inner-bounce">
         <div className="text-center">
           <h2 className="text-lg font-semibold mb-2 text-emerald-200">Complete this bank transfer to proceed</h2>
-          <p className="text-2xl font-extrabold text-amber-300">₦ {amount}</p>
+          <p className="text-2xl font-extrabold text-amber-300 animate-inner-bounce-child delay-1">₦ {amount}</p>
         </div>
 
         <div className="space-y-4">
@@ -47,7 +47,7 @@ function PayKeyPaymentContent() {
             <p className="font-bold text-white">{bankName}</p>
           </div>
 
-          <div className="flex items-center justify-between p-3 bg-white/10 rounded-lg border border-white/8">
+          <div className="flex items-center justify-between p-3 bg-white/10 rounded-lg border border-white/8 animate-inner-bounce-child delay-3">
             <div>
               <p className="text-sm text-white/80">Account Number</p>
               <p className="font-bold text-white">{accountNumber}</p>
@@ -69,7 +69,7 @@ function PayKeyPaymentContent() {
         </div>
 
         {/* Payment Proof Section */}
-        <div className="mt-4 p-4 bg-emerald-900/30 border border-emerald-800/30 rounded-lg">
+        <div className="mt-4 p-4 bg-emerald-900/30 border border-emerald-800/30 rounded-lg animate-inner-bounce-child delay-1">
           <h3 className="font-semibold text-emerald-300 mb-3 flex items-center gap-2">
             <span>📸</span> Send Payment Proof
           </h3>
@@ -87,17 +87,34 @@ function PayKeyPaymentContent() {
         </div>
 
         {/* Reference ID - placed below upload, as shown in the photo */}
-        <div className="text-center mt-3">
+        <div className="text-center mt-3 animate-inner-bounce-child delay-4">
           <p className="text-xs text-white/60 tracking-widest">REFERENCE ID - {referenceId}</p>
         </div>
 
         <Button
-          className="w-full h-12 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold mt-2 border border-green-500/20"
+          className="w-full h-12 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold mt-2 border border-green-500/20 animate-inner-bounce-child delay-0"
           onClick={handleConfirmPayment}
         >
           I have made this bank Transfer
         </Button>
       </Card>
+
+      <style jsx global>{`
+        @keyframes gentleBounceInner {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-4px); }
+        }
+
+        .animate-inner-bounce { animation: gentleBounceInner 1.6s ease-in-out infinite; }
+        .animate-inner-bounce-child { animation: gentleBounceInner 1.6s ease-in-out infinite; }
+
+        /* Staggered delays for a dynamic, slightly organic motion */
+        .delay-0 { animation-delay: 0s; }
+        .delay-1 { animation-delay: 0.12s; }
+        .delay-2 { animation-delay: 0.24s; }
+        .delay-3 { animation-delay: 0.36s; }
+        .delay-4 { animation-delay: 0.48s; }
+      `}</style>
     </div>
   )
 }
