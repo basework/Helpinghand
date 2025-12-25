@@ -109,7 +109,7 @@ export default function WithdrawPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black pb-24">
+    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black pb-24 animate-page-bounce">
       {/* Header */}
       <div className="flex items-center p-4 bg-white/6 border-b border-white/8 backdrop-blur-sm">
         <Link href="/dashboard">
@@ -120,7 +120,7 @@ export default function WithdrawPage() {
         <h1 className="text-xl font-bold text-white">Withdraw Funds</h1>
       </div>
 
-      <div className="p-6 max-w-md mx-auto text-center space-y-6">
+      <div className="p-6 max-w-md mx-auto text-center space-y-6 animate-inner-bounce">
         {/* Toggle Section */}
         <div className="flex justify-end items-center mb-2 animate-bounce-slow">
           <label className="flex items-center gap-2 cursor-pointer">
@@ -141,13 +141,13 @@ export default function WithdrawPage() {
         </div>
 
         {/* Balance Section */}
-        <div className="bg-white/6 backdrop-blur-lg rounded-3xl border border-white/8 p-6 animate-fade-in">
+        <div className="bg-white/6 backdrop-blur-lg rounded-3xl border border-white/8 p-6 animate-fade-in animate-inner-bounce-child delay-0">
           <p className="text-white/80 text-sm mb-1">Available Balance</p>
           <h2 className="text-4xl font-extrabold text-amber-300">{formatCurrency(balance)}</h2>
         </div>
 
         {/* Requirements */}
-        <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-6 border border-white/8">
+        <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-6 border border-white/8 animate-inner-bounce-child delay-2">
           <h3 className="text-emerald-200 font-bold text-lg mb-3">Withdrawal Requirements</h3>
           <ul className="text-left space-y-2 text-white/80">
             <li>• Minimum balance: ₦200,000</li>
@@ -157,7 +157,7 @@ export default function WithdrawPage() {
         </div>
 
         {/* Progress */}
-        <div className="text-left">
+        <div className="text-left animate-inner-bounce-child delay-3">
           <div className="flex justify-between mb-1">
             <span className="text-white/80 text-sm font-medium">Referral Progress</span>
             <span className="text-white font-semibold">{referralCount}/5</span>
@@ -175,20 +175,20 @@ export default function WithdrawPage() {
           {showCashout ? (
             <Button
               onClick={handleCashout}
-              className="w-full py-5 text-lg font-semibold rounded-xl text-white bg-gradient-to-r from-green-600 to-green-700 hover:scale-[1.02] transition-all border border-green-500/20"
+              className="w-full py-5 text-lg font-semibold rounded-xl text-white bg-gradient-to-r from-green-600 to-green-700 hover:scale-[1.02] transition-all border border-green-500/20 animate-inner-bounce-child delay-0"
             >
               WITHDRAW NOW
             </Button>
           ) : (
             <div className="space-y-4 animate-fade-in">
               {showWarning && (
-                <div className="bg-red-900/30 border border-red-800 text-red-300 rounded-xl p-3 flex items-center justify-center gap-2 animate-bounce-in">
+                <div className="bg-red-900/30 border border-red-800 text-red-300 rounded-xl p-3 flex items-center justify-center gap-2 animate-bounce-in animate-inner-bounce-child delay-1">
                   <AlertTriangle className="h-5 w-5" />
                   <p className="font-medium text-sm">{warningMessage}</p>
                 </div>
               )}
               <Link href="/refer">
-                <Button className="w-full py-5 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-all border border-green-500/20">
+                <Button className="w-full py-5 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-all border border-green-500/20 animate-inner-bounce-child delay-2">
                   <Share2 className="h-5 w-5" />
                   Refer Friends to Unlock Withdrawal
                 </Button>
@@ -200,7 +200,7 @@ export default function WithdrawPage() {
         {/* Upgrade Popup */}
         {showUpgradePopup && (
           <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50 animate-fade-in">
-            <div className="bg-white rounded-2xl shadow-2xl p-6 w-80 text-center">
+            <div className="bg-white rounded-2xl shadow-2xl p-6 w-80 text-center animate-inner-bounce-child delay-1">
               <h2 className="text-lg font-bold text-green-700 mb-2">
                 Withdraw Without Referral
               </h2>
@@ -254,6 +254,22 @@ export default function WithdrawPage() {
         .animate-bounce-slow {
           animation: bounceSlow 2s infinite;
         }
+
+        /* Page-wide gentle bounce */
+        @keyframes gentleBouncePage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
+
+        /* Subtler inner bounce for the box and contents */
+        @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        .animate-inner-bounce { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+        .animate-inner-bounce-child { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+
+        /* Staggered delays for organic motion */
+        .delay-0 { animation-delay: 0s; }
+        .delay-1 { animation-delay: 0.12s; }
+        .delay-2 { animation-delay: 0.24s; }
+        .delay-3 { animation-delay: 0.36s; }
+        .delay-4 { animation-delay: 0.48s; }
       `}</style>
     </div>
   )
