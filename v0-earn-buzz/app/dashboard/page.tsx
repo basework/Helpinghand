@@ -559,11 +559,6 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Referral Card */}
-        <div className="animate-pop-bounce-4">
-          {userData && <ReferralCard userId={userData.id || userData.userId} />}
-        </div>
-
         {/* Help & Support */}
         <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 animate-pop-bounce-5">
           <div className="flex items-center justify-between">
@@ -585,6 +580,11 @@ export default function DashboardPage() {
               </Link>
             </div>
           </div>
+        </div>
+
+        {/* Referral Card */}
+        <div className="animate-pop-bounce-4">
+          {userData && <ReferralCard userId={userData.id || userData.userId} />}
         </div>
       </div>
 
