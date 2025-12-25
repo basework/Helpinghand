@@ -127,7 +127,7 @@ export default function ReferPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black pb-20">
+    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black pb-20 animate-page-bounce">
       <div className="bg-gradient-to-r from-green-700 to-green-900 text-white p-6 rounded-b-3xl shadow-lg">
         <div className="flex items-center mb-6">
           <Link href="/dashboard">
@@ -137,10 +137,10 @@ export default function ReferPage() {
           </Link>
           <h1 className="text-2xl font-bold">Refer & Earn</h1>
         </div>
-        <div className="bg-purple-900/10 backdrop-blur-lg rounded-2xl p-6 text-center border border-purple-700/20">
-          <Gift className="h-16 w-16 mx-auto mb-4 text-purple-300" />
-          <h2 className="text-3xl font-bold mb-2 text-purple-200">Earn ₦10,000</h2>
-          <p className="text-purple-200">For every friend you refer!</p>
+        <div className="bg-purple-900/10 backdrop-blur-lg rounded-2xl p-6 text-center border border-purple-700/20 animate-inner-bounce">
+          <Gift className="h-16 w-16 mx-auto mb-4 text-purple-300 animate-inner-bounce-child delay-0" />
+          <h2 className="text-3xl font-bold mb-2 text-purple-200 animate-inner-bounce-child delay-1">Earn ₦10,000</h2>
+          <p className="text-purple-200 animate-inner-bounce-child delay-2">For every friend you refer!</p>
         </div>
       </div>
 
@@ -178,7 +178,7 @@ export default function ReferPage() {
       </div>
 
       <div className="px-6 mt-8">
-        <div className="mt-4 bg-white/6 backdrop-blur-lg rounded-xl p-4 border border-white/8">
+        <div className="mt-4 bg-white/6 backdrop-blur-lg rounded-xl p-4 border border-white/8 animate-inner-bounce-child delay-3">
           <p className="text-sm text-white/80 mb-2">Your Referral Link</p>
           <div className="flex items-center gap-2">
             <input
@@ -195,10 +195,10 @@ export default function ReferPage() {
       </div>
 
       <div className="px-6 mt-6 flex flex-col gap-4">
-        <Button onClick={shareWhatsApp} disabled={!origin} className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3 border border-green-500/20">
+        <Button onClick={shareWhatsApp} disabled={!origin} className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3 border border-green-500/20 animate-inner-bounce-child delay-2">
           <Share2 className="h-5 w-5" /> Share on WhatsApp
         </Button>
-        <Button onClick={shareTelegram} disabled={!origin} className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3 border border-green-500/20">
+        <Button onClick={shareTelegram} disabled={!origin} className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3 border border-green-500/20 animate-inner-bounce-child delay-3">
           <Send className="h-5 w-5" /> Share on Telegram
         </Button>
       </div>
@@ -207,11 +207,11 @@ export default function ReferPage() {
         <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-6 border border-white/8">
           <h3 className="text-lg font-bold text-emerald-200 mb-4 text-center">Your Referral Stats</h3>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/8">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/8 animate-inner-bounce-child delay-2">
               <p className="text-3xl font-bold text-amber-300">{userData?.referral_count || 0}</p>
               <p className="text-sm text-white/80 mt-1">Total Referrals</p>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/8">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/8 animate-inner-bounce-child delay-3">
               <p className="text-3xl font-bold text-emerald-300">
                 {userData ? formatCurrency(userData.referral_balance) : '₦0'}
               </p>
@@ -220,6 +220,24 @@ export default function ReferPage() {
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        /* Page-wide gentle bounce */
+        @keyframes gentleBouncePage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
+
+        /* Subtle inner bounce for the card and children */
+        @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        .animate-inner-bounce { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+        .animate-inner-bounce-child { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+
+        /* Staggered delays */
+        .delay-0 { animation-delay: 0s; }
+        .delay-1 { animation-delay: 0.12s; }
+        .delay-2 { animation-delay: 0.24s; }
+        .delay-3 { animation-delay: 0.36s; }
+        .delay-4 { animation-delay: 0.48s; }
+      `}</style>
     </div>
   )
 }
