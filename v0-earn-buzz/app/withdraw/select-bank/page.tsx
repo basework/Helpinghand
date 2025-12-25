@@ -161,7 +161,7 @@ export default function SetupWithdrawalAccountPage() {
   // Loading popup
   if (loading || transitioning) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-tiv-3 text-white relative overflow-hidden">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black text-white relative overflow-hidden">
         <div className="animate-glow text-center">
           <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <h1 className="text-3xl font-extrabold tracking-widest mb-2">Helping Hands</h1>
@@ -170,7 +170,7 @@ export default function SetupWithdrawalAccountPage() {
           </p>
         </div>
 
-        <div className="absolute inset-0 bg-gradient-to-br from-green-500/30 to-green-800/30 animate-gradientMove"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-green-600/30 via-green-800/30 to-black/30 animate-gradientMove"></div>
 
         <style jsx global>{`
           @keyframes glow {
@@ -211,11 +211,11 @@ export default function SetupWithdrawalAccountPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-500 to-green-700 px-4 py-10 animate-fadeIn">
-      <div className="w-full max-w-xl bg-white border border-green-200 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:scale-[1.01] text-deep-brown">
-        <div className="px-6 py-6 border-b border-tiv-4 bg-tiv-4">
-          <h1 className="text-2xl font-bold text-deep-brown animate-slideDown">Withdrawal Setup</h1>
-          <p className="text-sm text-deep-brown mt-1">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-700 via-green-900 to-black px-4 py-10 animate-fadeIn">
+      <div className="w-full max-w-xl bg-white/6 backdrop-blur-lg border border-white/8 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:scale-[1.01] text-white">
+        <div className="px-6 py-6 border-b border-white/8 bg-white/10">
+          <h1 className="text-2xl font-bold text-emerald-200 animate-slideDown">Withdrawal Setup</h1>
+          <p className="text-sm text-white/80 mt-1">
             Fill in your withdrawal details to receive payouts securely. Your information is protected.
           </p>
         </div>
@@ -223,24 +223,24 @@ export default function SetupWithdrawalAccountPage() {
         <div className="p-6 grid grid-cols-1 gap-5 animate-slideUp">
           {/* Bank Dropdown */}
           <div ref={dropdownRef} className="relative">
-            <label className="block text-sm font-medium text-green-800 mb-2">Bank</label>
+            <label className="block text-sm font-medium text-emerald-200 mb-2">Bank</label>
             <button
               type="button"
               aria-haspopup="listbox"
               aria-expanded={dropdownOpen}
               onClick={() => setDropdownOpen((v) => !v)}
-              className="w-full rounded-md border border-green-300 bg-white text-left px-4 py-3 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-green-400 hover:shadow-md transition"
+              className="w-full rounded-md border border-white/8 bg-white/10 text-left px-4 py-3 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-emerald-400 hover:shadow-lg transition text-white"
             >
-              <span className={bank ? "text-green-900" : "text-green-500"}>{bank || "Select a bank"}</span>
+              <span className={bank ? "text-white" : "text-white/60"}>{bank || "Select a bank"}</span>
               <svg
-                className={`w-5 h-5 text-green-600 transform transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
+                className={`w-5 h-5 text-emerald-300 transform transition-transform ${dropdownOpen ? "rotate-180" : ""}`}
                 viewBox="0 0 24 24"
               >
                 <path d="M19 9l-7 7-7-7" fill="currentColor" />
               </svg>
             </button>
             {dropdownOpen && (
-              <ul className="absolute z-40 mt-2 w-full max-h-72 overflow-y-auto rounded-md border border-green-200 bg-white shadow-lg animate-bounceIn">
+              <ul className="absolute z-40 mt-2 w-full max-h-72 overflow-y-auto rounded-md border border-white/8 bg-gradient-to-b from-green-800 via-green-900 to-green-950 shadow-lg animate-bounceIn">
                 {(banksList.length ? banksList.map((b, idx) => (
                   <li
                     key={idx}
@@ -253,8 +253,8 @@ export default function SetupWithdrawalAccountPage() {
                       setVerified(false)
                       setVerifyError("")
                     }}
-                    className={`px-4 py-3 cursor-pointer select-none text-sm text-deep-brown hover:bg-green-100 transition ${
-                      bank === b.name ? "bg-tiv-4 font-medium" : ""
+                    className={`px-4 py-3 cursor-pointer select-none text-sm text-white hover:bg-white/10 transition ${
+                      bank === b.name ? "bg-white/20 font-medium" : ""
                     }`}
                   >
                     {b.name}
@@ -271,8 +271,8 @@ export default function SetupWithdrawalAccountPage() {
                       setVerifyError("")
                       setBankCode("")
                     }}
-                    className={`px-4 py-3 cursor-pointer select-none text-sm text-deep-brown hover:bg-green-100 transition ${
-                      bank === b ? "bg-tiv-4 font-medium" : ""
+                    className={`px-4 py-3 cursor-pointer select-none text-sm text-white hover:bg-white/10 transition ${
+                      bank === b ? "bg-white/20 font-medium" : ""
                     }`}
                   >
                     {b}
@@ -284,7 +284,7 @@ export default function SetupWithdrawalAccountPage() {
 
           {/* Account Number */}
           <div>
-            <label className="block text-sm font-medium text-green-800 mb-2">Account Number</label>
+            <label className="block text-sm font-medium text-emerald-200 mb-2">Account Number</label>
             <div className="flex gap-2">
               <input
                 value={accountNumber}
@@ -297,7 +297,7 @@ export default function SetupWithdrawalAccountPage() {
                 placeholder="Enter account number"
                 inputMode="numeric"
                 maxLength={10}
-                className="flex-1 rounded-md border border-green-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+                className="flex-1 rounded-md border border-white/8 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white placeholder:text-white/60"
               />
 
               <button
@@ -309,8 +309,8 @@ export default function SetupWithdrawalAccountPage() {
                 disabled={accountNumber.replace(/\D/g, "").length !== 10 || !bankCode || verifying}
                 className={`rounded-md px-4 py-3 text-sm font-semibold transition-all ${
                   accountNumber.replace(/\D/g, "").length !== 10 || !bankCode
-                    ? "bg-tiv-3 text-tiv-2 cursor-not-allowed"
-                    : "bg-green-600 text-white hover:bg-green-700 hover:shadow-lg"
+                    ? "bg-white/10 text-white/60 cursor-not-allowed border border-white/8"
+                    : "bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 hover:shadow-lg border border-green-500/20"
                 }`}
               >
                 {verifying ? (
@@ -323,14 +323,14 @@ export default function SetupWithdrawalAccountPage() {
                 )}
               </button>
             </div>
-            {verifyError && <p className="text-sm text-red-600 mt-2">{verifyError}</p>}
+            {verifyError && <p className="text-sm text-amber-300 mt-2">{verifyError}</p>}
           </div>
 
           {/* Account Name */}
           <div>
-            <label className="block text-sm font-medium text-green-800 mb-2">
+            <label className="block text-sm font-medium text-emerald-200 mb-2">
               Account Name
-              {verified && <span className="ml-2 inline-block bg-tiv-4 text-tiv-2 text-xs px-2 py-1 rounded">Verified ✓</span>}
+              {verified && <span className="ml-2 inline-block bg-emerald-900/30 text-emerald-300 text-xs px-2 py-1 rounded border border-emerald-800/30">Verified ✓</span>}
             </label>
             <input
               value={accountName}
@@ -339,14 +339,14 @@ export default function SetupWithdrawalAccountPage() {
               }}
               placeholder="Enter account name"
               disabled={verified}
-              className={`w-full rounded-md border px-4 py-3 focus:outline-none focus:ring-2 transition ${
+              className={`w-full rounded-md border px-4 py-3 focus:outline-none focus:ring-2 transition text-white ${
                 verified
-                  ? "border-tiv-4 bg-tiv-4 text-tiv-2 cursor-not-allowed focus:ring-tiv-4"
-                  : "border-green-300 bg-white focus:ring-green-400"
+                  ? "border-emerald-800/30 bg-emerald-900/20 text-emerald-300 cursor-not-allowed focus:ring-emerald-400"
+                  : "border-white/8 bg-white/10 focus:ring-emerald-400 placeholder:text-white/60"
               }`}
             />
             {verified && (
-              <p className="text-xs text-green-700 mt-1">Resolved from bank lookup</p>
+              <p className="text-xs text-emerald-300 mt-1">Resolved from bank lookup</p>
             )}
           </div>
 
@@ -356,8 +356,8 @@ export default function SetupWithdrawalAccountPage() {
             disabled={!bank || !accountNumber || !accountName}
             className={`w-full inline-flex items-center justify-center rounded-md px-4 py-3 text-sm font-semibold transition-all ${
               !bank || !accountNumber || !accountName
-                ? "bg-green-200 text-green-700 cursor-not-allowed"
-                : "bg-green-600 text-white hover:bg-green-700 hover:shadow-lg hover:scale-[1.02]"
+                ? "bg-white/10 text-white/60 cursor-not-allowed border border-white/8"
+                : "bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 hover:shadow-lg hover:scale-[1.02] border border-green-500/20"
             }`}
           >
             Proceed
