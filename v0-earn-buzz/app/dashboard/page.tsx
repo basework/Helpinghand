@@ -586,6 +586,38 @@ export default function DashboardPage() {
         <div className="animate-pop-bounce-4">
           {userData && <ReferralCard userId={userData.id || userData.userId} />}
         </div>
+
+        {/* History */}
+        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 border-l-4 border-purple-600/60 pl-3 animate-pop-bounce-2 shadow-md">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <div className="text-sm text-white font-semibold flex items-center gap-2">
+                <History className="h-4 w-4 text-purple-300" />
+                <span>Recent Activity</span>
+              </div>
+              <div className="text-xs text-tiv-3">Latest transactions</div>
+            </div>
+            <Link href="/history" className="text-sm text-purple-400 hover:underline font-medium">See more →</Link>
+          </div>
+
+          {transactions && transactions.length > 0 ? (
+            <ul className="space-y-2">
+              {transactions.slice(0, 3).map((tx: any) => (
+                <li key={tx.id} className="flex items-center justify-between bg-white/3 p-3 rounded-md hover:bg-white/5 transition">
+                  <div>
+                    <div className="text-sm text-white font-medium">{tx.description}</div>
+                    <div className="text-xs text-tiv-3">{new Date(tx.date).toLocaleString()}</div>
+                  </div>
+                  <div className={`text-sm font-semibold ${tx.type === "credit" ? "text-green-400" : "text-red-400"}`}>
+                    {tx.type === "credit" ? "+" : "-"}{tx.amount ? new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN" }).format(tx.amount).replace("NGN", "₦") : ""}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="text-sm text-tiv-3">No history yet. Your transactions will appear here.</div>
+          )}
+        </div>
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-br from-gray-900 via-green-900 to-black border-t border-green-800/30 shadow-lg flex justify-around items-center h-16 max-w-md mx-auto z-50">
