@@ -117,78 +117,77 @@ export default function ReferPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-300 mx-auto"></div>
+          <p className="mt-4 text-white">Loading...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-green-900 to-black pb-20">
-      {/* YOUR FULL JSX — SAME AS BEFORE */}
-      <div className="bg-gradient-to-r from-green-700 to-green-600 text-white p-6 rounded-b-3xl shadow-lg">
+    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black pb-20">
+      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white p-6 rounded-b-3xl shadow-lg">
         <div className="flex items-center mb-6">
           <Link href="/dashboard">
-            <Button variant="ghost" size="icon" className="text-white hover:bg-tiv-2/50 mr-2">
+            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 mr-2">
               <ArrowLeft className="h-6 w-6" />
             </Button>
           </Link>
           <h1 className="text-2xl font-bold">Refer & Earn</h1>
         </div>
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center">
-          <Gift className="h-16 w-16 mx-auto mb-4 text-yellow-300" />
+        <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-6 text-center border border-white/8">
+          <Gift className="h-16 w-16 mx-auto mb-4 text-amber-300" />
           <h2 className="text-3xl font-bold mb-2">Earn ₦10,000</h2>
-          <p className="text-tiv-3">For every friend you refer!</p>
+          <p className="text-emerald-200">For every friend you refer!</p>
         </div>
       </div>
 
       <div className="px-6 mt-8">
-        <h3 className="text-xl font-bold text-white mb-4">How It Works</h3>
+        <h3 className="text-xl font-bold text-emerald-200 mb-4">How It Works</h3>
         <div className="space-y-4">
-          <div className="flex items-start gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-green-700/30">
-            <div className="w-10 h-10 rounded-full bg-tiv-3 flex items-center justify-center flex-shrink-0">
-              <Share2 className="h-5 w-5 text-tiv-3" />
+          <div className="flex items-start gap-4 bg-white/6 backdrop-blur-lg p-4 rounded-xl border border-white/8">
+            <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
+              <Share2 className="h-5 w-5 text-white" />
             </div>
             <div>
               <h4 className="font-semibold text-white mb-1">Share Your Link</h4>
-              <p className="text-sm text-gray-300">Share your unique referral link with friends and family</p>
+              <p className="text-sm text-white/80">Share your unique referral link with friends and family</p>
             </div>
           </div>
-          <div className="flex items-start gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-green-700/30">
-            <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center flex-shrink-0">
-              <Users className="h-5 w-5 text-green-300" />
+          <div className="flex items-start gap-4 bg-white/6 backdrop-blur-lg p-4 rounded-xl border border-white/8">
+            <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
+              <Users className="h-5 w-5 text-white" />
             </div>
             <div>
               <h4 className="font-semibold text-white mb-1">They Sign Up</h4>
-              <p className="text-sm text-gray-300">Your friends register using your referral code</p>
+              <p className="text-sm text-white/80">Your friends register using your referral code</p>
             </div>
           </div>
-          <div className="flex items-start gap-4 bg-white/10 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-green-700/30">
-            <div className="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center flex-shrink-0">
-              <Wallet className="h-5 w-5 text-green-300" />
+          <div className="flex items-start gap-4 bg-white/6 backdrop-blur-lg p-4 rounded-xl border border-white/8">
+            <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
+              <Wallet className="h-5 w-5 text-white" />
             </div>
             <div>
               <h4 className="font-semibold text-white mb-1">Earn Rewards</h4>
-              <p className="text-sm text-gray-300">Get ₦10,000 credited to your account instantly</p>
+              <p className="text-sm text-white/80">Get ₦10,000 credited to your account instantly</p>
             </div>
           </div>
         </div>
       </div>
 
       <div className="px-6 mt-8">
-        <div className="mt-4 bg-white/10 backdrop-blur-sm rounded-xl p-4 shadow-sm border border-green-700/30">
-          <p className="text-sm text-gray-300 mb-2">Your Referral Link</p>
+        <div className="mt-4 bg-white/6 backdrop-blur-lg rounded-xl p-4 border border-white/8">
+          <p className="text-sm text-white/80 mb-2">Your Referral Link</p>
           <div className="flex items-center gap-2">
             <input
               type="text"
               value={origin ? `${origin}${referralLink}` : 'Loading...'}
               readOnly
-              className="flex-1 text-sm text-white bg-gray-800/50 rounded-lg px-3 py-2 border border-green-700/30"
+              className="flex-1 text-sm text-white bg-white/10 rounded-lg px-3 py-2 border border-white/8 placeholder:text-white/60"
             />
-            <Button onClick={handleCopy} variant="outline" size="icon" disabled={!origin}>
+            <Button onClick={handleCopy} variant="outline" size="icon" disabled={!origin} className="border-white/8 text-white hover:bg-white/10">
               <Copy className="h-4 w-4" />
             </Button>
           </div>
@@ -196,27 +195,27 @@ export default function ReferPage() {
       </div>
 
       <div className="px-6 mt-6 flex flex-col gap-4">
-        <Button onClick={shareWhatsApp} disabled={!origin} className="w-full bg-tiv-1 hover:bg-tiv-1 text-white py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3">
+        <Button onClick={shareWhatsApp} disabled={!origin} className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3 border border-green-500/20">
           <Share2 className="h-5 w-5" /> Share on WhatsApp
         </Button>
-        <Button onClick={shareTelegram} disabled={!origin} className="w-full bg-blue-500 hover:bg-blue-600 text-white py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3">
+        <Button onClick={shareTelegram} disabled={!origin} className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3 border border-green-500/20">
           <Send className="h-5 w-5" /> Share on Telegram
         </Button>
       </div>
 
       <div className="px-6 mt-8 mb-6">
-        <div className="bg-gradient-to-br from-green-800/50 to-green-900/50 backdrop-blur-sm rounded-2xl p-6 border border-green-700/30">
-          <h3 className="text-lg font-bold text-white mb-4 text-center">Your Referral Stats</h3>
+        <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-6 border border-white/8">
+          <h3 className="text-lg font-bold text-emerald-200 mb-4 text-center">Your Referral Stats</h3>
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center shadow-sm border border-green-700/30">
-              <p className="text-3xl font-bold text-tiv-2">{userData?.referral_count || 0}</p>
-              <p className="text-sm text-gray-300 mt-1">Total Referrals</p>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/8">
+              <p className="text-3xl font-bold text-amber-300">{userData?.referral_count || 0}</p>
+              <p className="text-sm text-white/80 mt-1">Total Referrals</p>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center shadow-sm border border-green-700/30">
-              <p className="text-3xl font-bold text-green-400">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/8">
+              <p className="text-3xl font-bold text-emerald-300">
                 {userData ? formatCurrency(userData.referral_balance) : '₦0'}
               </p>
-              <p className="text-sm text-gray-300 mt-1">Total Earned</p>
+              <p className="text-sm text-white/80 mt-1">Total Earned</p>
             </div>
           </div>
         </div>
