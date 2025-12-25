@@ -76,7 +76,7 @@ export default function VerifyMePage() {
   }, [showNoReferralDialog])
 
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black text-white overflow-y-auto py-10 px-4 animate-fade-in">
+    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black text-white overflow-y-auto py-10 px-4 animate-fade-in animate-page-bounce">
       <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow flex items-center justify-center">
         Helping Hands
       </h1>
@@ -201,6 +201,10 @@ export default function VerifyMePage() {
         .animate-spin-slow { animation: spin-slow 3s linear infinite; }
         .glow-coin { filter: drop-shadow(0 0 10px #fbbf24); }
         .animate-slide-in-left { animation: slideInLeft 0.8s ease-out forwards; }
+
+        @keyframes gentleBounceVerify { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        /* Combine initial fade-in with a gentle page bounce so everything moves together */
+        .animate-page-bounce { animation: fadeIn 0.8s ease-in-out, gentleBounceVerify 1.6s ease-in-out infinite; }
       `}</style>
     </div>
   )
