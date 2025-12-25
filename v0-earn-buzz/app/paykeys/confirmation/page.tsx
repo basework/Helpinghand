@@ -19,16 +19,16 @@ function PayKeyConfirmationContent() {
   if (!showResult) {
     // Tivexx-style loading popup
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-500 to-green-700 text-white relative overflow-hidden">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black text-white relative overflow-hidden">
         <div className="animate-glow text-center z-20">
           <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <h1 className="text-4xl font-extrabold tracking-wider mb-2">Helping Hands</h1>
           <p className="text-lg font-medium opacity-90">Confirming your payment...</p>
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-green-400/30 to-green-800/30 animate-gradientMove"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-green-600/30 via-green-800/30 to-black/30 animate-gradientMove"></div>
 
         <style jsx global>{`
-          @keyframes glow { 0% { text-shadow:0 0 5px var(--tiv-3),0 0 10px var(--tiv-2),0 0 20px var(--tiv-2); } 50% { text-shadow:0 0 10px var(--tiv-3),0 0 20px var(--tiv-2),0 0 40px var(--tiv-1); } 100% { text-shadow:0 0 5px var(--tiv-3),0 0 10px var(--tiv-2),0 0 20px var(--tiv-2); } }
+          @keyframes glow { 0% { text-shadow:0 0 5px rgba(16,185,129,0.5),0 0 10px rgba(16,185,129,0.3),0 0 20px rgba(16,185,129,0.2); } 50% { text-shadow:0 0 10px rgba(16,185,129,0.6),0 0 20px rgba(16,185,129,0.4),0 0 40px rgba(16,185,129,0.3); } 100% { text-shadow:0 0 5px rgba(16,185,129,0.5),0 0 10px rgba(16,185,129,0.3),0 0 20px rgba(16,185,129,0.2); } }
           @keyframes gradientMove { 0% { background-position:0% 50%; } 50% { background-position:100% 50%; } 100% { background-position:0% 50%; } }
           .animate-glow { animation: glow 2s infinite alternate; }
           .animate-gradientMove { background-size: 200% 200%; animation: gradientMove 6s ease infinite; }
@@ -40,9 +40,9 @@ function PayKeyConfirmationContent() {
 
   // Failed payment display with animated gradient + particles
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-500 to-green-700 text-white overflow-y-auto py-10 px-4 animate-fade-in">
+    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black text-white overflow-y-auto py-10 px-4 animate-fade-in">
       {/* Animated gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-green-400/20 to-green-800/20 animate-gradientMove -z-10"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-green-600/20 via-green-800/20 to-black/20 animate-gradientMove -z-10"></div>
 
       {/* Floating particles */}
       <div className="absolute inset-0 overflow-hidden -z-10">
@@ -62,7 +62,7 @@ function PayKeyConfirmationContent() {
 
       <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow">Helping Hands</h1>
 
-      <div className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/10 border border-green-300 shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl overflow-hidden text-center">
+      <div className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/6 border border-white/8 shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl overflow-hidden text-center">
         {/* Error Icon */}
         <div className="w-24 h-24 mx-auto bg-red-500 rounded-full flex items-center justify-center mb-4 animate-bounce-slow">
           <XCircle className="h-16 w-16 text-white" />
@@ -70,29 +70,29 @@ function PayKeyConfirmationContent() {
 
         {/* Error Message */}
         <div className="space-y-4">
-          <h1 className="text-2xl font-bold text-red-400">Transaction verification failed!</h1>
-          <p className="text-tiv-3 leading-relaxed text-sm">
+          <h1 className="text-2xl font-bold text-red-300">Transaction verification failed!</h1>
+          <p className="text-white/80 leading-relaxed text-sm">
             Your payment could not be confirmed. Reason: No payment received or invalid payment method. <br />
             If you have made the payment, kindly send your payment proof to our support team immediately.
           </p>
         </div>
 
         {/* Not Available Info */}
-        <div className="w-full p-4 border border-gray-300 rounded-lg flex items-center justify-between bg-white/10 mt-4">
-          <span className="text-green-100 font-medium">Invalid Payment</span>
-          <span className="text-red-400 text-lg">🚫</span>
+        <div className="w-full p-4 border border-white/8 rounded-lg flex items-center justify-between bg-white/10 mt-4">
+          <span className="text-emerald-200 font-medium">Invalid Payment</span>
+          <span className="text-red-300 text-lg">🚫</span>
         </div>
 
         {/* Action Buttons */}
         <div className="space-y-3 mt-6">
           <button
-            className="w-full h-12 border border-tiv-4 bg-white/10 hover:bg-tiv-4/20 text-white rounded-lg font-semibold transition-all"
+            className="w-full h-12 border border-white/8 bg-white/10 hover:bg-white/15 text-white rounded-lg font-semibold transition-all"
             onClick={() => router.push("/dashboard")}
           >
             Go to Dashboard
           </button>
           <button
-            className="w-full h-12 bg-gradient-to-r from-purple-800 via-purple-700 to-green-600 hover:from-purple-900 hover:to-green-700 text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-all animate-buttonGlow"
+            className="w-full h-12 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-lg font-semibold flex items-center justify-center gap-2 transition-all animate-buttonGlow border border-green-500/20"
             onClick={() => window.open("https://t.me/tivexx9jasupport", "_blank")}
           >
             {/* Rotating Telegram logo */}
@@ -111,10 +111,10 @@ function PayKeyConfirmationContent() {
       <style jsx global>{`
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes glow { 0%, 100% { text-shadow:0 0 5px var(--tiv-3),0 0 10px var(--tiv-2),0 0 20px var(--tiv-2); } 50% { text-shadow:0 0 10px var(--tiv-3),0 0 20px var(--tiv-2),0 0 40px var(--tiv-1); } }
+        @keyframes glow { 0%, 100% { text-shadow: 0 0 5px rgba(16,185,129,0.5), 0 0 10px rgba(16,185,129,0.3), 0 0 20px rgba(16,185,129,0.2); } 50% { text-shadow: 0 0 10px rgba(16,185,129,0.6), 0 0 20px rgba(16,185,129,0.4), 0 0 40px rgba(16,185,129,0.3); } }
         @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         @keyframes particle { 0% { transform: translateY(0) translateX(0); opacity: 0.6; } 50% { transform: translateY(-20px) translateX(15px); opacity: 0.3; } 100% { transform: translateY(0) translateX(0); opacity: 0.6; } }
-        @keyframes buttonGlow { 0%,100% { box-shadow: 0 0 5px var(--tiv-2),0 0 10px var(--tiv-3),0 0 20px var(--tiv-1); } 50% { box-shadow: 0 0 10px var(--tiv-3),0 0 20px var(--tiv-2),0 0 40px var(--tiv-1); } }
+        @keyframes buttonGlow { 0%,100% { box-shadow: 0 0 5px rgba(16,185,129,0.3), 0 0 10px rgba(16,185,129,0.2), 0 0 20px rgba(16,185,129,0.1); } 50% { box-shadow: 0 0 10px rgba(16,185,129,0.4), 0 0 20px rgba(16,185,129,0.3), 0 0 40px rgba(16,185,129,0.2); } }
         @keyframes spinSlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .animate-fade-in { animation: fadeIn 0.8s ease-in-out; }
@@ -134,10 +134,10 @@ export default function PayKeyConfirmationPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-500 to-green-700 text-white relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black text-white relative overflow-hidden">
           <div className="animate-glow text-center z-20">
             <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <h1 className="text-4xl font-extrabold tracking-wider mb-2">Tivexx9ja</h1>
+            <h1 className="text-4xl font-extrabold tracking-wider mb-2">Helping Hands</h1>
             <p className="text-lg font-medium opacity-90">Confirming your payment...</p>
           </div>
         </div>
