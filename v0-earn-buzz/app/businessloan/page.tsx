@@ -183,7 +183,7 @@ export default function BusinessLoanPage() {
 
 
   return (
-    <div className="min-h-screen text-white bg-gradient-to-br from-green-700 via-green-900 to-black">
+    <div className="min-h-screen text-white bg-gradient-to-br from-green-700 via-green-900 to-black animate-page-bounce">
       <div className="absolute inset-0 -z-10 bg-gradient-to-tr from-green-600/20 via-green-800/10 to-black/20" />
 
       <div className="max-w-3xl mx-auto px-4 py-8">
@@ -193,10 +193,10 @@ export default function BusinessLoanPage() {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
-            <h1 className="text-4xl font-extrabold leading-tight tracking-tight drop-shadow-[0_6px_20px_rgba(16,185,129,0.25)]">
+            <h1 className="text-4xl font-extrabold leading-tight tracking-tight drop-shadow-[0_6px_20px_rgba(16,185,129,0.25)] animate-inner-bounce-child delay-0">
               Helping Hands Business Loan
             </h1>
-            <p className="text-sm text-white/80 mt-1">Fast disbursement • One-time processing fee • Repayment: 12 months</p>
+            <p className="text-sm text-white/80 mt-1 animate-inner-bounce-child delay-1">Fast disbursement • One-time processing fee • Repayment: 12 months</p>
           </div>
         </div>
 
@@ -207,8 +207,8 @@ export default function BusinessLoanPage() {
                 <CheckCircle className="h-6 w-6" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-emerald-200">Loan Overview</h3>
-                <p className="text-sm text-white/80 mt-2">
+                <h3 className="text-lg font-bold text-emerald-200 animate-inner-bounce-child delay-0">Loan Overview</h3>
+                <p className="text-sm text-white/80 mt-2 animate-inner-bounce-child delay-1">
                   Borrow between <span className="font-semibold text-emerald-300">{formatCurrency(MIN_LOAN)}</span> and{" "}
                   <span className="font-semibold text-emerald-300">{formatCurrency(MAX_LOAN)}</span>. A one-time processing
                   fee of <span className="font-semibold text-amber-300">3%</span> is required and will be charged now.
@@ -219,7 +219,7 @@ export default function BusinessLoanPage() {
           </Card>
 
           <Card className="p-6 rounded-3xl bg-white/6 backdrop-blur-lg border border-white/8 shadow-2xl">
-            <h2 className="text-2xl font-bold mb-4 text-emerald-200">Apply for Business Loan</h2>
+            <h2 className="text-2xl font-bold mb-4 text-emerald-200 animate-inner-bounce-child delay-0">Apply for Business Loan</h2>
 
             <div className="grid grid-cols-1 gap-4">
               <div>
@@ -318,19 +318,37 @@ export default function BusinessLoanPage() {
             <div className="mt-6">
               <Button
                 onClick={handleContinue}
-                className="w-full py-4 rounded-xl text-lg font-bold bg-gradient-to-r from-green-600 via-green-500 to-green-700 hover:from-green-700 hover:to-green-800 transform transition-all shadow-2xl"
+                className="w-full py-4 rounded-xl text-lg font-bold bg-gradient-to-r from-green-600 via-green-500 to-green-700 hover:from-green-700 hover:to-green-800 transform transition-all shadow-2xl animate-inner-bounce-child delay-2"
                 disabled={submitting}
               >
                 {submitting ? "Redirecting to Payment..." : "Continue to Processing Fee"}
               </Button>
             </div>
 
-            <p className="mt-4 text-xs text-white/70">
+            <p className="mt-4 text-xs text-white/70 animate-inner-bounce-child delay-3">
               Note: The 3% processing fee will be charged now. You will be redirected to complete the payment.
             </p>
           </Card>
         </main>
       </div>
+
+      <style jsx global>{`
+        /* Page-wide gentle bounce */
+        @keyframes gentleBouncePage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
+
+        /* Subtle inner bounce for the card and its children */
+        @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        .animate-inner-bounce { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+        .animate-inner-bounce-child { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+
+        /* Staggered delays */
+        .delay-0 { animation-delay: 0s; }
+        .delay-1 { animation-delay: 0.12s; }
+        .delay-2 { animation-delay: 0.24s; }
+        .delay-3 { animation-delay: 0.36s; }
+        .delay-4 { animation-delay: 0.48s; }
+      `}</style>
     </div>
   )
 }
