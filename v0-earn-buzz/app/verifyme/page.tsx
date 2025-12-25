@@ -203,11 +203,11 @@ export default function VerifyMePage() {
         .animate-slide-in-left { animation: slideInLeft 0.8s ease-out forwards; }
 
         @keyframes gentleBounceVerify { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-        @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
         /* Combine initial fade-in with a gentle page bounce so everything moves together */
         .animate-page-bounce { animation: fadeIn 0.8s ease-in-out, gentleBounceVerify 1.6s ease-in-out infinite; }
         /* Use slideUp on mount then continuous inner bounce for the Card content */
-        .animate-inner-bounce { animation: slideUp 1s ease-in-out, gentleBounceInner 1.6s ease-in-out infinite; }
+        .animate-inner-bounce { animation: slideUp 1s ease-in-out, gentleBounceInner 1.8s ease-in-out infinite; }
       `}</style>
     </div>
   )
