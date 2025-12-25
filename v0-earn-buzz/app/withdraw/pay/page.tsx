@@ -42,7 +42,7 @@ function PayKeyPaymentContent() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background animate-page-bounce">
       {/* Purple-themed Popup */}
       {showPopup && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -108,7 +108,7 @@ function PayKeyPaymentContent() {
         </div>
 
         {/* Bank Details Card */}
-        <Card className="p-6 space-y-4 bg-gray-50">
+          <Card className="p-6 space-y-4 bg-gray-50 animate-inner-bounce">
           {/* Selected Bank */}
           <div className="flex items-center justify-between">
             <div>
@@ -123,7 +123,7 @@ function PayKeyPaymentContent() {
             <div className="flex items-center justify-between p-3 bg-white rounded-lg">
               <div>
                 <p className="text-sm text-muted-foreground">Amount</p>
-                <p className="font-bold text-lg">NGN {amount}</p>
+                <p className="font-bold text-lg animate-inner-bounce-child delay-1">NGN {amount}</p>
               </div>
               <Button
                 variant="outline"
@@ -157,7 +157,7 @@ function PayKeyPaymentContent() {
             </div>
 
             {/* Bank Name */}
-            <div className="p-3 bg-white rounded-lg">
+            <div className="p-3 bg-white rounded-lg animate-inner-bounce-child delay-3">
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-yellow-100 rounded flex items-center justify-center">
                   <span className="text-xs">🏦</span>
@@ -170,7 +170,7 @@ function PayKeyPaymentContent() {
             </div>
 
             {/* Account Name */}
-            <div className="p-3 bg-white rounded-lg">
+            <div className="p-3 bg-white rounded-lg animate-inner-bounce-child delay-3">
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
                   <span className="text-xs">👤</span>
@@ -189,7 +189,7 @@ function PayKeyPaymentContent() {
           </div>
 
           {/* Payment Proof Section */}
-          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg animate-inner-bounce-child delay-1">
             <h3 className="font-semibold text-blue-900 mb-3 flex items-center gap-2">
               <span>📸</span> Send Payment Proof
             </h3>
@@ -208,12 +208,30 @@ function PayKeyPaymentContent() {
 
           {/* Confirm Button */}
           <Button
-            className="w-full h-12 bg-orange-500 hover:bg-orange-600 text-white font-semibold mt-4"
+            className="w-full h-12 bg-orange-500 hover:bg-orange-600 text-white font-semibold mt-4 animate-inner-bounce-child delay-0"
             onClick={handleConfirmPayment}
           >
             I have made this bank Transfer
           </Button>
         </Card>
+
+        <style jsx global>{`
+          /* Page-wide gentle bounce */
+          @keyframes gentleBouncePage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+          .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
+
+          /* Subtler inner bounce for card content */
+          @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+          .animate-inner-bounce { animation: gentleBounceInner 1.6s ease-in-out infinite; }
+          .animate-inner-bounce-child { animation: gentleBounceInner 1.6s ease-in-out infinite; }
+
+          /* Staggered delays for a slightly organic motion */
+          .delay-0 { animation-delay: 0s; }
+          .delay-1 { animation-delay: 0.12s; }
+          .delay-2 { animation-delay: 0.24s; }
+          .delay-3 { animation-delay: 0.36s; }
+          .delay-4 { animation-delay: 0.48s; }
+        `}</style>
       </div>
     </div>
   )
@@ -223,7 +241,7 @@ export default function PayKeyPaymentPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="min-h-screen bg-background flex items-center justify-center animate-page-bounce">
           <div className="animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent"></div>
         </div>
       }
