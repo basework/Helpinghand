@@ -81,7 +81,7 @@ export default function VerifyMePage() {
         Helping Hands
       </h1>
 
-      <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/6 border border-white/8 shadow-2xl rounded-2xl animate-slide-up hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
+      <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/6 border border-white/8 shadow-2xl rounded-2xl animate-slide-up animate-inner-bounce hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
         {/* Withdraw without referral control (top-right) */}
         <div className="absolute top-4 right-4 z-20">
           <button
@@ -203,8 +203,11 @@ export default function VerifyMePage() {
         .animate-slide-in-left { animation: slideInLeft 0.8s ease-out forwards; }
 
         @keyframes gentleBounceVerify { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
         /* Combine initial fade-in with a gentle page bounce so everything moves together */
         .animate-page-bounce { animation: fadeIn 0.8s ease-in-out, gentleBounceVerify 1.6s ease-in-out infinite; }
+        /* Use slideUp on mount then continuous inner bounce for the Card content */
+        .animate-inner-bounce { animation: slideUp 1s ease-in-out, gentleBounceInner 1.6s ease-in-out infinite; }
       `}</style>
     </div>
   )
