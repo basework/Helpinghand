@@ -211,16 +211,16 @@ export default function SetupWithdrawalAccountPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-700 via-green-900 to-black px-4 py-10 animate-fadeIn">
-      <div className="w-full max-w-xl bg-white/6 backdrop-blur-lg border border-white/8 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:scale-[1.01] text-white">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-700 via-green-900 to-black px-4 py-10 animate-fadeIn animate-page-bounce">
+      <div className="w-full max-w-xl bg-white/6 backdrop-blur-lg border border-white/8 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:scale-[1.01] text-white animate-inner-bounce">
         <div className="px-6 py-6 border-b border-white/8 bg-white/10">
-          <h1 className="text-2xl font-bold text-emerald-200 animate-slideDown">Withdrawal Setup</h1>
-          <p className="text-sm text-white/80 mt-1">
+          <h1 className="text-2xl font-bold text-emerald-200 animate-slideDown animate-inner-bounce-child delay-0">Withdrawal Setup</h1>
+          <p className="text-sm text-white/80 mt-1 animate-inner-bounce-child delay-1">
             Fill in your withdrawal details to receive payouts securely. Your information is protected.
           </p>
         </div>
 
-        <div className="p-6 grid grid-cols-1 gap-5 animate-slideUp">
+        <div className="p-6 grid grid-cols-1 gap-5 animate-slideUp animate-inner-bounce-child delay-2">
           {/* Bank Dropdown */}
           <div ref={dropdownRef} className="relative">
             <label className="block text-sm font-medium text-emerald-200 mb-2">Bank</label>
@@ -311,7 +311,7 @@ export default function SetupWithdrawalAccountPage() {
                   accountNumber.replace(/\D/g, "").length !== 10 || !bankCode
                     ? "bg-white/10 text-white/60 cursor-not-allowed border border-white/8"
                     : "bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 hover:shadow-lg border border-green-500/20"
-                }`}
+                } animate-inner-bounce-child delay-2`}
               >
                 {verifying ? (
                   <span className="inline-flex items-center gap-2">
@@ -327,7 +327,7 @@ export default function SetupWithdrawalAccountPage() {
           </div>
 
           {/* Account Name */}
-          <div>
+          <div className="animate-inner-bounce-child delay-3">
             <label className="block text-sm font-medium text-emerald-200 mb-2">
               Account Name
               {verified && <span className="ml-2 inline-block bg-emerald-900/30 text-emerald-300 text-xs px-2 py-1 rounded border border-emerald-800/30">Verified ✓</span>}
@@ -358,7 +358,7 @@ export default function SetupWithdrawalAccountPage() {
               !bank || !accountNumber || !accountName
                 ? "bg-white/10 text-white/60 cursor-not-allowed border border-white/8"
                 : "bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 hover:shadow-lg hover:scale-[1.02] border border-green-500/20"
-            }`}
+            } animate-inner-bounce-child delay-4`}
           >
             Proceed
           </button>
@@ -423,6 +423,22 @@ export default function SetupWithdrawalAccountPage() {
         .animate-bounceIn {
           animation: bounceIn 0.4s ease-in-out;
         }
+
+        /* Page-wide gentle bounce */
+        @keyframes gentleBouncePage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
+
+        /* Subtler inner bounce for the box and its children */
+        @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        .animate-inner-bounce { animation: gentleBounceInner 1.6s ease-in-out infinite; }
+        .animate-inner-bounce-child { animation: gentleBounceInner 1.6s ease-in-out infinite; }
+
+        /* Staggered delays for a slightly organic motion */
+        .delay-0 { animation-delay: 0s; }
+        .delay-1 { animation-delay: 0.12s; }
+        .delay-2 { animation-delay: 0.24s; }
+        .delay-3 { animation-delay: 0.36s; }
+        .delay-4 { animation-delay: 0.48s; }
       `}</style>
     </div>
   )
