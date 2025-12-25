@@ -137,10 +137,10 @@ export default function ReferPage() {
           </Link>
           <h1 className="text-2xl font-bold">Refer & Earn</h1>
         </div>
-        <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-6 text-center border border-white/8">
-          <Gift className="h-16 w-16 mx-auto mb-4 text-amber-300" />
-          <h2 className="text-3xl font-bold mb-2">Earn ₦10,000</h2>
-          <p className="text-emerald-200">For every friend you refer!</p>
+        <div className="bg-purple-900/10 backdrop-blur-lg rounded-2xl p-6 text-center border border-purple-700/20">
+          <Gift className="h-16 w-16 mx-auto mb-4 text-purple-300" />
+          <h2 className="text-3xl font-bold mb-2 text-purple-200">Earn ₦10,000</h2>
+          <p className="text-purple-200">For every friend you refer!</p>
         </div>
       </div>
 
