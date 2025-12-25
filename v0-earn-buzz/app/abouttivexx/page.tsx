@@ -65,7 +65,7 @@ export default function AboutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black text-white">
+    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black text-white animate-page-bounce">
       
       {/* Back button */}
       <div className="fixed top-4 left-4 z-50">
@@ -92,9 +92,9 @@ export default function AboutPage() {
           <div className="lg:col-span-2 space-y-6">
 
             {/* Mission */}
-            <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up">
-              <h2 className="text-xl font-bold text-emerald-200 mb-2">Our Mission</h2>
-              <p className="text-sm text-white/80 leading-relaxed">
+            <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up animate-inner-bounce">
+              <h2 className="text-xl font-bold text-emerald-200 mb-2 animate-inner-bounce-child delay-0">Our Mission</h2>
+              <p className="text-sm text-white/80 leading-relaxed animate-inner-bounce-child delay-1">
                 Helping Hands was created to empower Nigerians with real earning opportunities, fast withdrawals and trusted digital services. 
                 Our system helps users support their families, grow their hustle, fund education and improve their financial life.
               </p>
@@ -116,10 +116,10 @@ export default function AboutPage() {
             </Card>
 
             {/* NEW SECTION YOU REQUESTED */}
-            <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up">
-              <h2 className="text-xl font-bold text-emerald-200 mb-3">What You Can Do on Helping Hands</h2>
+            <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up animate-inner-bounce">
+              <h2 className="text-xl font-bold text-emerald-200 mb-3 animate-inner-bounce-child delay-2">What You Can Do on Helping Hands</h2>
 
-              <ul className="space-y-3 text-sm text-white/85 leading-relaxed list-disc pl-5">
+              <ul className="space-y-3 text-sm text-white/85 leading-relaxed list-disc pl-5 animate-inner-bounce-child delay-3">
                 <li>Earn ₦1,000. every 1 minute by claiming through the daily earnings button.</li>
                 <li>Earn ₦10,000 per verified referral with no limits. Some users earn from 50 to 300 referrals.</li>
                 <li>Access Quick Loans instantly with no collateral or BVN required.</li>
@@ -160,24 +160,24 @@ export default function AboutPage() {
           {/* RIGHT COLUMN */}
           <aside className="space-y-6">
 
-            <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg text-center animate-fade-up">
+            <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg text-center animate-fade-up animate-inner-bounce">
               <div className="text-sm text-white/80 mb-2">Official Notice</div>
               <div className="text-xl font-bold text-amber-300">Verified Platform</div>
-              <p className="text-xs text-white/70 mt-2">
+              <p className="text-xs text-white/70 mt-2 animate-inner-bounce-child delay-0">
                 Helping Hands strictly follows identity checks and fraud prevention systems to protect all users and ensure transparent earnings.
               </p>
 
               <div className="mt-4 space-y-3">
                 <Button
                   onClick={() => window.open("https://t.me/tivexx9jasupport", "_blank")}
-                  className="w-full bg-gradient-to-r from-purple-800 via-purple-700 to-green-600 text-white"
+                  className="w-full bg-gradient-to-r from-purple-800 via-purple-700 to-green-600 text-white animate-inner-bounce-child delay-1"
                 >
                   Contact Support
                 </Button>
 
                 <Button
                   onClick={() => window.open("https://t.me/Tivexx9jacommunity", "_blank")}
-                  className="w-full bg-amber-400 text-black"
+                  className="w-full bg-amber-400 text-black animate-inner-bounce-child delay-2"
                 >
                   Join Community Channel
                 </Button>
@@ -212,6 +212,22 @@ export default function AboutPage() {
         }
         .animate-glow { animation: glow 3s ease-in-out infinite; }
         .animate-fade-up { animation: fadeUp 0.6s ease forwards; }
+
+        /* Page-wide gentle bounce */
+        @keyframes gentleBouncePage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
+
+        /* Subtle inner bounce for cards and their children */
+        @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        .animate-inner-bounce { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+        .animate-inner-bounce-child { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+
+        /* Staggered delays for an organic look */
+        .delay-0 { animation-delay: 0s; }
+        .delay-1 { animation-delay: 0.12s; }
+        .delay-2 { animation-delay: 0.24s; }
+        .delay-3 { animation-delay: 0.36s; }
+        .delay-4 { animation-delay: 0.48s; }
       `}</style>
     </div>
   )
