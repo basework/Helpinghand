@@ -19,7 +19,7 @@ function PayKeyConfirmationContent() {
   if (!showResult) {
     // Tivexx-style loading popup
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black text-white relative overflow-hidden">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black text-white relative overflow-hidden animate-page-bounce">
         <div className="animate-glow text-center z-20">
           <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <h1 className="text-4xl font-extrabold tracking-wider mb-2">Helping Hands</h1>
@@ -33,6 +33,9 @@ function PayKeyConfirmationContent() {
           .animate-glow { animation: glow 2s infinite alternate; }
           .animate-gradientMove { background-size: 200% 200%; animation: gradientMove 6s ease infinite; }
           .animate-spin { animation: spin 1s linear infinite; }
+
+          @keyframes gentleBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+          .animate-page-bounce { animation: gentleBounce 1.2s ease-in-out infinite; }
         `}</style>
       </div>
     )
@@ -40,7 +43,7 @@ function PayKeyConfirmationContent() {
 
   // Failed payment display with animated gradient + particles
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black text-white overflow-y-auto py-10 px-4 animate-fade-in">
+    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black text-white overflow-y-auto py-10 px-4 animate-page-bounce">
       {/* Animated gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-green-600/20 via-green-800/20 to-black/20 animate-gradientMove -z-10"></div>
 
@@ -125,6 +128,10 @@ function PayKeyConfirmationContent() {
         .animate-particle { animation: particle 8s linear infinite; }
         .animate-buttonGlow { animation: buttonGlow 2s infinite alternate; }
         .animate-spin-slow { animation: spinSlow 2s linear infinite; }
+
+        @keyframes gentleBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        /* Combine initial fade-in with the continuous gentle bounce */
+        .animate-page-bounce { animation: fadeIn 0.8s ease-in-out, gentleBounce 1.2s ease-in-out infinite; }
       `}</style>
     </div>
   )
@@ -134,7 +141,7 @@ export default function PayKeyConfirmationPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black text-white relative overflow-hidden">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black text-white relative overflow-hidden animate-page-bounce">
           <div className="animate-glow text-center z-20">
             <div className="w-20 h-20 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
             <h1 className="text-4xl font-extrabold tracking-wider mb-2">Helping Hands</h1>
