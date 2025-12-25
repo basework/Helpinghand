@@ -70,7 +70,7 @@ export default function WithdrawPage() {
       if (balance < 200000 && referralCount < 5)
         message = "⚠️ You need at least ₦200,000 and 5 referrals to withdraw."
       else if (balance < 200000)
-        message = "⚠️ You haven’t reached the ₦200,000 minimum withdrawal balance."
+        message = "⚠️ You haven't reached the ₦200,000 minimum withdrawal balance."
       else
         message = "⚠️ You need at least 5 referrals to unlock withdrawals."
 
@@ -109,26 +109,26 @@ export default function WithdrawPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white pb-24">
+    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black pb-24">
       {/* Header */}
-      <div className="flex items-center p-4 bg-white/80 border-b shadow-sm backdrop-blur-md">
+      <div className="flex items-center p-4 bg-white/6 border-b border-white/8 backdrop-blur-sm">
         <Link href="/dashboard">
-          <Button variant="ghost" size="icon" className="mr-2">
+          <Button variant="ghost" size="icon" className="mr-2 text-white hover:bg-white/10">
             <ArrowLeft className="h-6 w-6" />
           </Button>
         </Link>
-        <h1 className="text-xl font-bold text-tiv-2">Withdraw Funds</h1>
+        <h1 className="text-xl font-bold text-white">Withdraw Funds</h1>
       </div>
 
       <div className="p-6 max-w-md mx-auto text-center space-y-6">
         {/* Toggle Section */}
         <div className="flex justify-end items-center mb-2 animate-bounce-slow">
           <label className="flex items-center gap-2 cursor-pointer">
-            <span className="text-sm font-medium text-tiv-2">Withdraw Without Referral</span>
+            <span className="text-sm font-medium text-emerald-200">Withdraw Without Referral</span>
             <div
               onClick={() => setToggleActive(!toggleActive)}
               className={`relative w-12 h-6 rounded-full transition-all duration-300 ${
-                toggleActive ? "bg-gradient-to-r from-green-600 to-purple-600" : "bg-gray-300"
+                toggleActive ? "bg-gradient-to-r from-green-600 to-emerald-500" : "bg-white/20"
               }`}
             >
               <div
@@ -141,15 +141,15 @@ export default function WithdrawPage() {
         </div>
 
         {/* Balance Section */}
-        <div className="bg-white rounded-3xl shadow-lg p-6 animate-fade-in">
-          <p className="text-gray-600 text-sm mb-1">Available Balance</p>
-          <h2 className="text-4xl font-extrabold text-tiv-2">{formatCurrency(balance)}</h2>
+        <div className="bg-white/6 backdrop-blur-lg rounded-3xl border border-white/8 p-6 animate-fade-in">
+          <p className="text-white/80 text-sm mb-1">Available Balance</p>
+          <h2 className="text-4xl font-extrabold text-amber-300">{formatCurrency(balance)}</h2>
         </div>
 
         {/* Requirements */}
-        <div className="bg-purple-50 rounded-2xl p-6 border border-purple-100 shadow-inner">
-          <h3 className="text-purple-700 font-bold text-lg mb-3">Withdrawal Requirements</h3>
-          <ul className="text-left space-y-2 text-purple-900">
+        <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-6 border border-white/8">
+          <h3 className="text-emerald-200 font-bold text-lg mb-3">Withdrawal Requirements</h3>
+          <ul className="text-left space-y-2 text-white/80">
             <li>• Minimum balance: ₦200,000</li>
             <li>• At least 5 active referrals</li>
             <li>• Each referral must complete registration</li>
@@ -159,12 +159,12 @@ export default function WithdrawPage() {
         {/* Progress */}
         <div className="text-left">
           <div className="flex justify-between mb-1">
-            <span className="text-gray-600 text-sm font-medium">Referral Progress</span>
-            <span className="text-gray-800 font-semibold">{referralCount}/5</span>
+            <span className="text-white/80 text-sm font-medium">Referral Progress</span>
+            <span className="text-white font-semibold">{referralCount}/5</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
+          <div className="w-full bg-white/10 rounded-full h-3">
             <div
-              className="bg-gradient-to-r from-green-600 to-purple-600 h-full rounded-full transition-all duration-700"
+              className="bg-gradient-to-r from-green-600 to-emerald-500 h-full rounded-full transition-all duration-700"
               style={{ width: progressWidth }}
             />
           </div>
@@ -175,20 +175,20 @@ export default function WithdrawPage() {
           {showCashout ? (
             <Button
               onClick={handleCashout}
-              className="w-full py-5 text-lg font-semibold rounded-xl text-white bg-gradient-to-r from-green-600 to-purple-700 hover:scale-[1.02] transition-all shadow-lg animate-slide-in"
+              className="w-full py-5 text-lg font-semibold rounded-xl text-white bg-gradient-to-r from-green-600 to-green-700 hover:scale-[1.02] transition-all border border-green-500/20"
             >
               WITHDRAW NOW
             </Button>
           ) : (
             <div className="space-y-4 animate-fade-in">
               {showWarning && (
-                <div className="bg-red-100 border border-red-300 text-red-700 rounded-xl p-3 flex items-center justify-center gap-2 animate-bounce-in">
+                <div className="bg-red-900/30 border border-red-800 text-red-300 rounded-xl p-3 flex items-center justify-center gap-2 animate-bounce-in">
                   <AlertTriangle className="h-5 w-5" />
                   <p className="font-medium text-sm">{warningMessage}</p>
                 </div>
               )}
               <Link href="/refer">
-                <Button className="w-full py-5 bg-gradient-to-r from-purple-600 to-green-600 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-all shadow-md">
+                <Button className="w-full py-5 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-all border border-green-500/20">
                   <Share2 className="h-5 w-5" />
                   Refer Friends to Unlock Withdrawal
                 </Button>
@@ -199,7 +199,7 @@ export default function WithdrawPage() {
 
         {/* Upgrade Popup */}
         {showUpgradePopup && (
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 animate-fade-in">
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50 animate-fade-in">
             <div className="bg-white rounded-2xl shadow-2xl p-6 w-80 text-center">
               <h2 className="text-lg font-bold text-green-700 mb-2">
                 Withdraw Without Referral
@@ -216,7 +216,7 @@ export default function WithdrawPage() {
                 </Button>
                 <Button
                   onClick={handleUpgradeConfirm}
-                  className="w-1/2 bg-gradient-to-r from-green-600 to-purple-600 text-white rounded-xl hover:scale-[1.02]"
+                  className="w-1/2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl hover:scale-[1.02]"
                 >
                   Upgrade Account
                 </Button>
