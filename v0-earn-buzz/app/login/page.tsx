@@ -33,7 +33,7 @@ export default function LoginPage() {
 
   const handleWhatsAppSupport = () => {
     const phoneNumber = "2349059089490"
-    const message = encodeURIComponent("hello, am from Tivexx.")
+    const message = encodeURIComponent("hello, am from Helping Hands.")
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
     window.open(whatsappUrl, "_blank")
   }
@@ -45,7 +45,7 @@ export default function LoginPage() {
 
     try {
       if (!supabase) {
-        setError("Supabase client not available in this environment")
+        setError("Database connection not available")
         setLoading(false)
         return
       }
@@ -110,68 +110,98 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900 relative">
-      <div className="flex-1 flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-green-700 via-green-900 to-black relative overflow-hidden">
+      {/* Animated background particles */}
+      <div className="absolute inset-0 overflow-hidden">
+        {Array.from({ length: 30 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-emerald-300/30 rounded-full animate-particle"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDuration: `${5 + Math.random() * 10}s`,
+              animationDelay: `${Math.random() * 5}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="flex-1 flex flex-col items-center justify-center p-6 relative z-10">
         <div className="w-full max-w-md flex flex-col items-center gap-8">
           <div className="animate-bounce">
-            <Logo className="w-64 mb-4" />
+            <div className="text-center mb-6">
+              <h1 className="text-5xl font-extrabold text-white mb-2 animate-glow">Helping Hands</h1>
+              <p className="text-emerald-200 text-sm">Nigeria's trusted earning platform</p>
+            </div>
           </div>
 
-          <h1
-            className="text-2xl font-semibold text-center text-white animate-fade-in"
-            style={{ animationDelay: "0.3s" }}
-          >
-            Login to continue
-          </h1>
+          <div className="w-full backdrop-blur-lg bg-white/6 border border-white/8 rounded-2xl p-8 shadow-2xl">
+            <h2 className="text-2xl font-bold text-center text-emerald-200 mb-6 animate-fade-in">
+              Welcome Back
+            </h2>
 
-          {error && (
-            <Alert variant="destructive" className="bg-red-50 border-red-200 text-red-800 animate-fade-in">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
+            {error && (
+              <Alert variant="destructive" className="bg-red-900/30 border-red-800 text-red-300 animate-fade-in mb-4">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
 
-          <form onSubmit={handleLogin} className="w-full space-y-6">
-            <div className="space-y-4">
-              <Input
-                type="email"
-                placeholder="Enter Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="h-14 rounded-full bg-white/90 px-6 border border-purple-300"
-              />
+            <form onSubmit={handleLogin} className="w-full space-y-6">
+              <div className="space-y-4">
+                <Input
+                  type="email"
+                  placeholder="Enter Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="h-14 rounded-xl bg-white/10 text-white placeholder:text-white/60 px-6 border border-white/8 focus:border-emerald-400 focus:ring-emerald-400"
+                />
 
-              <Input
-                type="password"
-                placeholder="Enter Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="h-14 rounded-full bg-white/90 px-6 border border-purple-300"
-              />
+                <Input
+                  type="password"
+                  placeholder="Enter Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="h-14 rounded-xl bg-white/10 text-white placeholder:text-white/60 px-6 border border-white/8 focus:border-emerald-400 focus:ring-emerald-400"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full h-14 rounded-xl bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white text-lg font-semibold shadow-lg transition-all hover:scale-[1.02]"
+                disabled={loading}
+              >
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    Logging in...
+                  </span>
+                ) : "Login"}
+              </Button>
+            </form>
+
+            <div className="mt-6 pt-6 border-t border-white/8">
+              <p className="text-center text-white/80">
+                Don't have an account?{" "}
+                <Link href="/register" className="text-emerald-300 hover:text-emerald-200 font-semibold">
+                  Register Now
+                </Link>
+              </p>
+              <p className="text-center text-xs text-white/60 mt-2">
+                Get ₦50,000 signup bonus + earn ₦10,000 per referral
+              </p>
             </div>
-
-            <Button
-              type="submit"
-              className="w-full h-14 rounded-full bg-orange-600 hover:bg-orange-700 text-white text-lg"
-              disabled={loading}
-            >
-              {loading ? "Logging in..." : "Login"}
-            </Button>
-          </form>
-
-          <p className="text-center text-orange-300">
-            <Link href="/register" className="hover:text-orange-200">
-              Don&apos;t have an account? Register
-            </Link>
-          </p>
+          </div>
         </div>
       </div>
 
-      <div className="fixed bottom-6 left-6">
+      {/* WhatsApp Support Button */}
+      <div className="fixed bottom-6 left-6 z-20 animate-bounce-slow">
         <button
           onClick={handleWhatsAppSupport}
-          className="w-14 h-14 bg-tiv-2 hover:opacity-95 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110"
+          className="w-14 h-14 bg-gradient-to-br from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110 border border-emerald-400/30"
           aria-label="Contact WhatsApp Support"
         >
           <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -179,6 +209,31 @@ export default function LoginPage() {
           </svg>
         </button>
       </div>
+
+      <style jsx global>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes glow {
+          0%, 100% { text-shadow: 0 0 5px rgba(16,185,129,0.5), 0 0 10px rgba(16,185,129,0.3), 0 0 20px rgba(16,185,129,0.2); }
+          50% { text-shadow: 0 0 10px rgba(16,185,129,0.6), 0 0 20px rgba(16,185,129,0.4), 0 0 40px rgba(16,185,129,0.3); }
+        }
+        @keyframes particle {
+          0% { transform: translateY(0) translateX(0); opacity: 0.3; }
+          50% { transform: translateY(-20px) translateX(15px); opacity: 0.1; }
+          100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+        }
+        @keyframes bounceSlow {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+
+        .animate-fade-in { animation: fadeIn 0.8s ease-in-out; }
+        .animate-glow { animation: glow 2s infinite alternate; }
+        .animate-particle { animation: particle 8s linear infinite; }
+        .animate-bounce-slow { animation: bounceSlow 2s infinite alternate; }
+      `}</style>
     </div>
   )
 }
