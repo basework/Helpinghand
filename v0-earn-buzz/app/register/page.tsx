@@ -119,20 +119,20 @@ export default function RegisterPage() {
         ))}
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center p-6 relative z-10">
-        <div className="w-full max-w-md flex flex-col items-center gap-8">
-          <div className="text-center mb-4 animate-fade-in">
+      <div className="flex-1 flex flex-col items-center justify-center p-6 relative z-10 animate-page-bounce">
+        <div className="w-full max-w-md flex flex-col items-center gap-8 animate-inner-bounce">
+          <div className="text-center mb-4 animate-fade-in animate-inner-bounce-child delay-0">
             <h1 className="text-5xl font-extrabold text-white mb-2 animate-glow">Helping Hands</h1>
             <p className="text-emerald-200 text-sm">Join thousands earning daily</p>
           </div>
 
-          <div className="w-full backdrop-blur-lg bg-white/6 border border-white/8 rounded-2xl p-8 shadow-2xl">
-            <h2 className="text-2xl font-bold text-center text-emerald-200 mb-6">
+          <div className="w-full backdrop-blur-lg bg-white/6 border border-white/8 rounded-2xl p-8 shadow-2xl animate-inner-bounce-child delay-1">
+            <h2 className="text-2xl font-bold text-center text-emerald-200 mb-6 animate-inner-bounce-child delay-2">
               Create Your Account
             </h2>
 
             {referralCode && (
-              <Alert className="bg-emerald-900/30 border-emerald-800/30 animate-fade-in mb-4">
+              <Alert className="bg-emerald-900/30 border-emerald-800/30 animate-fade-in mb-4 animate-inner-bounce-child delay-2">
                 <AlertDescription className="text-emerald-300 text-center">
                   🎉 You're signing up with referral code: <strong>{referralCode}</strong>
                 </AlertDescription>
@@ -140,12 +140,12 @@ export default function RegisterPage() {
             )}
 
             {error && (
-              <Alert variant="destructive" className="bg-red-900/30 border-red-800 text-red-300 animate-fade-in mb-4">
+              <Alert variant="destructive" className="bg-red-900/30 border-red-800 text-red-300 animate-fade-in mb-4 animate-inner-bounce-child delay-2">
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
 
-            <form onSubmit={handleRegister} className="w-full space-y-6">
+            <form onSubmit={handleRegister} className="w-full space-y-6 animate-inner-bounce-child delay-3">
               <div className="space-y-4">
                 <Input
                   type="text"
@@ -197,7 +197,7 @@ export default function RegisterPage() {
               </Button>
             </form>
 
-            <div className="mt-6 pt-6 border-t border-white/8">
+            <div className="mt-6 pt-6 border-t border-white/8 animate-inner-bounce-child delay-4">
               <p className="text-center text-white/80">
                 Already have an account?{" "}
                 <Link href="/login" className="text-emerald-300 hover:text-emerald-200 font-semibold">
@@ -244,10 +244,38 @@ export default function RegisterPage() {
           50% { transform: translateY(-10px); }
         }
 
+        @keyframes gentleBouncePage {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
+        }
+
+        @keyframes gentleBounceInner {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-4px); }
+        }
+
         .animate-fade-in { animation: fadeIn 0.8s ease-in-out; }
         .animate-glow { animation: glow 2s infinite alternate; }
         .animate-particle { animation: particle 8s linear infinite; }
         .animate-bounce-slow { animation: bounceSlow 2s infinite alternate; }
+        .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
+        .animate-inner-bounce { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+        .animate-inner-bounce-child { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+
+        .delay-0 { animation-delay: 0s; }
+        .delay-1 { animation-delay: 0.12s; }
+        .delay-2 { animation-delay: 0.24s; }
+        .delay-3 { animation-delay: 0.36s; }
+        .delay-4 { animation-delay: 0.48s; }
+
+        @media (prefers-reduced-motion: reduce) {
+          .animate-page-bounce,
+          .animate-inner-bounce,
+          .animate-inner-bounce-child {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+          }
+        }
       `}</style>
     </div>
   )
