@@ -1,6 +1,6 @@
 "use client"
 
-import { ShieldCheck, ArrowRight, UserCheck, CreditCard, CheckCircle } from "lucide-react"
+import { ShieldCheck, ArrowRight, UserCheck, CreditCard, CheckCircle, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
@@ -77,6 +77,15 @@ export default function VerifyMePage() {
 
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black text-white overflow-y-auto py-10 px-4 animate-fade-in animate-page-bounce">
+      {/* Back Button */}
+      <button
+        onClick={() => router.back()}
+        className="absolute top-6 left-6 z-50 flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-emerald-200 hover:bg-white/20 hover:border-white/30 transition-all duration-200 text-sm font-medium group"
+      >
+        <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+        <span>Back</span>
+      </button>
+
       <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow flex items-center justify-center">
         Helping Hands
       </h1>
