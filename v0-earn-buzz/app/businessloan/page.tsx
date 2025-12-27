@@ -27,60 +27,8 @@ export default function BusinessLoanPage() {
   const [banksList, setBanksList] = useState<Array<{ name: string; code: string }>>([])
   const [bankSearchInput, setBankSearchInput] = useState("")
 
-  const BANKS = [
-    "Moniepoint",
-    "Access Bank Plc",
-    "Guaranty Trust Bank Plc (GTBank)",
-    "Zenith Bank Plc",
-    "First Bank of Nigeria Ltd (FirstBank)",
-    "United Bank for Africa (UBA)",
-    "Union Bank of Nigeria Plc",
-    "Fidelity Bank Plc",
-    "Ecobank Nigeria Plc",
-    "Stanbic IBTC Bank Plc",
-    "Wema Bank Plc",
-    "First City Monument Bank (FCMB)",
-    "Sterling Bank Plc",
-    "Polaris Bank Plc",
-    "Keystone Bank Ltd",
-    "Providus Bank Ltd",
-    "Heritage Bank Plc",
-    "Standard Chartered Bank Nigeria Ltd",
-    "Titan Trust Bank Ltd",
-    "Globus Bank Ltd",
-    "Rubies Bank",
-    "Kuda Bank",
-    "Opay Bank",
-    "VFD Microfinance Bank",
-    "SunTrust Bank Nigeria Ltd",
-    "Nova Merchant Bank",
-    "PalmPay Bank",
-    "Sparkle (Access Product)",
-    "Parallex Bank",
-    "FSDH Merchant Bank",
-    "Renmoney Bank",
-    "FairMoney Bank",
-    "MintMFB",
-    "Paycom MFB",
-    "Mkobo MFB",
-    "Diamond Bank",
-    "Citibank Nigeria Limited",
-    "Eclectics International",
-    "Credit Direct MFB",
-    "Enterprise Bank",
-    "STB (Small Trust Bank)",
-    "Suburban MFB",
-    "Heritage Digital",
-    "MicroCred / Baobab",
-    "Other Popular Bank A",
-    "Other Popular Bank B",
-    "Other Popular Bank C",
-    "Other Popular Bank D",
-    "Other Popular Bank E"
-  ]
-
-  const filteredBanks = BANKS.filter((bank) =>
-    bank.toLowerCase().includes(bankSearchInput.toLowerCase())
+  const filteredBanks = banksList.filter((bank) =>
+    bank.name.toLowerCase().includes(bankSearchInput.toLowerCase())
   )
 
   const MIN_LOAN = 500000
@@ -170,12 +118,8 @@ export default function BusinessLoanPage() {
       return
     }
 
-    // Find bank code from fetched bank list (same logic as withdrawal page)
-    const found = banksList.find((b: any) => {
-      const bn = (b.name || "").toLowerCase()
-      const sel = (selectedBank || "").toLowerCase()
-      return bn === sel || bn.includes(sel) || sel.includes(bn)
-    })
+    // Find bank code from fetched bank list by matching the selected bank name
+    const found = banksList.find((b: any) => b.name === selectedBank)
 
     if (!found || !found.code) {
       setVerifyError("Bank not supported for automatic verification — please enter the account name manually")
@@ -342,11 +286,15 @@ export default function BusinessLoanPage() {
                       <SelectValue placeholder="Select a bank" />
                     </SelectTrigger>
                     <SelectContent className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg animate-bounceIn max-h-60 overflow-y-auto">
-                      {filteredBanks.map((b) => (
-                        <SelectItem key={b} value={b} className="hover:bg-white/10">
-                          {b}
-                        </SelectItem>
-                      ))}
+                      {banksList.length > 0 ? (
+                        filteredBanks.map((b) => (
+                          <SelectItem key={b.code} value={b.name} className="hover:bg-white/10">
+                            {b.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <div className="p-4 text-center text-white/60">Loading banks...</div>
+                      )}
                     </SelectContent>
                   </Select>
                 </div>
