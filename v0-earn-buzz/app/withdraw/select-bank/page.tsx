@@ -1,8 +1,11 @@
 "use client"
 
 import React, { useEffect, useState, useRef } from "react"
+import { useRouter } from "next/navigation"
+import { ArrowLeft } from "lucide-react"
 
 export default function SetupWithdrawalAccountPage() {
+  const router = useRouter()
   const [bank, setBank] = useState<string>("")
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
   const [accountNumber, setAccountNumber] = useState<string>("")
@@ -211,7 +214,16 @@ export default function SetupWithdrawalAccountPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-700 via-green-900 to-black px-4 py-10 animate-fadeIn animate-page-bounce">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-700 via-green-900 to-black px-4 py-10 animate-fadeIn animate-page-bounce relative">
+      {/* Back Button */}
+      <button
+        onClick={() => router.back()}
+        className="absolute top-6 left-6 z-50 flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-emerald-200 hover:bg-white/20 hover:border-white/30 transition-all duration-200 text-sm font-medium group"
+      >
+        <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+        <span>Back</span>
+      </button>
+
       <div className="w-full max-w-xl bg-white/6 backdrop-blur-lg border border-white/8 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:scale-[1.01] text-white animate-inner-bounce">
         <div className="px-6 py-6 border-b border-white/8 bg-white/10">
           <h1 className="text-2xl font-bold text-emerald-200 animate-slideDown animate-inner-bounce-child delay-0">Withdrawal Setup</h1>
