@@ -42,6 +42,8 @@ export default function DashboardPage() {
   const [showBalance, setShowBalance] = useState(true)
   const [showWithdrawalNotification, setShowWithdrawalNotification] = useState(false)
   const [balance, setBalance] = useState(50000)
+  const [animatedBalance, setAnimatedBalance] = useState(50000)
+  const [isBalanceChanging, setIsBalanceChanging] = useState(false)
   const [timeRemaining, setTimeRemaining] = useState(60)
   const [canClaim, setCanClaim] = useState(true)
   const [isCounting, setIsCounting] = useState(false)
@@ -54,6 +56,33 @@ export default function DashboardPage() {
   const [showReminderDialog, setShowReminderDialog] = useState(false)
   const [showClaimSuccess, setShowClaimSuccess] = useState(false)
   const [transactions, setTransactions] = useState<any[]>([])
+
+  // Animate balance changes
+  useEffect(() => {
+    if (balance === animatedBalance) return
+    
+    const difference = balance - animatedBalance
+    const steps = 30
+    const increment = difference / steps
+    
+    setIsBalanceChanging(true)
+    
+    let currentStep = 0
+    const timer = setInterval(() => {
+      currentStep++
+      setAnimatedBalance(prev => {
+        const newValue = prev + increment
+        if (currentStep >= steps) {
+          clearInterval(timer)
+          setIsBalanceChanging(false)
+          return balance
+        }
+        return Math.round(newValue)
+      })
+    }, 16) // ~60fps
+    
+    return () => clearInterval(timer)
+  }, [balance])
 
   const handleCloseWithdrawalNotification = useCallback(() => {
     setShowWithdrawalNotification(false)
@@ -200,16 +229,33 @@ export default function DashboardPage() {
   }
 
   const formatCurrency = (amount: number) => {
-    if (!showBalance) return "••••••••"
+    if (!showBalance) {
+      return (
+        <span className="tracking-widest">
+          <span className="inline-block w-12 h-6 bg-white/20 rounded animate-pulse mr-1"></span>
+          <span className="inline-block w-8 h-6 bg-white/20 rounded animate-pulse mr-1"></span>
+          <span className="inline-block w-16 h-6 bg-white/20 rounded animate-pulse"></span>
+        </span>
+      )
+    }
 
-    return new Intl.NumberFormat("en-NG", {
-      style: "currency",
-      currency: "NGN",
+    // For Nigerian Naira with proper spacing
+    const formatted = new Intl.NumberFormat('en-NG', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    })
-      .format(amount)
-      .replace("NGN", "₦")
+    }).format(amount)
+
+    return (
+      <span className={`font-mono ${isBalanceChanging ? 'text-green-300' : 'text-white'}`}>
+        <span className="text-2xl align-top">₦</span>
+        <span className="text-3xl font-bold tracking-tight ml-1">
+          {formatted}
+        </span>
+        <span className="text-lg opacity-80 ml-0.5">
+          {formatted.includes('.') ? formatted.split('.')[1] : '00'}
+        </span>
+      </span>
+    )
   }
 
   const formatTime = (seconds: number) => {
@@ -310,6 +356,7 @@ export default function DashboardPage() {
         
         // Update state with the correct total balance
         setBalance(totalBalance)
+        setAnimatedBalance(totalBalance)
         
         // Update localStorage to maintain consistency
         const updatedUser = { 
@@ -336,6 +383,7 @@ export default function DashboardPage() {
         console.error("[Dashboard] Error fetching user balance:", error)
         // Fallback to localStorage data only
         setBalance(user.balance)
+        setAnimatedBalance(user.balance)
         setUserData(user)
       }
     }
@@ -508,25 +556,122 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Balance Card */}
-          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 mt-4 shadow-lg border border-green-800/30 animate-pop-bounce-2">
-          <div className="text-sm font-medium text-gray-200 mb-1">Your Balance</div>
-          <div className="flex items-center justify-between">
-            <div className="text-lg font-bold">{formatCurrency(balance)}</div>
-            <button className="text-gray-200 hover:text-white transition-colors" onClick={() => setShowBalance(!showBalance)} aria-label="Toggle balance visibility">{showBalance ? "👁️" : "🙈"}</button>
-          </div>
-
-          <div className="mt-3 bg-white/10 backdrop-blur-sm rounded-xl p-3">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2"><Clock className="h-4 w-4 text-tiv-3" /><span className="text-xs font-medium">Next Reward</span></div>
-              <span className="text-sm font-bold text-tiv-3">{pauseEndTime ? formatPauseTime() : formatTime(timeRemaining)}</span>
+        {/* Enhanced Balance Card */}
+        <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 mt-4 shadow-lg border border-green-800/30 animate-pop-bounce-2 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer"></div>
+          
+          <div className="flex items-center justify-between mb-2 relative z-10">
+            <div className="text-sm font-medium text-gray-300 flex items-center gap-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+              <span>Available Balance</span>
             </div>
-
-            <Button onClick={handleClaim} disabled={!canClaim && !pauseEndTime} className={`w-full ${canClaim || pauseEndTime ? "bg-green-500 hover:bg-green-600" : "bg-gray-400 cursor-not-allowed"} text-white font-semibold py-2 rounded-lg transition-transform transform hover:-translate-y-0.5 active:scale-95`}>
-              <Gift className="h-4 w-4" />
-              <span className="text-sm">{pauseEndTime ? `Wait ${formatPauseTime()}` : canClaim ? "Claim ₦1,000" : `Wait ${formatTime(timeRemaining)}`}</span>
+            <button 
+              className="text-gray-300 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-lg"
+              onClick={() => setShowBalance(!showBalance)}
+              aria-label={showBalance ? "Hide balance" : "Show balance"}
+            >
+              {showBalance ? (
+                <div className="flex items-center gap-1 text-sm">
+                  <span>👁️</span>
+                  <span className="hidden sm:inline">Hide</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1 text-sm">
+                  <span>🙈</span>
+                  <span className="hidden sm:inline">Show</span>
+                </div>
+              )}
+            </button>
+          </div>
+          
+          <div className="relative">
+            <div className="text-3xl font-bold min-h-[3.5rem] flex items-center">
+              {formatCurrency(animatedBalance)}
+            </div>
+            
+            {isBalanceChanging && (
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-500/10 to-transparent animate-shimmer"></div>
+            )}
+          </div>
+          
+          <div className="mt-4 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500"></div>
+            
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
+                  <Gift className="h-4 w-4 text-white" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-white">Next Reward</div>
+                  <div className="text-xs text-gray-300">Claim daily bonus</div>
+                </div>
+              </div>
+              
+              <div className="text-right">
+                <div className="text-sm font-bold text-tiv-3 flex items-center gap-1">
+                  <Clock className="h-3 w-3" />
+                  {pauseEndTime ? formatPauseTime() : formatTime(timeRemaining)}
+                </div>
+                <div className="text-xs text-gray-400">
+                  {pauseEndTime ? 'Cooldown' : 'Time remaining'}
+                </div>
+              </div>
+            </div>
+            
+            <Button 
+              onClick={handleClaim} 
+              disabled={!canClaim && !pauseEndTime} 
+              className={`
+                w-full relative overflow-hidden group
+                ${(canClaim || pauseEndTime) 
+                  ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500' 
+                  : 'bg-gray-700 cursor-not-allowed'
+                } 
+                text-white font-semibold py-3 rounded-lg
+                transition-all duration-300 transform
+                hover:scale-[1.02] active:scale-[0.98]
+                disabled:transform-none disabled:hover:scale-100
+              `}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+              
+              <div className="flex items-center justify-center gap-2 relative">
+                <Gift className="h-5 w-5" />
+                <span className="text-base">
+                  {pauseEndTime 
+                    ? `Wait ${formatPauseTime()}` 
+                    : canClaim 
+                      ? 'Claim ₦1,000 Now' 
+                      : `Wait ${formatTime(timeRemaining)}`
+                  }
+                </span>
+              </div>
             </Button>
-            <p className="text-xs text-center text-gray-300 mt-2">Claims: {claimCount}/50 {claimCount >= 50 && "(Paused)"}</p>
+            
+            <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/10">
+              <div className="text-xs text-gray-400">
+                Claims today: <span className="font-bold text-white">{claimCount}/50</span>
+              </div>
+              {claimCount >= 50 && (
+                <div className="text-xs text-yellow-400 animate-pulse">
+                  ⚠️ Limit reached
+                </div>
+              )}
+            </div>
+          </div>
+          
+          {/* Balance trend indicators */}
+          <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/10">
+            <div className="flex-1 text-center">
+              <div className="text-xs text-gray-400">Daily Income</div>
+              <div className="text-sm font-bold text-green-400">+₦{(claimCount * 1000).toLocaleString()}</div>
+            </div>
+            <div className="h-8 w-px bg-white/20"></div>
+            <div className="flex-1 text-center">
+              <div className="text-xs text-gray-400">Available Claims</div>
+              <div className="text-sm font-bold text-blue-400">{Math.max(0, 50 - claimCount)} left</div>
+            </div>
           </div>
         </div>
 
@@ -669,14 +814,64 @@ export default function DashboardPage() {
 
         @keyframes shimmer {
           0% {
-            left: -120%;
-          }
-          50% {
-            left: 120%;
+            transform: translateX(-100%);
           }
           100% {
-            left: -120%;
+            transform: translateX(100%);
           }
+        }
+
+        @keyframes fade-slide-up {
+          0% {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          10% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          90% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+        }
+
+        .animate-fade-slide-up {
+          animation: fade-slide-up 2s ease-out forwards;
+        }
+
+        .animate-shimmer {
+          animation: shimmer 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+          0%, 100% {
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+          }
+          50% {
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+          }
+        }
+
+        .animate-pulse-glow {
+          animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes coin-spin {
+          0% {
+            transform: rotateY(0deg);
+          }
+          100% {
+            transform: rotateY(360deg);
+          }
+        }
+
+        .animate-coin-spin {
+          animation: coin-spin 1s ease-out;
         }
 
         /* Stronger entry + micro-interaction utils */
@@ -686,100 +881,13 @@ export default function DashboardPage() {
           100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        .animate-pop-in {
-          animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both;
+        .animate-pop-bounce-1 { animation: pop-in 0.4s ease-out; }
+        .animate-pop-bounce-2 { animation: pop-in 0.5s ease-out; }
+                .animate-pop-bounce-3 { animation: pop-in 0.6s ease-out; }
+                .animate-pop-bounce-4 { animation: pop-in 0.7s ease-out; }
+                .animate-pop-bounce-5 { animation: pop-in 0.8s ease-out; }
+              `}
+              </style>
+            </div>
+          )
         }
-
-        /* Distinct gentle bounce variants for each dashboard box */
-        @keyframes bounce-1 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-        @keyframes bounce-2 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes bounce-3 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-        @keyframes bounce-4 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-        @keyframes bounce-5 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
-        /* Combined entry + per-card continuous bounce with small staggered delays */
-        .animate-pop-bounce-1 { animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both, bounce-1 1.6s ease-in-out 0s infinite; }
-        .animate-pop-bounce-2 { animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both, bounce-2 1.9s ease-in-out 0.15s infinite; }
-        .animate-pop-bounce-3 { animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both, bounce-3 1.4s ease-in-out 0.3s infinite; }
-        .animate-pop-bounce-4 { animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both, bounce-4 2.1s ease-in-out 0.45s infinite; }
-        .animate-pop-bounce-5 { animation: pop-in .45s cubic-bezier(.2,.9,.2,1) both, bounce-5 1.7s ease-in-out 0.6s infinite; }
-
-        .hover-pop:hover { transform: translateY(-6px) scale(1.02); }
-
-        /* Respect users who prefer reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-          .animate-pop-bounce-1,
-          .animate-pop-bounce-2,
-          .animate-pop-bounce-3,
-          .animate-pop-bounce-4,
-          .animate-pop-bounce-5,
-          .animate-pop-in {
-            animation-duration: 0.001ms !important;
-            animation-iteration-count: 1 !important;
-            transition: none !important;
-          }
-        }
-
-        .active-squeeze:active {
-          transform: scale(.97);
-        }
-
-        .transition-pop {
-          transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
-        }
-
-        .hover-shadow:hover {
-          box-shadow: 0 14px 40px rgba(0,0,0,0.55);
-        }
-
-        .scale-102 { transform: scale(1.02); }
-
-        .why-glow {
-          position: relative;
-          overflow: hidden;
-        }
-
-        .why-glow::before {
-          content: "";
-          position: absolute;
-          top: -25%;
-          left: -25%;
-          width: 150%;
-          height: 150%;
-          background: radial-gradient(circle at 20% 20%, rgba(34,197,94,0.10), transparent 8%),
-                      radial-gradient(circle at 80% 80%, rgba(96,165,250,0.05), transparent 10%);
-          filter: blur(22px);
-          transform: translate3d(0,0,0);
-          animation: glow-swipe 6s linear infinite;
-          pointer-events: none;
-        }
-
-        .why-glow::after {
-          content: "";
-          position: absolute;
-          top: -10%;
-          left: -120%;
-          width: 60%;
-          height: 120%;
-          background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 100%);
-          transform: skewX(-20deg);
-          filter: blur(6px);
-          animation: shimmer 3.5s ease-in-out infinite;
-          pointer-events: none;
-        }
-
-        .why-glow > * {
-          position: relative;
-          z-index: 1;
-        }
-
-        /* Ensure desktop view matches mobile */
-        @media (min-width: 768px) {
-          .max-w-md {
-            max-width: 28rem !important;
-          }
-        }
-      `}</style>
-    </div>
-  )
-}
