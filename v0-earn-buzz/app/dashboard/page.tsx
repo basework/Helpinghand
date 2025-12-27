@@ -438,7 +438,10 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen pb-4 bg-gradient-to-br from-gray-900 via-green-900 to-black">
+    <div className="min-h-screen pb-4 bg-gradient-to-br from-gray-900 via-green-900 to-black relative overflow-hidden">
+      {/* Ocean wave animation for entire page */}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer"></div>
+      
       <ScrollingText />
 
       <Dialog open={showPauseDialog} onOpenChange={setShowPauseDialog}>
@@ -517,7 +520,7 @@ export default function DashboardPage() {
       {showWithdrawalNotification && <WithdrawalNotification onClose={handleCloseWithdrawalNotification} />}
 
       {/* MAIN CONTENT - NOW STACKED VERTICALLY LIKE MOBILE */}
-      <div className="max-w-md mx-auto px-4 space-y-4 mt-6">
+      <div className="max-w-md mx-auto px-4 space-y-4 mt-6 relative z-10">
         {/* Profile Card */}
           <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 border border-green-800/30 shadow-lg animate-pop-bounce-1">
           <div className="flex items-center gap-3">
@@ -549,7 +552,6 @@ export default function DashboardPage() {
 
         {/* Enhanced Balance Card */}
         <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 mt-4 shadow-lg border border-green-800/30 animate-pop-bounce-2 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer"></div>
           
           <div className="flex items-center justify-between mb-2 relative z-10">
             <div className="text-sm font-medium text-gray-300 flex items-center gap-2">
