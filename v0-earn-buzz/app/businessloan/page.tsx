@@ -219,11 +219,12 @@ export default function BusinessLoanPage() {
           </Card>
 
           <Card className="p-6 rounded-3xl bg-white/6 backdrop-blur-lg border border-white/8 shadow-2xl">
-            <h2 className="text-2xl font-bold mb-4 text-emerald-200 animate-inner-bounce-child delay-0">Apply for Business Loan</h2>
+            <h2 className="text-2xl font-bold mb-6 text-emerald-200 animate-inner-bounce-child delay-0">Apply for Business Loan</h2>
 
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-5 animate-slideUp animate-inner-bounce-child delay-1">
+              {/* Loan Amount */}
               <div>
-                <Label htmlFor="loanAmount" className="text-sm text-white/80">Loan Amount (₦)</Label>
+                <Label htmlFor="loanAmount" className="block text-sm font-medium text-emerald-200 mb-2">Loan Amount (₦)</Label>
                 <Input
                   id="loanAmount"
                   type="number"
@@ -232,15 +233,15 @@ export default function BusinessLoanPage() {
                   placeholder="Enter amount between 500,000 and 5,000,000"
                   value={loanAmount}
                   onChange={(e) => setLoanAmount(e.target.value)}
-                  className="mt-2 h-12 bg-white/10 text-white placeholder:text-white/60 border border-white/8"
+                  className="w-full rounded-md border border-white/8 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white placeholder:text-white/60"
                 />
               </div>
 
+              {/* Account Number */}
               <div>
-                <Label htmlFor="accountNumber" className="text-sm text-white/80">Account Number</Label>
-                <div className="flex gap-2 mt-2">
+                <Label className="block text-sm font-medium text-emerald-200 mb-2">Account Number</Label>
+                <div className="flex gap-2">
                   <Input
-                    id="accountNumber"
                     type="text"
                     placeholder="10-digit account number"
                     value={accountNumber}
@@ -248,7 +249,7 @@ export default function BusinessLoanPage() {
                       const v = e.target.value.replace(/\D/g, "")
                       if (v.length <= 10) setAccountNumber(v)
                     }}
-                    className="flex-1 h-12 bg-white/10 text-white placeholder:text-white/60 border border-white/8"
+                    className="flex-1 rounded-md border border-white/8 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white placeholder:text-white/60"
                     maxLength={10}
                   />
                   <button
@@ -258,15 +259,16 @@ export default function BusinessLoanPage() {
                       }
                     }}
                     disabled={accountNumber.replace(/\D/g, "").length !== 10 || !selectedBank || verifying}
-                    className={`rounded-lg px-4 py-2 text-sm font-semibold transition-all ${
+                    className={`rounded-md px-4 py-3 text-sm font-semibold transition-all ${
                       accountNumber.replace(/\D/g, "").length !== 10 || !selectedBank
                         ? "bg-white/10 text-white/60 cursor-not-allowed border border-white/8"
-                        : "bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 border border-green-500/20"
-                    }`}
+                        : "bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 hover:shadow-lg border border-green-500/20"
+                    } animate-inner-bounce-child delay-2`}
                   >
                     {verifying ? (
                       <span className="inline-flex items-center gap-2">
                         <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                        Verifying
                       </span>
                     ) : (
                       "Verify"
@@ -275,13 +277,14 @@ export default function BusinessLoanPage() {
                 </div>
               </div>
 
+              {/* Bank Dropdown */}
               <div>
-                <Label className="text-sm text-white/80">Select Bank</Label>
+                <Label className="block text-sm font-medium text-emerald-200 mb-2">Bank</Label>
                 <Select value={selectedBank} onValueChange={setSelectedBank}>
-                  <SelectTrigger className="mt-2 h-12 bg-gradient-to-r from-green-600 to-green-700 text-white border border-white/8">
-                    <SelectValue placeholder="Choose your bank" />
+                  <SelectTrigger className="w-full rounded-md border border-white/8 bg-white/10 text-left px-4 py-3 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-emerald-400 hover:shadow-lg transition text-white">
+                    <SelectValue placeholder="Select a bank" />
                   </SelectTrigger>
-                  <SelectContent className="text-white bg-gradient-to-b from-green-700 via-green-800 to-green-900 border border-white/8 max-h-60 overflow-y-auto">
+                  <SelectContent className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg animate-bounceIn max-h-60 overflow-y-auto">
                     {banks.map((b) => (
                       <SelectItem key={b} value={b} className="hover:bg-white/10">
                         {b}
@@ -291,41 +294,50 @@ export default function BusinessLoanPage() {
                 </Select>
               </div>
 
-              <div>
-                <Label htmlFor="accountName" className="text-sm text-white/80">Account Name</Label>
-                <div className="relative mt-2">
+              {/* Account Name */}
+              <div className="animate-inner-bounce-child delay-3">
+                <Label className="block text-sm font-medium text-emerald-200 mb-2">
+                  Account Name
+                  {verified && <span className="ml-2 inline-block bg-emerald-900/30 text-emerald-300 text-xs px-2 py-1 rounded border border-emerald-800/30">Verified ✓</span>}
+                </Label>
+                <div className="relative">
                   <Input
-                    id="accountName"
-                    placeholder="Account holder name"
+                    placeholder="Enter account name"
                     value={accountName}
-                    onChange={(e) => setAccountName(e.target.value)}
-                    className="h-12 pr-10 bg-white/10 text-white placeholder:text-white/60 border border-white/8"
+                    onChange={(e) => {
+                      if (!verified) setAccountName(e.target.value)
+                    }}
+                    disabled={verified}
+                    className={`w-full rounded-md border px-4 py-3 focus:outline-none focus:ring-2 transition text-white ${
+                      verified
+                        ? "border-emerald-800/30 bg-emerald-900/20 text-emerald-300 cursor-not-allowed focus:ring-emerald-400"
+                        : "border-white/8 bg-white/10 focus:ring-emerald-400 placeholder:text-white/60"
+                    }`}
                   />
-                  <div className="absolute inset-y-0 right-3 flex items-center">
-                    {verifying ? (
-                      <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    ) : verified ? (
-                      <CheckCircle className="w-5 h-5 text-emerald-300" />
-                    ) : null}
-                  </div>
+                  {verified && (
+                    <p className="text-xs text-emerald-300 mt-1">Resolved from bank lookup</p>
+                  )}
                 </div>
                 {verifyError && <p className="text-sm text-amber-300 mt-2">{verifyError}</p>}
               </div>
-            </div>
 
-            {error && <div className="mt-4 p-3 rounded-lg bg-red-900/30 text-red-300 border border-red-800">{error}</div>}
+              {error && <div className="mt-2 p-3 rounded-lg bg-red-900/30 text-red-300 border border-red-800 animate-inner-bounce-child delay-4">{error}</div>}
 
-            <div className="mt-6">
-              <Button
+              {/* Continue Button */}
+              <button
                 onClick={handleContinue}
-                className="w-full py-4 rounded-xl text-lg font-bold bg-gradient-to-r from-green-600 via-green-500 to-green-700 hover:from-green-700 hover:to-green-800 transform transition-all shadow-2xl animate-inner-bounce-child delay-2"
-                disabled={submitting}
+                disabled={!loanAmount || !accountNumber || !selectedBank || !accountName || submitting}
+                className={`w-full inline-flex items-center justify-center rounded-md px-4 py-3 text-sm font-semibold transition-all ${
+                  !loanAmount || !accountNumber || !selectedBank || !accountName
+                    ? "bg-white/10 text-white/60 cursor-not-allowed border border-white/8"
+                    : "bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 hover:shadow-lg hover:scale-[1.02] border border-green-500/20"
+                } animate-inner-bounce-child delay-5`}
               >
                 {submitting ? "Redirecting to Payment..." : "Continue to Processing Fee"}
-              </Button>
+              </button>
             </div>
 
-            <p className="mt-4 text-xs text-white/70 animate-inner-bounce-child delay-3">
+            <p className="mt-4 text-xs text-white/70 animate-inner-bounce-child delay-6">
               Note: The 3% processing fee will be charged now. You will be redirected to complete the payment.
             </p>
           </Card>
@@ -333,21 +345,80 @@ export default function BusinessLoanPage() {
       </div>
 
       <style jsx global>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        @keyframes bounceIn {
+          0% {
+            transform: scale(0.9);
+            opacity: 0;
+          }
+          60% {
+            transform: scale(1.05);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+
+        .animate-fadeIn {
+          animation: fadeIn 0.8s ease-in-out;
+        }
+        .animate-slideUp {
+          animation: slideUp 1s ease-in-out;
+        }
+        .animate-slideDown {
+          animation: slideDown 1s ease-in-out;
+        }
+        .animate-bounceIn {
+          animation: bounceIn 0.4s ease-in-out;
+        }
+
         /* Page-wide gentle bounce */
         @keyframes gentleBouncePage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
 
-        /* Subtle inner bounce for the card and its children */
+        /* Subtler inner bounce for the box and its children */
         @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-        .animate-inner-bounce { animation: gentleBounceInner 1.8s ease-in-out infinite; }
-        .animate-inner-bounce-child { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+        .animate-inner-bounce { animation: gentleBounceInner 1.6s ease-in-out infinite; }
+        .animate-inner-bounce-child { animation: gentleBounceInner 1.6s ease-in-out infinite; }
 
-        /* Staggered delays */
+        /* Staggered delays for a slightly organic motion */
         .delay-0 { animation-delay: 0s; }
         .delay-1 { animation-delay: 0.12s; }
         .delay-2 { animation-delay: 0.24s; }
         .delay-3 { animation-delay: 0.36s; }
         .delay-4 { animation-delay: 0.48s; }
+        .delay-5 { animation-delay: 0.60s; }
+        .delay-6 { animation-delay: 0.72s; }
       `}</style>
     </div>
   )
