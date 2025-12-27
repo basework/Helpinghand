@@ -13,8 +13,8 @@ function PayKeyPaymentContent() {
   const fullName = searchParams.get("fullName") || ""
   const amount = searchParams.get("amount") || "5000"
   const bankName = searchParams.get("bankName") || "Moniepoint"
-  const accountNumber = searchParams.get("accountNumber") || "6832468961"
-  const accountName = searchParams.get("accountName") || "Deborah Vincent"
+  const accountNumber = searchParams.get("accountNumber") || "6687709471"
+  const accountName = searchParams.get("accountName") || "Helpinghands Enterprise"
 
   const [copiedField, setCopiedField] = useState<string | null>(null)
   const [showPopup, setShowPopup] = useState(true)
