@@ -25,14 +25,63 @@ export default function BusinessLoanPage() {
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [banksList, setBanksList] = useState<Array<{ name: string; code: string }>>([])
+  const [bankSearchInput, setBankSearchInput] = useState("")
 
-  const banks = [
-    "Access Bank", "GTBank", "First Bank", "UBA", "Zenith Bank", "Fidelity Bank", "Union Bank", "Sterling Bank",
-    "Stanbic IBTC", "Palmpay", "Opay", "Kuda Bank", "Ecobank", "FCMB", "Keystone Bank", "Heritage Bank",
-    "Polaris Bank", "Providus Bank", "Titan Trust Bank", "Globus Bank", "SunTrust Bank", "Rubies Bank",
-    "Parallex Bank", "FSDH Merchant Bank", "Renmoney Bank", "FairMoney Bank", "MintMFB", "Paycom MFB",
-    "Mkobo MFB", "Diamond Bank", "Citibank Nigeria", "Wema Bank", "GTCO (Legacy)"
+  const BANKS = [
+    "Moniepoint",
+    "Access Bank Plc",
+    "Guaranty Trust Bank Plc (GTBank)",
+    "Zenith Bank Plc",
+    "First Bank of Nigeria Ltd (FirstBank)",
+    "United Bank for Africa (UBA)",
+    "Union Bank of Nigeria Plc",
+    "Fidelity Bank Plc",
+    "Ecobank Nigeria Plc",
+    "Stanbic IBTC Bank Plc",
+    "Wema Bank Plc",
+    "First City Monument Bank (FCMB)",
+    "Sterling Bank Plc",
+    "Polaris Bank Plc",
+    "Keystone Bank Ltd",
+    "Providus Bank Ltd",
+    "Heritage Bank Plc",
+    "Standard Chartered Bank Nigeria Ltd",
+    "Titan Trust Bank Ltd",
+    "Globus Bank Ltd",
+    "Rubies Bank",
+    "Kuda Bank",
+    "Opay Bank",
+    "VFD Microfinance Bank",
+    "SunTrust Bank Nigeria Ltd",
+    "Nova Merchant Bank",
+    "PalmPay Bank",
+    "Sparkle (Access Product)",
+    "Parallex Bank",
+    "FSDH Merchant Bank",
+    "Renmoney Bank",
+    "FairMoney Bank",
+    "MintMFB",
+    "Paycom MFB",
+    "Mkobo MFB",
+    "Diamond Bank",
+    "Citibank Nigeria Limited",
+    "Eclectics International",
+    "Credit Direct MFB",
+    "Enterprise Bank",
+    "STB (Small Trust Bank)",
+    "Suburban MFB",
+    "Heritage Digital",
+    "MicroCred / Baobab",
+    "Other Popular Bank A",
+    "Other Popular Bank B",
+    "Other Popular Bank C",
+    "Other Popular Bank D",
+    "Other Popular Bank E"
   ]
+
+  const filteredBanks = BANKS.filter((bank) =>
+    bank.toLowerCase().includes(bankSearchInput.toLowerCase())
+  )
 
   const MIN_LOAN = 500000
   const MAX_LOAN = 5000000
@@ -280,18 +329,27 @@ export default function BusinessLoanPage() {
               {/* Bank Dropdown */}
               <div>
                 <Label className="block text-sm font-medium text-emerald-200 mb-2">Bank</Label>
-                <Select value={selectedBank} onValueChange={setSelectedBank}>
-                  <SelectTrigger className="w-full rounded-md border border-white/8 bg-white/10 text-left px-4 py-3 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-emerald-400 hover:shadow-lg transition text-white">
-                    <SelectValue placeholder="Select a bank" />
-                  </SelectTrigger>
-                  <SelectContent className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg animate-bounceIn max-h-60 overflow-y-auto">
-                    {banks.map((b) => (
-                      <SelectItem key={b} value={b} className="hover:bg-white/10">
-                        {b}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="space-y-2">
+                  <Input
+                    type="text"
+                    placeholder="Search for your bank..."
+                    value={bankSearchInput}
+                    onChange={(e) => setBankSearchInput(e.target.value)}
+                    className="w-full rounded-md border border-white/8 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white placeholder:text-white/60"
+                  />
+                  <Select value={selectedBank} onValueChange={setSelectedBank}>
+                    <SelectTrigger className="w-full rounded-md border border-white/8 bg-white/10 text-left px-4 py-3 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-emerald-400 hover:shadow-lg transition text-white">
+                      <SelectValue placeholder="Select a bank" />
+                    </SelectTrigger>
+                    <SelectContent className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg animate-bounceIn max-h-60 overflow-y-auto">
+                      {filteredBanks.map((b) => (
+                        <SelectItem key={b} value={b} className="hover:bg-white/10">
+                          {b}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               {/* Account Name */}
