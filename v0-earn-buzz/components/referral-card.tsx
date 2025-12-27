@@ -79,9 +79,9 @@ const copyReferralLink = () => {
   }
 
   return (
-    <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200 shadow-lg">
+    <Card className="bg-[#83456F] border-[#83456F] shadow-lg">
       <CardHeader className="pb-3">
-        <CardTitle className="flex items-center gap-2 text-green-800">
+        <CardTitle className="flex items-center gap-2 text-white">
           <Gift className="h-5 w-5" />
           Referral Rewards
         </CardTitle>
@@ -90,9 +90,9 @@ const copyReferralLink = () => {
         {/* Referral Balance */}
 
         {/* People Referred */}
-        <div className="bg-white rounded-lg p-4 shadow-sm">
-          <div className="text-sm text-gray-600 mb-2">People Referred</div>
-          <div className="text-3xl font-bold text-green-700">
+        <div className="bg-white/10 rounded-lg p-4 shadow-sm backdrop-blur-sm">
+          <div className="text-sm text-white/80 mb-2">People Referred</div>
+          <div className="text-3xl font-bold text-white">
             {userData?.referral_count || 0}
           </div>
         </div>
