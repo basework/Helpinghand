@@ -273,31 +273,42 @@ export default function BusinessLoanPage() {
               {/* Bank Dropdown */}
               <div>
                 <Label className="block text-sm font-medium text-emerald-200 mb-2">Bank</Label>
-                <div className="space-y-2">
-                  <Input
-                    type="text"
-                    placeholder="Search for your bank..."
-                    value={bankSearchInput}
-                    onChange={(e) => setBankSearchInput(e.target.value)}
-                    className="w-full rounded-md border border-white/8 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white placeholder:text-white/60"
-                  />
-                  <Select value={selectedBank} onValueChange={setSelectedBank}>
-                    <SelectTrigger className="w-full rounded-md border border-white/8 bg-white/10 text-left px-4 py-3 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-emerald-400 hover:shadow-lg transition text-white">
-                      <SelectValue placeholder="Select a bank" />
-                    </SelectTrigger>
-                    <SelectContent className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg animate-bounceIn max-h-60 overflow-y-auto">
+                <Select value={selectedBank} onValueChange={setSelectedBank}>
+                  <SelectTrigger className="w-full rounded-md border border-white/8 bg-white/10 text-left px-4 py-3 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-emerald-400 hover:shadow-lg transition text-white">
+                    <SelectValue placeholder="Select a bank" />
+                  </SelectTrigger>
+                  <SelectContent className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg animate-bounceIn overflow-hidden p-0">
+                    {/* Search input at top of dropdown */}
+                    <div className="sticky top-0 z-50 bg-green-900 p-2 border-b border-white/10">
+                      <input
+                        type="text"
+                        placeholder="Search banks..."
+                        value={bankSearchInput}
+                        onChange={(e) => setBankSearchInput(e.target.value)}
+                        className="w-full rounded px-3 py-2 bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-400 text-sm"
+                      />
+                    </div>
+                    
+                    {/* Bank list */}
+                    <div className="max-h-56 overflow-y-auto">
                       {banksList.length > 0 ? (
-                        filteredBanks.map((b) => (
-                          <SelectItem key={b.code} value={b.name} className="hover:bg-white/10">
-                            {b.name}
-                          </SelectItem>
-                        ))
+                        filteredBanks.length > 0 ? (
+                          filteredBanks.map((b) => (
+                            <SelectItem key={b.code} value={b.name} className="hover:bg-white/10 cursor-pointer py-2 px-3">
+                              {b.name}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <div className="p-4 text-center text-white/60 text-sm">
+                            No banks match your search
+                          </div>
+                        )
                       ) : (
-                        <div className="p-4 text-center text-white/60">Loading banks...</div>
+                        <div className="p-4 text-center text-white/60 text-sm">Loading banks...</div>
                       )}
-                    </SelectContent>
-                  </Select>
-                </div>
+                    </div>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Account Name */}
