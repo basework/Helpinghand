@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Copy, Gift } from "lucide-react"
+import { Copy, Gift, Check } from "lucide-react"
 import { useState, useEffect } from "react"
 import { useToast } from "@/hooks/use-toast"
 
@@ -19,6 +19,7 @@ interface UserData {
 export function ReferralCard({ userId }: ReferralCardProps) {
   const [userData, setUserData] = useState<UserData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [isCopied, setIsCopied] = useState(false)
   const { toast } = useToast()
 
   useEffect(() => {
@@ -52,18 +53,25 @@ export function ReferralCard({ userId }: ReferralCardProps) {
     }
   }
 
-  
-const copyReferralLink = () => {
-  if (userData?.referral_code && typeof window !== 'undefined') {
-    const link = `${window.location.origin}/register?ref=${userData.referral_code}`
-    navigator.clipboard.writeText(link)
-    toast({
-      title: "Copied!",
-      description: "Referral link copied to clipboard",
-    })
+  const copyReferralLink = () => {
+    if (userData?.referral_code && typeof window !== 'undefined') {
+      const link = `${window.location.origin}/register?ref=${userData.referral_code}`
+      navigator.clipboard.writeText(link)
+      
+      // Set copied state and show animation
+      setIsCopied(true)
+      
+      // Reset after 2 seconds
+      setTimeout(() => {
+        setIsCopied(false)
+      }, 2000)
+      
+      toast({
+        title: "Copied!",
+        description: "Referral link copied to clipboard",
+      })
+    }
   }
-}
-
 
   if (loading) {
     return (
@@ -99,10 +107,22 @@ const copyReferralLink = () => {
         <div className="flex flex-col items-center justify-center min-h-[50px]">
           <Button 
             onClick={copyReferralLink} 
-            className="bg-[#6d2e46] hover:bg-[#5a2439] text-white font-semibold py-3 px-8 rounded-lg transition-all text-base"
+            className={`bg-yellow-700 hover:bg-yellow-800 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 text-base ${
+              isCopied ? 'scale-95 bg-green-600 hover:bg-green-700' : ''
+            }`}
+            disabled={isCopied}
           >
-            <Copy className="h-4 w-4 mr-2" />
-            Copy Referral Link
+            {isCopied ? (
+              <>
+                <Check className="h-4 w-4 mr-2" />
+                Copied!
+              </>
+            ) : (
+              <>
+                <Copy className="h-4 w-4 mr-2" />
+                Copy Referral Link
+              </>
+            )}
           </Button>
         </div>
       </CardContent>
