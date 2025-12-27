@@ -6,11 +6,17 @@ import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { SpinWheel } from "@/components/spin-wheel"
 
-export default function AboutPage() {
+type SpinOutcome = "WIN" | "LOSE" | "TRY_AGAIN"
+
+export default function SpinPage() {
   const router = useRouter()
   const [userData, setUserData] = useState<any | null>(null)
   const [loaded, setLoaded] = useState(false)
+  const [isSpinning, setIsSpinning] = useState(false)
+  const [spinResult, setSpinResult] = useState<SpinOutcome | null>(null)
+  const [spinsRemaining, setSpinsRemaining] = useState(0)
 
   useEffect(() => {
     try {
@@ -21,7 +27,11 @@ export default function AboutPage() {
         localStorage.getItem("tivexx-user-old")
 
       if (stored) {
-        setUserData(JSON.parse(stored))
+        const user = JSON.parse(stored)
+        setUserData(user)
+        // Get spins remaining from localStorage
+        const savedSpins = localStorage.getItem("tivexx-spins-remaining")
+        setSpinsRemaining(savedSpins ? parseInt(savedSpins) : 3)
       } else {
         setUserData(null)
       }
@@ -31,6 +41,26 @@ export default function AboutPage() {
       setLoaded(true)
     }
   }, [])
+
+  const handleSpin = () => {
+    if (isSpinning || spinsRemaining <= 0) return
+
+    setIsSpinning(true)
+    setSpinResult(null)
+
+    // Simulate spin result after delay
+    setTimeout(() => {
+      const outcomes: SpinOutcome[] = ["WIN", "LOSE", "TRY_AGAIN"]
+      const result = outcomes[Math.floor(Math.random() * outcomes.length)]
+      setSpinResult(result)
+      setIsSpinning(false)
+
+      // Update spins remaining
+      const newSpins = spinsRemaining - 1
+      setSpinsRemaining(newSpins)
+      localStorage.setItem("tivexx-spins-remaining", newSpins.toString())
+    }, 7000)
+  }
 
   if (!loaded) {
     return (
@@ -66,7 +96,6 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black text-white">
-      
       {/* Back button */}
       <div className="fixed top-4 left-4 z-50">
         <button
@@ -78,141 +107,73 @@ export default function AboutPage() {
         </button>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 py-12">
-
+      <div className="max-w-3xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-extrabold leading-tight animate-glow">Helping Hands</h1>
-          <p className="text-sm text-green-100 mt-2">Nigeria's most reliable earning and financial empowerment platform</p>
+          <h1 className="text-4xl font-extrabold leading-tight">Daily Spin Wheel</h1>
+          <p className="text-sm text-green-100 mt-2">Try your luck and win amazing rewards!</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Main Spin Section */}
+        <div className="space-y-6">
+          {/* Spin Wheel */}
+          <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg">
+            <SpinWheel isSpinning={isSpinning} result={spinResult} />
+          </Card>
 
-          {/* LEFT SECTION */}
-          <div className="lg:col-span-2 space-y-6">
-
-            {/* Mission */}
-            <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up">
-              <h2 className="text-xl font-bold text-emerald-200 mb-2">Our Mission</h2>
-              <p className="text-sm text-white/80 leading-relaxed">
-                Helping Hands was created to empower Nigerians with real earning opportunities, fast withdrawals and trusted digital services. 
-                Our system helps users support their families, grow their hustle, fund education and improve their financial life.
-              </p>
-
-              <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <div className="p-3 rounded-lg bg-white/4 border border-white/8 text-center">
-                  <div className="text-xs text-white/70">Active Users</div>
-                  <div className="text-2xl font-bold text-amber-300">100,000+</div>
-                </div>
-                <div className="p-3 rounded-lg bg-white/4 border border-white/8 text-center">
-                  <div className="text-xs text-white/70">Total Payouts</div>
-                  <div className="text-2xl font-bold text-emerald-300">Millions</div>
-                </div>
-                <div className="p-3 rounded-lg bg-white/4 border border-white/8 text-center">
-                  <div className="text-xs text-white/70">Support</div>
-                  <div className="text-2xl font-bold text-purple-300">24/7</div>
-                </div>
-              </div>
-            </Card>
-
-            {/* NEW SECTION YOU REQUESTED */}
-            <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up">
-              <h2 className="text-xl font-bold text-emerald-200 mb-3">What You Can Do on Tivexx9ja</h2>
-
-              <ul className="space-y-3 text-sm text-white/85 leading-relaxed list-disc pl-5">
-                <li>Earn ₦1,000 every 1 minute by claiming through the daily earnings button.</li>
-                <li>Earn ₦10,000 per verified referral with no limits. Some users earn from 50 to 300 referrals.</li>
-                <li>Access Quick Loans instantly with no collateral or BVN required.</li>
-                <li>Apply for Business Loans from ₦500,000 to ₦5,000,000 with a 3 percent processing fee and 12 months repayment.</li>
-                <li>Earn through tasks, referrals, bonuses and performance rewards.</li>
-                <li>Withdrawals remain 100 percent free forever.</li>
-              </ul>
-            </Card>
-
-            {/* Why trust Tivexx */}
-            <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up">
-              <h3 className="text-lg font-bold mb-2">Why Nigerians Trust Helping Hands</h3>
-              <ul className="text-sm text-white/80 space-y-2 list-disc pl-5">
-                <li>No hidden charges and no withdrawal fees.</li>
-                <li>Super fast customer support through Telegram.</li>
-                <li>Identity and anti-fraud systems that protect users.</li>
-                <li>Built specifically for Nigerian users' needs.</li>
-              </ul>
-            </Card>
-
-            {/* Impact Stories */}
-            <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg animate-fade-up">
-              <h3 className="text-lg font-bold mb-3">Impact Across Nigeria</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div className="p-3 rounded-lg bg-white/5">
-                  <div className="font-semibold">Education Support</div>
-                  <div className="text-sm text-white/75 mt-1">Students used Tivexx earnings to continue school.</div>
-                </div>
-                <div className="p-3 rounded-lg bg-white/5">
-                  <div className="font-semibold">Business Support</div>
-                  <div className="text-sm text-white/75 mt-1">Small business owners expanded their capital through earnings.</div>
-                </div>
-              </div>
-            </Card>
-
+          {/* Spins Info */}
+          <div className="text-center">
+            <div className="text-sm text-green-100 mb-2">Spins Remaining Today</div>
+            <div className="text-5xl font-bold text-amber-300">{spinsRemaining}</div>
           </div>
 
-          {/* RIGHT COLUMN */}
-          <aside className="space-y-6">
+          {/* Spin Button */}
+          <Button
+            onClick={handleSpin}
+            disabled={isSpinning || spinsRemaining <= 0}
+            className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 text-lg rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSpinning ? "Spinning..." : spinsRemaining <= 0 ? "No Spins Left Today" : "SPIN THE WHEEL"}
+          </Button>
 
-            <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg text-center animate-fade-up">
-              <div className="text-sm text-white/80 mb-2">Official Notice</div>
-              <div className="text-xl font-bold text-amber-300">Verified Platform</div>
-              <p className="text-xs text-white/70 mt-2">
-                Helping Hands strictly follows identity checks and fraud prevention systems to protect all users and ensure transparent earnings.
-              </p>
-
-              <div className="mt-4 space-y-3">
-                <Button
-                  onClick={() => window.open("https://t.me/tivexx9jasupport", "_blank")}
-                  className="w-full bg-gradient-to-r from-purple-800 via-purple-700 to-green-600 text-white"
-                >
-                  Contact Support
-                </Button>
-
-                <Button
-                  onClick={() => window.open("https://t.me/Tivexx9jacommunity", "_blank")}
-                  className="w-full bg-amber-400 text-black"
-                >
-                  Join Community Channel
-                </Button>
+          {/* Result Display */}
+          {spinResult && (
+            <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg text-center">
+              <h3 className="text-xl font-bold mb-3">Result</h3>
+              <div className={`text-4xl font-extrabold mb-3 ${
+                spinResult === "WIN" ? "text-green-400" :
+                spinResult === "LOSE" ? "text-red-400" :
+                "text-yellow-400"
+              }`}>
+                {spinResult === "WIN" ? "🎉 YOU WIN!" : spinResult === "LOSE" ? "❌ TRY AGAIN" : "⏳ TRY AGAIN"}
               </div>
-            </Card>
-
-            <Card className="p-4 bg-white/5 border border-white/8 shadow-lg text-xs">
-              <div className="font-semibold text-white/80">Our Promise</div>
-              <p className="text-white/70 mt-2">
-                Withdrawals will remain free forever. Tivexx9ja will always ensure your balance is protected and paid.
+              <p className="text-sm text-white/80">
+                {spinResult === "WIN" && "Congratulations! Reward has been added to your balance."}
+                {spinResult === "LOSE" && "Better luck next time!"}
+                {spinResult === "TRY_AGAIN" && "Come back tomorrow for more chances to win!"}
               </p>
             </Card>
-          </aside>
+          )}
+
+          {/* Info Card */}
+          <Card className="p-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-lg">
+            <h3 className="text-lg font-bold mb-3">How It Works</h3>
+            <ul className="space-y-2 text-sm text-white/80">
+              <li>🎯 You get 3 spins per day</li>
+              <li>🎁 Win rewards, bonus credit, or try again</li>
+              <li>⏰ Spins reset every 24 hours</li>
+              <li>🏆 More spins available through referrals</li>
+            </ul>
+          </Card>
         </div>
 
         {/* Footer */}
         <div className="text-center text-xs text-white/60 mt-10">
-          Tivexx9ja © {new Date().getFullYear()}. All rights reserved.
+          Helping Hands © {new Date().getFullYear()}. All rights reserved.
         </div>
       </div>
-
-      {/* Animations */}
-      <style jsx global>{`
-        @keyframes glow {
-          0% { text-shadow: 0 0 6px rgba(16,185,129,0.06); }
-          50% { text-shadow: 0 0 12px rgba(139,92,246,0.10); }
-          100% { text-shadow: 0 0 6px rgba(16,185,129,0.06); }
-        }
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-glow { animation: glow 3s ease-in-out infinite; }
-        .animate-fade-up { animation: fadeUp 0.6s ease forwards; }
-      `}</style>
     </div>
   )
+}
+
 }
