@@ -1,13 +1,18 @@
-
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, CheckCircle, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+
+// Define Bank interface for type safety
+interface Bank {
+  name: string;
+  code: string;
+}
 
 export default function BusinessLoanPage() {
   const router = useRouter()
@@ -17,7 +22,7 @@ export default function BusinessLoanPage() {
   const [accountName, setAccountName] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
-  const [banksList, setBanksList] = useState<Array<{ name: string; code: string }>>([])
+  const [banksList, setBanksList] = useState<Bank[]>([])
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState("")
   const dropdownRef = useRef<HTMLDivElement | null>(null)
@@ -160,7 +165,7 @@ export default function BusinessLoanPage() {
     }, 450)
   }
 
-  // Live computed values (no state needed)
+  // Live computed values
   const loanAmountNum = Math.floor(numericValue(loanAmount))
   const processingFee = loanAmountNum > 0 ? Math.ceil(loanAmountNum * PROCESSING_RATE) : 0
   const totalPayableNow = loanAmountNum > 0 ? loanAmountNum + processingFee : 0
@@ -177,7 +182,7 @@ export default function BusinessLoanPage() {
     }
 
     // Find bank code from fetched bank list (same logic as withdrawal page)
-    const found = banksList.find((b: any) => {
+    const found = banksList.find((b: Bank) => {
       const bn = (b.name || "").toLowerCase()
       const sel = (selectedBank || "").toLowerCase()
       return bn === sel || bn.includes(sel) || sel.includes(bn)
@@ -370,7 +375,7 @@ export default function BusinessLoanPage() {
                       {filteredBanks.length > 0 ? (
                         filteredBanks.map((bank, idx) => (
                           <li
-                            key={idx}
+                            key={`${bank}-${idx}`}
                             onClick={() => {
                               setSelectedBank(bank)
                               setDropdownOpen(false)
@@ -424,7 +429,27 @@ export default function BusinessLoanPage() {
                 {verifyError && <p className="text-sm text-amber-300 mt-2">{verifyError}</p>}
               </div>
 
-              {error && <div className="mt-2 p-3 rounded-lg bg-red-900/30 text-red-300 border border-red-800 animate-inner-bounce-child delay-4">{error}</div>}
+              {/* Fee Summary - Using the previously unused variables */}
+              {(loanAmountNum >= MIN_LOAN) && (
+                <div className="p-4 rounded-lg bg-green-900/20 border border-green-800/30 animate-inner-bounce-child delay-4">
+                  <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div>
+                      <p className="text-white/70">Loan Amount:</p>
+                      <p className="text-emerald-300 font-semibold">{formatCurrency(loanAmountNum)}</p>
+                    </div>
+                    <div>
+                      <p className="text-white/70">Processing Fee (3%):</p>
+                      <p className="text-amber-300 font-semibold">{formatCurrency(processingFee)}</p>
+                    </div>
+                    <div className="col-span-2 pt-2 border-t border-white/10">
+                      <p className="text-white/70">Total to Pay Now:</p>
+                      <p className="text-green-300 font-bold text-lg">{formatCurrency(totalPayableNow)}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {error && <div className="mt-2 p-3 rounded-lg bg-red-900/30 text-red-300 border border-red-800 animate-inner-bounce-child delay-5">{error}</div>}
 
               {/* Continue Button */}
               <button
@@ -434,13 +459,13 @@ export default function BusinessLoanPage() {
                   !loanAmount || !accountNumber || !selectedBank || !accountName
                     ? "bg-white/10 text-white/60 cursor-not-allowed border border-white/8"
                     : "bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 hover:shadow-lg hover:scale-[1.02] border border-green-500/20"
-                } animate-inner-bounce-child delay-5`}
+                } animate-inner-bounce-child delay-6`}
               >
                 {submitting ? "Redirecting to Payment..." : "Continue to Processing Fee"}
               </button>
             </div>
 
-            <p className="mt-4 text-xs text-white/70 animate-inner-bounce-child delay-6">
+            <p className="mt-4 text-xs text-white/70 animate-inner-bounce-child delay-7">
               Note: The 3% processing fee will be charged now. You will be redirected to complete the payment.
             </p>
           </Card>
@@ -522,6 +547,7 @@ export default function BusinessLoanPage() {
         .delay-4 { animation-delay: 0.48s; }
         .delay-5 { animation-delay: 0.60s; }
         .delay-6 { animation-delay: 0.72s; }
+        .delay-7 { animation-delay: 0.84s; }
       `}</style>
     </div>
   )
