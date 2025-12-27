@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, CheckCircle, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -25,7 +25,6 @@ export default function BusinessLoanPage() {
   const [submitting, setSubmitting] = useState(false)
   const [banksList, setBanksList] = useState<Array<{ name: string; code: string }>>([])
   const [bankSearchInput, setBankSearchInput] = useState("")
-  const searchInputRef = useRef<HTMLInputElement>(null)
 
   const filteredBanks = banksList.filter((bank) =>
     bank.name.toLowerCase().includes(bankSearchInput.toLowerCase())
@@ -54,16 +53,6 @@ export default function BusinessLoanPage() {
       mounted = false
     }
   }, [])
-
-  // Focus search input when dropdown opens
-  useEffect(() => {
-    if (searchInputRef.current) {
-      // Small delay to ensure dropdown is fully open
-      setTimeout(() => {
-        searchInputRef.current?.focus()
-      }, 100)
-    }
-  }, [selectedBank]) // This triggers when dropdown state changes
 
   const [verifying, setVerifying] = useState(false)
   const [verified, setVerified] = useState(false)
@@ -272,7 +261,7 @@ export default function BusinessLoanPage() {
                 </div>
               </div>
 
-              {/* Bank Dropdown - Mobile Fixed Version */}
+              {/* Bank Dropdown - Simplified Mobile Fix */}
               <div>
                 <Label className="block text-sm font-medium text-emerald-200 mb-2">Bank</Label>
                 <Select value={selectedBank} onValueChange={handleBankSelect}>
@@ -280,28 +269,26 @@ export default function BusinessLoanPage() {
                     <SelectValue placeholder="Select a bank" />
                   </SelectTrigger>
                   <SelectContent 
-                    className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg max-h-[60vh] w-[95vw] sm:w-[var(--radix-select-trigger-width)] sm:max-h-64"
+                    className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg max-h-64"
                     position="popper"
                     sideOffset={4}
-                    avoidCollisions={false}
                   >
                     {/* Search input at top of dropdown */}
                     <div className="sticky top-0 z-50 bg-green-900 p-2 border-b border-white/10">
                       <div className="relative">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-emerald-300" />
                         <input
-                          ref={searchInputRef}
                           type="text"
                           placeholder="Search banks..."
                           value={bankSearchInput}
                           onChange={(e) => setBankSearchInput(e.target.value)}
-                          onClick={(e) => e.stopPropagation()} // Prevent closing on mobile
                           className="w-full rounded px-10 py-2 bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-400 text-sm"
                         />
                         {bankSearchInput && (
                           <button
                             onClick={() => setBankSearchInput("")}
                             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-emerald-300 hover:text-white text-sm"
+                            type="button"
                           >
                             ✕
                           </button>
@@ -309,16 +296,15 @@ export default function BusinessLoanPage() {
                       </div>
                     </div>
                     
-                    {/* Bank list - Mobile friendly */}
-                    <div className="overflow-y-auto max-h-[calc(60vh-60px)] sm:max-h-48">
+                    {/* Bank list */}
+                    <div className="overflow-y-auto max-h-48">
                       {banksList.length > 0 ? (
                         filteredBanks.length > 0 ? (
                           filteredBanks.map((b) => (
                             <SelectItem 
                               key={b.code} 
                               value={b.name} 
-                              className="hover:bg-white/10 cursor-pointer py-3 px-4 text-base sm:text-sm"
-                              onPointerDown={(e) => e.stopPropagation()} // Fix for mobile touch
+                              className="hover:bg-white/10 cursor-pointer py-3 px-4"
                             >
                               {b.name}
                             </SelectItem>
