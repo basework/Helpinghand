@@ -64,6 +64,12 @@ export default function RegisterPage() {
     }
   }, [mounted])
 
+    const handleWhatsAppSupport = () => {
+    const phoneNumber = "2349059089491"
+    const message = encodeURIComponent("hello, am from Helping Hands.")
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
+    window.open(whatsappUrl, "_blank")
+  }
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -255,7 +261,7 @@ export default function RegisterPage() {
       </div>
 
       {/* WhatsApp Support Button */}
-      <div className="fixed bottom-6 left-6 z-20 animate-bounce-slow hidden">
+      <div className="fixed bottom-6 left-6 z-20 animate-bounce-slow">
         <button
           onClick={handleWhatsAppSupport}
           className="w-14 h-14 bg-gradient-to-br from-green-600 to-emerald-500 hover:from-green-700 hover:to-emerald-600 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110 border border-emerald-400/30"
