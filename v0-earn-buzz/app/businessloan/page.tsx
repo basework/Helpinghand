@@ -1,9 +1,8 @@
-
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, CheckCircle, Globe } from "lucide-react"
+import { ArrowLeft, CheckCircle, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -26,6 +25,7 @@ export default function BusinessLoanPage() {
   const [submitting, setSubmitting] = useState(false)
   const [banksList, setBanksList] = useState<Array<{ name: string; code: string }>>([])
   const [bankSearchInput, setBankSearchInput] = useState("")
+  const searchInputRef = useRef<HTMLInputElement>(null)
 
   const filteredBanks = banksList.filter((bank) =>
     bank.name.toLowerCase().includes(bankSearchInput.toLowerCase())
@@ -55,6 +55,15 @@ export default function BusinessLoanPage() {
     }
   }, [])
 
+  // Focus search input when dropdown opens
+  useEffect(() => {
+    if (searchInputRef.current) {
+      // Small delay to ensure dropdown is fully open
+      setTimeout(() => {
+        searchInputRef.current?.focus()
+      }, 100)
+    }
+  }, [selectedBank]) // This triggers when dropdown state changes
 
   const [verifying, setVerifying] = useState(false)
   const [verified, setVerified] = useState(false)
@@ -102,11 +111,6 @@ export default function BusinessLoanPage() {
     }, 450)
   }
 
-  // Live computed values (no state needed)
-  const loanAmountNum = Math.floor(numericValue(loanAmount))
-  const processingFee = loanAmountNum > 0 ? Math.ceil(loanAmountNum * PROCESSING_RATE) : 0
-  const totalPayableNow = loanAmountNum > 0 ? loanAmountNum + processingFee : 0
-
   // Auto-verify account when 10-digit account number and bank code is found
   async function verifyAccount() {
     setVerifyError(null)
@@ -118,7 +122,6 @@ export default function BusinessLoanPage() {
       return
     }
 
-    // Find bank code from fetched bank list by matching the selected bank name
     const found = banksList.find((b: any) => b.name === selectedBank)
 
     if (!found || !found.code) {
@@ -128,18 +131,12 @@ export default function BusinessLoanPage() {
 
     setVerifying(true)
     try {
-      // Diagnostic: log request payload (no secrets)
-      // eslint-disable-next-line no-console
-      console.log("verifyAccount request", { account_number: cleaned, bank_code: found.code })
       const res = await fetch(`/api/verify-account`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ account_number: cleaned, bank_code: found.code }),
       })
       const data = await res.json()
-      // Diagnostic: log response payload from server (contains Paystack response)
-      // eslint-disable-next-line no-console
-      console.log("verifyAccount response", { status: res.status, body: data })
 
       if (!res.ok || data.error) {
         setVerifyError(data.error || data.message || "Failed to verify account")
@@ -174,6 +171,11 @@ export default function BusinessLoanPage() {
     }
   }, [accountNumber, selectedBank, banksList])
 
+  // Handle bank selection
+  const handleBankSelect = (value: string) => {
+    setSelectedBank(value)
+    setBankSearchInput("") // Clear search when a bank is selected
+  }
 
   return (
     <div className="min-h-screen text-white bg-gradient-to-br from-green-700 via-green-900 to-black animate-page-bounce">
@@ -270,45 +272,73 @@ export default function BusinessLoanPage() {
                 </div>
               </div>
 
-              {/* Bank Dropdown - Fixed Version */}
+              {/* Bank Dropdown - Mobile Fixed Version */}
               <div>
                 <Label className="block text-sm font-medium text-emerald-200 mb-2">Bank</Label>
-                <Select value={selectedBank} onValueChange={setSelectedBank}>
-                  <SelectTrigger className="w-full rounded-md border border-white/8 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white">
+                <Select value={selectedBank} onValueChange={handleBankSelect}>
+                  <SelectTrigger className="w-full rounded-md border border-white/8 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white text-left">
                     <SelectValue placeholder="Select a bank" />
                   </SelectTrigger>
-                  <SelectContent className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg max-h-48 w-[var(--radix-select-trigger-width)]">
-                    {/* Search input at top of dropdown - Now shows what you type */}
+                  <SelectContent 
+                    className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg max-h-[60vh] w-[95vw] sm:w-[var(--radix-select-trigger-width)] sm:max-h-64"
+                    position="popper"
+                    sideOffset={4}
+                    avoidCollisions={false}
+                  >
+                    {/* Search input at top of dropdown */}
                     <div className="sticky top-0 z-50 bg-green-900 p-2 border-b border-white/10">
-                      <input
-                        type="text"
-                        placeholder="Search banks..."
-                        value={bankSearchInput}
-                        onChange={(e) => setBankSearchInput(e.target.value)}
-                        className="w-full rounded px-3 py-2 bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-400 text-sm"
-                      />
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-emerald-300" />
+                        <input
+                          ref={searchInputRef}
+                          type="text"
+                          placeholder="Search banks..."
+                          value={bankSearchInput}
+                          onChange={(e) => setBankSearchInput(e.target.value)}
+                          onClick={(e) => e.stopPropagation()} // Prevent closing on mobile
+                          className="w-full rounded px-10 py-2 bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-400 text-sm"
+                        />
+                        {bankSearchInput && (
+                          <button
+                            onClick={() => setBankSearchInput("")}
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-emerald-300 hover:text-white text-sm"
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
                     </div>
                     
-                    {/* Bank list - Reduced height */}
-                    <div className="max-h-32 overflow-y-auto">
+                    {/* Bank list - Mobile friendly */}
+                    <div className="overflow-y-auto max-h-[calc(60vh-60px)] sm:max-h-48">
                       {banksList.length > 0 ? (
                         filteredBanks.length > 0 ? (
                           filteredBanks.map((b) => (
-                            <SelectItem key={b.code} value={b.name} className="hover:bg-white/10 cursor-pointer py-2 px-3">
+                            <SelectItem 
+                              key={b.code} 
+                              value={b.name} 
+                              className="hover:bg-white/10 cursor-pointer py-3 px-4 text-base sm:text-sm"
+                              onPointerDown={(e) => e.stopPropagation()} // Fix for mobile touch
+                            >
                               {b.name}
                             </SelectItem>
                           ))
                         ) : (
-                          <div className="p-3 text-center text-white/60 text-sm">
+                          <div className="p-4 text-center text-white/60 text-sm">
                             No banks match your search
                           </div>
                         )
                       ) : (
-                        <div className="p-3 text-center text-white/60 text-sm">Loading banks...</div>
+                        <div className="p-4 text-center text-white/60 text-sm">Loading banks...</div>
                       )}
                     </div>
                   </SelectContent>
                 </Select>
+                {selectedBank && (
+                  <p className="text-xs text-emerald-300 mt-2">
+                    Selected: <span className="font-medium">{selectedBank}</span>
+                  </p>
+                )}
               </div>
 
               {/* Account Name */}
@@ -382,41 +412,12 @@ export default function BusinessLoanPage() {
             transform: translateY(0);
           }
         }
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        @keyframes bounceIn {
-          0% {
-            transform: scale(0.9);
-            opacity: 0;
-          }
-          60% {
-            transform: scale(1.05);
-            opacity: 1;
-          }
-          100% {
-            transform: scale(1);
-          }
-        }
 
         .animate-fadeIn {
-          animation: fadeIn 0.8s ease-in-out;
+          animation: fadeIn 0.3s ease-out;
         }
         .animate-slideUp {
           animation: slideUp 1s ease-in-out;
-        }
-        .animate-slideDown {
-          animation: slideDown 1s ease-in-out;
-        }
-        .animate-bounceIn {
-          animation: bounceIn 0.4s ease-in-out;
         }
 
         /* Page-wide gentle bounce */
@@ -425,7 +426,6 @@ export default function BusinessLoanPage() {
 
         /* Subtler inner bounce for the box and its children */
         @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-        .animate-inner-bounce { animation: gentleBounceInner 1.6s ease-in-out infinite; }
         .animate-inner-bounce-child { animation: gentleBounceInner 1.6s ease-in-out infinite; }
 
         /* Staggered delays for a slightly organic motion */
