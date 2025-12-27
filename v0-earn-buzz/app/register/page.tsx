@@ -19,6 +19,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [referralCode, setReferralCode] = useState("")
+  const [showPasswordReminder, setShowPasswordReminder] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -41,6 +42,27 @@ export default function RegisterPage() {
       setReferralCode(refCode)
     }
   }, [mounted, searchParams])
+
+  // Password reminder notification
+  useEffect(() => {
+    if (!mounted) return
+
+    const showReminder = () => {
+      setShowPasswordReminder(true)
+      setTimeout(() => {
+        setShowPasswordReminder(false)
+        // Show again after 7 seconds
+        setTimeout(showReminder, 7000)
+      }, 2000)
+    }
+
+    // Start the reminder cycle after 3 seconds
+    const initialTimer = setTimeout(showReminder, 3000)
+
+    return () => {
+      clearTimeout(initialTimer)
+    }
+  }, [mounted])
 
     const handleWhatsAppSupport = () => {
     const phoneNumber = "2349059089491"
@@ -119,6 +141,20 @@ export default function RegisterPage() {
         ))}
       </div>
 
+      {/* Password Reminder Notification */}
+      {showPasswordReminder && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+          <div className="bg-gradient-to-r from-yellow-600/90 to-amber-600/90 text-white rounded-xl px-5 py-3 shadow-2xl border border-yellow-400/30 backdrop-blur-sm animate-password-reminder flex items-center gap-2">
+            <div className="w-6 h-6 flex items-center justify-center">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C8.14 2 5 5.14 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" />
+              </svg>
+            </div>
+            <span className="text-sm font-medium">💡 Remember to use a memorable password!</span>
+          </div>
+        </div>
+      )}
+
       <div className="flex-1 flex flex-col items-center justify-center p-6 relative z-10 animate-page-bounce">
         <div className="w-full max-w-md flex flex-col items-center gap-8 animate-inner-bounce">
           <div className="text-center mb-4 animate-fade-in animate-inner-bounce-child delay-0">
@@ -174,13 +210,25 @@ export default function RegisterPage() {
                   className="h-14 rounded-xl bg-white/10 text-white placeholder:text-white/60 px-6 border border-white/8 focus:border-emerald-400 focus:ring-emerald-400"
                 />
 
-                <Input
-                  type="text"
-                  placeholder="Referral Code (Optional)"
-                  value={referralCode}
-                  onChange={(e) => setReferralCode(e.target.value)}
-                  className="h-14 rounded-xl bg-white/10 text-white placeholder:text-white/60 px-6 border border-white/8 focus:border-emerald-400 focus:ring-emerald-400"
-                />
+                <div className="relative">
+                  <Input
+                    type="text"
+                    placeholder="Referral Code (Auto-filled)"
+                    value={referralCode}
+                    onChange={(e) => setReferralCode(e.target.value)}
+                    readOnly={!!searchParams.get("ref")}
+                    className={`h-14 rounded-xl bg-white/10 text-white placeholder:text-white/60 px-6 border border-white/8 focus:border-emerald-400 focus:ring-emerald-400 ${
+                      searchParams.get("ref") ? "cursor-not-allowed opacity-80" : ""
+                    }`}
+                  />
+                  {searchParams.get("ref") && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-emerald-300">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <Button
@@ -254,6 +302,25 @@ export default function RegisterPage() {
           50% { transform: translateY(-4px); }
         }
 
+        @keyframes passwordReminder {
+          0% {
+            opacity: 0;
+            transform: translateY(-20px) translateX(-50%) scale(0.9);
+          }
+          15% {
+            opacity: 1;
+            transform: translateY(0) translateX(-50%) scale(1);
+          }
+          85% {
+            opacity: 1;
+            transform: translateY(0) translateX(-50%) scale(1);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(-20px) translateX(-50%) scale(0.9);
+          }
+        }
+
         .animate-fade-in { animation: fadeIn 0.8s ease-in-out; }
         .animate-glow { animation: glow 2s infinite alternate; }
         .animate-particle { animation: particle 8s linear infinite; }
@@ -261,6 +328,7 @@ export default function RegisterPage() {
         .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
         .animate-inner-bounce { animation: gentleBounceInner 1.8s ease-in-out infinite; }
         .animate-inner-bounce-child { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+        .animate-password-reminder { animation: passwordReminder 2s ease-in-out forwards; }
 
         .delay-0 { animation-delay: 0s; }
         .delay-1 { animation-delay: 0.12s; }
@@ -271,7 +339,8 @@ export default function RegisterPage() {
         @media (prefers-reduced-motion: reduce) {
           .animate-page-bounce,
           .animate-inner-bounce,
-          .animate-inner-bounce-child {
+          .animate-inner-bounce-child,
+          .animate-password-reminder {
             animation-duration: 0.001ms !important;
             animation-iteration-count: 1 !important;
           }
