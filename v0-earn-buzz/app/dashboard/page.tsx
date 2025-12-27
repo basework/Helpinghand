@@ -552,6 +552,8 @@ export default function DashboardPage() {
 
         {/* Enhanced Balance Card */}
         <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 mt-4 shadow-lg border border-green-800/30 animate-pop-bounce-2 relative overflow-hidden">
+          {/* Ocean wave animation ALSO in balance box */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer"></div>
           
           <div className="flex items-center justify-between mb-2 relative z-10">
             <div className="text-sm font-medium text-gray-300 flex items-center gap-2">
