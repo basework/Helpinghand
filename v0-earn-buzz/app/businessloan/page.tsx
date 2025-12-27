@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, CheckCircle, Globe } from "lucide-react"
+import { ArrowLeft, CheckCircle, Globe, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -270,45 +270,94 @@ export default function BusinessLoanPage() {
                 </div>
               </div>
 
-              {/* Bank Dropdown */}
+              {/* Bank Dropdown - Updated Version */}
               <div>
                 <Label className="block text-sm font-medium text-emerald-200 mb-2">Bank</Label>
                 <Select value={selectedBank} onValueChange={setSelectedBank}>
-                  <SelectTrigger className="w-full rounded-md border border-white/8 bg-white/10 text-left px-4 py-3 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-emerald-400 hover:shadow-lg transition text-white">
-                    <SelectValue placeholder="Select a bank" />
+                  <SelectTrigger className="w-full rounded-xl border-2 border-emerald-500/30 bg-gradient-to-r from-white/5 to-white/10 text-left px-4 py-3.5 flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-emerald-400 hover:border-emerald-400/50 hover:shadow-lg transition-all duration-300 text-white group">
+                    <div className="flex items-center gap-2">
+                      <Globe className="h-4 w-4 text-emerald-300" />
+                      <SelectValue placeholder="Select a bank" />
+                    </div>
+                    <span className="text-emerald-300 group-hover:translate-x-1 transition-transform">▼</span>
                   </SelectTrigger>
-                  <SelectContent className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg animate-bounceIn overflow-hidden p-0">
+                  <SelectContent 
+                    className="text-white bg-gradient-to-b from-green-900 via-green-800 to-green-900 border-2 border-emerald-500/30 shadow-2xl animate-fadeIn backdrop-blur-lg max-h-[70vh] sm:max-h-96 overflow-hidden p-0"
+                    position="popper"
+                    align="center"
+                    sideOffset={8}
+                  >
                     {/* Search input at top of dropdown */}
-                    <div className="sticky top-0 z-50 bg-green-900 p-2 border-b border-white/10">
-                      <input
-                        type="text"
-                        placeholder="Search banks..."
-                        value={bankSearchInput}
-                        onChange={(e) => setBankSearchInput(e.target.value)}
-                        className="w-full rounded px-3 py-2 bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-400 text-sm"
-                      />
+                    <div className="sticky top-0 z-50 bg-gradient-to-r from-green-800 to-green-900 p-3 border-b border-emerald-500/20">
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-emerald-300" />
+                        <input
+                          type="text"
+                          placeholder="Search banks..."
+                          value={bankSearchInput}
+                          onChange={(e) => setBankSearchInput(e.target.value)}
+                          className="w-full rounded-lg px-10 py-2.5 bg-white/10 text-white placeholder:text-emerald-200/60 border border-emerald-500/30 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent text-sm"
+                          autoFocus
+                        />
+                        {bankSearchInput && (
+                          <button
+                            onClick={() => setBankSearchInput("")}
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-emerald-300 hover:text-white"
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
+                      <p className="text-xs text-emerald-300/70 mt-2 text-center">
+                        {filteredBanks.length} {filteredBanks.length === 1 ? 'bank' : 'banks'} found
+                      </p>
                     </div>
                     
-                    {/* Bank list */}
-                    <div className="max-h-56 overflow-y-auto">
+                    {/* Bank list with smooth scrolling */}
+                    <div className="overflow-y-auto max-h-[calc(70vh-80px)] sm:max-h-80">
                       {banksList.length > 0 ? (
                         filteredBanks.length > 0 ? (
-                          filteredBanks.map((b) => (
-                            <SelectItem key={b.code} value={b.name} className="hover:bg-white/10 cursor-pointer py-2 px-3">
-                              {b.name}
+                          filteredBanks.map((b, index) => (
+                            <SelectItem 
+                              key={b.code} 
+                              value={b.name} 
+                              className="hover:bg-gradient-to-r hover:from-emerald-700/50 hover:to-green-800/50 cursor-pointer py-3 px-4 border-b border-white/5 last:border-b-0 transition-all duration-200 hover:pl-6 group"
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium">{b.name}</span>
+                                <span className="text-xs text-emerald-300/60 bg-emerald-900/30 px-2 py-1 rounded group-hover:bg-emerald-800/50 transition-colors">
+                                  {b.code}
+                                </span>
+                              </div>
                             </SelectItem>
                           ))
                         ) : (
-                          <div className="p-4 text-center text-white/60 text-sm">
-                            No banks match your search
+                          <div className="p-6 text-center">
+                            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-emerald-900/30 to-green-900/30 mb-3">
+                              <Search className="h-6 w-6 text-emerald-300" />
+                            </div>
+                            <p className="text-emerald-300 font-medium">No banks found</p>
+                            <p className="text-sm text-emerald-300/60 mt-1">Try a different search term</p>
                           </div>
                         )
                       ) : (
-                        <div className="p-4 text-center text-white/60 text-sm">Loading banks...</div>
+                        <div className="p-6 text-center">
+                          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-emerald-900/30 to-green-900/30 mb-3 animate-pulse">
+                            <Globe className="h-6 w-6 text-emerald-300" />
+                          </div>
+                          <p className="text-emerald-300 font-medium">Loading banks...</p>
+                          <p className="text-sm text-emerald-300/60 mt-1">Please wait a moment</p>
+                        </div>
                       )}
                     </div>
                   </SelectContent>
                 </Select>
+                {selectedBank && (
+                  <p className="text-xs text-emerald-300 mt-2 flex items-center gap-1">
+                    <CheckCircle className="h-3 w-3" />
+                    Selected: <span className="font-medium">{selectedBank}</span>
+                  </p>
+                )}
               </div>
 
               {/* Account Name */}
@@ -407,7 +456,7 @@ export default function BusinessLoanPage() {
         }
 
         .animate-fadeIn {
-          animation: fadeIn 0.8s ease-in-out;
+          animation: fadeIn 0.3s ease-out;
         }
         .animate-slideUp {
           animation: slideUp 1s ease-in-out;
