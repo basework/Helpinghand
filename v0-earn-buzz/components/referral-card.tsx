@@ -90,26 +90,11 @@ const copyReferralLink = () => {
         {/* Referral Balance */}
 
         {/* People Referred */}
-
-        {/* Referral Code */}
         <div className="bg-white rounded-lg p-4 shadow-sm">
-          <div className="text-sm text-gray-600 mb-2">Your Referral Code</div>
-          <div className="flex items-center gap-2">
-            <div className="flex-1 bg-gray-100 rounded px-3 py-2 font-mono text-lg font-bold text-green-700">
-              {userData?.referral_code || "Loading..."}
-            </div>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={copyReferralCode}
-              className="border-tiv-4 hover:bg-tiv-4 bg-transparent"
-            >
-              <Copy className="h-4 w-4" />
-            </Button>
+          <div className="text-sm text-gray-600 mb-2">People Referred</div>
+          <div className="text-3xl font-bold text-green-700">
+            {userData?.referral_count || 0}
           </div>
-          <Button onClick={copyReferralLink} className="w-full mt-3 bg-tiv-1 hover:bg-tiv-1">
-            Copy Referral Link
-          </Button>
         </div>
 
         {/* Info */}
