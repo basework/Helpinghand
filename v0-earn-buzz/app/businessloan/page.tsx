@@ -26,7 +26,6 @@ export default function BusinessLoanPage() {
   const [banksList, setBanksList] = useState<Array<{ name: string; code: string }>>([])
   const [bankSearchInput, setBankSearchInput] = useState("")
   const searchInputRef = useRef<HTMLInputElement>(null)
-  const [bankDropdownOpen, setBankDropdownOpen] = useState(false)
 
   const filteredBanks = banksList.filter((bank) =>
     bank.name.toLowerCase().includes(bankSearchInput.toLowerCase())
@@ -56,20 +55,15 @@ export default function BusinessLoanPage() {
     }
   }, [])
 
-  // Focus search input when dropdown opens (safe guard against null)
+  // Focus search input when dropdown opens
   useEffect(() => {
-    if (!bankDropdownOpen) return
-    const t = setTimeout(() => {
-      if (searchInputRef.current) {
-        try {
-          searchInputRef.current.focus()
-        } catch (e) {
-          // ignore focus errors
-        }
-      }
-    }, 120)
-    return () => clearTimeout(t)
-  }, [bankDropdownOpen])
+    if (searchInputRef.current) {
+      // Small delay to ensure dropdown is fully open
+      setTimeout(() => {
+        searchInputRef.current?.focus()
+      }, 100)
+    }
+  }, [selectedBank]) // This triggers when dropdown state changes
 
   const [verifying, setVerifying] = useState(false)
   const [verified, setVerified] = useState(false)
@@ -281,16 +275,15 @@ export default function BusinessLoanPage() {
               {/* Bank Dropdown - Mobile Fixed Version */}
               <div>
                 <Label className="block text-sm font-medium text-emerald-200 mb-2">Bank</Label>
-                <Select value={selectedBank} onValueChange={handleBankSelect} onOpenChange={setBankDropdownOpen}>
+                <Select value={selectedBank} onValueChange={handleBankSelect}>
                   <SelectTrigger className="w-full rounded-md border border-white/8 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white text-left">
                     <SelectValue placeholder="Select a bank" />
                   </SelectTrigger>
-                    <SelectContent 
+                  <SelectContent 
                     className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg max-h-[60vh] w-[95vw] sm:w-[var(--radix-select-trigger-width)] sm:max-h-64"
                     position="popper"
                     sideOffset={4}
-                      avoidCollisions={false}
-                      onOpenAutoFocus={(e) => e.preventDefault()}
+                    avoidCollisions={false}
                   >
                     {/* Search input at top of dropdown */}
                     <div className="sticky top-0 z-50 bg-green-900 p-2 border-b border-white/10">
