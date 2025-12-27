@@ -551,7 +551,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Enhanced Balance Card */}
-        <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 mt-4 shadow-lg border border-green-800/30 animate-pop-bounce-2 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 mt-4 shadow-lg border border-green-800/30 animate-pop-bounce-2 animate-inner-bounce-child delay-1 relative overflow-hidden">
           {/* Ocean wave animation ALSO in balance box */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer"></div>
           
@@ -710,7 +710,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 space-y-3 animate-pop-bounce-3">
+        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 space-y-3 animate-pop-bounce-3 animate-inner-bounce-child delay-2">
           <h4 className="text-sm text-white font-semibold">Quick Actions</h4>
           <div className="flex flex-col gap-2 w-full">
             {menuItems.map((item, idx) => {
@@ -739,7 +739,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Help & Support */}
-        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 animate-pop-bounce-5">
+        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 animate-pop-bounce-5 animate-inner-bounce-child delay-3">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-sm text-white font-semibold">Help & Support</div>
@@ -762,12 +762,12 @@ export default function DashboardPage() {
         </div>
 
         {/* Referral Card */}
-        <div className="animate-pop-bounce-4">
+        <div className="animate-pop-bounce-4 animate-inner-bounce-child delay-4">
           {userData && <ReferralCard userId={userData.id || userData.userId} />}
         </div>
 
         {/* History */}
-        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 border-l-4 border-purple-600/60 pl-3 animate-pop-bounce-2 shadow-md">
+        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 border-l-4 border-purple-600/60 pl-3 animate-pop-bounce-2 animate-inner-bounce-child delay-2 shadow-md">
           <div className="flex items-center justify-between mb-3">
             <div>
               <div className="text-sm text-white font-semibold flex items-center gap-2">
@@ -992,9 +992,9 @@ export default function DashboardPage() {
           50% { transform: translateY(-4px); }
         }
 
-        .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
-        .animate-inner-bounce { animation: gentleBounceInner 1.8s ease-in-out infinite; }
-        .animate-inner-bounce-child { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+        .animate-page-bounce { animation: gentleBouncePage 1.2s ease-in-out infinite; }
+        .animate-inner-bounce { animation: gentleBounceInner 1.3s ease-in-out infinite; }
+        .animate-inner-bounce-child { animation: gentleBounceInner 1.3s ease-in-out infinite; }
 
         .delay-0 { animation-delay: 0s; }
         .delay-1 { animation-delay: 0.12s; }
