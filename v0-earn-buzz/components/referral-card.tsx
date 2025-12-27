@@ -99,7 +99,7 @@ const copyReferralLink = () => {
         <div className="flex flex-col items-center justify-center min-h-[50px]">
           <Button 
             onClick={copyReferralLink} 
-            className="bg-yellow-700 hover:bg-yellow-800 text-white font-semibold py-3 px-8 rounded-lg transition-all text-base"
+            className="bg-[#6d2e46] hover:bg-[#5a2439] text-white font-semibold py-3 px-8 rounded-lg transition-all text-base"
           >
             <Copy className="h-4 w-4 mr-2" />
             Copy Referral Link
