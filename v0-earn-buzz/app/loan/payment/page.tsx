@@ -6,7 +6,7 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Copy, Check, Lightbulb, Hash, Landmark, User2, X } from "lucide-react"
+import { Copy, Check, Lightbulb, Hash, Landmark, User2, X, ArrowLeft } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 export default function LoanPaymentPage() {
@@ -73,11 +73,13 @@ export default function LoanPaymentPage() {
       {/* Header */}
       <div className="w-full max-w-md bg-white shadow-sm p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Link href="/loan/fee-instruction">
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <X className="h-4 w-4" />
-            </Button>
-          </Link>
+          <button
+            onClick={() => router.back()}
+            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 border border-gray-200 text-gray-700 hover:bg-gray-200 hover:border-gray-300 transition-all duration-200 text-sm font-medium group"
+          >
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+            <span>Back</span>
+          </button>
           <h1 className="text-lg font-semibold text-gray-800">Pay Loan Fee</h1>
         </div>
         <div className="flex items-center gap-2">

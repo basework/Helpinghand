@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, Suspense } from "react"
-import { X } from "lucide-react"
+import { X, ArrowLeft } from "lucide-react"
 
 function PayKeyPaymentContent() {
   const router = useRouter()
@@ -42,7 +42,16 @@ function PayKeyPaymentContent() {
   }
 
   return (
-    <div className="min-h-screen bg-background animate-page-bounce">
+    <div className="min-h-screen bg-background animate-page-bounce relative">
+      {/* Back Button */}
+      <button
+        onClick={() => router.back()}
+        className="absolute top-6 left-6 z-40 flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 border border-gray-200 text-gray-700 hover:bg-gray-200 hover:border-gray-300 transition-all duration-200 text-sm font-medium group"
+      >
+        <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+        <span>Back</span>
+      </button>
+
       {/* Purple-themed Popup */}
       {showPopup && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">

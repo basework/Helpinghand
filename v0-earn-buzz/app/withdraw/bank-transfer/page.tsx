@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, Suspense } from "react"
+import { ArrowLeft } from "lucide-react"
 
 function PayKeyPaymentContent() {
   const router = useRouter()
@@ -32,7 +33,16 @@ function PayKeyPaymentContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black overflow-y-auto py-10 px-4 text-white animate-page-bounce">
+    <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black overflow-y-auto py-10 px-4 text-white animate-page-bounce relative">
+      {/* Back Button */}
+      <button
+        onClick={() => router.back()}
+        className="absolute top-6 left-6 z-50 flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-emerald-200 hover:bg-white/20 hover:border-white/30 transition-all duration-200 text-sm font-medium group"
+      >
+        <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+        <span>Back</span>
+      </button>
+
       <h1 className="text-5xl font-extrabold mb-6 text-center">Helping Hands</h1>
 
       <Card className="max-w-md w-full p-6 space-y-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-2xl rounded-2xl animate-inner-bounce">
