@@ -86,18 +86,24 @@ const copyReferralLink = () => {
           Referral Count
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
-        {/* Referral Balance */}
-
-        {/* People Referred */}
-        <div className="bg-white/10 rounded-lg p-4 shadow-sm backdrop-blur-sm">
-          <div className="text-sm text-white/80 mb-2">People Referred</div>
-          <div className="text-3xl font-bold text-white">
+      <CardContent className="space-y-4">
+        {/* Small box with count at top */}
+        <div className="bg-white/10 rounded-lg p-3 shadow-sm backdrop-blur-sm inline-block ml-auto">
+          <div className="text-5xl font-bold text-white">
             {userData?.referral_count || 0}
           </div>
         </div>
 
-        {/* Info */}
+        {/* Large box with copy button */}
+        <div className="bg-white/10 rounded-lg p-6 shadow-sm backdrop-blur-sm flex flex-col items-center justify-center min-h-[120px]">
+          <Button 
+            onClick={copyReferralLink} 
+            className="bg-white hover:bg-white/90 text-[#83456F] font-semibold py-3 px-8 rounded-lg transition-all"
+          >
+            <Copy className="h-4 w-4 mr-2" />
+            Copy Referral Link
+          </Button>
+        </div>
       </CardContent>
     </Card>
   )
