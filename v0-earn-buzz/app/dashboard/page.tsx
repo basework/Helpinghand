@@ -520,9 +520,9 @@ export default function DashboardPage() {
       {showWithdrawalNotification && <WithdrawalNotification onClose={handleCloseWithdrawalNotification} />}
 
       {/* MAIN CONTENT - NOW STACKED VERTICALLY LIKE MOBILE */}
-      <div className="max-w-md mx-auto px-4 space-y-4 mt-6 relative z-10">
+      <div className="max-w-md mx-auto px-4 space-y-4 mt-6 relative z-10 animate-page-bounce">
         {/* Profile Card */}
-          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 border border-green-800/30 shadow-lg animate-pop-bounce-1">
+          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 border border-green-800/30 shadow-lg animate-pop-bounce-1 animate-inner-bounce-child delay-0">
           <div className="flex items-center gap-3">
             <div className="relative w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-md overflow-hidden">
               {userData?.profilePicture ? (
@@ -980,6 +980,35 @@ export default function DashboardPage() {
 
         .animate-confetti-3 {
           animation: confetti-3 0.9s ease-out 0.2s forwards;
+        }
+
+        @keyframes gentleBouncePage {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
+        }
+
+        @keyframes gentleBounceInner {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-4px); }
+        }
+
+        .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
+        .animate-inner-bounce { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+        .animate-inner-bounce-child { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+
+        .delay-0 { animation-delay: 0s; }
+        .delay-1 { animation-delay: 0.12s; }
+        .delay-2 { animation-delay: 0.24s; }
+        .delay-3 { animation-delay: 0.36s; }
+        .delay-4 { animation-delay: 0.48s; }
+
+        @media (prefers-reduced-motion: reduce) {
+          .animate-page-bounce,
+          .animate-inner-bounce,
+          .animate-inner-bounce-child {
+            animation-duration: 0.001ms !important;
+            animation-iteration-count: 1 !important;
+          }
         }
       `}</style>
     </div>
