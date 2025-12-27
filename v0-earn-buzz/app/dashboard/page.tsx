@@ -443,9 +443,41 @@ export default function DashboardPage() {
 
       {showClaimSuccess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
-          <div className="bg-tiv-1 text-white px-8 py-4 rounded-2xl shadow-2xl animate-bounce">
-            <p className="text-xl font-bold text-center">🎉 Congrats!</p>
-            <p className="text-lg text-center">₦1,000 has been claimed and added to your balance</p>
+          <div className="relative max-w-xs mx-4">
+            {/* Animated background glow */}
+            <div className="absolute -inset-8 bg-gradient-to-r from-green-500/20 to-emerald-500/20 blur-2xl rounded-3xl animate-pulse"></div>
+            
+            {/* Main notification */}
+            <div className="relative bg-gradient-to-br from-green-600 to-emerald-700 text-white rounded-2xl p-5 shadow-2xl border border-emerald-400/30 backdrop-blur-sm animate-slide-up">
+              {/* Confetti particles */}
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-16 h-8 overflow-hidden">
+                <div className="absolute w-2 h-2 bg-yellow-300 rounded-full top-0 left-1/4 animate-confetti-1"></div>
+                <div className="absolute w-2 h-2 bg-pink-300 rounded-full top-0 left-1/2 animate-confetti-2"></div>
+                <div className="absolute w-2 h-2 bg-blue-300 rounded-full top-0 left-3/4 animate-confetti-3"></div>
+              </div>
+              
+              {/* Icon */}
+              <div className="flex justify-center mb-3">
+                <div className="w-14 h-14 flex items-center justify-center bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full shadow-lg">
+                  <span className="text-2xl">🎉</span>
+                </div>
+              </div>
+              
+              {/* Content */}
+              <div className="text-center">
+                <h3 className="text-xl font-bold mb-1 animate-fade-in">Success!</h3>
+                <div className="flex items-center justify-center gap-1 mb-1">
+                  <span className="text-2xl font-bold text-yellow-300 animate-scale-in">₦1,000</span>
+                  <span className="text-sm opacity-90">credited</span>
+                </div>
+                <p className="text-sm opacity-80">Balance updated successfully</p>
+                
+                {/* Progress indicator */}
+                <div className="mt-3 h-1 bg-white/20 rounded-full overflow-hidden">
+                  <div className="h-full bg-white/50 rounded-full animate-progress"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -821,29 +853,6 @@ export default function DashboardPage() {
           }
         }
 
-        @keyframes fade-slide-up {
-          0% {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          10% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-          90% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-          100% {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-        }
-
-        .animate-fade-slide-up {
-          animation: fade-slide-up 2s ease-out forwards;
-        }
-
         .animate-shimmer {
           animation: shimmer 2s infinite;
         }
@@ -883,11 +892,94 @@ export default function DashboardPage() {
 
         .animate-pop-bounce-1 { animation: pop-in 0.4s ease-out; }
         .animate-pop-bounce-2 { animation: pop-in 0.5s ease-out; }
-                .animate-pop-bounce-3 { animation: pop-in 0.6s ease-out; }
-                .animate-pop-bounce-4 { animation: pop-in 0.7s ease-out; }
-                .animate-pop-bounce-5 { animation: pop-in 0.8s ease-out; }
-              `}
-              </style>
-            </div>
-          )
+        .animate-pop-bounce-3 { animation: pop-in 0.6s ease-out; }
+        .animate-pop-bounce-4 { animation: pop-in 0.7s ease-out; }
+        .animate-pop-bounce-5 { animation: pop-in 0.8s ease-out; }
+
+        /* New animations for the claim success notification */
+        @keyframes slide-up {
+          0% {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+          }
+          70% {
+            opacity: 1;
+            transform: translateY(-10px) scale(1.05);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
         }
+
+        @keyframes fade-in {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+
+        @keyframes scale-in {
+          0% {
+            opacity: 0;
+            transform: scale(0.5);
+          }
+          70% {
+            opacity: 1;
+            transform: scale(1.2);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes progress {
+          0% { width: 0%; }
+          100% { width: 100%; }
+        }
+
+        @keyframes confetti-1 {
+          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(60px) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes confetti-2 {
+          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(80px) rotate(-360deg); opacity: 0; }
+        }
+
+        @keyframes confetti-3 {
+          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(70px) rotate(180deg); opacity: 0; }
+        }
+
+        .animate-slide-up {
+          animation: slide-up 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.5s ease-out 0.2s both;
+        }
+
+        .animate-scale-in {
+          animation: scale-in 0.6s ease-out 0.1s both;
+        }
+
+        .animate-progress {
+          animation: progress 2.5s linear forwards;
+        }
+
+        .animate-confetti-1 {
+          animation: confetti-1 1s ease-out forwards;
+        }
+
+        .animate-confetti-2 {
+          animation: confetti-2 1.2s ease-out 0.1s forwards;
+        }
+
+        .animate-confetti-3 {
+          animation: confetti-3 1.1s ease-out 0.2s forwards;
+        }
+      `}</style>
+    </div>
+  )
+}
