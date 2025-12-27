@@ -256,7 +256,6 @@ export default function DashboardPage() {
     { name: "Loans", emoji: "💳", link: "/loan", color: "text-purple-600", bgColor: "" },
     { name: "Investments", emoji: "📈", link: "/investment", color: "text-violet-600", bgColor: "" },
     { name: "Daily Tasks", emoji: "🎁", link: "/task", color: "text-yellow-600", bgColor: "" },
-    { name: "Spin Wheel", emoji: "🎡", link: "/spin", color: "text-orange-500", bgColor: "" },
     {
       name: "Helping Hands Channel",
       emoji: "📢",
