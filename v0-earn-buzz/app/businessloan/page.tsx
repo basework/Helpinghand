@@ -280,7 +280,7 @@ export default function BusinessLoanPage() {
                     <SelectValue placeholder="Select a bank" />
                   </SelectTrigger>
                   <SelectContent 
-                    className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg max-h-[60vh] w-[95vw] sm:w-[var(--radix-select-trigger-width)] sm:max-h-64"
+                    className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg max-h-[60vh] max-w-[95vw] w-auto px-2 sm:w-[var(--radix-select-trigger-width)] sm:max-h-64"
                     position="popper"
                     side="bottom"
                     sideOffset={4}
