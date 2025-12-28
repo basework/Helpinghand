@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Search, Sparkles } from "lucide-react"
 
 export default function SetupWithdrawalAccountPage() {
   const router = useRouter()
@@ -18,58 +18,12 @@ export default function SetupWithdrawalAccountPage() {
   const [loading, setLoading] = useState(true)
   const [transitioning, setTransitioning] = useState(false)
   const dropdownRef = useRef<HTMLDivElement | null>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const [bankSearchInput, setBankSearchInput] = useState("")
 
-  const BANKS = [
-    "Moniepoint",
-    "Access Bank Plc",
-    "Guaranty Trust Bank Plc (GTBank)",
-    "Zenith Bank Plc",
-    "First Bank of Nigeria Ltd (FirstBank)",
-    "United Bank for Africa (UBA)",
-    "Union Bank of Nigeria Plc",
-    "Fidelity Bank Plc",
-    "Ecobank Nigeria Plc",
-    "Stanbic IBTC Bank Plc",
-    "Wema Bank Plc",
-    "First City Monument Bank (FCMB)",
-    "Sterling Bank Plc",
-    "Polaris Bank Plc",
-    "Keystone Bank Ltd",
-    "Providus Bank Ltd",
-    "Heritage Bank Plc",
-    "Standard Chartered Bank Nigeria Ltd",
-    "Titan Trust Bank Ltd",
-    "Globus Bank Ltd",
-    "Rubies Bank",
-    "Kuda Bank",
-    "Opay Bank",
-    "VFD Microfinance Bank",
-    "SunTrust Bank Nigeria Ltd",
-    "Nova Merchant Bank",
-    "PalmPay Bank",
-    "Sparkle (Access Product)",
-    "Parallex Bank",
-    "FSDH Merchant Bank",
-    "Renmoney Bank",
-    "FairMoney Bank",
-    "MintMFB",
-    "Paycom MFB",
-    "Mkobo MFB",
-    "Diamond Bank",
-    "Citibank Nigeria Limited",
-    "Eclectics International",
-    "Credit Direct MFB",
-    "Enterprise Bank",
-    "STB (Small Trust Bank)",
-    "Suburban MFB",
-    "Heritage Digital",
-    "MicroCred / Baobab",
-    "Other Popular Bank A",
-    "Other Popular Bank B",
-    "Other Popular Bank C",
-    "Other Popular Bank D",
-    "Other Popular Bank E"
-  ]
+  const filteredBanks = banksList.filter((bankItem) =>
+    bankItem.name.toLowerCase().includes(bankSearchInput.toLowerCase())
+  )
 
   // Handle dropdown outside click
   useEffect(() => {
@@ -81,6 +35,16 @@ export default function SetupWithdrawalAccountPage() {
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
+
+  // Focus search input when dropdown opens
+  useEffect(() => {
+    if (dropdownOpen && searchInputRef.current) {
+      // Small delay to ensure dropdown is fully open
+      setTimeout(() => {
+        searchInputRef.current?.focus()
+      }, 100)
+    }
+  }, [dropdownOpen])
 
   // Page initial loading popup
   useEffect(() => {
@@ -97,7 +61,10 @@ export default function SetupWithdrawalAccountPage() {
         if (!res.ok) return
         const data = await res.json()
         if (mounted && data && data.banks) {
-          setBanksList(data.banks)
+          const filteredList = data.banks.filter(
+            (bankItem: any) => !bankItem.name.toLowerCase().includes("goodnews microfinance")
+          )
+          setBanksList(filteredList)
         }
       } catch (err) {
         // ignore
@@ -161,6 +128,18 @@ export default function SetupWithdrawalAccountPage() {
     }, 5000)
   }
 
+  // Handle bank selection
+  const handleBankSelect = (bankName: string, code: string) => {
+    setBank(bankName)
+    setBankCode(code)
+    setDropdownOpen(false)
+    setBankSearchInput("") // Clear search when a bank is selected
+    setAccountNumber("")
+    setAccountName("")
+    setVerified(false)
+    setVerifyError("")
+  }
+
   // Loading popup
   if (loading || transitioning) {
     return (
@@ -215,12 +194,12 @@ export default function SetupWithdrawalAccountPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-700 via-green-900 to-black px-4 py-10 animate-fadeIn animate-page-bounce relative">
-      {/* Back Button */}
+      {/* Back Button - Updated like previous page */}
       <button
         onClick={() => router.back()}
-        className="absolute top-6 left-6 z-50 flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-emerald-200 hover:bg-white/20 hover:border-white/30 transition-all duration-200 text-sm font-medium group"
+        className="absolute top-6 left-6 z-50 flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white/90 hover:text-white transition-all duration-200 text-sm font-medium group"
       >
-        <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+        <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
         <span>Back</span>
       </button>
 
@@ -233,7 +212,7 @@ export default function SetupWithdrawalAccountPage() {
         </div>
 
         <div className="p-6 grid grid-cols-1 gap-5 animate-slideUp animate-inner-bounce-child delay-2">
-          {/* Bank Dropdown */}
+          {/* Bank Dropdown - Updated with search like previous page */}
           <div ref={dropdownRef} className="relative">
             <label className="block text-sm font-medium text-emerald-200 mb-2">Bank</label>
             <button
@@ -252,45 +231,92 @@ export default function SetupWithdrawalAccountPage() {
               </svg>
             </button>
             {dropdownOpen && (
-              <ul className="absolute z-40 mt-2 w-full max-h-72 overflow-y-auto rounded-md border border-white/8 bg-gradient-to-b from-green-800 via-green-900 to-green-950 shadow-lg animate-bounceIn">
-                {(banksList.length ? banksList.map((b, idx) => (
-                  <li
-                    key={idx}
-                    onClick={() => {
-                      setBank(b.name)
-                      setBankCode(b.code)
-                      setDropdownOpen(false)
-                      setAccountNumber("")
-                      setAccountName("")
-                      setVerified(false)
-                      setVerifyError("")
-                    }}
-                    className={`px-4 py-3 cursor-pointer select-none text-sm text-white hover:bg-white/10 transition ${
-                      bank === b.name ? "bg-white/20 font-medium" : ""
-                    }`}
-                  >
-                    {b.name}
-                  </li>
-                )) : BANKS.map((b, idx) => (
-                  <li
-                    key={idx}
-                    onClick={() => {
-                      setBank(b)
-                      setDropdownOpen(false)
-                      setAccountNumber("")
-                      setAccountName("")
-                      setVerified(false)
-                      setVerifyError("")
-                      setBankCode("")
-                    }}
-                    className={`px-4 py-3 cursor-pointer select-none text-sm text-white hover:bg-white/10 transition ${
-                      bank === b ? "bg-white/20 font-medium" : ""
-                    }`}
-                  >
-                    {b}
-                  </li>
-                )))}
-              </ul>
+              <div className="absolute z-50 mt-2 w-full bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg rounded-md overflow-hidden animate-bounceIn">
+                {/* Search bar at top - Same as previous page */}
+                <div className="sticky top-0 z-50 bg-gradient-to-r from-green-800 to-emerald-900 p-3 border-b border-emerald-700/50">
+                  <div className="relative">
+                    <div className="absolute left-3 top-1/2 transform -translate-y-1/2 flex items-center gap-2">
+                      <Search className="h-4 w-4 text-emerald-300" />
+                      <Sparkles className="h-3 w-3 text-amber-300 animate-pulse" />
+                    </div>
+                    <input
+                      ref={searchInputRef}
+                      type="text"
+                      placeholder="🔍 Search banks... Type to find your bank!"
+                      value={bankSearchInput}
+                      onChange={(e) => setBankSearchInput(e.target.value)}
+                      className="w-full rounded-lg px-12 py-3 bg-white/10 text-white placeholder:text-emerald-200/70 border border-emerald-500/30 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 text-sm transition-all duration-200 backdrop-blur-sm"
+                      style={{
+                        maxWidth: "100%",
+                        boxSizing: "border-box",
+                      }}
+                    />
+                    {bankSearchInput && (
+                      <button
+                        onClick={() => setBankSearchInput("")}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-emerald-300 hover:text-white text-sm bg-emerald-800/50 rounded-full w-6 h-6 flex items-center justify-center hover:bg-emerald-700/50 transition-colors"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex items-center justify-between mt-2">
+                    <span className="text-xs text-emerald-300/80">
+                      {filteredBanks.length} bank{filteredBanks.length !== 1 ? 's' : ''} found
+                    </span>
+                    <span className="text-xs text-amber-300/80 flex items-center gap-1">
+                      <Sparkles className="h-3 w-3" /> Quick search!
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Bank list - Mobile friendly with cute styling */}
+                <div 
+                  className="overflow-y-auto"
+                  style={{
+                    maxHeight: "calc(min(400px, calc(100vh - 150px)) - 120px)",
+                  }}
+                >
+                  {banksList.length > 0 ? (
+                    filteredBanks.length > 0 ? (
+                      filteredBanks.map((bankItem) => (
+                        <div 
+                          key={bankItem.code} 
+                          onClick={() => handleBankSelect(bankItem.name, bankItem.code)}
+                          className={`hover:bg-gradient-to-r hover:from-emerald-800/50 hover:to-green-800/50 cursor-pointer py-3 px-4 text-base sm:text-sm border-b border-emerald-900/30 last:border-b-0 transition-all duration-200 hover:pl-6 group ${
+                            bank === bankItem.name ? "bg-emerald-900/30" : ""
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-2 h-2 rounded-full bg-emerald-400 group-hover:bg-amber-400 transition-colors"></div>
+                            <span className="truncate">{bankItem.name}</span>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="p-6 text-center">
+                        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-900/50 mb-3">
+                          <Search className="h-6 w-6 text-emerald-300" />
+                        </div>
+                        <p className="text-emerald-200 font-medium">No banks found</p>
+                        <p className="text-sm text-emerald-300/70 mt-1">Try searching with different keywords</p>
+                      </div>
+                    )
+                  ) : (
+                    <div className="p-4 text-center">
+                      <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-900/50 animate-pulse mb-2">
+                        <Sparkles className="h-5 w-5 text-emerald-300" />
+                      </div>
+                      <p className="text-emerald-200">Loading banks...</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            {bank && (
+              <p className="text-xs text-emerald-300 mt-2">
+                Selected: <span className="font-medium">{bank}</span>
+              </p>
             )}
           </div>
 
@@ -302,9 +328,11 @@ export default function SetupWithdrawalAccountPage() {
                 value={accountNumber}
                 onChange={(e) => {
                   const v = e.target.value.replace(/\D/g, "")
-                  setAccountNumber(v)
-                  setVerified(false)
-                  setVerifyError("")
+                  if (v.length <= 10) {
+                    setAccountNumber(v)
+                    setVerified(false)
+                    setVerifyError("")
+                  }
                 }}
                 placeholder="Enter account number"
                 inputMode="numeric"
