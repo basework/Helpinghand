@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { ArrowLeft } from "lucide-react"
 
 export default function UpgradeTiersPage() {
   const router = useRouter()
@@ -68,11 +69,16 @@ export default function UpgradeTiersPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-600 via-purple-600 to-green-700 p-6 text-white animate-page-fade">
-      <div className="text-center space-y-2 mb-8 animate-slide-down">
-        <h1 className="text-3xl font-extrabold tracking-wide">Upgrade Your Tier</h1>
-        <p className="text-sm text-white/80">
-          One-time lifetime upgrade to unlock premium Helping Hands features.
-        </p>
+      <div className="flex items-center gap-4 mb-8 animate-slide-down">
+        <Button variant="ghost" size="sm" onClick={() => router.back()} className="text-white/90 hover:bg-white/10 p-2 rounded-lg">
+          <ArrowLeft className="h-5 w-5" />
+        </Button>
+        <div className="text-center space-y-2">
+          <h1 className="text-3xl font-extrabold tracking-wide">Upgrade Your Tier</h1>
+          <p className="text-sm text-white/80">
+            One-time lifetime upgrade to unlock premium Helping Hands features.
+          </p>
+        </div>
       </div>
 
       {/* Tier Buttons */}
