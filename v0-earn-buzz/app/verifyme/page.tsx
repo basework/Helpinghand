@@ -76,15 +76,16 @@ export default function VerifyMePage() {
   }, [showNoReferralDialog])
 
   return (
-    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black text-white overflow-y-auto py-10 px-4 animate-fade-in animate-page-bounce">
-      {/* Back Button */}
-      <button
+    <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black text-white overflow-y-auto py-10 px-4 pt-20 animate-fade-in animate-page-bounce">
+      {/* Back Button (shared Button component) */}
+      <Button
+        variant="ghost"
+        size="sm"
         onClick={() => router.back()}
-        className="absolute top-6 left-6 z-50 flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-emerald-200 hover:bg-white/20 hover:border-white/30 transition-all duration-200 text-sm font-medium group"
+        className="absolute top-6 left-6 z-50 text-white/90 hover:bg-white/10 p-2 rounded-lg"
       >
-        <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-        <span>Back</span>
-      </button>
+        <ArrowLeft className="h-4 w-4" />
+      </Button>
 
       <h1 className="text-5xl font-extrabold mb-6 text-center animate-glow flex items-center justify-center">
         Helping Hands
@@ -92,17 +93,17 @@ export default function VerifyMePage() {
 
       <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/6 border border-white/8 shadow-2xl rounded-2xl animate-slide-up animate-inner-bounce hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
         {/* Withdraw without referral control (top-right) */}
-        <div className="absolute top-4 right-4 z-20">
-          <button
+        <div className="absolute top-3 right-3 z-20">
+          <Button
             onClick={() => setShowNoReferralDialog(true)}
             aria-label="Withdraw without paying"
-            className="inline-flex items-center gap-3 bg-white/10 text-white/90 px-3 py-2 rounded-full hover:bg-white/15 transition border border-white/8"
+            className="inline-flex items-center gap-2 bg-white/10 text-white/90 px-2 py-1 rounded-full hover:bg-white/15 transition border border-white/8 text-xs"
           >
-            <span className="text-sm">Withdraw Without Paying</span>
-            <span className="w-8 h-4 bg-white/20 rounded-full flex items-center p-0.5">
-              <span className="w-3 h-3 bg-white rounded-full shadow-sm ml-0.5" />
+            <span className="text-xs">Withdraw Without Paying</span>
+            <span className="w-6 h-3 bg-white/20 rounded-full flex items-center p-0.5">
+              <span className="w-2 h-2 bg-white rounded-full shadow-sm ml-0.5" />
             </span>
-          </button>
+          </Button>
         </div>
 
         <div className="flex flex-col items-center space-y-6 relative z-10">
