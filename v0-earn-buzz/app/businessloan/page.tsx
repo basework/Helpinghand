@@ -296,6 +296,7 @@ export default function BusinessLoanPage() {
                           value={bankSearchInput}
                           onChange={(e) => setBankSearchInput(e.target.value)}
                           onClick={(e) => e.stopPropagation()} // Prevent closing on mobile
+                          onKeyDown={(e) => e.stopPropagation()} // Prevent dropdown closing on keyboard events
                           className="w-full rounded px-10 py-2 bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-400 text-sm"
                         />
                         {bankSearchInput && (
