@@ -91,7 +91,7 @@ export default function VerifyMePage() {
         Helping Hands
       </h1>
 
-      <Card className="relative z-10 max-w-md w-full p-10 backdrop-blur-lg bg-white/6 border border-white/8 shadow-2xl rounded-2xl animate-slide-up animate-inner-bounce hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
+      <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/6 border border-white/8 shadow-2xl rounded-2xl animate-slide-up animate-inner-bounce hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
         {/* Withdraw without referral control (top-right) */}
         <div className="absolute top-3 right-3 z-20">
           <label className="flex items-center gap-2 cursor-pointer">
