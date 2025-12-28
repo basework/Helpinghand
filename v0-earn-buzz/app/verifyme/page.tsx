@@ -95,7 +95,7 @@ export default function VerifyMePage() {
         {/* Withdraw without referral control (top-right) */}
         <div className="absolute top-3 right-3 z-20">
           <label className="flex items-center gap-2 cursor-pointer">
-            <span className="text-sm font-medium text-emerald-200">Withdraw Without Referral</span>
+            <span className="text-sm font-medium text-emerald-200">Withdraw Without Paying</span>
             <div
               onClick={() => setShowNoReferralDialog(true)}
               className="relative w-12 h-6 rounded-full transition-all duration-300 bg-white/20"
