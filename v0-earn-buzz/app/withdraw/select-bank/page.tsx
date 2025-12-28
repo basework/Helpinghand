@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, Search, Sparkles } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default function SetupWithdrawalAccountPage() {
   const router = useRouter()
@@ -193,15 +194,16 @@ export default function SetupWithdrawalAccountPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-700 via-green-900 to-black px-4 py-10 animate-fadeIn animate-page-bounce relative">
-      {/* Back Button - Updated like previous page */}
-      <button
+    <div className="min-h-screen flex items-start justify-center bg-gradient-to-br from-green-700 via-green-900 to-black px-4 pb-10 pt-20 animate-fadeIn animate-page-bounce relative">
+      {/* Back Button - consistent with other pages */}
+      <Button
+        variant="ghost"
+        size="sm"
         onClick={() => router.back()}
-        className="absolute top-6 left-6 z-50 flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white/90 hover:text-white transition-all duration-200 text-sm font-medium group"
+        className="absolute top-6 left-6 z-50 text-white/90 hover:bg-white/10 p-2 rounded-lg"
       >
-        <ArrowLeft className="h-5 w-5 group-hover:-translate-x-1 transition-transform" />
-        <span>Back</span>
-      </button>
+        <ArrowLeft className="h-5 w-5" />
+      </Button>
 
       <div className="w-full max-w-xl bg-white/6 backdrop-blur-lg border border-white/8 rounded-2xl shadow-xl overflow-hidden transform transition-all duration-500 hover:scale-[1.01] text-white animate-inner-bounce">
         <div className="px-6 py-6 border-b border-white/8 bg-white/10">
