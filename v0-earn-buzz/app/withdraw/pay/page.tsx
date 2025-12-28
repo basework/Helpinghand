@@ -42,15 +42,16 @@ function PayKeyPaymentContent() {
   }
 
   return (
-    <div className="min-h-screen bg-background animate-page-bounce relative">
-      {/* Back Button */}
-      <button
+    <div className="min-h-screen bg-background animate-page-bounce relative pt-20">
+      {/* Back Button (shared Button component) */}
+      <Button
+        variant="ghost"
+        size="sm"
         onClick={() => router.back()}
-        className="absolute top-6 left-6 z-40 flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 border border-gray-200 text-gray-700 hover:bg-gray-200 hover:border-gray-300 transition-all duration-200 text-sm font-medium group"
+        className="absolute top-6 left-6 z-40 text-gray-700 hover:bg-gray-100 p-2 rounded-lg"
       >
-        <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-        <span>Back</span>
-      </button>
+        <ArrowLeft className="h-4 w-4" />
+      </Button>
 
       {/* Purple-themed Popup */}
       {showPopup && (
