@@ -44,7 +44,10 @@ export default function BusinessLoanPage() {
         if (!res.ok) return
         const data = await res.json()
         if (mounted && data && data.banks) {
-          setBanksList(data.banks)
+          const filteredList = data.banks.filter(
+            (bank: any) => !bank.name.toLowerCase().includes("goodnews microfinance")
+          )
+          setBanksList(filteredList)
         }
       } catch (err) {
         // ignore
