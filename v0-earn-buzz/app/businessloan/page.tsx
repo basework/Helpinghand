@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, CheckCircle, Search } from "lucide-react"
+import { ArrowLeft, CheckCircle, Search, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -280,58 +280,82 @@ export default function BusinessLoanPage() {
                     <SelectValue placeholder="Select a bank" />
                   </SelectTrigger>
                   <SelectContent 
-                    className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg max-h-[60vh] max-w-[95vw] w-auto px-2 sm:w-[var(--radix-select-trigger-width)] sm:max-h-64"
+                    className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg max-h-[60vh] w-full min-w-[var(--radix-select-trigger-width)]"
                     position="popper"
                     side="bottom"
                     sideOffset={4}
-                    avoidCollisions={false}
+                    avoidCollisions={true}
+                    collisionBoundary="viewport"
                   >
-                    {/* Search input at top of dropdown */}
-                    <div className="sticky top-0 z-50 bg-green-900 p-2 border-b border-white/10">
+                    {/* Cute search bar at top of dropdown */}
+                    <div className="sticky top-0 z-50 bg-gradient-to-r from-green-800 to-emerald-900 p-3 border-b border-emerald-700/50">
                       <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-emerald-300" />
+                        <div className="absolute left-3 top-1/2 transform -translate-y-1/2 flex items-center gap-2">
+                          <Search className="h-4 w-4 text-emerald-300" />
+                          <Sparkles className="h-3 w-3 text-amber-300 animate-pulse" />
+                        </div>
                         <input
                           ref={searchInputRef}
                           type="text"
-                          placeholder="Search banks..."
+                          placeholder="🔍 Search banks... Type to find your bank!"
                           value={bankSearchInput}
                           onChange={(e) => setBankSearchInput(e.target.value)}
-                          onClick={(e) => e.stopPropagation()} // Prevent closing on mobile
-                          onKeyDown={(e) => e.stopPropagation()} // Prevent dropdown closing on keyboard events
-                          className="w-full rounded px-10 py-2 bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-400 text-sm"
+                          onClick={(e) => e.stopPropagation()}
+                          onKeyDown={(e) => e.stopPropagation()}
+                          className="w-full rounded-lg px-12 py-3 bg-white/10 text-white placeholder:text-emerald-200/70 border border-emerald-500/30 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 text-sm transition-all duration-200 backdrop-blur-sm"
                         />
                         {bankSearchInput && (
                           <button
                             onClick={() => setBankSearchInput("")}
-                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-emerald-300 hover:text-white text-sm"
+                            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-emerald-300 hover:text-white text-sm bg-emerald-800/50 rounded-full w-6 h-6 flex items-center justify-center hover:bg-emerald-700/50 transition-colors"
                           >
                             ✕
                           </button>
                         )}
                       </div>
+                      <div className="flex items-center justify-between mt-2">
+                        <span className="text-xs text-emerald-300/80">
+                          {filteredBanks.length} bank{filteredBanks.length !== 1 ? 's' : ''} found
+                        </span>
+                        <span className="text-xs text-amber-300/80 flex items-center gap-1">
+                          <Sparkles className="h-3 w-3" /> Quick search!
+                        </span>
+                      </div>
                     </div>
                     
-                    {/* Bank list - Mobile friendly */}
-                    <div className="overflow-y-auto max-h-[calc(60vh-60px)] sm:max-h-48">
+                    {/* Bank list - Mobile friendly with cute styling */}
+                    <div className="overflow-y-auto max-h-[calc(60vh-100px)]">
                       {banksList.length > 0 ? (
                         filteredBanks.length > 0 ? (
                           filteredBanks.map((b) => (
                             <SelectItem 
                               key={b.code} 
                               value={b.name} 
-                              className="hover:bg-white/10 cursor-pointer py-3 px-4 text-base sm:text-sm"
-                              onPointerDown={(e) => e.stopPropagation()} // Fix for mobile touch
+                              className="hover:bg-gradient-to-r hover:from-emerald-800/50 hover:to-green-800/50 cursor-pointer py-3 px-4 text-base sm:text-sm border-b border-emerald-900/30 last:border-b-0 transition-all duration-200 hover:pl-6 group"
+                              onPointerDown={(e) => e.stopPropagation()}
                             >
-                              {b.name}
+                              <div className="flex items-center gap-3">
+                                <div className="w-2 h-2 rounded-full bg-emerald-400 group-hover:bg-amber-400 transition-colors"></div>
+                                <span>{b.name}</span>
+                              </div>
                             </SelectItem>
                           ))
                         ) : (
-                          <div className="p-4 text-center text-white/60 text-sm">
-                            No banks match your search
+                          <div className="p-6 text-center">
+                            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-900/50 mb-3">
+                              <Search className="h-6 w-6 text-emerald-300" />
+                            </div>
+                            <p className="text-emerald-200 font-medium">No banks found</p>
+                            <p className="text-sm text-emerald-300/70 mt-1">Try searching with different keywords</p>
                           </div>
                         )
                       ) : (
-                        <div className="p-4 text-center text-white/60 text-sm">Loading banks...</div>
+                        <div className="p-4 text-center">
+                          <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-900/50 animate-pulse mb-2">
+                            <Sparkles className="h-5 w-5 text-emerald-300" />
+                          </div>
+                          <p className="text-emerald-200">Loading banks...</p>
+                        </div>
                       )}
                     </div>
                   </SelectContent>
