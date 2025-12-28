@@ -94,16 +94,19 @@ export default function VerifyMePage() {
       <Card className="relative z-10 max-w-md w-full p-8 backdrop-blur-lg bg-white/6 border border-white/8 shadow-2xl rounded-2xl animate-slide-up animate-inner-bounce hover:scale-[1.03] hover:shadow-xl transition-transform duration-500 overflow-hidden">
         {/* Withdraw without referral control (top-right) */}
         <div className="absolute top-3 right-3 z-20">
-          <Button
-            onClick={() => setShowNoReferralDialog(true)}
-            aria-label="Withdraw without paying"
-            className="inline-flex items-center gap-2 bg-white/10 text-white/90 px-2 py-1 rounded-full hover:bg-white/15 transition border border-white/8 text-xs"
-          >
-            <span className="text-xs">Withdraw Without Paying</span>
-            <span className="w-6 h-3 bg-white/20 rounded-full flex items-center p-0.5">
-              <span className="w-2 h-2 bg-white rounded-full shadow-sm ml-0.5" />
-            </span>
-          </Button>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <span className="text-sm font-medium text-emerald-200">Withdraw Without Referral</span>
+            <div
+              onClick={() => setShowNoReferralDialog(true)}
+              className="relative w-12 h-6 rounded-full transition-all duration-300 bg-white/20"
+              role="switch"
+              aria-checked={showNoReferralDialog}
+            >
+              <div
+                className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-md transform transition-all duration-300 ${showNoReferralDialog ? "translate-x-6" : ""}`}
+              />
+            </div>
+          </label>
         </div>
 
         <div className="flex flex-col items-center space-y-6 relative z-10">
