@@ -1,7 +1,5 @@
-"use client"
-
 import { useState, useEffect, useRef } from "react"
-import { useRouter } from "next/navigation"
+import { useNavigate } from "react-router-dom"
 import { ArrowLeft, CheckCircle, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -15,8 +13,30 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+// Mock banks data since we don't have the API
+const MOCK_BANKS = [
+  { name: "Access Bank", code: "044" },
+  { name: "Citibank Nigeria", code: "023" },
+  { name: "Ecobank Nigeria", code: "050" },
+  { name: "Fidelity Bank", code: "070" },
+  { name: "First Bank of Nigeria", code: "011" },
+  { name: "First City Monument Bank", code: "214" },
+  { name: "Guaranty Trust Bank", code: "058" },
+  { name: "Heritage Bank", code: "030" },
+  { name: "Keystone Bank", code: "082" },
+  { name: "Polaris Bank", code: "076" },
+  { name: "Stanbic IBTC Bank", code: "221" },
+  { name: "Standard Chartered Bank", code: "068" },
+  { name: "Sterling Bank", code: "232" },
+  { name: "Union Bank of Nigeria", code: "032" },
+  { name: "United Bank for Africa", code: "033" },
+  { name: "Unity Bank", code: "215" },
+  { name: "Wema Bank", code: "035" },
+  { name: "Zenith Bank", code: "057" },
+]
+
 export default function BusinessLoanPage() {
-  const router = useRouter()
+  const navigate = useNavigate()
   const [loanAmount, setLoanAmount] = useState("")
   const [accountNumber, setAccountNumber] = useState("")
   const [selectedBank, setSelectedBank] = useState("")
@@ -35,35 +55,10 @@ export default function BusinessLoanPage() {
   const MAX_LOAN = 5000000
   const PROCESSING_RATE = 0.03
 
-  // Fetch banks from server on mount (same as withdrawal page)
+  // Load mock banks on mount
   useEffect(() => {
-    let mounted = true
-    ;(async () => {
-      try {
-        const res = await fetch(`/api/banks`)
-        if (!res.ok) return
-        const data = await res.json()
-        if (mounted && data && data.banks) {
-          setBanksList(data.banks)
-        }
-      } catch (err) {
-        // ignore
-      }
-    })()
-    return () => {
-      mounted = false
-    }
+    setBanksList(MOCK_BANKS)
   }, [])
-
-  // Focus search input when dropdown opens
-  useEffect(() => {
-    if (searchInputRef.current) {
-      // Small delay to ensure dropdown is fully open
-      setTimeout(() => {
-        searchInputRef.current?.focus()
-      }, 100)
-    }
-  }, [selectedBank]) // This triggers when dropdown state changes
 
   const [verifying, setVerifying] = useState(false)
   const [verified, setVerified] = useState(false)
@@ -99,19 +94,13 @@ export default function BusinessLoanPage() {
     }
 
     const fee = Math.ceil(loanAmountNum * PROCESSING_RATE)
-    const url = new URL("/withdraw/bank-transfer", window.location.origin)
-    url.searchParams.set("amount", fee.toString())
-    url.searchParams.set("loanAmount", loanAmountNum.toString())
-    url.searchParams.set("accountNumber", accountNumber.replace(/\D/g, ""))
-    url.searchParams.set("selectedBank", selectedBank)
-    url.searchParams.set("accountName", accountName)
     setSubmitting(true)
     setTimeout(() => {
-      router.push(url.toString())
+      navigate(`/withdraw/bank-transfer?amount=${fee}&loanAmount=${loanAmountNum}&accountNumber=${accountNumber.replace(/\D/g, "")}&selectedBank=${encodeURIComponent(selectedBank)}&accountName=${encodeURIComponent(accountName)}`)
     }, 450)
   }
 
-  // Auto-verify account when 10-digit account number and bank code is found
+  // Mock verify account
   async function verifyAccount() {
     setVerifyError(null)
     setVerified(false)
@@ -122,7 +111,7 @@ export default function BusinessLoanPage() {
       return
     }
 
-    const found = banksList.find((b: any) => b.name === selectedBank)
+    const found = banksList.find((b) => b.name === selectedBank)
 
     if (!found || !found.code) {
       setVerifyError("Bank not supported for automatic verification — please enter the account name manually")
@@ -130,29 +119,13 @@ export default function BusinessLoanPage() {
     }
 
     setVerifying(true)
-    try {
-      const res = await fetch(`/api/verify-account`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ account_number: cleaned, bank_code: found.code }),
-      })
-      const data = await res.json()
-
-      if (!res.ok || data.error) {
-        setVerifyError(data.error || data.message || "Failed to verify account")
-        setVerified(false)
-      } else {
-        const resolvedName = data.account_name || data.data?.account_name || ""
-        setAccountName(resolvedName)
-        setVerified(true)
-        setVerifyError(null)
-      }
-    } catch (err) {
-      setVerifyError("Failed to verify account")
-      setVerified(false)
-    } finally {
+    // Mock verification delay
+    setTimeout(() => {
+      setAccountName("JOHN DOE")
+      setVerified(true)
+      setVerifyError(null)
       setVerifying(false)
-    }
+    }, 1000)
   }
 
   useEffect(() => {
@@ -174,7 +147,7 @@ export default function BusinessLoanPage() {
   // Handle bank selection
   const handleBankSelect = (value: string) => {
     setSelectedBank(value)
-    setBankSearchInput("") // Clear search when a bank is selected
+    setBankSearchInput("")
   }
 
   return (
@@ -184,7 +157,7 @@ export default function BusinessLoanPage() {
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
-          <Button variant="ghost" size="sm" onClick={() => router.back()} className="text-white/90 hover:bg-white/10 p-2 rounded-lg">
+          <Button variant="ghost" size="sm" onClick={() => navigate(-1)} className="text-white/90 hover:bg-white/10 p-2 rounded-lg">
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div>
@@ -196,7 +169,7 @@ export default function BusinessLoanPage() {
         </div>
 
         <main className="space-y-6">
-          <Card className="p-6 rounded-3xl bg-white/6 backdrop-blur-lg border border-white/8 shadow-2xl">
+          <Card className="p-6 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 shadow-2xl">
             <div className="flex items-start gap-4">
               <div className="p-3 rounded-full bg-gradient-to-br from-green-600 to-amber-300 text-black shadow-md">
                 <CheckCircle className="h-6 w-6" />
@@ -213,7 +186,7 @@ export default function BusinessLoanPage() {
             </div>
           </Card>
 
-          <Card className="p-6 rounded-3xl bg-white/6 backdrop-blur-lg border border-white/8 shadow-2xl">
+          <Card className="p-6 rounded-3xl bg-white/5 backdrop-blur-lg border border-white/10 shadow-2xl">
             <h2 className="text-2xl font-bold mb-6 text-emerald-200 animate-inner-bounce-child delay-0">Apply for Business Loan</h2>
 
             <div className="grid grid-cols-1 gap-5 animate-slideUp animate-inner-bounce-child delay-1">
@@ -228,7 +201,7 @@ export default function BusinessLoanPage() {
                   placeholder="Enter amount between 500,000 and 5,000,000"
                   value={loanAmount}
                   onChange={(e) => setLoanAmount(e.target.value)}
-                  className="w-full rounded-md border border-white/8 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white placeholder:text-white/60"
+                  className="w-full rounded-md border border-white/10 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white placeholder:text-white/60"
                 />
               </div>
 
@@ -244,7 +217,7 @@ export default function BusinessLoanPage() {
                       const v = e.target.value.replace(/\D/g, "")
                       if (v.length <= 10) setAccountNumber(v)
                     }}
-                    className="flex-1 rounded-md border border-white/8 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white placeholder:text-white/60"
+                    className="flex-1 rounded-md border border-white/10 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white placeholder:text-white/60"
                     maxLength={10}
                   />
                   <button
@@ -256,7 +229,7 @@ export default function BusinessLoanPage() {
                     disabled={accountNumber.replace(/\D/g, "").length !== 10 || !selectedBank || verifying}
                     className={`rounded-md px-4 py-3 text-sm font-semibold transition-all ${
                       accountNumber.replace(/\D/g, "").length !== 10 || !selectedBank
-                        ? "bg-white/10 text-white/60 cursor-not-allowed border border-white/8"
+                        ? "bg-white/10 text-white/60 cursor-not-allowed border border-white/10"
                         : "bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 hover:shadow-lg border border-green-500/20"
                     } animate-inner-bounce-child delay-2`}
                   >
@@ -272,20 +245,19 @@ export default function BusinessLoanPage() {
                 </div>
               </div>
 
-              {/* Bank Dropdown - Mobile Fixed Version */}
+              {/* Bank Dropdown - FIXED: Added onKeyDown stopPropagation */}
               <div>
                 <Label className="block text-sm font-medium text-emerald-200 mb-2">Bank</Label>
                 <Select value={selectedBank} onValueChange={handleBankSelect}>
-                  <SelectTrigger className="w-full rounded-md border border-white/8 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white text-left">
+                  <SelectTrigger className="w-full rounded-md border border-white/10 bg-white/10 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition text-white text-left">
                     <SelectValue placeholder="Select a bank" />
                   </SelectTrigger>
                   <SelectContent 
-                    className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg max-h-[60vh] w-[95vw] sm:w-[var(--radix-select-trigger-width)] sm:max-h-64"
+                    className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/10 shadow-lg max-h-[60vh] w-[95vw] sm:w-[var(--radix-select-trigger-width)] sm:max-h-64"
                     position="popper"
                     sideOffset={4}
-                    avoidCollisions={false}
                   >
-                    {/* Search input at top of dropdown */}
+                    {/* Search input - FIXED: Added onKeyDown to stop Radix from capturing keystrokes */}
                     <div className="sticky top-0 z-50 bg-green-900 p-2 border-b border-white/10">
                       <div className="relative">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-emerald-300" />
@@ -295,12 +267,18 @@ export default function BusinessLoanPage() {
                           placeholder="Search banks..."
                           value={bankSearchInput}
                           onChange={(e) => setBankSearchInput(e.target.value)}
-                          onClick={(e) => e.stopPropagation()} // Prevent closing on mobile
+                          onClick={(e) => e.stopPropagation()}
+                          onKeyDown={(e) => e.stopPropagation()}
+                          onPointerDown={(e) => e.stopPropagation()}
                           className="w-full rounded px-10 py-2 bg-white/10 text-white placeholder:text-white/60 border border-white/20 focus:outline-none focus:ring-2 focus:ring-emerald-400 text-sm"
                         />
                         {bankSearchInput && (
                           <button
-                            onClick={() => setBankSearchInput("")}
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setBankSearchInput("")
+                            }}
+                            onPointerDown={(e) => e.stopPropagation()}
                             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-emerald-300 hover:text-white text-sm"
                           >
                             ✕
@@ -309,7 +287,7 @@ export default function BusinessLoanPage() {
                       </div>
                     </div>
                     
-                    {/* Bank list - Mobile friendly */}
+                    {/* Bank list */}
                     <div className="overflow-y-auto max-h-[calc(60vh-60px)] sm:max-h-48">
                       {banksList.length > 0 ? (
                         filteredBanks.length > 0 ? (
@@ -318,7 +296,6 @@ export default function BusinessLoanPage() {
                               key={b.code} 
                               value={b.name} 
                               className="hover:bg-white/10 cursor-pointer py-3 px-4 text-base sm:text-sm"
-                              onPointerDown={(e) => e.stopPropagation()} // Fix for mobile touch
                             >
                               {b.name}
                             </SelectItem>
@@ -358,7 +335,7 @@ export default function BusinessLoanPage() {
                     className={`w-full rounded-md border px-4 py-3 focus:outline-none focus:ring-2 transition text-white ${
                       verified
                         ? "border-emerald-800/30 bg-emerald-900/20 text-emerald-300 cursor-not-allowed focus:ring-emerald-400"
-                        : "border-white/8 bg-white/10 focus:ring-emerald-400 placeholder:text-white/60"
+                        : "border-white/10 bg-white/10 focus:ring-emerald-400 placeholder:text-white/60"
                     }`}
                   />
                   {verified && (
@@ -376,7 +353,7 @@ export default function BusinessLoanPage() {
                 disabled={!loanAmount || !accountNumber || !selectedBank || !accountName || submitting}
                 className={`w-full inline-flex items-center justify-center rounded-md px-4 py-3 text-sm font-semibold transition-all ${
                   !loanAmount || !accountNumber || !selectedBank || !accountName
-                    ? "bg-white/10 text-white/60 cursor-not-allowed border border-white/8"
+                    ? "bg-white/10 text-white/60 cursor-not-allowed border border-white/10"
                     : "bg-gradient-to-r from-green-600 to-green-700 text-white hover:from-green-700 hover:to-green-800 hover:shadow-lg hover:scale-[1.02] border border-green-500/20"
                 } animate-inner-bounce-child delay-5`}
               >
@@ -390,53 +367,6 @@ export default function BusinessLoanPage() {
           </Card>
         </main>
       </div>
-
-      <style jsx global>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fadeIn {
-          animation: fadeIn 0.3s ease-out;
-        }
-        .animate-slideUp {
-          animation: slideUp 1s ease-in-out;
-        }
-
-        /* Page-wide gentle bounce */
-        @keyframes gentleBouncePage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-        .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
-
-        /* Subtler inner bounce for the box and its children */
-        @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-        .animate-inner-bounce-child { animation: gentleBounceInner 1.6s ease-in-out infinite; }
-
-        /* Staggered delays for a slightly organic motion */
-        .delay-0 { animation-delay: 0s; }
-        .delay-1 { animation-delay: 0.12s; }
-        .delay-2 { animation-delay: 0.24s; }
-        .delay-3 { animation-delay: 0.36s; }
-        .delay-4 { animation-delay: 0.48s; }
-        .delay-5 { animation-delay: 0.60s; }
-        .delay-6 { animation-delay: 0.72s; }
-      `}</style>
     </div>
   )
 }
