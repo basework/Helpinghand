@@ -282,8 +282,9 @@ export default function BusinessLoanPage() {
                   <SelectContent 
                     className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg max-h-[60vh] w-[95vw] sm:w-[var(--radix-select-trigger-width)] sm:max-h-64"
                     position="popper"
+                    side="bottom"
                     sideOffset={4}
-                    avoidCollisions={true}
+                    avoidCollisions={false}
                   >
                     {/* Search input at top of dropdown */}
                     <div className="sticky top-0 z-50 bg-green-900 p-2 border-b border-white/10">
