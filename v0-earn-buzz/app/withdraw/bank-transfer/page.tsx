@@ -21,6 +21,12 @@ function PayKeyPaymentContent() {
 
   const [copiedField, setCopiedField] = useState<string | null>(null)
 
+  const formatNumber = (val: string | number) => {
+    const n = Number(String(val).replace(/[^0-9.-]/g, ""))
+    if (isNaN(n)) return String(val)
+    return n.toLocaleString("en-NG")
+  }
+
   const copyToClipboard = (text: string, field: string) => {
     navigator.clipboard.writeText(text)
     setCopiedField(field)
@@ -28,7 +34,8 @@ function PayKeyPaymentContent() {
   }
 
   const handleConfirmPayment = () => {
-    const params = new URLSearchParams({ fullName, amount })
+    const rawAmount = String(amount).replace(/[^0-9.-]/g, "")
+    const params = new URLSearchParams({ fullName, amount: rawAmount })
     router.push(`/paykeys/confirmation?${params.toString()}`)
   }
 
@@ -49,7 +56,7 @@ function PayKeyPaymentContent() {
       <Card className="max-w-md w-full p-6 space-y-6 bg-white/6 backdrop-blur-lg border border-white/8 shadow-2xl rounded-2xl animate-inner-bounce">
         <div className="text-center">
           <h2 className="text-lg font-semibold mb-2 text-emerald-200">Complete this bank transfer to proceed</h2>
-          <p className="text-2xl font-extrabold text-amber-300 animate-inner-bounce-child delay-1">₦ {amount}</p>
+          <p className="text-2xl font-extrabold text-amber-300 animate-inner-bounce-child delay-1">₦ {formatNumber(amount)}</p>
         </div>
 
         <div className="space-y-4">
