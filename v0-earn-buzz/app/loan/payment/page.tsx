@@ -73,13 +73,14 @@ export default function LoanPaymentPage() {
       {/* Header */}
       <div className="w-full max-w-md bg-white shadow-sm p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => router.back()}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 border border-gray-200 text-gray-700 hover:bg-gray-200 hover:border-gray-300 transition-all duration-200 text-sm font-medium group"
+            className="mr-2 text-gray-700 hover:bg-gray-200"
           >
-            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-            <span>Back</span>
-          </button>
+            <ArrowLeft className="h-6 w-6" />
+          </Button>
           <h1 className="text-lg font-semibold text-gray-800">Pay Loan Fee</h1>
         </div>
         <div className="flex items-center gap-2">
@@ -88,7 +89,7 @@ export default function LoanPaymentPage() {
       </div>
 
       {/* Main Content Area - Smaller View */}
-      <div className="flex-1 w-full max-w-md p-4 flex flex-col">
+      <div className="flex-1 w-full max-w-md p-4 flex flex-col mt-4">
         <div className="text-center mb-4">
           <div className="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center mx-auto mb-2">
             <div className="w-8 h-8 rounded-full bg-orange-400"></div>
