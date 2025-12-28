@@ -280,12 +280,18 @@ export default function BusinessLoanPage() {
                     <SelectValue placeholder="Select a bank" />
                   </SelectTrigger>
                   <SelectContent 
-                    className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg max-h-[60vh] w-full min-w-[var(--radix-select-trigger-width)]"
+                    className="text-white bg-gradient-to-b from-green-800 via-green-900 to-green-950 border border-white/8 shadow-lg"
                     position="popper"
                     side="bottom"
                     sideOffset={4}
-                    avoidCollisions={true}
-                    collisionBoundary="viewport"
+                    avoidCollisions={false}
+                    collisionPadding={16}
+                    style={{
+                      maxHeight: "min(400px, calc(100vh - 150px))",
+                      maxWidth: "min(calc(100vw - 32px), 448px)",
+                      width: "var(--radix-select-trigger-width)",
+                      overflow: "hidden",
+                    }}
                   >
                     {/* Cute search bar at top of dropdown */}
                     <div className="sticky top-0 z-50 bg-gradient-to-r from-green-800 to-emerald-900 p-3 border-b border-emerald-700/50">
@@ -303,6 +309,10 @@ export default function BusinessLoanPage() {
                           onClick={(e) => e.stopPropagation()}
                           onKeyDown={(e) => e.stopPropagation()}
                           className="w-full rounded-lg px-12 py-3 bg-white/10 text-white placeholder:text-emerald-200/70 border border-emerald-500/30 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 text-sm transition-all duration-200 backdrop-blur-sm"
+                          style={{
+                            maxWidth: "100%",
+                            boxSizing: "border-box",
+                          }}
                         />
                         {bankSearchInput && (
                           <button
@@ -324,7 +334,12 @@ export default function BusinessLoanPage() {
                     </div>
                     
                     {/* Bank list - Mobile friendly with cute styling */}
-                    <div className="overflow-y-auto max-h-[calc(60vh-100px)]">
+                    <div 
+                      className="overflow-y-auto"
+                      style={{
+                        maxHeight: "calc(min(400px, calc(100vh - 150px)) - 120px)",
+                      }}
+                    >
                       {banksList.length > 0 ? (
                         filteredBanks.length > 0 ? (
                           filteredBanks.map((b) => (
@@ -336,7 +351,7 @@ export default function BusinessLoanPage() {
                             >
                               <div className="flex items-center gap-3">
                                 <div className="w-2 h-2 rounded-full bg-emerald-400 group-hover:bg-amber-400 transition-colors"></div>
-                                <span>{b.name}</span>
+                                <span className="truncate">{b.name}</span>
                               </div>
                             </SelectItem>
                           ))
