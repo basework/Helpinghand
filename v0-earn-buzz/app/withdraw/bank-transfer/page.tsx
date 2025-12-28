@@ -33,15 +33,16 @@ function PayKeyPaymentContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black overflow-y-auto py-10 px-4 text-white animate-page-bounce relative">
-      {/* Back Button */}
-      <button
+    <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black overflow-y-auto py-10 px-4 pt-20 text-white animate-page-bounce relative">
+      {/* Back Button (shared Button component) */}
+      <Button
+        variant="ghost"
+        size="icon"
         onClick={() => router.back()}
-        className="absolute top-6 left-6 z-50 flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10 border border-white/20 text-emerald-200 hover:bg-white/20 hover:border-white/30 transition-all duration-200 text-sm font-medium group"
+        className="absolute top-6 left-6 z-50 text-emerald-200 hover:bg-white/10"
       >
-        <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-        <span>Back</span>
-      </button>
+        <ArrowLeft className="h-5 w-5" />
+      </Button>
 
       <h1 className="text-5xl font-extrabold mb-6 text-center">Helping Hands</h1>
 
