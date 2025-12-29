@@ -2,7 +2,7 @@ export default function Head() {
   const site = "https://helpinghands.money"
   const title = "Dashboard — Helping Hands"
   const description = "Your Helping Hands dashboard — view balance, claim rewards, and manage your account."
-  const image = `${site}/dashboard%203.jpg`
+  const image = `${site}/dashboard-3.jpg`
 
   return (
     <>
