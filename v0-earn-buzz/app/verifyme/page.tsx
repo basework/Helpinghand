@@ -110,7 +110,7 @@ export default function VerifyMePage() {
         </div>
 
         <div className="flex flex-col items-center space-y-6 relative z-10">
-          <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center animate-bounce-slow">
+          <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center animate-bounce-slow mt-2">
             <ShieldCheck className="h-12 w-12 text-emerald-300" />
           </div>
 
