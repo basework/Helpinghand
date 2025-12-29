@@ -23,8 +23,9 @@ export function OpayWarningPopup({ onClose }: OpayWarningPopupProps) {
           <div className="flex-1">
             <h3 id="opay-warning-title" className="text-sm font-semibold text-gray-900">Payment Notice</h3>
             <p className="mt-1 text-xs text-gray-600 leading-snug">
-              Avoid Opay for transfers — we've seen failures/delays. Use Palmpay, Moniepoint, Kuda, First/Access Bank,
+              Avoid <strong>Opay</strong> for transfers — we've seen failures/delays. Use Palmpay, Moniepoint, Kuda, First/Access Bank,
               etc. for smoother processing.
+              <strong>And refrain from disputing your transaction with your bank; it will complicate things further.</strong>
             </p>
           </div>
 
