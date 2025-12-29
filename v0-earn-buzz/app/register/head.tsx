@@ -2,7 +2,7 @@ export default function Head() {
   const site = "https://helpinghands.money"
   const title = "Sign Up — Helping Hands"
   const description = "Create an account on Helping Hands and start earning rewards today."
-  const image = `${site}/og/register-preview.jpg`
+  const image = `${site}/og/register-preview-v2.jpg`
 
   return (
     <>
