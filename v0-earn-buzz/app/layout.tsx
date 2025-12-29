@@ -13,29 +13,7 @@ export const metadata: Metadata = {
     "Helping Hands is a financial & earning app that offers weekly cash rewards to new users",
   manifest: "/manifest.json",
   generator: "v0.dev",
-  openGraph: {
-    title: "Helping Hands",
-    description:
-      "Helping Hands is a financial & earning app that offers weekly cash rewards to new users",
-    url: "https://helpinghands.money",
-    siteName: "Helping Hands",
-    images: [
-      {
-        url: "https://helpinghands.money/placeholder-logo.png",
-        width: 1200,
-        height: 630,
-        alt: "Helping Hands",
-      },
-    ],
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Helping Hands",
-    description:
-      "Helping Hands is a financial & earning app that offers weekly cash rewards to new users",
-    images: ["https://helpinghands.money/placeholder-logo.png"],
-  },
+  // Per-route metadata handled in each route's head.tsx to avoid conflicts
 }
 
 export default function RootLayout({
