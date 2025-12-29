@@ -176,7 +176,7 @@ export default function VerifyMePage() {
               <DialogHeader>
                 <DialogTitle className="text-center text-lg text-emerald-200">Withdraw Without Paying</DialogTitle>
                 <DialogDescription className="text-center text-sm text-white/80">
-                  You don't have 20 referrals yet {referralCount !== null ? `(you have ${referralCount}/20)` : "(loading...)"}, so you're not eligible to withdraw without paying. Refer more users to become eligible.
+                  You don't have 50 referrals yet {referralCount !== null ? `(you have ${referralCount}/50)` : "(loading...)"}, so you're not eligible to withdraw without paying. Refer more users to become eligible.
                 </DialogDescription>
               </DialogHeader>
 
