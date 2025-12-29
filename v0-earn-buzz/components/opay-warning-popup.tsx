@@ -9,27 +9,45 @@ interface OpayWarningPopupProps {
 
 export function OpayWarningPopup({ onClose }: OpayWarningPopupProps) {
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg p-6 max-w-sm w-full">
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+    <div className="fixed inset-0 pointer-events-none z-50 p-4">
+      <div className="mx-auto max-w-xs w-full pointer-events-auto">
+        <div
+          role="dialog"
+          aria-labelledby="opay-warning-title"
+          className="relative bg-white/95 backdrop-blur-sm border border-gray-200 rounded-xl shadow-2xl overflow-hidden p-3 flex items-start gap-3 transform -translate-y-6 animate-opay-drop"
+        >
+          <div className="flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-red-50">
             <AlertTriangle className="h-5 w-5 text-red-600" />
           </div>
+
           <div className="flex-1">
-            <h3 className="font-semibold text-lg mb-2">Important Notice</h3>
-            <p className="text-gray-600 text-sm mb-4">
-              Please do not use Opay bank for payments. We are currently experiencing issues with Opay transfers. Use
-              other banks like Palmpay, Moniepoint, Kuda, Access Bank, First Bank, etc.
+            <h3 id="opay-warning-title" className="text-sm font-semibold text-gray-900">Payment Notice</h3>
+            <p className="mt-1 text-xs text-gray-600 leading-snug">
+              Avoid Opay for transfers — we've seen failures/delays. Use Palmpay, Moniepoint, Kuda, First/Access Bank,
+              etc. for smoother processing.
             </p>
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8">
+
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="ml-3 text-gray-500 hover:text-gray-700 p-1 rounded-full"
+          >
             <X className="h-4 w-4" />
-          </Button>
+          </button>
         </div>
-        <Button onClick={onClose} className="w-full mt-4 bg-orange-600 hover:bg-orange-700">
-          ok, continue
-        </Button>
       </div>
+
+      <style jsx>{`
+        @keyframes opayDrop {
+          0% { opacity: 0; transform: translateY(-20px) scale(.98); }
+          60% { opacity: 1; transform: translateY(6px) scale(1.02); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-opay-drop {
+          animation: opayDrop 700ms cubic-bezier(.2,.9,.3,1) both;
+        }
+      `}</style>
     </div>
   )
 }
