@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Loader2, AlertTriangle, X, Volume2 } from "lucide-react"
+import PaymentWarningWrapper from "@/components/payment-warning-wrapper"
 
 const bankDetails = {
   Palmpay: {
@@ -46,8 +47,6 @@ export default function BuyBuzzCodePayment() {
     if (storedBank) {
       setSelectedBank(storedBank)
     }
-
-    setShowOpayWarning(true)
   }, [router])
 
   const playVoiceWarning = () => {
@@ -91,62 +90,8 @@ export default function BuyBuzzCodePayment() {
   const bankNameToShow = currentBankDetails ? selectedBank : "Palmpay"
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {showOpayWarning && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl p-6 max-w-sm mx-auto relative shadow-2xl border">
-            <button
-              onClick={() => setShowOpayWarning(false)}
-              className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </button>
-
-            <div className="text-center">
-              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <AlertTriangle className="w-10 h-10 text-red-600" />
-              </div>
-
-              <h3 className="text-xl font-bold text-red-600 mb-3">⚠️ PAYMENT WARNING!</h3>
-
-              <p className="text-gray-700 mb-6 text-sm leading-relaxed">
-                <strong className="text-red-600">Do not use Opay for payment!</strong>
-                <br />
-                <br />
-                Opay transactions frequently fail or experience significant delays. For faster and more reliable
-                processing, please select a different bank.
-              </p>
-
-              <div className="flex items-center justify-center mb-6">
-                <button
-                  onClick={playVoiceWarning}
-                  className="flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-200 transition-colors"
-                >
-                  <Volume2 className="w-4 h-4" />
-                  Play Voice Notice
-                </button>
-              </div>
-
-              <div className="space-y-3">
-                <button
-                  onClick={handleChangeBank}
-                  className="w-full bg-green-600 hover:bg-green-700 rounded-lg font-semibold text-sm transition-colors"
-                >
-                  Select Different Bank
-                </button>
-
-                <button
-                  onClick={() => setShowOpayWarning(false)}
-                  className="w-full bg-gray-200 text-gray-700 py-3 rounded-lg font-semibold text-sm hover:bg-gray-300 transition-colors"
-                >
-                  I Understand, Continue
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
+    <PaymentWarningWrapper>
+      <div className="min-h-screen bg-gray-50">
       <div className="max-w-sm mx-auto bg-white min-h-screen">
         {/* Header with logo and amount */}
         <div className="flex items-center justify-between p-4 border-b">
@@ -244,5 +189,6 @@ export default function BuyBuzzCodePayment() {
         </div>
       </div>
     </div>
+    </PaymentWarningWrapper>
   )
 }

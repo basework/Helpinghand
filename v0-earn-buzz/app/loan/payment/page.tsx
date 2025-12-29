@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Copy, Check, Lightbulb, Hash, Landmark, User2, X, ArrowLeft } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import PaymentWarningWrapper from "@/components/payment-warning-wrapper"
 
 export default function LoanPaymentPage() {
   const router = useRouter()
@@ -69,7 +70,8 @@ export default function LoanPaymentPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center animate-page-bounce">
+    <PaymentWarningWrapper>
+      <div className="min-h-screen bg-gray-50 flex flex-col items-center animate-page-bounce">
       {/* Header */}
       <div className="w-full max-w-md bg-white shadow-sm p-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -178,7 +180,8 @@ export default function LoanPaymentPage() {
           )}
         </Button>
       </div>
-
+    </PaymentWarningWrapper>
+      
       <style jsx global>{`
         @keyframes gentleBounceLoan { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         .animate-page-bounce { animation: gentleBounceLoan 1.6s ease-in-out infinite; }
