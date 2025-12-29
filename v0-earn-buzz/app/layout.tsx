@@ -17,11 +17,11 @@ export const metadata: Metadata = {
     title: "Helping Hands",
     description:
       "Helping Hands is a financial & earning app that offers weekly cash rewards to new users",
-    url: "https://helpinghands.example",
+    url: "https://helpinghands.money",
     siteName: "Helping Hands",
     images: [
       {
-        url: "/placeholder-logo.png",
+        url: "https://helpinghands.money/placeholder-logo.png",
         width: 1200,
         height: 630,
         alt: "Helping Hands",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     title: "Helping Hands",
     description:
       "Helping Hands is a financial & earning app that offers weekly cash rewards to new users",
-    images: ["/placeholder-logo.png"],
+    images: ["https://helpinghands.money/placeholder-logo.png"],
   },
 }
 
