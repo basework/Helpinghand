@@ -2,7 +2,7 @@ export default function Head() {
   const site = "https://helpinghands.money"
   const title = "Sign Up — Helping Hands"
   const description = "Create an account on Helping Hands and start earning rewards today."
-  const image = `${site}/placeholder.jpg`
+  const image = `${site}/register-preview.jpg`
 
   return (
     <>
@@ -16,7 +16,7 @@ export default function Head() {
       <meta property="og:image:type" content="image/jpeg" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
-      <meta property="og:image:alt" content="Helping Hands - Sign Up" />
+      <meta property="og:image:alt" content="Helping Hands - Create Your Account" />
       <link rel="image_src" href={image} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content={`${site}/register`} />
