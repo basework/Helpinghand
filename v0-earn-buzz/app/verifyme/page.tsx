@@ -6,6 +6,8 @@ import { Card } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { OpayWarningPopup } from "@/components/opay-warning-popup"
+import { useRef } from "react"
 
 export default function VerifyMePage() {
   const router = useRouter()
@@ -22,13 +24,18 @@ export default function VerifyMePage() {
   }, [])
 
   const handleProceed = () => {
-    setTimeout(() => {
+    // show Opay warning for 6s, then navigate to bank transfer
+    setShowOpayWarning(true)
+    const t = window.setTimeout(() => {
+      setShowOpayWarning(false)
       if (typeof window !== "undefined") {
         window.location.href = "/withdraw/bank-transfer"
       } else {
         router.push("/withdraw/bank-transfer")
       }
-    }, 3000)
+    }, 6000)
+    // ensure timer is cleared if component unmounts
+    timersRef.current.push(t)
   }
 
   // Load referral count from localStorage or API when component mounts
@@ -74,6 +81,16 @@ export default function VerifyMePage() {
     const t = setTimeout(() => setShowNoReferralDialog(false), 7000)
     return () => clearTimeout(t)
   }, [showNoReferralDialog])
+
+  const timersRef = useRef<number[]>([])
+  useEffect(() => {
+    return () => {
+      // cleanup any pending timeouts
+      timersRef.current.forEach((id) => clearTimeout(id))
+    }
+  }, [])
+
+  const [showOpayWarning, setShowOpayWarning] = useState(false)
 
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black text-white overflow-y-auto py-10 px-4 pt-20 animate-fade-in animate-page-bounce">
