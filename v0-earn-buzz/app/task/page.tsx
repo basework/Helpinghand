@@ -83,17 +83,17 @@ const AVAILABLE_TASKS: Task[] = [
     link: "https://www.facebook.com/share/17KSKa7LL8/?mibextid=wwXIfr",
     icon: "🎁",
   },
-  /*
-  // {
-  //   id: "effectivegatecpm-alternate",
-  //   platform: "Effective Gate CPM Alt",
-  //   description: "Tap our alternate ad link",
-  //   category: "Advertisement",
-  //   reward: 5000,
-  //   link: "https://www.effectivegatecpm.com/y6c7aemjpt?key=e3b856771d4c305092c7d2af31a4d78b",
-  //   icon: "💎",
-  // },
-  */
+  
+   {
+     id: "Winners hub",
+     platform: "Effective Gate CPM Alt",
+     description: "Tap our ad link to earn Extra money",
+     category: "Advertisement",
+     reward: 5000,
+    link: "https://bloggersin.vercel.app/",
+     icon: "💸💲",
+   },
+  
   {
     id: "Website ads",
     platform: "Telegram",
