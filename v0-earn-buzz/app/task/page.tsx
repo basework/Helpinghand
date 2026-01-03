@@ -86,7 +86,7 @@ const AVAILABLE_TASKS: Task[] = [
   
    {
      id: "Winners hub",
-     platform: "Effective Gate CPM Alt",
+     platform: "Winners hub",
      description: "Tap our ad link to earn Extra money",
      category: "Advertisement",
      reward: 5000,
