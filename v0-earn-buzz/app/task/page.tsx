@@ -129,7 +129,21 @@ export default function TaskPage() {
     setCompletedTasks(completed)
 
     const savedCooldowns = JSON.parse(localStorage.getItem("tivexx-task-cooldowns") || "{}")
-    setCooldowns(savedCooldowns)
+    
+    // Check if tasks should reset (daily reset at midnight)
+    const lastResetDate = localStorage.getItem("tivexx-last-reset-date")
+    const today = new Date().toDateString()
+    
+    if (lastResetDate !== today) {
+      // Reset all tasks for the new day
+      setCompletedTasks([])
+      setCooldowns({})
+      localStorage.setItem("tivexx-completed-tasks", "[]")
+      localStorage.setItem("tivexx-task-cooldowns", "{}")
+      localStorage.setItem("tivexx-last-reset-date", today)
+    } else {
+      setCooldowns(savedCooldowns)
+    }
   }, [router])
 
   // Persist verification state
@@ -192,8 +206,12 @@ export default function TaskPage() {
     setCompletedTasks(newCompleted)
     localStorage.setItem("tivexx-completed-tasks", JSON.stringify(newCompleted))
 
-    const cooldownUntil = Date.now() + 24 * 60 * 60 * 1000
-    const newCooldowns = { ...cooldowns, [task.id]: 24 * 60 * 60 * 1000 }
+    // Calculate time until midnight
+    const now = new Date()
+    const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
+    const timeUntilMidnight = tomorrow.getTime() - now.getTime()
+    
+    const newCooldowns = { ...cooldowns, [task.id]: timeUntilMidnight }
     setCooldowns(newCooldowns)
     localStorage.setItem("tivexx-task-cooldowns", JSON.stringify(newCooldowns))
 
