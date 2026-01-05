@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, Suspense } from "react"
-import { X, ArrowLeft } from "lucide-react"
+import { X, ArrowLeft, Copy, Check } from "lucide-react"
 
 function PayKeyPaymentContent() {
   const router = useRouter()
@@ -194,8 +194,23 @@ function PayKeyPaymentContent() {
           </div>
 
           {/* Instructions */}
-          <div className="text-sm text-muted-foreground leading-relaxed">
-            Transfer the exact amount to the account above with your ( Reference ID - 500222) for instant verification.
+          <div className="text-sm text-muted-foreground leading-relaxed flex items-center gap-2">
+            <span>Transfer the exact amount to the account above with your ( Narration: Support) for instant verification.</span>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText("Transfer the exact amount to the account above with your ( Narration: Support) for instant verification.")
+                setCopiedField("instruction")
+                setTimeout(() => setCopiedField(null), 2000)
+              }}
+              className="flex-shrink-0 p-1 hover:bg-gray-200 rounded transition-colors"
+              title="Copy instruction"
+            >
+              {copiedField === "instruction" ? (
+                <Check className="h-4 w-4 text-green-600" />
+              ) : (
+                <Copy className="h-4 w-4 text-gray-500 hover:text-gray-700" />
+              )}
+            </button>
           </div>
 
           {/* Payment Proof Section */}
