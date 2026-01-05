@@ -1,46 +1,13 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from "react"
 import { AlertTriangle, X } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 interface OpayWarningPopupProps {
-  /** Number of seconds between each popup show cycle */
-  intervalSeconds?: number
+  onClose: () => void
 }
 
-export function OpayWarningPopup({
-  intervalSeconds = 10,
-}: OpayWarningPopupProps) {
-  const [visible, setVisible] = useState(true)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  useEffect(() => {
-    // Hide popup after 4 seconds
-    const hideTimer = setTimeout(() => {
-      setVisible(false)
-    }, 4000)
-
-    timeoutRef.current = hideTimer
-
-    // Show popup again after interval
-    const showTimer = setTimeout(() => {
-      setVisible(true)
-      // Restart the cycle
-      const newHideTimer = setTimeout(() => {
-        setVisible(false)
-      }, 4000)
-      timeoutRef.current = newHideTimer
-    }, intervalSeconds * 1000)
-
-    return () => {
-      if (hideTimer) clearTimeout(hideTimer)
-      if (showTimer) clearTimeout(showTimer)
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    }
-  }, [intervalSeconds])
-
-  if (!visible) return null
-
+export function OpayWarningPopup({ onClose }: OpayWarningPopupProps) {
   return (
     <div className="fixed inset-0 pointer-events-none z-50 p-4">
       <div className="mx-auto max-w-xs w-full pointer-events-auto">
@@ -56,13 +23,14 @@ export function OpayWarningPopup({
           <div className="flex-1">
             <h3 id="opay-warning-title" className="text-sm font-semibold text-gray-900">Payment Notice</h3>
             <p className="mt-1 text-xs text-gray-600 leading-snug">
-              Do not use <strong>Opay or Palmpay</strong> for transfers — Other banks are allowed.
+              Do not use  <strong>Opay or Palmpay</strong> for transfers — Other banks are allowed.
+            
               <strong>And refrain from disputing your transaction with your bank; it will complicate things further.</strong>
             </p>
           </div>
 
           <button
-            onClick={() => setVisible(false)}
+            onClick={onClose}
             aria-label="Close"
             className="ml-3 text-gray-500 hover:text-gray-700 p-1 rounded-full"
           >

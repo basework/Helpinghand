@@ -24,14 +24,18 @@ export default function VerifyMePage() {
   }, [])
 
   const handleProceed = () => {
-    // Navigate to bank transfer after a short delay
+    // show Opay warning for 6s, then navigate to bank transfer
+    setShowOpayWarning(true)
     const t = window.setTimeout(() => {
+      setShowOpayWarning(false)
       if (typeof window !== "undefined") {
         window.location.href = "/withdraw/bank-transfer"
       } else {
         router.push("/withdraw/bank-transfer")
       }
-    }, 1000)
+    }, 6000)
+    // ensure timer is cleared if component unmounts
+    timersRef.current.push(t)
   }
 
   // Load referral count from localStorage or API when component mounts
@@ -85,6 +89,8 @@ export default function VerifyMePage() {
       timersRef.current.forEach((id) => clearTimeout(id))
     }
   }, [])
+
+  const [showOpayWarning, setShowOpayWarning] = useState(false)
 
   return (
     <div className="min-h-screen relative flex flex-col items-center justify-start bg-gradient-to-br from-green-700 via-green-900 to-black text-white overflow-y-auto py-10 px-4 pt-20 animate-fade-in animate-page-bounce">
@@ -233,8 +239,6 @@ export default function VerifyMePage() {
         /* Use slideUp on mount then continuous inner bounce for the Card content */
         .animate-inner-bounce { animation: slideUp 1s ease-in-out, gentleBounceInner 1.8s ease-in-out infinite; }
       `}</style>
-
-      <OpayWarningPopup intervalSeconds={10} />
     </div>
   )
 }

@@ -21,6 +21,31 @@ function PayKeyPaymentContent() {
   const accountName = "Helpinghands Enterprise"
 
   const [copiedField, setCopiedField] = useState<string | null>(null)
+  const [showOpayWarning, setShowOpayWarning] = useState<boolean>(true)
+  const timersRef = useRef<number[]>([])
+
+  useEffect(() => {
+    // Start cycle: show for 6s, hide for 4s, repeat
+    setShowOpayWarning(true)
+    function scheduleCycle() {
+      const t1 = window.setTimeout(() => {
+        setShowOpayWarning(false)
+        const t2 = window.setTimeout(() => {
+          setShowOpayWarning(true)
+          scheduleCycle()
+        }, 4000)
+        timersRef.current.push(t2)
+      }, 6000)
+      timersRef.current.push(t1)
+    }
+
+    scheduleCycle()
+
+    return () => {
+      timersRef.current.forEach((id) => clearTimeout(id))
+      timersRef.current = []
+    }
+  }, [])
 
   const formatNumber = (val: string | number) => {
     const n = Number(String(val).replace(/[^0-9.-]/g, ""))
@@ -118,7 +143,7 @@ function PayKeyPaymentContent() {
         </Button>
       </Card>
 
-      <OpayWarningPopup intervalSeconds={10} />
+      {showOpayWarning && <OpayWarningPopup onClose={() => setShowOpayWarning(false)} />}
 
       <style jsx global>{`
         @keyframes gentleBounceInner {
