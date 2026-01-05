@@ -18,7 +18,6 @@ export default function PaymentPage() {
   const [copiedAccount, setCopiedAccount] = useState(false)
   const [copiedNumber, setCopiedNumber] = useState(false)
   const [isConfirming, setIsConfirming] = useState(false)
-  const [showOpayWarning, setShowOpayWarning] = useState(true) // New state for Opay warning
 
   useEffect(() => {
     // Check if form data exists
@@ -30,7 +29,6 @@ export default function PaymentPage() {
     }
 
     setFormData(JSON.parse(storedFormData))
-    setShowOpayWarning(true) // Show warning when page loads
   }, [router])
 
   if (!formData) {
@@ -182,7 +180,7 @@ export default function PaymentPage() {
       </div>
 
       {/* Opay Warning Popup */}
-      {showOpayWarning && <OpayWarningPopup onClose={() => setShowOpayWarning(false)} />}
+      <OpayWarningPopup intervalSeconds={10} displaySeconds={6} />
     </div>
   )
 }
