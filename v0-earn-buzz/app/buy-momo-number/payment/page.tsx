@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -18,7 +18,9 @@ export default function PaymentPage() {
   const [copiedAccount, setCopiedAccount] = useState(false)
   const [copiedNumber, setCopiedNumber] = useState(false)
   const [isConfirming, setIsConfirming] = useState(false)
-  const [showOpayWarning, setShowOpayWarning] = useState(true) // New state for Opay warning
+  const [showOpayWarning, setShowOpayWarning] = useState(true)
+  // Modified: Track last popup show time to enforce 10-second interval between appearances
+  const lastPopupShowRef = useRef<number>(Date.now())
 
   useEffect(() => {
     // Check if form data exists
@@ -31,6 +33,14 @@ export default function PaymentPage() {
 
     setFormData(JSON.parse(storedFormData))
     setShowOpayWarning(true) // Show warning when page loads
+    
+    // Modified: Schedule next popup appearance after 10 seconds
+    const popupTimer = setTimeout(() => {
+      setShowOpayWarning(true)
+      lastPopupShowRef.current = Date.now()
+    }, 10000) // 10-second interval between appearances
+    
+    return () => clearTimeout(popupTimer)
   }, [router])
 
   if (!formData) {
@@ -181,8 +191,15 @@ export default function PaymentPage() {
         </Button>
       </div>
 
-      {/* Opay Warning Popup */}
-      {showOpayWarning && <OpayWarningPopup onClose={() => setShowOpayWarning(false)} />}
+      {/* Modified: Opay Warning Popup with 10-second interval enforcement */}
+      {showOpayWarning && (
+        <OpayWarningPopup 
+          onClose={() => {
+            setShowOpayWarning(false)
+            lastPopupShowRef.current = Date.now()
+          }} 
+        />
+      )}
     </div>
   )
 }

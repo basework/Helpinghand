@@ -25,18 +25,21 @@ function PayKeyPaymentContent() {
   const timersRef = useRef<number[]>([])
 
   useEffect(() => {
-    // Start cycle: show for 6s, hide for 4s, repeat
+    // Modified: Changed popup cycle from 6s show + 4s hide to 10-second interval between appearances
+    // Show popup immediately, then hide after 4 seconds
     setShowOpayWarning(true)
+    
     function scheduleCycle() {
-      const t1 = window.setTimeout(() => {
+      const hideTimer = window.setTimeout(() => {
         setShowOpayWarning(false)
-        const t2 = window.setTimeout(() => {
+        // Modified: Schedule next appearance after 10 seconds (enforcing 10s minimum interval)
+        const showTimer = window.setTimeout(() => {
           setShowOpayWarning(true)
-          scheduleCycle()
-        }, 4000)
-        timersRef.current.push(t2)
-      }, 6000)
-      timersRef.current.push(t1)
+          scheduleCycle() // Recursively schedule the next cycle
+        }, 10000) // 10-second interval between popup appearances
+        timersRef.current.push(showTimer)
+      }, 4000) // Keep popup visible for 4 seconds each time
+      timersRef.current.push(hideTimer)
     }
 
     scheduleCycle()

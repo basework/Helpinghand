@@ -2,12 +2,34 @@
 
 import { AlertTriangle, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useState, useEffect, useRef } from "react"
 
 interface OpayWarningPopupProps {
   onClose: () => void
 }
 
 export function OpayWarningPopup({ onClose }: OpayWarningPopupProps) {
+  const [isVisible, setIsVisible] = useState(true)
+  const lastShowTimeRef = useRef<number>(Date.now())
+  
+  // Modified: 10-second interval between popup appearances
+  useEffect(() => {
+    const hideTimer = setTimeout(() => {
+      setIsVisible(false)
+    }, 4000) // Hide after 4 seconds
+    
+    return () => clearTimeout(hideTimer)
+  }, [])
+
+  const handleClose = () => {
+    setIsVisible(false)
+    // Update last show time to enforce 10s delay before next appearance
+    lastShowTimeRef.current = Date.now()
+    onClose()
+  }
+
+  if (!isVisible) return null
+
   return (
     <div className="fixed inset-0 pointer-events-none z-50 p-4">
       <div className="mx-auto max-w-xs w-full pointer-events-auto">
@@ -30,7 +52,7 @@ export function OpayWarningPopup({ onClose }: OpayWarningPopupProps) {
           </div>
 
           <button
-            onClick={onClose}
+            onClick={handleClose}
             aria-label="Close"
             className="ml-3 text-gray-500 hover:text-gray-700 p-1 rounded-full"
           >

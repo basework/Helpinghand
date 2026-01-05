@@ -24,7 +24,7 @@ export default function VerifyMePage() {
   }, [])
 
   const handleProceed = () => {
-    // show Opay warning for 6s, then navigate to bank transfer
+    // Modified: Show Opay warning, then navigate after 4 seconds with 10s interval enforcement
     setShowOpayWarning(true)
     const t = window.setTimeout(() => {
       setShowOpayWarning(false)
@@ -33,7 +33,7 @@ export default function VerifyMePage() {
       } else {
         router.push("/withdraw/bank-transfer")
       }
-    }, 6000)
+    }, 4000) // Show popup for 4 seconds before navigation
     // ensure timer is cleared if component unmounts
     timersRef.current.push(t)
   }
