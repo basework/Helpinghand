@@ -4,54 +4,40 @@ import React, { useEffect, useRef, useState } from "react"
 import { AlertTriangle, X } from "lucide-react"
 
 interface OpayWarningPopupProps {
-  onClose?: () => void
-  /** Whether the popup should auto-repeat */
-  autoRepeat?: boolean
-  /** Number of seconds between each popup show (start times) */
+  /** Number of seconds between each popup show cycle */
   intervalSeconds?: number
-  /** How long (seconds) the popup stays visible each time */
-  displaySeconds?: number
 }
 
 export function OpayWarningPopup({
-  onClose,
-  autoRepeat = true,
   intervalSeconds = 10,
-  displaySeconds = 6,
 }: OpayWarningPopupProps) {
-  const [visible, setVisible] = useState(false)
-  const intervalRef = useRef<number | null>(null)
-  const hideTimerRef = useRef<number | null>(null)
+  const [visible, setVisible] = useState(true)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
-    // Show once immediately
-    const showNow = () => {
+    // Hide popup after 4 seconds
+    const hideTimer = setTimeout(() => {
+      setVisible(false)
+    }, 4000)
+
+    timeoutRef.current = hideTimer
+
+    // Show popup again after interval
+    const showTimer = setTimeout(() => {
       setVisible(true)
-      if (hideTimerRef.current) {
-        window.clearTimeout(hideTimerRef.current)
-      }
-      hideTimerRef.current = window.setTimeout(() => {
+      // Restart the cycle
+      const newHideTimer = setTimeout(() => {
         setVisible(false)
-      }, displaySeconds * 1000)
-    }
-
-    // Start immediate show
-    showNow()
-
-    if (autoRepeat) {
-      intervalRef.current = window.setInterval(showNow, intervalSeconds * 1000) as unknown as number
-    }
+      }, 4000)
+      timeoutRef.current = newHideTimer
+    }, intervalSeconds * 1000)
 
     return () => {
-      if (intervalRef.current) window.clearInterval(intervalRef.current)
-      if (hideTimerRef.current) window.clearTimeout(hideTimerRef.current)
+      if (hideTimer) clearTimeout(hideTimer)
+      if (showTimer) clearTimeout(showTimer)
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
-  }, [autoRepeat, intervalSeconds, displaySeconds])
-
-  const handleClose = () => {
-    setVisible(false)
-    if (onClose) onClose()
-  }
+  }, [intervalSeconds])
 
   if (!visible) return null
 
@@ -76,7 +62,7 @@ export function OpayWarningPopup({
           </div>
 
           <button
-            onClick={handleClose}
+            onClick={() => setVisible(false)}
             aria-label="Close"
             className="ml-3 text-gray-500 hover:text-gray-700 p-1 rounded-full"
           >

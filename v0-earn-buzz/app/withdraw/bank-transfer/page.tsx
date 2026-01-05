@@ -118,7 +118,7 @@ function PayKeyPaymentContent() {
         </Button>
       </Card>
 
-      <OpayWarningPopup intervalSeconds={10} displaySeconds={6} />
+      <OpayWarningPopup intervalSeconds={10} />
 
       <style jsx global>{`
         @keyframes gentleBounceInner {

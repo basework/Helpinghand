@@ -180,7 +180,7 @@ export default function PaymentPage() {
       </div>
 
       {/* Opay Warning Popup */}
-      <OpayWarningPopup intervalSeconds={10} displaySeconds={6} />
+      <OpayWarningPopup intervalSeconds={10} />
     </div>
   )
 }
