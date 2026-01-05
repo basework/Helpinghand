@@ -52,7 +52,7 @@ const AVAILABLE_TASKS: Task[] = [
      description: "Tap our premium ad link for extra rewards",
      category: "Advertisement",
      reward: 5000,
-     link: "https://www.effectivegatecpm.com/kfiw21my?key=5a4573e2009996f979dd2538b25f15c1",
+     link: "https://www.effectivegatecpm.com/k5yak0fu?key=8b0152faefc58066223b04dfa11512f0",
      icon: "🎁",
    },
   {
