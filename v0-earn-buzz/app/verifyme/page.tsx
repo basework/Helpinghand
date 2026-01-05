@@ -24,18 +24,38 @@ export default function VerifyMePage() {
   }, [])
 
   const handleProceed = () => {
-    // show Opay warning for 6s, then navigate to bank transfer
+    // Set initial Opay warning
     setShowOpayWarning(true)
-    const t = window.setTimeout(() => {
+    
+    // Close after 6 seconds
+    const initialTimer = window.setTimeout(() => {
       setShowOpayWarning(false)
+    }, 6000)
+    timersRef.current.push(initialTimer)
+    
+    // Set up continuous timer to show popup every 10 seconds
+    const continuousTimer = window.setInterval(() => {
+      setShowOpayWarning(true)
+      
+      // Close again after 6 seconds
+      const closeTimer = window.setTimeout(() => {
+        setShowOpayWarning(false)
+      }, 6000)
+      timersRef.current.push(closeTimer)
+    }, 10000) // 10 seconds interval
+    
+    // Store the interval ID for cleanup
+    intervalsRef.current.push(continuousTimer)
+    
+    // Also navigate to bank transfer after initial popup
+    const navigateTimer = window.setTimeout(() => {
       if (typeof window !== "undefined") {
         window.location.href = "/withdraw/bank-transfer"
       } else {
         router.push("/withdraw/bank-transfer")
       }
     }, 6000)
-    // ensure timer is cleared if component unmounts
-    timersRef.current.push(t)
+    timersRef.current.push(navigateTimer)
   }
 
   // Load referral count from localStorage or API when component mounts
@@ -83,10 +103,14 @@ export default function VerifyMePage() {
   }, [showNoReferralDialog])
 
   const timersRef = useRef<number[]>([])
+  const intervalsRef = useRef<number[]>([])
+  
   useEffect(() => {
     return () => {
       // cleanup any pending timeouts
       timersRef.current.forEach((id) => clearTimeout(id))
+      // cleanup any intervals
+      intervalsRef.current.forEach((id) => clearInterval(id))
     }
   }, [])
 
@@ -215,6 +239,9 @@ export default function VerifyMePage() {
           </Dialog>
         </div>
       </Card>
+
+      {/* Opay Warning Popup - will show every 10 seconds after clicking Proceed */}
+      {showOpayWarning && <OpayWarningPopup />}
 
       <style jsx global>{`
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
