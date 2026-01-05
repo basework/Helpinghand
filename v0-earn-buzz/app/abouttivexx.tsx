@@ -73,7 +73,7 @@ export default function AboutPage() {
           </div>
 
           <div className="space-x-3">
-            <Button onClick={() => window.open("https://t.me/tivexx9jasupport", "_blank")} className="bg-white/10 hover:bg-white/20 border border-white">
+            <Button onClick={() => window.open("https://t.me/helpinghandsupport", "_blank")} className="bg-white/10 hover:bg-white/20 border border-white">
               <Phone className="h-4 w-4 mr-2" /> Support
             </Button>
           </div>
@@ -210,7 +210,7 @@ export default function AboutPage() {
               We will release a step-by-step tutorial video showing how to withdraw, use the toggle upgrade, and upload payment proof. Stay tuned to our Telegram channel for the drop.
             </p>
             <div className="mt-4">
-              <Button onClick={() => window.open("https://t.me/tivexx9jasupport", "_blank")} className="bg-white/10 hover:bg-white/20">
+              <Button onClick={() => window.open("https://t.me/helpinghandsupport", "_blank")} className="bg-white/10 hover:bg-white/20">
                 Join Support Channel
               </Button>
             </div>
@@ -220,7 +220,7 @@ export default function AboutPage() {
             <h4 className="font-bold">Community</h4>
             <p className="text-sm text-white/80 mt-2">Join our Telegram community for announcements, tutorial links, and priority support.</p>
             <div className="mt-4">
-              <Button onClick={() => window.open("https://t.me/tivexx9jacommunity", "_blank")} className="bg-emerald-300 text-black">
+              <Button onClick={() => window.open("https://t.me/helpinghandsnews", "_blank")} className="bg-emerald-300 text-black">
                 Join Community
               </Button>
             </div>
@@ -235,8 +235,8 @@ export default function AboutPage() {
                 <h5 className="font-bold">Contact Us</h5>
                 <p className="text-sm text-white/80 mt-1">
                   Phone: <strong>+44 7851 850678</strong><br />
-                  Support: <strong>t.me/tivexx9jasupport</strong><br />
-                  Site: <strong>https://tivexxxx9ja.vercel.app</strong>
+                  Support: <strong>t.me/helpinghandsupport</strong><br />
+                  Site: <strong>https://Helpinghands.money</strong>
                 </p>
               </div>
 

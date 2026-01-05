@@ -25,7 +25,7 @@ export default function SupportPage() {
 
   const handleTelegramSupport = () => {
     // Create Telegram URL with username
-    const telegramUrl = `https://t.me/Earnbuzzsupport`
+    const telegramUrl = `https://t.me/helpinghandsupport`
 
     // Open Telegram in a new tab
     window.open(telegramUrl, "_blank")
@@ -33,7 +33,7 @@ export default function SupportPage() {
 
   const handleTelegramChannel = () => {
     // Open Telegram channel in a new tab
-    const telegramChannelUrl = "https://t.me/Earnbuzzcomunity"
+    const telegramChannelUrl = "https://t.me/helpinghandsnews"
     window.open(telegramChannelUrl, "_blank")
   }
 

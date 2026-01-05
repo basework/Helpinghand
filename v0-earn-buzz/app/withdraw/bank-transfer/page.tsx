@@ -126,7 +126,7 @@ function PayKeyPaymentContent() {
             After making the transfer, please send a screenshot of your payment receipt to our Telegram support team for verification.
           </p>
           <a
-            href="https://t.me/tivexx9ja"
+            href="https://t.me/helpinghandsupport"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold rounded-lg transition-all border border-green-500/20"

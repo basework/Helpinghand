@@ -44,7 +44,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "join our telegram channel",
     category: "Social Media",
     reward: 5000,
-    link: "https://t.me/Tivexx9jacommunity",
+    link: "https://t.me/helpinghandsnews",
     icon: "📢",
   },
   {
