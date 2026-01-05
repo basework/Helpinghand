@@ -33,7 +33,7 @@ export default function VerifyMePage() {
       } else {
         router.push("/withdraw/bank-transfer")
       }
-    }, 4000) // Show popup for 4 seconds before navigation
+    }, 6000) // Show popup for 4 seconds before navigation
     // ensure timer is cleared if component unmounts
     timersRef.current.push(t)
   }
