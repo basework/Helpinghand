@@ -18,26 +18,7 @@ interface Task {
 }
 
 const AVAILABLE_TASKS: Task[] = [
-  /*
-  // {
-  //   id: "effectivegatecpm-ad",
-  //   platform: "Tivexx9ja Partnaship Ad",
-  //   description: "Tap our ad link to earn Extra money",
-  //   category: "Advertisement",
-  //   reward: 5000,
-  //   link: "https://www.effectivegatecpm.com/ss7byyvk?key=1948aa06d1b260e8127ecf7f05d7529c",
-  //   icon: "🎯",
-  // },
-  // {
-  //   id: "effectivegatecpm-ad-2",
-  //   platform: "Tivexx9ja Partnaship Ad 2",
-  //   description: "Tap our premium ad link for extra rewards",
-  //   category: "Advertisement",
-  //   reward: 5000,
-  //   link: "https://www.effectivegatecpm.com/y6c7aemjpt?key=e3b856771d4c305092c7d2af31a4d78b",
-  //   icon: "🎁",
-  // },
-  */
+  
   {
     id: "telegram-channel",
     platform: "Telegram",
@@ -56,6 +37,24 @@ const AVAILABLE_TASKS: Task[] = [
     link: "https://whatsapp.com/channel/0029VbBollDDeOMzEi5fXV38",
     icon: "💬",
   },
+   {
+     id: "effectivegatecpm-ad",
+     platform: "Tivexx9ja Partnaship Ad",
+     description: "Tap our ad link to earn Extra money",
+     category: "Advertisement",
+     reward: 5000,
+     link: "https://www.effectivegatecpm.com/kfiw21my?key=5a4573e2009996f979dd2538b25f15c1",
+     icon: "🎯",
+   },
+   {
+     id: "effectivegatecpm-ad-2",
+     platform: "Tivexx9ja Partnaship Ad 2",
+     description: "Tap our premium ad link for extra rewards",
+     category: "Advertisement",
+     reward: 5000,
+     link: "https://www.effectivegatecpm.com/kfiw21my?key=5a4573e2009996f979dd2538b25f15c1",
+     icon: "🎁",
+   },
   {
     id: "tiktok-follow",
     platform: "TikTok",
