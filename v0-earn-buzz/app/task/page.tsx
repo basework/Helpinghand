@@ -62,7 +62,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "follow our tiktok page",
     category: "Social Media",
     reward: 5000,
-    link: "https://www.tiktok.com/@helpinghands01",
+    link: "https://www.tiktok.com/@helpinghands1001",
     icon: "🎵",
   },
   {
