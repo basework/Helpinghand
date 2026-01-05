@@ -62,7 +62,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "follow our tiktok page",
     category: "Social Media",
     reward: 5000,
-    link: "https://www.tiktok.com/@tivexx9ja",
+    link: "https://www.tiktok.com/@helpinghands1001",
     icon: "🎵",
   },
   {
@@ -71,7 +71,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "join our 2nd WhatsApp",
     category: "Social Media",
     reward: 5000,
-    link: "https://whatsapp.com/channel/0029Vb7JLVT8F2p6NI4EMJ01",
+    link: "https://whatsapp.com/channel/0029VbBVbEUCRs1vlJFR7o3i",
     icon: "🤖",
   },
   {
