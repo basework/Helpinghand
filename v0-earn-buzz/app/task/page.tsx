@@ -96,11 +96,11 @@ const AVAILABLE_TASKS: Task[] = [
   
   {
     id: "Website ads",
-    platform: "Telegram",
+    platform: "Youtube",
     description: "subscribe now",
     category: "Survey",
     reward: 5000,
-    link: "https://youtube.com/@tivexx9ja?si=ES80gH_IokScUeNz",
+    link: "https://www.youtube.com/@helpinghandss01",
     icon: "🌐",
   },
 ]
