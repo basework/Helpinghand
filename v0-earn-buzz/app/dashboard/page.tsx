@@ -305,7 +305,7 @@ export default function DashboardPage() {
     {
       name: "Helping Hands Channel",
       emoji: "📢",
-      link: "https://t.me/Tivexx9jacommunity",
+      link: "https://t.me/Helpinghandsnews",
       external: true,
       color: "text-blue-500",
       bgColor: "",
@@ -489,7 +489,7 @@ export default function DashboardPage() {
             <Button
               onClick={() => {
                 setShowReminderDialog(false)
-                window.open("https://t.me/Tivexx9jacommunity", "_blank")
+                window.open("https://t.me/Helpinghandsnews", "_blank")
               }}
               className="flex-1 bg-blue-600 hover:bg-blue-700"
             >
@@ -746,12 +746,12 @@ export default function DashboardPage() {
               <div className="text-xs text-tiv-3">24/7 support</div>
             </div>
             <div className="flex items-center gap-2">
-              <Link href="https://t.me/Tivexx9jasupport" target="_blank">
+              <Link href="https://t.me/Helpinghandsupport" target="_blank">
                 <Button className="h-10 w-10 rounded-full bg-blue-600 hover:bg-blue-500 active:scale-95">
                   <Headphones className="h-5 w-5 text-white" />
                 </Button>
               </Link>
-              <Link href="https://t.me/Tivexx9jacommunity" target="_blank">
+              <Link href="https://t.me/Helpinghandsnews" target="_blank">
                 <Button className="h-10 w-10 rounded-full bg-tiv-2 hover:opacity-95 active:scale-95 relative">
                   <Bell className="h-5 w-5 text-white" />
                   <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
