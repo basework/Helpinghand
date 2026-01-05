@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, Suspense, useEffect, useRef } from "react"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Copy, Check } from "lucide-react"
 import { OpayWarningPopup } from "@/components/opay-warning-popup"
 
 function PayKeyPaymentContent() {
@@ -22,6 +22,8 @@ function PayKeyPaymentContent() {
 
   const [copiedField, setCopiedField] = useState<string | null>(null)
   const [showOpayWarning, setShowOpayWarning] = useState<boolean>(true)
+  // Modified: State to track if reference ID text was copied
+  const [copiedRefId, setCopiedRefId] = useState(false)
   const timersRef = useRef<number[]>([])
 
   useEffect(() => {
@@ -133,9 +135,26 @@ function PayKeyPaymentContent() {
           </a>
         </div>
 
-        {/* Reference ID - placed below upload, as shown in the photo */}
+        {/* Modified: Reference ID display with 'support' text and copy button */}
         <div className="text-center mt-3 animate-inner-bounce-child delay-4">
-          <p className="text-xs text-white/60 tracking-widest">REFERENCE ID - {referenceId}</p>
+          <div className="flex items-center justify-center gap-2">
+            <p className="text-xs text-white/60 tracking-widest">REFERENCE ID - support</p>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText("support")
+                setCopiedRefId(true)
+                setTimeout(() => setCopiedRefId(false), 2000)
+              }}
+              className="p-1 hover:bg-white/10 rounded transition-colors"
+              title="Copy reference ID"
+            >
+              {copiedRefId ? (
+                <Check className="h-3 w-3 text-green-400" />
+              ) : (
+                <Copy className="h-3 w-3 text-white/40 hover:text-white/60" />
+              )}
+            </button>
+          </div>
         </div>
 
         <Button
