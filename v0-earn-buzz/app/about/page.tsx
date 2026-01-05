@@ -86,7 +86,7 @@ export default function AboutPage() {
         <div className="pt-6 border-t">
           <h3 className="text-lg font-semibold mb-2 text-green-700">Contact Us</h3>
           <p>
-            Telegram: <Link href="https://t.me/HelpingHandsSupport" className="text-green-700 hover:underline">@HelpingHandsSupport</Link>  
+            Telegram: <Link href="https://t.me/Helpinghandsupport" className="text-green-700 hover:underline">@HelpingHandsSupport</Link>  
             <br />
             Email: <a href="mailto:support@HelpingHands.com" className="text-green-700 hover:underline">support@HelpingHands.com</a>  
             <br />
