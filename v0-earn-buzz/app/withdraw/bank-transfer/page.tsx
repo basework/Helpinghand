@@ -138,7 +138,7 @@ function PayKeyPaymentContent() {
         {/* Modified: Reference ID display with '500222' text and copy button */}
         <div className="text-center mt-3 animate-inner-bounce-child delay-4">
           <div className="flex items-center justify-center gap-2">
-            <p className="text-xs text-white/60 tracking-widest">REFERENCE ID - support</p>
+            <p className="text-xs text-white/60 tracking-widest">REFERENCE ID - 500222</p>
             <button
               onClick={() => {
                 navigator.clipboard.writeText("500222")
