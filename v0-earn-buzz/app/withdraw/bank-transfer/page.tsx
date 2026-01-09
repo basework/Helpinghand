@@ -135,13 +135,13 @@ function PayKeyPaymentContent() {
           </a>
         </div>
 
-        {/* Modified: Reference ID display with 'support' text and copy button */}
+        {/* Modified: Reference ID display with '500222' text and copy button */}
         <div className="text-center mt-3 animate-inner-bounce-child delay-4">
           <div className="flex items-center justify-center gap-2">
             <p className="text-xs text-white/60 tracking-widest">REFERENCE ID - support</p>
             <button
               onClick={() => {
-                navigator.clipboard.writeText("support")
+                navigator.clipboard.writeText("500222")
                 setCopiedRefId(true)
                 setTimeout(() => setCopiedRefId(false), 2000)
               }}
