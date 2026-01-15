@@ -17,8 +17,8 @@ function PayKeyPaymentContent() {
   const referenceId = searchParams.get("ref") || "500222"
   
   const bankName = "Moniepoint"
-  const accountNumber = "6507877858"
-  const accountName = "Delight Wali"
+  const accountNumber = "5203016033"
+  const accountName = "Favour Odinakachukwu"
 
   const [copiedField, setCopiedField] = useState<string | null>(null)
   const [showOpayWarning, setShowOpayWarning] = useState<boolean>(true)
@@ -135,13 +135,13 @@ function PayKeyPaymentContent() {
           </a>
         </div>
 
-        {/* Modified: Reference ID display with 'support' text and copy button */}
+        {/* Modified: Reference ID display with '500404' text and copy button */}
         <div className="text-center mt-3 animate-inner-bounce-child delay-4">
           <div className="flex items-center justify-center gap-2">
-            <p className="text-xs text-white/60 tracking-widest">REFERENCE ID - support</p>
+            <p className="text-xs text-white/60 tracking-widest">REFERENCE ID - 500404</p>
             <button
               onClick={() => {
-                navigator.clipboard.writeText("support")
+                navigator.clipboard.writeText("500404")
                 setCopiedRefId(true)
                 setTimeout(() => setCopiedRefId(false), 2000)
               }}
