@@ -55,6 +55,15 @@ const AVAILABLE_TASKS: Task[] = [
      link: "https://www.effectivegatecpm.com/k5yak0fu?key=8b0152faefc58066223b04dfa11512f0",
      icon: "🎁",
    },
+   {
+     id: "Winners hub",
+     platform: "Winners hub",
+     description: "Tap our ad link to earn Extra money",
+     category: "Advertisement",
+     reward: 5000,
+    link: "https://bloggersin.vercel.app/",
+     icon: "💸💲",
+   },
   {
     id: "tiktok-follow",
     platform: "TikTok",
@@ -82,16 +91,6 @@ const AVAILABLE_TASKS: Task[] = [
     link: "https://www.facebook.com/share/17KSKa7LL8/?mibextid=wwXIfr",
     icon: "🎁",
   },
-  
-   {
-     id: "Winners hub",
-     platform: "Winners hub",
-     description: "Tap our ad link to earn Extra money",
-     category: "Advertisement",
-     reward: 5000,
-    link: "https://bloggersin.vercel.app/",
-     icon: "💸💲",
-   },
   
   {
     id: "Website ads",
