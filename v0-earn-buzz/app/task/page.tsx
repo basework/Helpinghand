@@ -56,6 +56,15 @@ const AVAILABLE_TASKS: Task[] = [
      icon: "🎁",
    },
    {
+     id: "spin-to-win-hub",
+     platform: "Spin to Win Hub",
+     description: "Spin and win amazing prizes",
+     category: "Advertisement",
+     reward: 5000,
+     link: "https://spin-to-win-hub-6676aed7.vercel.app/",
+     icon: "🎡",
+   },
+   {
      id: "Winners hub",
      platform: "Winners hub",
      description: "Tap our ad link to earn Extra money",
