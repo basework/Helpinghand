@@ -31,7 +31,7 @@ const AVAILABLE_TASKS: Task[] = [
   {
     id: "Telegram Channel Task 01",
     platform: "Telegram",
-    description: "join Helping Hands tssk channel",
+    description: "join Helping Hands task channel",
     category: "Social Media",
     reward: 5000,
     link: "https://t.me/helpinghtask1",
