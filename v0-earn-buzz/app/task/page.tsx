@@ -29,12 +29,12 @@ const AVAILABLE_TASKS: Task[] = [
     icon: "📢",
   },
   {
-    id: "whatsapp-channel",
-    platform: "WhatsApp",
-    description: "join Helping Hands whatsapp channel",
+    id: "Telegram Channel Task 01",
+    platform: "Telegram",
+    description: "join Helping Hands tssk channel",
     category: "Social Media",
     reward: 5000,
-    link: "https://whatsapp.com/channel/0029VbBollDDeOMzEi5fXV38",
+    link: "https://t.me/helpinghtask1",
     icon: "💬",
   },
    {
@@ -83,12 +83,12 @@ const AVAILABLE_TASKS: Task[] = [
     icon: "🎵",
   },
   {
-    id: "2nd WhatsApp",
-    platform: "Whatsapp",
-    description: "join our 2nd WhatsApp",
+    id: "Telegram Channel Task 02",
+    platform: "Telegram",
+    description: "join our task channel",
     category: "Social Media",
     reward: 5000,
-    link: "https://whatsapp.com/channel/0029VbBVbEUCRs1vlJFR7o3i",
+    link: "https://t.me/helpinghtask2",
     icon: "🤖",
   },
   {
