@@ -74,12 +74,12 @@ const AVAILABLE_TASKS: Task[] = [
      icon: "💸💲",
    },
   {
-    id: "tiktok-follow",
-    platform: "TikTok",
-    description: "follow our tiktok page",
+    id: "Join Nova Cash",
+    platform: "telegram",
+    description: "Join Nova Cash",
     category: "Social Media",
     reward: 5000,
-    link: "https://www.tiktok.com/@helpinghands1001",
+    link: "https://t.me/Nova_cash",
     icon: "🎵",
   },
   {
@@ -102,12 +102,12 @@ const AVAILABLE_TASKS: Task[] = [
   },
   
   {
-    id: "Website ads",
-    platform: "Youtube",
-    description: "subscribe now",
+    id: "Telegram Channel Task 03",
+    platform: "Telegram",
+    description: "join task now",
     category: "Survey",
     reward: 5000,
-    link: "https://www.youtube.com/@helpinghandss01",
+    link: "https://t.me/helpinghtask3",
     icon: "🌐",
   },
 ]
