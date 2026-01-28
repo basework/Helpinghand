@@ -11,7 +11,7 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: '#000',
     icons: [
       {
-        src: '/favicon.ico',
+        src: '/<a href="https://www.flaticon.com/free-icons/explore" title="explore icons">Explore icons created by Hilmy Abiyyu A. - Flaticon</a>favicon.ico',
         sizes: 'any',
         type: 'image/x-icon',
       },
