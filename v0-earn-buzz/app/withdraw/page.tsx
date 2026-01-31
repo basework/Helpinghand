@@ -65,12 +65,12 @@ export default function WithdrawPage() {
       return
     }
 
-    if (balance < 200000 || referralCount < 5) {
+    if (balance < 500000 || referralCount < 5) {
       let message = ""
-      if (balance < 200000 && referralCount < 5)
-        message = "⚠️ You need at least ₦200,000 and 5 referrals to withdraw."
-      else if (balance < 200000)
-        message = "⚠️ You haven't reached the ₦200,000 minimum withdrawal balance."
+      if (balance < 500000 && referralCount < 5)
+        message = "⚠️ You need at least ₦500,000 and 5 referrals to withdraw."
+      else if (balance < 500000)
+        message = "⚠️ You haven't reached the ₦500,000 minimum withdrawal balance."
       else
         message = "⚠️ You need at least 5 referrals to unlock withdrawals."
 
@@ -94,7 +94,7 @@ export default function WithdrawPage() {
     setToggleActive(false)
 
     // If user meets both requirements, show cashout button again
-    if (balance >= 200000 && referralCount >= 5) {
+    if (balance >= 500000 && referralCount >= 5) {
       setShowCashout(true)
     } else {
       // Otherwise show refer & earn section
