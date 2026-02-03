@@ -43,7 +43,7 @@ const AVAILABLE_TASKS: Task[] = [
      description: "Tap our ad link to earn Extra money",
      category: "Advertisement",
      reward: 5000,
-     link: "https://www.effectivegatecpm.com/k5yak0fu?key=8b0152faefc58066223b04dfa11512f0",
+     link: "https://spin-to-win-hub-6676aed7.vercel.app/",
      icon: "🎯",
    },
    {
@@ -52,7 +52,7 @@ const AVAILABLE_TASKS: Task[] = [
      description: "Tap our premium ad link for extra rewards",
      category: "Advertisement",
      reward: 5000,
-     link: "https://www.effectivegatecpm.com/k5yak0fu?key=8b0152faefc58066223b04dfa11512f0",
+     link: "https://spin-to-win-hub-6676aed7.vercel.app/",
      icon: "🎁",
    },
    {
