@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     "Helping Hands is a financial & earning app that offers weekly cash rewards to new users",
   manifest: "/manifest.json",
   generator: "v0.dev",
+  other: {
+    "8c56abd733d73550a5527a8ac0c7bc62642d1a86": "8c56abd733d73550a5527a8ac0c7bc62642d1a86",
+  },
   openGraph: {
     title: "Helping Hands",
     description:
