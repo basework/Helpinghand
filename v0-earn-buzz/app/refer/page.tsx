@@ -16,10 +16,21 @@ interface UserData {
   balance?: number
 }
 
+interface ReferralDetail {
+  id: string
+  referred_id: string
+  name: string
+  email?: string
+  status: string
+  balance?: number
+  created_at?: string
+}
+
 export default function ReferPage() {
   const router = useRouter()
   const [copied, setCopied] = useState(false)
   const [userData, setUserData] = useState<UserData | null>(null)
+  const [referrals, setReferrals] = useState<ReferralDetail[]>([])
   const [loading, setLoading] = useState(true)
   const [origin, setOrigin] = useState('') // ← WILL BE SET IN useEffect
 
@@ -83,6 +94,10 @@ export default function ReferPage() {
           referral_balance: data.referral_balance,
           balance
         })
+        // store referral details if provided
+        if (data.referrals && Array.isArray(data.referrals)) {
+          setReferrals(data.referrals)
+        }
       })
       .catch(console.error)
       .finally(() => setLoading(false))
@@ -218,6 +233,32 @@ export default function ReferPage() {
               <p className="text-sm text-white/80 mt-1">Total Earned</p>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Referral list (show only name and status) */}
+      <div className="px-6 mt-4 mb-10">
+        <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-4 border border-white/8">
+          <h4 className="text-md font-semibold text-emerald-200 mb-3">Your Referred Users</h4>
+          {referrals.length === 0 ? (
+            <p className="text-sm text-white/80">No referrals yet.</p>
+          ) : (
+            <ul className="space-y-2">
+              {referrals.map((r) => (
+                <li key={r.id} className="flex items-center justify-between bg-white/8 p-3 rounded-lg border border-white/6">
+                  <div>
+                    <div className="text-sm font-medium text-white">{r.name || 'Unnamed'}</div>
+                    <div className="text-xs text-white/70">{r.email || ''}</div>
+                  </div>
+                  <div>
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${r.status === 'COMPLETED' ? 'bg-emerald-200 text-black' : 'bg-yellow-600 text-white'}`}>
+                      {r.status === 'COMPLETED' ? 'Completed' : 'Pending'}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
 
