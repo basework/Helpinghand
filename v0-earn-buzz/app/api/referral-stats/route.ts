@@ -56,10 +56,10 @@ export async function GET(request: Request) {
       success: true,
       referral_code: user.referral_code || "",
       referral_count: referralCount,
-      referral_balance: referralBalance
-        referrals: referralDetails,
-        completed_count: referralDetails.filter((r: any) => r.status === "COMPLETED").length,
-        pending_count: referralDetails.filter((r: any) => r.status === "PENDING").length,
+      referral_balance: referralBalance,
+      referrals: referralDetails,
+      completed_count: referralDetails.filter((r: any) => r.status === "COMPLETED").length,
+      pending_count: referralDetails.filter((r: any) => r.status === "PENDING").length,
     })
   } catch (error) {
     console.error("Error:", error)
