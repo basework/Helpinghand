@@ -726,7 +726,7 @@ export default function DashboardPage() {
               )
 
               return item.external ? (
-                <a key={key} href={item.link} target="_blank" rel="noopener noreferrer" className="block w-full focus:outline-none">
+                <a key={key} href={item.link} className="block w-full focus:outline-none">
                   {content}
                 </a>
               ) : (
@@ -746,12 +746,12 @@ export default function DashboardPage() {
               <div className="text-xs text-tiv-3">24/7 support</div>
             </div>
             <div className="flex items-center gap-2">
-              <Link href="https://t.me/helpinghandsupport" target="_blank">
+              <Link href="https://t.me/helpinghandsupport">
                 <Button className="h-10 w-10 rounded-full bg-blue-600 hover:bg-blue-500 active:scale-95">
                   <Headphones className="h-5 w-5 text-white" />
                 </Button>
               </Link>
-              <Link href="https://t.me/helpinghandsnews" target="_blank">
+              <Link href="https://t.me/helpinghandsnews">
                 <Button className="h-10 w-10 rounded-full bg-tiv-2 hover:opacity-95 active:scale-95 relative">
                   <Bell className="h-5 w-5 text-white" />
                   <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>

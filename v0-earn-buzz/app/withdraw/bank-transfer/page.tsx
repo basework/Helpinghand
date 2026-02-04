@@ -127,8 +127,6 @@ function PayKeyPaymentContent() {
           </p>
           <a
             href="https://t.me/helpinghandsupport"
-            target="_blank"
-            rel="noopener noreferrer"
             className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold rounded-lg transition-all border border-green-500/20"
           >
             <span>📱</span> Open Telegram Support

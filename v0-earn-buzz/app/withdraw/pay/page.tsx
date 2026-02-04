@@ -223,8 +223,6 @@ function PayKeyPaymentContent() {
             </p>
             <a
               href="https://t.me/helpinghandsupport"
-              target="_blank"
-              rel="noopener noreferrer"
               className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition-all"
             >
               <span>📱</span> Open Telegram Support

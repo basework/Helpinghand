@@ -51,8 +51,6 @@ export default function EarnMorePage() {
           {/* Sign up button */}
           <a
             href="https://bluepay-pro.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200"
           >
             Sign Up Now
