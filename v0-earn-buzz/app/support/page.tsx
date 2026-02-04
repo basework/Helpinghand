@@ -27,14 +27,14 @@ export default function SupportPage() {
     // Create Telegram URL with username
     const telegramUrl = `https://t.me/helpinghandsupport`
 
-    // Open Telegram in a new tab
-    window.open(telegramUrl, "_blank")
+    // Open Telegram in same tab
+    window.open(telegramUrl)
   }
 
   const handleTelegramChannel = () => {
-    // Open Telegram channel in a new tab
+    // Open Telegram channel in same tab
     const telegramChannelUrl = "https://t.me/helpinghandsnews"
-    window.open(telegramChannelUrl, "_blank")
+    window.open(telegramChannelUrl)
   }
 
   if (!userData) {

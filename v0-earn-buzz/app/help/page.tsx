@@ -41,8 +41,8 @@ export default function HelpPage() {
     const message = encodeURIComponent("Hello, I need help with Earn Buzz app.")
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
 
-    // Open WhatsApp in a new tab
-    window.open(whatsappUrl, "_blank")
+    // Open WhatsApp in same tab
+    window.open(whatsappUrl)
   }
 
   return (

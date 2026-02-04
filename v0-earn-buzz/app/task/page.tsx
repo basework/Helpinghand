@@ -267,7 +267,7 @@ export default function TaskPage() {
       description: "Please finish the task in the opened tab before verification starts.",
     })
 
-    window.open(task.link, "_blank")
+    window.open(task.link, "")
 
     setTimeout(() => {
       setVerifyingTask(task.id)

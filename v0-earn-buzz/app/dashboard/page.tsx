@@ -489,7 +489,7 @@ export default function DashboardPage() {
             <Button
               onClick={() => {
                 setShowReminderDialog(false)
-                window.open("https://t.me/helpinghandsnews", "_blank")
+                window.open("https://t.me/helpinghandsnews")
               }}
               className="flex-1 bg-blue-600 hover:bg-blue-700"
             >
