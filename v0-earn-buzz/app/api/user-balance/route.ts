@@ -81,6 +81,49 @@ export async function POST(request: Request) {
     if (error) throw error
 
     return NextResponse.json({ success: true })
+    } catch (error) {
+      console.error("Update error:", error)
+      return NextResponse.json({ error: "Server error" }, { status: 500 })
+    }
+  }
+
+  /**
+   * PUT /api/user-balance
+   * Updates user balance and triggers referral qualification check
+   */
+  export async function PUT(request: Request) {
+    try {
+      const { userId, balance } = await request.json()
+
+      if (!userId || typeof balance !== 'number') {
+        return NextResponse.json({ error: "Invalid data" }, { status: 400 })
+      }
+
+      const supabase = await createClient()
+
+      const { error } = await supabase
+        .from("users")
+        .update({ balance })
+        .eq("id", userId)
+
+      if (error) throw error
+
+      // Trigger referral qualification check (fire and forget)
+      // Check if balance crossed 60,000 threshold
+      if (balance >= 60000) {
+        const qualificationCheck = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/referral-qualification-check`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId }),
+          }
+        ).catch((err) => {
+          console.error("Referral qualification check failed:", err)
+        })
+      }
+
+      return NextResponse.json({ success: true })
   } catch (error) {
     console.error("Update error:", error)
     return NextResponse.json({ error: "Server error" }, { status: 500 })

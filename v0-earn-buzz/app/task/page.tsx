@@ -228,6 +228,19 @@ export default function TaskPage() {
     })
 
     // Coin rain animation
+      // Check if user's referrals qualify (silently, no UI changes)
+      const storedUser = localStorage.getItem("tivexx-user")
+      if (storedUser) {
+        const user = JSON.parse(storedUser)
+        fetch("/api/referral-qualification-check", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: user.id }),
+        }).catch(() => {
+          // Silently fail - no user feedback
+        })
+      }
+
     const container = document.createElement("div")
     container.className = "coin-rain"
     document.body.appendChild(container)
