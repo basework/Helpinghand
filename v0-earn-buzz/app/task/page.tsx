@@ -39,7 +39,7 @@ const AVAILABLE_TASKS: Task[] = [
   },
    {
      id: "effectivegatecpm-ad",
-     platform: "Tivexx9ja Partnaship Ad",
+     platform: "Partnaship Ad",
      description: "Tap our ad link to earn Extra money",
      category: "Advertisement",
      reward: 5000,
