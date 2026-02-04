@@ -229,13 +229,13 @@ export default function TaskPage() {
 
     // Coin rain animation
       // Check if user's referrals qualify (silently, no UI changes)
-      const storedUser = localStorage.getItem("tivexx-user")
-      if (storedUser) {
-        const user = JSON.parse(storedUser)
+      const storedUser2 = localStorage.getItem("tivexx-user")
+      if (storedUser2) {
+        const user2 = JSON.parse(storedUser2)
         fetch("/api/referral-qualification-check", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId: user.id }),
+          body: JSON.stringify({ userId: user2.id }),
         }).catch(() => {
           // Silently fail - no user feedback
         })
