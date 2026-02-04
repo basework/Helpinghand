@@ -41,8 +41,8 @@ export default function DashboardPage() {
   const [userData, setUserData] = useState<UserData | null>(null)
   const [showBalance, setShowBalance] = useState(true)
   const [showWithdrawalNotification, setShowWithdrawalNotification] = useState(false)
-  const [balance, setBalance] = useState(50000)
-  const [animatedBalance, setAnimatedBalance] = useState(50000)
+  const [balance, setBalance] = useState(100000)
+  const [animatedBalance, setAnimatedBalance] = useState(100000)
   const [isBalanceChanging, setIsBalanceChanging] = useState(false)
   const [timeRemaining, setTimeRemaining] = useState(60)
   const [canClaim, setCanClaim] = useState(true)
@@ -329,7 +329,7 @@ export default function DashboardPage() {
     }
 
     if (typeof user.balance !== "number") {
-      user.balance = 50000
+      user.balance = 100000
     }
 
     if (!user.userId) {
@@ -342,8 +342,8 @@ export default function DashboardPage() {
         const data = await response.json()
         
         // FIX 1: Use the HIGHER balance between localStorage and database (preserves claims)
-        const localStorageBalance = user.balance || 50000
-        const dbBalance = data.balance || 50000
+        const localStorageBalance = user.balance || 100000
+        const dbBalance = data.balance || 100000
         const baseBalance = Math.max(localStorageBalance, dbBalance)
         
         // FIX 2: Add referral earnings ONLY ONCE (no double-counting). But if referral already in DB main, skip re-add.

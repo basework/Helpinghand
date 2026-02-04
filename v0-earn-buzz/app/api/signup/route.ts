@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
         referred_by: referrerId,
         referral_count: 0, // Initialize count
         referral_balance: 0, // Initialize balance
-        balance: 50000, // Initialize main balance with 50,000
+        balance: 100000, // Initialize main balance with 100,000
       })
       .select("id, name, email, referral_code")
       .single()

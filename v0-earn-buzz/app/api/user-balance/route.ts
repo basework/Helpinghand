@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     if (!userId) {
       return NextResponse.json({ 
         success: false,
-        balance: 50000,
+        balance: 100000,
         referral_balance: 0 
       })
     }
@@ -25,7 +25,7 @@ export async function GET(request: Request) {
 
     if (userError) throw userError
 
-    let balance = user.balance || 50000
+    let balance = user.balance || 100000
     let referralBalance = user.referral_balance || 0
     let referralCount = user.referral_count || 0
 
@@ -57,7 +57,7 @@ export async function GET(request: Request) {
     console.error("Error:", error)
     return NextResponse.json({ 
       success: false,
-      balance: 50000,
+      balance: 100000,
       referral_balance: 0 
     })
   }
