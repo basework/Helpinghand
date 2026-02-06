@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 // Prize images - using public directory paths
 const imgIphone15 = "/assets/prizes/iphone15pro.png";
@@ -144,6 +145,7 @@ const RADIUS = WHEEL_SIZE / 2;
 const SEG_ANGLE = (2 * Math.PI) / PRIZES.length;
 
 const SpinWheel = () => {
+  const router = useRouter();
   const [spinning, setSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [result, setResult] = useState<Prize | null>(null);
@@ -496,68 +498,72 @@ const SpinWheel = () => {
           <div
             className="relative max-w-md w-full rounded-3xl p-8 text-center animate-bounce-in"
             style={{
-              background: "linear-gradient(135deg, hsl(220 20% 14%), hsl(220 20% 8%))",
-              border: "2px solid hsl(43 96% 56%)",
-              boxShadow: "0 0 60px rgba(232, 180, 23, 0.3), 0 20px 40px rgba(0,0,0,0.5)",
+              background: "linear-gradient(145deg, #FFD700, #FFC700)",
+              border: "3px solid #FFB700",
+              boxShadow: "0 0 80px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 200, 0, 0.4), 0 20px 40px rgba(0,0,0,0.5)",
             }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="text-5xl mb-6 animate-float">✨</div>
             
-            <h2 className="font-display text-2xl font-bold text-foreground mb-2">
+            <h2 className="font-display text-2xl font-bold mb-2" style={{ color: "#1a1a1a", textShadow: "0 1px 2px rgba(0,0,0,0.1)" }}>
               Unlock Your Prize
             </h2>
             
-            <p className="text-muted-foreground text-sm mb-6">
-              To claim your <span className="font-semibold text-secondary">{result.name}</span> worth <span className="font-bold text-secondary">{result.value}</span>, you need to upgrade your account to premium status.
+            <p className="text-sm mb-6" style={{ color: "#333333" }}>
+              To claim your <span className="font-semibold" style={{ color: "#D00000" }}>{result.name}</span> worth <span className="font-bold" style={{ color: "#D00000" }}>{result.value}</span>, you need to upgrade your account to premium status.
             </p>
 
-            <div className="bg-secondary/10 rounded-xl p-4 mb-6 border border-secondary/20">
+            <div className="rounded-xl p-4 mb-6" style={{ background: "rgba(0,0,0,0.1)", border: "2px solid rgba(0,0,0,0.2)" }}>
               <div className="flex items-start gap-3 text-left">
                 <span className="text-lg mt-0.5">🔒</span>
                 <div>
-                  <p className="font-semibold text-foreground text-sm mb-1">Why upgrade?</p>
-                  <p className="text-muted-foreground text-xs">Premium accounts enjoy verified identity benefits, priority support, and exclusive prize access.</p>
+                  <p className="font-semibold text-sm mb-1" style={{ color: "#1a1a1a" }}>Why upgrade?</p>
+                  <p className="text-xs" style={{ color: "#333333" }}>Premium accounts enjoy verified identity benefits, priority support, and exclusive prize access.</p>
                 </div>
               </div>
             </div>
 
             <div className="space-y-3 mb-8">
               <div className="flex items-center gap-3 text-left">
-                <span className="text-secondary text-lg">✓</span>
-                <span className="text-foreground text-sm">Instant prize verification</span>
+                <span className="text-lg" style={{ color: "#1a1a1a" }}>✓</span>
+                <span className="text-sm" style={{ color: "#333333" }}>Instant prize verification</span>
               </div>
               <div className="flex items-center gap-3 text-left">
-                <span className="text-secondary text-lg">✓</span>
-                <span className="text-foreground text-sm">Fast delivery within 3-5 days</span>
+                <span className="text-lg" style={{ color: "#1a1a1a" }}>✓</span>
+                <span className="text-sm" style={{ color: "#333333" }}>Fast delivery within 3-5 days</span>
               </div>
               <div className="flex items-center gap-3 text-left">
-                <span className="text-secondary text-lg">✓</span>
-                <span className="text-foreground text-sm">24/7 customer support</span>
+                <span className="text-lg" style={{ color: "#1a1a1a" }}>✓</span>
+                <span className="text-sm" style={{ color: "#333333" }}>24/7 customer support</span>
               </div>
               <div className="flex items-center gap-3 text-left">
-                <span className="text-secondary text-lg">✓</span>
-                <span className="text-foreground text-sm">Lifetime premium benefits</span>
+                <span className="text-lg" style={{ color: "#1a1a1a" }}>✓</span>
+                <span className="text-sm" style={{ color: "#333333" }}>Lifetime premium benefits</span>
               </div>
             </div>
 
             <div className="flex gap-3 justify-center">
               <button
                 onClick={() => setShowUpgradeModal(false)}
-                className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105 bg-muted text-foreground"
+                className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105"
+                style={{
+                  background: "#1a1a1a",
+                  color: "#FFD700",
+                  border: "2px solid #FFD700",
+                }}
               >
                 Cancel
               </button>
               <button
                 onClick={() => {
                   setShowUpgradeModal(false);
-                  // Navigate to upgrade or payment page
-                  alert("Redirecting to upgrade account...");
+                  router.push("/toggle");
                 }}
-                className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105 text-foreground"
+                className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105 text-white"
                 style={{
-                  background: "linear-gradient(135deg, hsl(43 96% 56%), hsl(35 90% 45%))",
-                  boxShadow: "0 4px 20px rgba(232,180,23,0.3)",
+                  background: "linear-gradient(135deg, #D00000, #A00000)",
+                  boxShadow: "0 4px 12px rgba(208, 0, 0, 0.3)",
                 }}
               >
                 Upgrade Account
