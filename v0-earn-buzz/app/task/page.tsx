@@ -324,10 +324,11 @@ export default function TaskPage() {
       return
     }
 
+    // Show warning message about 10-second requirement
     toast({
       title: "Task Started ⏱️",
-      description: "Make sure to spend at least 10 seconds on the site before returning.",
-      duration: 4000,
+      description: "Make sure to spend at least 10 seconds on the site before returning. If you return too quickly, you'll need to try again!",
+      duration: 5000,
     })
 
     // Clear any existing verifying task
@@ -436,6 +437,18 @@ export default function TaskPage() {
           </div>
           )
         })}
+      </div>
+
+      {/* Additional UI element to remind users about the 10-second requirement */}
+      <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 w-full max-w-md px-4 z-10">
+        <div className="bg-gradient-to-r from-amber-600/90 to-amber-700/90 backdrop-blur-sm text-white p-3 rounded-xl border border-amber-500/30 shadow-lg animate-pulse">
+          <div className="flex items-center justify-center gap-2">
+            <div className="text-lg">⏱️</div>
+            <div className="text-sm font-medium">
+              <span className="font-bold">Remember:</span> Stay on the external site for at least 10 seconds!
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Styles for animations */}
