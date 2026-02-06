@@ -1,9 +1,10 @@
 "use client"
 
+import { Suspense } from "react"
 import { useEffect, useState } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 
-export default function RedirectPage() {
+function RedirectContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const to = searchParams.get("to") || ""
@@ -63,5 +64,13 @@ export default function RedirectPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function RedirectPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><p>Loading...</p></div>}>
+      <RedirectContent />
+    </Suspense>
   )
 }
