@@ -44,7 +44,7 @@ const AVAILABLE_TASKS: Task[] = [
      description: "Tap our ad link to earn Extra money",
      category: "Advertisement",
      reward: 5000,
-      link: "",
+      link: "https://otieu.com/4/10573002",
      icon: "🎯",
    },
    {

@@ -144,13 +144,21 @@ const CENTER = WHEEL_SIZE / 2;
 const RADIUS = WHEEL_SIZE / 2;
 const SEG_ANGLE = (2 * Math.PI) / PRIZES.length;
 
-const SpinWheel = () => {
+interface SpinWheelProps {
+  canSpin: boolean;
+  onSpinStart: () => void;
+  remainingSpins: number;
+}
+
+const SpinWheel = ({ canSpin, onSpinStart, remainingSpins }: SpinWheelProps) => {
   const router = useRouter();
   const [spinning, setSpinning] = useState(false);
   const [rotation, setRotation] = useState(0);
   const [result, setResult] = useState<Prize | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [countdown, setCountdown] = useState<number | null>(null);
+  const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
   const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -315,6 +323,11 @@ const SpinWheel = () => {
 
   const spinWheel = useCallback(() => {
     if (spinning) return;
+    if (!canSpin) {
+      return;
+    }
+
+    onSpinStart();
     setSpinning(true);
     setResult(null);
 
@@ -333,10 +346,41 @@ const SpinWheel = () => {
       setShowModal(true);
 
       if (prize.isWin) {
-        // Celebration effect - simple visual feedback
+        setCountdown(30);
       }
     }, 5500);
-  }, [spinning, rotation, segmentAngle]);
+  }, [spinning, rotation, segmentAngle, canSpin, onSpinStart]);
+
+  // Countdown effect for 30s prize window
+  useEffect(() => {
+    if (countdown === null) return;
+
+    if (countdown <= 0) {
+      setShowModal(false);
+      setResult(null);
+      setCountdown(null);
+      return;
+    }
+
+    countdownIntervalRef.current = setInterval(() => {
+      setCountdown((prev) => (prev !== null ? prev - 1 : null));
+    }, 1000);
+
+    return () => {
+      if (countdownIntervalRef.current) {
+        clearInterval(countdownIntervalRef.current);
+      }
+    };
+  }, [countdown]);
+
+  // Cleanup countdown on modal close
+  const handleModalClose = () => {
+    if (countdownIntervalRef.current) {
+      clearInterval(countdownIntervalRef.current);
+    }
+    setShowModal(false);
+    setCountdown(null);
+  };
 
   return (
     <>
@@ -384,16 +428,17 @@ const SpinWheel = () => {
         {/* Spin button */}
         <button
           onClick={spinWheel}
-          disabled={spinning}
+          disabled={spinning || !canSpin}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 rounded-full w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center font-display font-bold text-sm sm:text-base transition-transform hover:scale-110 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
           style={{
-            background: "linear-gradient(135deg, #fbbf24, #d97706)",
+            background: spinning || !canSpin ? "#888888" : "linear-gradient(135deg, #fbbf24, #d97706)",
             color: "hsl(220, 20%, 10%)",
             boxShadow: "0 4px 20px rgba(251,191,36,0.5), inset 0 2px 4px rgba(255,255,255,0.3)",
           }}
           aria-label="Spin the wheel"
+          title={!canSpin ? "Daily limit reached. Try again tomorrow!" : ""}
         >
-          {spinning ? "⏳" : "SPIN!"}
+          {spinning ? "⏳" : !canSpin ? "LIMIT" : "SPIN!"}
         </button>
       </div>
 
@@ -439,31 +484,40 @@ const SpinWheel = () => {
                   <p className="text-black font-semibold mb-4">Worth {result.value}</p>
                 )}
                 <p className="text-gray-800 text-sm mb-6">{result.description}</p>
-                <div className="flex gap-3 justify-center">
-                  <button
-                    onClick={() => {
-                      setShowModal(false);
-                      setShowUpgradeModal(true);
-                    }}
-                    className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105 text-white"
-                    style={{
-                      background: "linear-gradient(135deg, #dc2626, #b91c1c)",
-                      boxShadow: "0 4px 12px rgba(220, 38, 38, 0.3)",
-                    }}
-                  >
-                    Claim Prize
-                  </button>
-                  <button
-                    onClick={() => setShowModal(false)}
-                    className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105"
-                    style={{
-                      background: "#1a1a1a",
-                      color: "#fbbf24",
-                      border: "2px solid #fbbf24",
-                    }}
-                  >
-                    Spin Again
-                  </button>
+                <div className="flex flex-col items-center gap-4 justify-center">
+                  {countdown !== null && (
+                    <div className="text-base font-bold text-black">
+                      ⏱️ Claim within <span style={{ color: countdown <= 10 ? "#dc2626" : "#1a1a1a", fontSize: "1.25rem" }}>{countdown}s</span>
+                    </div>
+                  )}
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => {
+                        handleModalClose();
+                        setShowUpgradeModal(true);
+                      }}
+                      className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105 text-white"
+                      style={{
+                        background: "linear-gradient(135deg, #dc2626, #b91c1c)",
+                        boxShadow: "0 4px 12px rgba(220, 38, 38, 0.3)",
+                      }}
+                    >
+                      Claim Prize
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleModalClose();
+                      }}
+                      className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105"
+                      style={{
+                        background: "#1a1a1a",
+                        color: "#fbbf24",
+                        border: "2px solid #fbbf24",
+                      }}
+                    >
+                      Spin Again
+                    </button>
+                  </div>
                 </div>
               </>
             ) : (
@@ -608,6 +662,44 @@ const SectionTitle = ({ children, sub }: { children: React.ReactNode; sub?: stri
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState("hero");
+  const [spinTimestamps, setSpinTimestamps] = useState<number[]>([]);
+  const [remainingSpins, setRemainingSpins] = useState(3);
+  const [canSpin, setCanSpin] = useState(true);
+
+  // Load and calculate remaining spins on mount
+  useEffect(() => {
+    const loadSpinData = () => {
+      const stored = localStorage.getItem("spinTimestamps");
+      const timestamps: number[] = stored ? JSON.parse(stored) : [];
+      
+      // Filter timestamps from last 24 hours
+      const now = Date.now();
+      const dayInMs = 24 * 60 * 60 * 1000;
+      const recentTimestamps = timestamps.filter((ts) => now - ts < dayInMs);
+      
+      setSpinTimestamps(recentTimestamps);
+      const remaining = Math.max(0, 3 - recentTimestamps.length);
+      setRemainingSpins(remaining);
+      setCanSpin(remaining > 0);
+      
+      // Update stored timestamps
+      localStorage.setItem("spinTimestamps", JSON.stringify(recentTimestamps));
+    };
+
+    loadSpinData();
+  }, []);
+
+  const handleSpinStart = () => {
+    const now = Date.now();
+    const updated = [...spinTimestamps, now];
+    setSpinTimestamps(updated);
+    
+    const remaining = Math.max(0, 3 - updated.length);
+    setRemainingSpins(remaining);
+    setCanSpin(remaining > 0);
+    
+    localStorage.setItem("spinTimestamps", JSON.stringify(updated));
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -678,6 +770,11 @@ const Index = () => {
             <span className="animate-pulse-glow inline-block w-2 h-2 rounded-full bg-amber-300" />
             Live Promotion — Spin Now!
           </div>
+          <div className="flex justify-center gap-4 mb-4 sm:mb-6">
+            <div className="px-4 py-2 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-sm font-bold">
+              🎡 {remainingSpins}/3 Spins Remaining
+            </div>
+          </div>
           <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-black tracking-tight mb-4">
             <span className="text-white">SPIN TO</span>{" "}
             <span className="bg-gradient-to-r from-amber-300 to-emerald-300 bg-clip-text text-transparent">WIN</span>
@@ -687,7 +784,7 @@ const Index = () => {
           </p>
         </div>
 
-        <SpinWheel />
+        <SpinWheel canSpin={canSpin} onSpinStart={handleSpinStart} remainingSpins={remainingSpins} />
 
         <div className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-6 text-center text-sm text-white/80">
           <div>
