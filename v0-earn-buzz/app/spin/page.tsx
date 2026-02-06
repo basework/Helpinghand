@@ -1,17 +1,17 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import confetti from "canvas-confetti";
 
-// Prize images (commented out - add actual image files to app/assets/prizes/)
-// import imgIphone15 from "@/assets/prizes/iphone15pro.png";
-// import imgFridge from "@/assets/prizes/smart-fridge.png";
-// import imgIphone17 from "@/assets/prizes/iphone17.png";
-// import imgOledTv from "@/assets/prizes/oled-tv.png";
-// import imgPs5 from "@/assets/prizes/ps5.png";
-// import imgMacbook from "@/assets/prizes/macbook-air.png";
-// import imgIphone16 from "@/assets/prizes/iphone16.png";
-// import imgGiftCard from "@/assets/prizes/gift-card.png";
-// import imgHeadset from "@/assets/prizes/gaming-headset.png";
-// import imgProjector from "@/assets/prizes/projector.png";
+// Prize images
+import imgIphone15 from "@/assets/prizes/iphone15pro.png";
+import imgFridge from "@/assets/prizes/smart-fridge.png";
+import imgIphone17 from "@/assets/prizes/iphone17.png";
+import imgOledTv from "@/assets/prizes/oled-tv.png";
+import imgPs5 from "@/assets/prizes/ps5.png";
+import imgMacbook from "@/assets/prizes/macbook-air.png";
+import imgIphone16 from "@/assets/prizes/iphone16.png";
+import imgGiftCard from "@/assets/prizes/gift-card.png";
+import imgHeadset from "@/assets/prizes/gaming-headset.png";
+import imgProjector from "@/assets/prizes/projector.png";
 
 /* ──────────────────────────── DATA ──────────────────────────── */
 
@@ -26,17 +26,17 @@ interface Prize {
 }
 
 const PRIZES: Prize[] = [
-  { name: "iPhone 15 Pro", emoji: "📱", color: "#E53E3E", value: "₦750,000", isWin: true, description: "The latest iPhone with A17 Pro chip, titanium design, and pro camera system." },
-  { name: "Smart Refrigerator", emoji: "❄️", color: "#2D9CDB", value: "₦650,000", isWin: true, description: "Samsung Family Hub smart fridge with touchscreen and AI-powered features." },
-  { name: "iPhone 17", emoji: "🤩", color: "#9B51E0", value: "₦900,000", isWin: true, description: "Next-gen iPhone 17 with revolutionary design and cutting-edge performance." },
-  { name: "55\" OLED Smart TV", emoji: "📺", color: "#219653", value: "₦500,000", isWin: true, description: "LG 55-inch OLED TV with Dolby Vision, Atmos, and smart webOS platform." },
-  { name: "PlayStation 5", emoji: "🎮", color: "#2F80ED", value: "₦350,000", isWin: true, description: "Sony PS5 console with DualSense controller and 825GB SSD storage." },
+  { name: "iPhone 15 Pro", emoji: "📱", color: "#E53E3E", value: "₦750,000", isWin: true, description: "The latest iPhone with A17 Pro chip, titanium design, and pro camera system.", image: imgIphone15 },
+  { name: "Smart Refrigerator", emoji: "❄️", color: "#2D9CDB", value: "₦650,000", isWin: true, description: "Samsung Family Hub smart fridge with touchscreen and AI-powered features.", image: imgFridge },
+  { name: "iPhone 17", emoji: "🤩", color: "#9B51E0", value: "₦900,000", isWin: true, description: "Next-gen iPhone 17 with revolutionary design and cutting-edge performance.", image: imgIphone17 },
+  { name: "55\" OLED Smart TV", emoji: "📺", color: "#219653", value: "₦500,000", isWin: true, description: "LG 55-inch OLED TV with Dolby Vision, Atmos, and smart webOS platform.", image: imgOledTv },
+  { name: "PlayStation 5", emoji: "🎮", color: "#2F80ED", value: "₦350,000", isWin: true, description: "Sony PS5 console with DualSense controller and 825GB SSD storage.", image: imgPs5 },
   { name: "Better Luck Next Time!", emoji: "😅", color: "#4A5568", value: "", isWin: false, description: "" },
-  { name: "MacBook Air M3", emoji: "💻", color: "#F2994A", value: "₦850,000", isWin: true, description: "Apple MacBook Air with M3 chip, 15-hour battery, and Liquid Retina display." },
-  { name: "iPhone 16", emoji: "📲", color: "#EB5757", value: "₦800,000", isWin: true, description: "iPhone 16 with Action button, A18 chip, and advanced camera features." },
-  { name: "₦50,000 Gift Card", emoji: "🎁", color: "#27AE60", value: "₦50,000", isWin: true, description: "₦50,000 shopping gift card redeemable at any partner store nationwide." },
-  { name: "Gaming Headset", emoji: "🎧", color: "#8B5CF6", value: "₦120,000", isWin: true, description: "Premium wireless gaming headset with noise cancellation and surround sound." },
-  { name: "Portable Projector", emoji: "🎬", color: "#F59E0B", value: "₦180,000", isWin: true, description: "4K portable smart projector with built-in speakers and streaming apps." },
+  { name: "MacBook Air M3", emoji: "💻", color: "#F2994A", value: "₦850,000", isWin: true, description: "Apple MacBook Air with M3 chip, 15-hour battery, and Liquid Retina display.", image: imgMacbook },
+  { name: "iPhone 16", emoji: "📲", color: "#EB5757", value: "₦800,000", isWin: true, description: "iPhone 16 with Action button, A18 chip, and advanced camera features.", image: imgIphone16 },
+  { name: "₦50,000 Gift Card", emoji: "🎁", color: "#27AE60", value: "₦50,000", isWin: true, description: "₦50,000 shopping gift card redeemable at any partner store nationwide.", image: imgGiftCard },
+  { name: "Gaming Headset", emoji: "🎧", color: "#8B5CF6", value: "₦120,000", isWin: true, description: "Premium wireless gaming headset with noise cancellation and surround sound.", image: imgHeadset },
+  { name: "Portable Projector", emoji: "🎬", color: "#F59E0B", value: "₦180,000", isWin: true, description: "4K portable smart projector with built-in speakers and streaming apps.", image: imgProjector },
   { name: "Spin Again!", emoji: "🔄", color: "#718096", value: "", isWin: false, description: "" },
 ];
 
