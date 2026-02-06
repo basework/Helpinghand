@@ -20,12 +20,12 @@ interface Task {
 const AVAILABLE_TASKS: Task[] = [
   
   {
-    id: "telegram-channel",
+    id: "Monetage-our-most-earned-spin-to-win-ad",
     platform: "Telegram",
     description: "join our telegram channel",
-    category: "Social Media",
+    category: "Ads",
     reward: 5000,
-    link: "https://t.me/helpinghandsnews",
+    link: "https://spin-to-win-hub-6676aed7.vercel.app/",
     icon: "📢",
   },
   {
@@ -34,7 +34,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "join Helping Hands task channel",
     category: "Social Media",
     reward: 5000,
-    link: "https://t.me/helpinghtask1",
+    link: "https://bloggersin.vercel.app/",
     icon: "💬",
   },
    {
@@ -43,7 +43,7 @@ const AVAILABLE_TASKS: Task[] = [
      description: "Tap our ad link to earn Extra money",
      category: "Advertisement",
      reward: 5000,
-     link: "https://spin-to-win-hub-6676aed7.vercel.app/",
+      link: "",
      icon: "🎯",
    },
    {
@@ -52,7 +52,7 @@ const AVAILABLE_TASKS: Task[] = [
      description: "Tap our premium ad link for extra rewards",
      category: "Advertisement",
      reward: 5000,
-     link: "https://spin-to-win-hub-6676aed7.vercel.app/",
+      link: "",
      icon: "🎁",
    },
    {
@@ -61,7 +61,7 @@ const AVAILABLE_TASKS: Task[] = [
      description: "Spin and win amazing prizes",
      category: "Advertisement",
      reward: 5000,
-     link: "https://spin-to-win-hub-6676aed7.vercel.app/",
+      link: "",
      icon: "🎡",
    },
    {
@@ -70,7 +70,7 @@ const AVAILABLE_TASKS: Task[] = [
      description: "Tap our ad link to earn Extra money",
      category: "Advertisement",
      reward: 5000,
-    link: "https://bloggersin.vercel.app/",
+     link: "",
      icon: "💸💲",
    },
   {
@@ -79,7 +79,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "Join Nova Cash",
     category: "Social Media",
     reward: 5000,
-    link: "https://t.me/Nova_cash",
+    link: "",
     icon: "🎵",
   },
   {
@@ -88,7 +88,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "join our task channel",
     category: "Social Media",
     reward: 5000,
-    link: "https://t.me/helpinghtask2",
+    link: "",
     icon: "🤖",
   },
   {
@@ -97,7 +97,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "join our facebook page",
     category: "Social Media",
     reward: 5000,
-    link: "https://www.facebook.com/share/17KSKa7LL8/?mibextid=wwXIfr",
+    link: "",
     icon: "🎁",
   },
   
@@ -107,7 +107,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "join task now",
     category: "Survey",
     reward: 5000,
-    link: "https://t.me/helpinghtask3",
+    link: "",
     icon: "🌐",
   },
 ]
@@ -152,6 +152,36 @@ export default function TaskPage() {
       setCooldowns(savedCooldowns)
     }
   }, [router])
+
+  // Check for return from external ad/redirect and validate time spent
+  useEffect(() => {
+    try {
+      const start = localStorage.getItem("adClickStart")
+      const taskId = localStorage.getItem("adClickTaskId")
+      if (!start || !taskId) return
+
+      // Clear stored values once read
+      localStorage.removeItem("adClickStart")
+      localStorage.removeItem("adClickTaskId")
+
+      const elapsed = Date.now() - Number(start)
+      const alreadyCompleted = JSON.parse(localStorage.getItem("tivexx-completed-tasks") || "[]") || []
+      if (alreadyCompleted.includes(taskId)) return
+
+      if (elapsed >= 10000) {
+        // User spent at least 10s — credit the reward
+        completeVerification(taskId)
+      } else {
+        toast({
+          title: "Task Not Completed",
+          description: "You didn't spend enough time on the task. Please try again and stay on the site for at least 10 seconds.",
+          variant: "destructive",
+        })
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, [])
 
   // Persist verification state
   useEffect(() => {
@@ -262,17 +292,23 @@ export default function TaskPage() {
       return
     }
 
+    if (!task.link) {
+      toast({
+        title: "No link set",
+        description: "This task doesn't have a link yet. Please add one before attempting.",
+        variant: "destructive",
+      })
+      return
+    }
+
     toast({
       title: "Complete the Task First ⚠️",
-      description: "Please finish the task in the opened tab before verification starts.",
+      description: "You'll be redirected — make sure to spend at least 10 seconds there before returning.",
     })
 
-    window.open(task.link, "")
-
-    setTimeout(() => {
-      setVerifyingTask(task.id)
-      setProgress(0)
-    }, 3000)
+    const redirect = `/redirect?to=${encodeURIComponent(task.link)}&task=${encodeURIComponent(task.id)}`
+    // navigate in same tab so start timestamp is recorded by the redirect page
+    window.location.href = redirect
   }
 
   return (
@@ -287,6 +323,7 @@ export default function TaskPage() {
           <h1 className="text-2xl font-bold">Available Tasks</h1>
         </div>
         <p className="text-green-100 text-center">Earn Rewards Per Task</p>
+        <p className="text-xs text-white/70 text-center mt-2">NB: For ad tasks, please spend at least 10 seconds on the opened site before returning.</p>
       </div>
 
       <div className="px-4 mt-6 space-y-4">
