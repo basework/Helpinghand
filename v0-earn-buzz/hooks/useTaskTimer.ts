@@ -10,6 +10,7 @@ export function useTaskTimer() {
   const focusListenerAttached = useRef(false)
 
   const startTaskTimer = (taskId: string) => {
+    // Reset or create new timer entry (allows re-attempting the same task)
     activeTaskTimers.current.set(taskId, { startTime: Date.now(), notified: false })
   }
 
@@ -31,6 +32,7 @@ export function useTaskTimer() {
         const elapsed = now - data.startTime
         data.notified = true // Mark as notified for this window return
         onTaskReturn(taskId, elapsed)
+        // Do NOT delete here — let the caller decide when to clear
       }
     }
 

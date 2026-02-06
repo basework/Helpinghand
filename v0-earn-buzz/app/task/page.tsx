@@ -161,6 +161,8 @@ export default function TaskPage() {
   useEffect(() => {
     const detach = attachFocusListener((taskId: string, elapsed: number) => {
       const alreadyCompleted = JSON.parse(localStorage.getItem("tivexx-completed-tasks") || "[]") || []
+      
+      // If task is already completed, just clear the timer and ignore
       if (alreadyCompleted.includes(taskId)) {
         clearTaskTimer(taskId)
         return
@@ -306,7 +308,7 @@ export default function TaskPage() {
       description: "Make sure to spend at least 10 seconds on the site before returning.",
     })
 
-    // Start recording time
+    // Start recording time (resets notified flag so focus event will fire again)
     startTaskTimer(task.id)
     // Open external link in new tab
     window.open(task.link, "_blank", "noopener,noreferrer")
