@@ -958,7 +958,7 @@ const Index = () => {
 
       {/* ── CONTACT ── */}
       <Section id="contact" className="bg-white/5">
-        <SectionTitle sub="Have a question or need help claiming a prize? Reach out!">
+        <SectionTitle>
           Contact Us
         </SectionTitle>
         <div className="max-w-xl mx-auto card-premium rounded-2xl p-8">
