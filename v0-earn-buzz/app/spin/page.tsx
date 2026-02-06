@@ -1,19 +1,18 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
-import confetti from "canvas-confetti";
 
-// Prize images
-import imgIphone15 from "@/assets/prizes/iphone15pro.png";
-import imgFridge from "@/assets/prizes/smart-fridge.png";
-import imgIphone17 from "@/assets/prizes/iphone17.png";
-import imgOledTv from "@/assets/prizes/oled-tv.png";
-import imgPs5 from "@/assets/prizes/ps5.png";
-import imgMacbook from "@/assets/prizes/macbook-air.png";
-import imgIphone16 from "@/assets/prizes/iphone16.png";
-import imgGiftCard from "@/assets/prizes/gift-card.png";
-import imgHeadset from "@/assets/prizes/gaming-headset.png";
-import imgProjector from "@/assets/prizes/projector.png";
+// Prize images - using public directory paths
+const imgIphone15 = "/assets/prizes/iphone15pro.png";
+const imgFridge = "/assets/prizes/smart-fridge.png";
+const imgIphone17 = "/assets/prizes/iphone17.png";
+const imgOledTv = "/assets/prizes/oled-tv.png";
+const imgPs5 = "/assets/prizes/ps5.png";
+const imgMacbook = "/assets/prizes/macbook-air.png";
+const imgIphone16 = "/assets/prizes/iphone16.png";
+const imgGiftCard = "/assets/prizes/gift-card.png";
+const imgHeadset = "/assets/prizes/gaming-headset.png";
+const imgProjector = "/assets/prizes/projector.png";
 
 /* ──────────────────────────── DATA ──────────────────────────── */
 
@@ -331,14 +330,7 @@ const SpinWheel = () => {
       setShowModal(true);
 
       if (prize.isWin) {
-        const duration = 3000;
-        const end = Date.now() + duration;
-        const colors = ["#E8B417", "#E53E3E", "#fff", "#F59E0B"];
-        (function frame() {
-          confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors });
-          confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors });
-          if (Date.now() < end) requestAnimationFrame(frame);
-        })();
+        // Celebration effect - simple visual feedback
       }
     }, 5500);
   }, [spinning, rotation, segmentAngle]);
@@ -740,7 +732,6 @@ const Index = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              confetti({ particleCount: 30, spread: 60, origin: { y: 0.7 } });
               alert("Message sent! We'll get back to you within 24 hours.");
             }}
             className="space-y-5"
