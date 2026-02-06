@@ -82,12 +82,12 @@ const Navbar = ({ activeSection }: { activeSection: string }) => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-xl border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-green-900/90 via-green-900/85 to-black/90 backdrop-blur-xl border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <button onClick={() => scrollTo("hero")} className="flex items-center gap-2">
             <span className="text-2xl">🎰</span>
-            <span className="font-display font-bold text-lg text-gradient-gold">TechRewards</span>
+            <span className="font-display font-bold text-lg bg-gradient-to-r from-amber-300 to-emerald-300 bg-clip-text text-transparent">TechRewards</span>
           </button>
 
           <div className="hidden md:flex items-center gap-1">
@@ -97,8 +97,8 @@ const Navbar = ({ activeSection }: { activeSection: string }) => {
                 onClick={() => scrollTo(l.id)}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                   activeSection === l.id
-                    ? "text-secondary bg-secondary/10"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    ? "text-amber-300 bg-white/10"
+                    : "text-white/80 hover:text-white hover:bg-white/5"
                 }`}
               >
                 {l.label}
@@ -108,7 +108,7 @@ const Navbar = ({ activeSection }: { activeSection: string }) => {
 
           <button
             onClick={() => setOpen(!open)}
-            className="md:hidden p-2 rounded-md text-foreground"
+            className="md:hidden p-2 rounded-md text-white"
             aria-label="Toggle menu"
           >
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -119,13 +119,13 @@ const Navbar = ({ activeSection }: { activeSection: string }) => {
       </div>
 
       {open && (
-        <div className="md:hidden bg-background/95 backdrop-blur-xl border-b border-border">
+        <div className="md:hidden bg-gradient-to-b from-green-900/95 to-black/95 backdrop-blur-xl border-b border-white/10">
           <div className="px-4 py-3 space-y-1">
             {links.map((l) => (
               <button
                 key={l.id}
                 onClick={() => scrollTo(l.id)}
-                className="block w-full text-left px-3 py-2 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                className="block w-full text-left px-3 py-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/10 transition-colors"
               >
                 {l.label}
               </button>
@@ -348,18 +348,21 @@ const SpinWheel = () => {
             style={{
               borderLeft: "16px solid transparent",
               borderRight: "16px solid transparent",
-              borderTop: "28px solid hsl(43, 96%, 56%)",
-              filter: "drop-shadow(0 2px 8px rgba(232,180,23,0.6))",
+              borderTop: "28px solid #fbbf24",
+              filter: "drop-shadow(0 2px 8px rgba(251,191,36,0.6))",
             }}
           />
         </div>
 
         {/* Wheel outer gold ring */}
         <div
-          className="relative rounded-full p-2 glow-gold"
-          style={{ background: "linear-gradient(135deg, hsl(43 96% 56%), hsl(35 90% 45%))" }}
+          className="relative rounded-full p-2"
+          style={{ 
+            background: "linear-gradient(135deg, #fbbf24, #d97706)",
+            boxShadow: "0 0 20px rgba(251,191,36,0.4)"
+          }}
         >
-          <div className="rounded-full p-1 bg-background">
+          <div className="rounded-full p-1 bg-gradient-to-br from-green-800 via-green-900 to-black">
             <div
               className="relative rounded-full overflow-hidden"
               style={{
@@ -384,9 +387,9 @@ const SpinWheel = () => {
           disabled={spinning}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 rounded-full w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center font-display font-bold text-sm sm:text-base transition-transform hover:scale-110 active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed"
           style={{
-            background: "linear-gradient(135deg, hsl(43 96% 56%), hsl(35 90% 45%))",
+            background: "linear-gradient(135deg, #fbbf24, #d97706)",
             color: "hsl(220, 20%, 10%)",
-            boxShadow: "0 4px 20px rgba(232,180,23,0.5), inset 0 2px 4px rgba(255,255,255,0.3)",
+            boxShadow: "0 4px 20px rgba(251,191,36,0.5), inset 0 2px 4px rgba(255,255,255,0.3)",
           }}
           aria-label="Spin the wheel"
         >
@@ -405,11 +408,11 @@ const SpinWheel = () => {
             className="relative max-w-md w-full rounded-2xl p-8 text-center animate-bounce-in"
             style={{
               background: result.isWin
-                ? "linear-gradient(145deg, #FFD700, #FFC700)"
-                : "linear-gradient(145deg, hsl(220 18% 16%), hsl(220 18% 12%))",
-              border: result.isWin ? "3px solid #FFB700" : "2px solid hsl(220 15% 25%)",
+                ? "linear-gradient(145deg, #fbbf24, #d97706)"
+                : "linear-gradient(145deg, #064e3b, #022c22)",
+              border: result.isWin ? "3px solid #f59e0b" : "2px solid #047857",
               boxShadow: result.isWin
-                ? "0 0 80px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 200, 0, 0.4)"
+                ? "0 0 80px rgba(251,191,36,0.6), 0 0 40px rgba(245,158,11,0.4)"
                 : "0 8px 32px rgba(0,0,0,0.5)",
             }}
             onClick={(e) => e.stopPropagation()}
@@ -417,7 +420,7 @@ const SpinWheel = () => {
             {result.isWin ? (
               <>
                 {result.image ? (
-                  <div className="w-32 h-32 mx-auto mb-4 rounded-2xl overflow-hidden bg-foreground/10 flex items-center justify-center animate-float border-4" style={{ borderColor: "#FFB700" }}>
+                  <div className="w-32 h-32 mx-auto mb-4 rounded-2xl overflow-hidden bg-white/10 flex items-center justify-center animate-float border-4" style={{ borderColor: "#f59e0b" }}>
                     <img
                       src={result.image}
                       alt={result.name}
@@ -430,12 +433,12 @@ const SpinWheel = () => {
                 <h3 className="font-display text-3xl font-black mb-2" style={{ color: "#1a1a1a", textShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
                   🎉 CONGRATULATIONS! 🎉
                 </h3>
-                <p className="text-foreground text-lg font-bold mb-1" style={{ color: "#1a1a1a" }}>You won:</p>
-                <p className="text-3xl font-black mb-2" style={{ color: "#D00000" }}>{result.name}</p>
+                <p className="text-black text-lg font-bold mb-1">You won:</p>
+                <p className="text-3xl font-black mb-2" style={{ color: "#dc2626" }}>{result.name}</p>
                 {result.value && (
-                  <p className="text-foreground font-semibold mb-4" style={{ color: "#1a1a1a" }}>Worth {result.value}</p>
+                  <p className="text-black font-semibold mb-4">Worth {result.value}</p>
                 )}
-                <p className="text-foreground text-sm mb-6" style={{ color: "#333333" }}>{result.description}</p>
+                <p className="text-gray-800 text-sm mb-6">{result.description}</p>
                 <div className="flex gap-3 justify-center">
                   <button
                     onClick={() => {
@@ -444,8 +447,8 @@ const SpinWheel = () => {
                     }}
                     className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105 text-white"
                     style={{
-                      background: "linear-gradient(135deg, #D00000, #A00000)",
-                      boxShadow: "0 4px 12px rgba(208, 0, 0, 0.3)",
+                      background: "linear-gradient(135deg, #dc2626, #b91c1c)",
+                      boxShadow: "0 4px 12px rgba(220, 38, 38, 0.3)",
                     }}
                   >
                     Claim Prize
@@ -455,8 +458,8 @@ const SpinWheel = () => {
                     className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105"
                     style={{
                       background: "#1a1a1a",
-                      color: "#FFD700",
-                      border: "2px solid #FFD700",
+                      color: "#fbbf24",
+                      border: "2px solid #fbbf24",
                     }}
                   >
                     Spin Again
@@ -466,17 +469,17 @@ const SpinWheel = () => {
             ) : (
               <>
                 <div className="text-6xl mb-4">{result.emoji}</div>
-                <h3 className="font-display text-2xl font-bold text-foreground mb-3">
+                <h3 className="font-display text-2xl font-bold text-white mb-3">
                   {result.name}
                 </h3>
-                <p className="text-muted-foreground mb-6">
+                <p className="text-white/80 mb-6">
                   Don't give up! Every spin is a new chance to win amazing prizes.
                 </p>
                 <button
                   onClick={() => setShowModal(false)}
                   className="px-8 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105"
                   style={{
-                    background: "linear-gradient(135deg, hsl(0 80% 50%), hsl(0 80% 40%))",
+                    background: "linear-gradient(135deg, #dc2626, #b91c1c)",
                     color: "white",
                   }}
                 >
@@ -498,9 +501,9 @@ const SpinWheel = () => {
           <div
             className="relative max-w-md w-full rounded-3xl p-8 text-center animate-bounce-in"
             style={{
-              background: "linear-gradient(145deg, #FFD700, #FFC700)",
-              border: "3px solid #FFB700",
-              boxShadow: "0 0 80px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 200, 0, 0.4), 0 20px 40px rgba(0,0,0,0.5)",
+              background: "linear-gradient(145deg, #fbbf24, #d97706)",
+              border: "3px solid #f59e0b",
+              boxShadow: "0 0 80px rgba(251,191,36,0.6), 0 0 40px rgba(245,158,11,0.4), 0 20px 40px rgba(0,0,0,0.5)",
             }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -511,7 +514,7 @@ const SpinWheel = () => {
             </h2>
             
             <p className="text-sm mb-6" style={{ color: "#333333" }}>
-              To claim your <span className="font-semibold" style={{ color: "#D00000" }}>{result.name}</span> worth <span className="font-bold" style={{ color: "#D00000" }}>{result.value}</span>, you need to upgrade your account to premium status.
+              To claim your <span className="font-semibold" style={{ color: "#dc2626" }}>{result.name}</span> worth <span className="font-bold" style={{ color: "#dc2626" }}>{result.value}</span>, you need to upgrade your account to premium status.
             </p>
 
             <div className="rounded-xl p-4 mb-6" style={{ background: "rgba(0,0,0,0.1)", border: "2px solid rgba(0,0,0,0.2)" }}>
@@ -549,8 +552,8 @@ const SpinWheel = () => {
                 className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105"
                 style={{
                   background: "#1a1a1a",
-                  color: "#FFD700",
-                  border: "2px solid #FFD700",
+                  color: "#fbbf24",
+                  border: "2px solid #fbbf24",
                 }}
               >
                 Cancel
@@ -562,8 +565,8 @@ const SpinWheel = () => {
                 }}
                 className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105 text-white"
                 style={{
-                  background: "linear-gradient(135deg, #D00000, #A00000)",
-                  boxShadow: "0 4px 12px rgba(208, 0, 0, 0.3)",
+                  background: "linear-gradient(135deg, #dc2626, #b91c1c)",
+                  boxShadow: "0 4px 12px rgba(220, 38, 38, 0.3)",
                 }}
               >
                 Upgrade Account
@@ -594,10 +597,10 @@ const Section = ({
 
 const SectionTitle = ({ children, sub }: { children: React.ReactNode; sub?: string }) => (
   <div className="text-center mb-12 sm:mb-16">
-    <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-gradient-gold mb-4">
+    <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-amber-300 to-emerald-300 bg-clip-text text-transparent mb-4">
       {children}
     </h2>
-    {sub && <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{sub}</p>}
+    {sub && <p className="text-white/80 text-lg max-w-2xl mx-auto">{sub}</p>}
   </div>
 );
 
@@ -624,49 +627,84 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black text-white overflow-x-hidden">
+      <style jsx global>{`
+        @keyframes bounce-in {
+          0% { opacity: 0; transform: scale(0.9); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+        @keyframes slide-up {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse-glow {
+          0%, 100% { opacity: 0.6; }
+          50% { opacity: 1; box-shadow: 0 0 10px currentColor; }
+        }
+        .animate-bounce-in { animation: bounce-in 0.4s ease; }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-slide-up { animation: slide-up 0.6s ease; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        
+        /* Custom card styles */
+        .card-premium {
+          background: rgba(255, 255, 255, 0.06);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bg-hero {
+          background: linear-gradient(145deg, #065f46, #022c22, #000000);
+        }
+      `}</style>
+      
       <Navbar activeSection={activeSection} />
 
       {/* ── HERO ── */}
       <section
         id="hero"
-        className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-10 px-4 bg-hero overflow-hidden"
+        className="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-10 px-4 overflow-hidden"
       >
-        <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-primary/10 blur-[100px]" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-secondary/10 blur-[120px]" />
+        <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-emerald-300/10 blur-[100px]" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-amber-300/10 blur-[120px]" />
 
         <div className="relative z-10 text-center mb-8 sm:mb-10 animate-slide-up">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-secondary/30 bg-secondary/10 text-secondary text-sm font-medium mb-6">
-            <span className="animate-pulse-glow inline-block w-2 h-2 rounded-full bg-secondary" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-300/30 bg-amber-300/10 text-amber-300 text-sm font-medium mb-6">
+            <span className="animate-pulse-glow inline-block w-2 h-2 rounded-full bg-amber-300" />
             Live Promotion — Spin Now!
           </div>
           <h1 className="font-display text-4xl sm:text-5xl md:text-7xl font-black tracking-tight mb-4">
-            <span className="text-foreground">SPIN TO</span>{" "}
-            <span className="text-gradient-gold">WIN</span>
+            <span className="text-white">SPIN TO</span>{" "}
+            <span className="bg-gradient-to-r from-amber-300 to-emerald-300 bg-clip-text text-transparent">WIN</span>
           </h1>
-          <p className="text-muted-foreground text-base sm:text-lg max-w-lg mx-auto">
+          <p className="text-white/80 text-base sm:text-lg max-w-lg mx-auto">
             Win iPhones, MacBooks, Smart TVs and more — 100% free, no sign-up required!
           </p>
         </div>
 
         <SpinWheel />
 
-        <div className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-6 text-center text-sm text-muted-foreground">
+        <div className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-6 text-center text-sm text-white/80">
           <div>
-            <span className="block text-2xl font-bold text-foreground">12</span>
+            <span className="block text-2xl font-bold text-white">12</span>
             Amazing Prizes
           </div>
           <div>
-            <span className="block text-2xl font-bold text-secondary">500+</span>
+            <span className="block text-2xl font-bold text-amber-300">500+</span>
             Winners So Far
           </div>
           <div>
-            <span className="block text-2xl font-bold text-foreground">₦5M+</span>
+            <span className="block text-2xl font-bold text-white">₦5M+</span>
             Given Away
           </div>
         </div>
 
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce text-muted-foreground">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce text-white/80">
           <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M12 5v14M5 12l7 7 7-7" />
           </svg>
@@ -682,10 +720,10 @@ const Index = () => {
           {PRIZES.filter((p) => p.isWin).map((prize, i) => (
             <div
               key={i}
-              className="card-premium rounded-xl p-5 flex flex-col items-center text-center transition-all hover:-translate-y-1 hover:border-secondary/40 group"
+              className="card-premium rounded-xl p-5 flex flex-col items-center text-center transition-all hover:-translate-y-1 hover:border-amber-300/40 group"
             >
               {prize.image ? (
-                <div className="w-28 h-28 rounded-xl overflow-hidden mb-4 bg-foreground/5 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <div className="w-28 h-28 rounded-xl overflow-hidden mb-4 bg-white/5 flex items-center justify-center group-hover:scale-105 transition-transform">
                   <img
                     src={prize.image}
                     alt={prize.name}
@@ -701,16 +739,16 @@ const Index = () => {
                   {prize.emoji}
                 </div>
               )}
-              <h3 className="font-display text-sm font-bold text-foreground mb-1">{prize.name}</h3>
-              <p className="text-secondary font-semibold text-sm mb-2">{prize.value}</p>
-              <p className="text-muted-foreground text-xs leading-relaxed">{prize.description}</p>
+              <h3 className="font-display text-sm font-bold text-white mb-1">{prize.name}</h3>
+              <p className="text-amber-300 font-semibold text-sm mb-2">{prize.value}</p>
+              <p className="text-white/80 text-xs leading-relaxed">{prize.description}</p>
             </div>
           ))}
         </div>
       </Section>
 
       {/* ── HOW IT WORKS ── */}
-      <Section id="how" className="bg-muted/30">
+      <Section id="how" className="bg-white/5">
         <SectionTitle sub="It's as easy as 1-2-3. No catches, no hidden fees.">
           How It Works
         </SectionTitle>
@@ -720,20 +758,20 @@ const Index = () => {
             { step: "02", icon: "🎯", title: "Land on a Prize", desc: "Watch the wheel spin and land on one of 12 exciting segments. Each spin is random and fair." },
             { step: "03", icon: "🎁", title: "Claim Your Prize", desc: "If you win, a congratulations screen pops up. Follow the steps to claim your amazing prize!" },
           ].map((item, i) => (
-            <div key={i} className="card-premium rounded-xl p-8 text-center relative overflow-hidden group hover:border-secondary/40 transition-all">
-              <div className="absolute top-3 right-4 font-display text-5xl font-black text-foreground/5 group-hover:text-secondary/10 transition-colors">
+            <div key={i} className="card-premium rounded-xl p-8 text-center relative overflow-hidden group hover:border-amber-300/40 transition-all">
+              <div className="absolute top-3 right-4 font-display text-5xl font-black text-white/5 group-hover:text-amber-300/10 transition-colors">
                 {item.step}
               </div>
               <div className="text-4xl mb-4">{item.icon}</div>
-              <h3 className="font-display text-lg font-bold text-foreground mb-2">{item.title}</h3>
-              <p className="text-muted-foreground text-sm">{item.desc}</p>
+              <h3 className="font-display text-lg font-bold text-white mb-2">{item.title}</h3>
+              <p className="text-white/80 text-sm">{item.desc}</p>
             </div>
           ))}
         </div>
 
         <div className="mt-12 max-w-2xl mx-auto card-premium rounded-xl p-6">
-          <h4 className="font-display text-sm font-bold text-secondary mb-3">📜 Rules & Terms</h4>
-          <ul className="text-muted-foreground text-xs space-y-2 list-disc list-inside">
+          <h4 className="font-display text-sm font-bold text-amber-300 mb-3">📜 Rules & Terms</h4>
+          <ul className="text-white/80 text-xs space-y-2 list-disc list-inside">
             <li>This is a promotional demo — prizes shown are for demonstration purposes.</li>
             <li>Each spin result is randomly generated and independent of previous spins.</li>
             <li>Prize fulfilment is subject to verification and availability.</li>
@@ -752,15 +790,15 @@ const Index = () => {
           {WINNERS.map((w, i) => (
             <div
               key={i}
-              className="card-premium rounded-xl p-5 flex items-center gap-4 hover:border-secondary/40 transition-all"
+              className="card-premium rounded-xl p-5 flex items-center gap-4 hover:border-amber-300/40 transition-all"
             >
-              <div className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold bg-primary/20 text-primary shrink-0">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold bg-emerald-300/20 text-emerald-300 shrink-0">
                 {w.name.charAt(0)}
               </div>
               <div className="min-w-0">
-                <p className="font-semibold text-foreground text-sm truncate">{w.name}</p>
-                <p className="text-secondary text-xs font-medium truncate">Won: {w.prize}</p>
-                <p className="text-muted-foreground text-xs">
+                <p className="font-semibold text-white text-sm truncate">{w.name}</p>
+                <p className="text-amber-300 text-xs font-medium truncate">Won: {w.prize}</p>
+                <p className="text-white/80 text-xs">
                   {w.date} · {w.location}
                 </p>
               </div>
@@ -770,17 +808,17 @@ const Index = () => {
       </Section>
 
       {/* ── ABOUT ── */}
-      <Section id="about" className="bg-muted/30">
+      <Section id="about" className="bg-white/5">
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-gradient-gold mb-6">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold bg-gradient-to-r from-amber-300 to-emerald-300 bg-clip-text text-transparent mb-6">
               About TechRewards Hub
             </h2>
-            <p className="text-muted-foreground mb-4 leading-relaxed">
+            <p className="text-white/80 mb-4 leading-relaxed">
               TechRewards Hub is a premier promotional platform dedicated to giving back to our community.
               We partner with leading tech brands to bring you the most exciting giveaway campaigns.
             </p>
-            <p className="text-muted-foreground mb-6 leading-relaxed">
+            <p className="text-white/80 mb-6 leading-relaxed">
               Since launching, we've given away over ₦5 million in prizes to 500+ lucky winners across
               Nigeria. Our mission is simple: reward loyalty, spread joy, and put premium tech in
               everyone's hands.
@@ -792,16 +830,16 @@ const Index = () => {
                 { val: "4.9★", label: "Rating" },
               ].map((s, i) => (
                 <div key={i} className="card-premium rounded-lg p-3 text-center">
-                  <div className="font-display text-xl font-bold text-secondary">{s.val}</div>
-                  <div className="text-muted-foreground text-xs">{s.label}</div>
+                  <div className="font-display text-xl font-bold text-amber-300">{s.val}</div>
+                  <div className="text-white/80 text-xs">{s.label}</div>
                 </div>
               ))}
             </div>
           </div>
           <div className="card-premium rounded-2xl p-8 flex flex-col items-center justify-center text-center">
             <div className="text-6xl mb-4">🏆</div>
-            <h3 className="font-display text-xl font-bold text-foreground mb-3">Our Promise</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
+            <h3 className="font-display text-xl font-bold text-white mb-3">Our Promise</h3>
+            <p className="text-white/80 text-sm leading-relaxed">
               Every spin is fair, every prize is real, and every winner is celebrated. We believe
               everyone deserves a shot at something extraordinary.
             </p>
@@ -822,7 +860,7 @@ const Index = () => {
       </Section>
 
       {/* ── CONTACT ── */}
-      <Section id="contact" className="bg-muted/30">
+      <Section id="contact" className="bg-white/5">
         <SectionTitle sub="Have a question or need help claiming a prize? Reach out!">
           Contact Us
         </SectionTitle>
@@ -835,7 +873,7 @@ const Index = () => {
             className="space-y-5"
           >
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1.5">
+              <label htmlFor="name" className="block text-sm font-medium text-white mb-1.5">
                 Name
               </label>
               <input
@@ -843,11 +881,11 @@ const Index = () => {
                 type="text"
                 required
                 placeholder="Your full name"
-                className="w-full px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all text-sm"
+                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all text-sm"
               />
             </div>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-1.5">
+              <label htmlFor="email" className="block text-sm font-medium text-white mb-1.5">
                 Email
               </label>
               <input
@@ -855,11 +893,11 @@ const Index = () => {
                 type="email"
                 required
                 placeholder="you@example.com"
-                className="w-full px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all text-sm"
+                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all text-sm"
               />
             </div>
             <div>
-              <label htmlFor="message" className="block text-sm font-medium text-foreground mb-1.5">
+              <label htmlFor="message" className="block text-sm font-medium text-white mb-1.5">
                 Message
               </label>
               <textarea
@@ -867,14 +905,14 @@ const Index = () => {
                 required
                 rows={4}
                 placeholder="How can we help?"
-                className="w-full px-4 py-3 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all text-sm resize-none"
+                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all text-sm resize-none"
               />
             </div>
             <button
               type="submit"
               className="w-full py-3 rounded-lg font-semibold text-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
               style={{
-                background: "linear-gradient(135deg, hsl(43 96% 56%), hsl(35 90% 45%))",
+                background: "linear-gradient(135deg, #fbbf24, #d97706)",
                 color: "hsl(220, 20%, 10%)",
               }}
             >
@@ -885,22 +923,22 @@ const Index = () => {
       </Section>
 
       {/* ── FOOTER ── */}
-      <footer className="border-t border-border bg-background py-10 px-4 sm:px-6 lg:px-8">
+      <footer className="border-t border-white/10 bg-gradient-to-r from-green-900 via-green-900 to-black py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
             <span className="text-xl">🎰</span>
-            <span className="font-display font-bold text-gradient-gold">TechRewards Hub</span>
+            <span className="font-display font-bold bg-gradient-to-r from-amber-300 to-emerald-300 bg-clip-text text-transparent">TechRewards Hub</span>
           </div>
           <div className="flex gap-4">
             {["Twitter", "Instagram", "Facebook", "TikTok"].map((s) => (
-              <a key={s} href="#" className="text-muted-foreground hover:text-secondary transition-colors text-sm">
+              <a key={s} href="#" className="text-white/80 hover:text-amber-300 transition-colors text-sm">
                 {s}
               </a>
             ))}
           </div>
-          <p className="text-muted-foreground text-xs">
+          <p className="text-white/60 text-xs">
             © 2026 TechRewards Hub. All rights reserved. |{" "}
-            <a href="#" className="hover:text-secondary transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-amber-300 transition-colors">Privacy Policy</a>
           </p>
         </div>
       </footer>
@@ -913,15 +951,15 @@ const Index = () => {
 const FaqItem = ({ q, a }: { q: string; a: string }) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className="card-premium rounded-xl overflow-hidden transition-all hover:border-secondary/40">
+    <div className="card-premium rounded-xl overflow-hidden transition-all hover:border-amber-300/40">
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between p-5 text-left"
         aria-expanded={open}
       >
-        <span className="font-semibold text-foreground text-sm pr-4">{q}</span>
+        <span className="font-semibold text-white text-sm pr-4">{q}</span>
         <svg
-          className={`w-5 h-5 text-secondary shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
+          className={`w-5 h-5 text-amber-300 shrink-0 transition-transform ${open ? "rotate-180" : ""}`}
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
@@ -932,7 +970,7 @@ const FaqItem = ({ q, a }: { q: string; a: string }) => {
       </button>
       {open && (
         <div className="px-5 pb-5">
-          <p className="text-muted-foreground text-sm leading-relaxed">{a}</p>
+          <p className="text-white/80 text-sm leading-relaxed">{a}</p>
         </div>
       )}
     </div>
