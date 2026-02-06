@@ -155,7 +155,7 @@ export default function TaskPage() {
   }, [router])
 
   // Initialize task timer hook
-  const { startTaskTimer, clearTaskTimer, attachFocusListener } = useTaskTimer()
+  const { startTaskTimer, attachFocusListener } = useTaskTimer()
 
   // Set up focus listener on mount
   useEffect(() => {

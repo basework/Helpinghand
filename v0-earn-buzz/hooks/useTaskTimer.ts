@@ -1,15 +1,17 @@
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 
 export function useTaskTimer() {
-  const activeTaskTimers = useRef<Map<string, number>>(new Map()) // taskId -> startTime only
+  // Store task tracking in sessionStorage: { taskId: startTime }
+  const STORAGE_KEY = "taskTimers"
 
   const startTaskTimer = (taskId: string) => {
-    // Record or overwrite the start time for this task
-    activeTaskTimers.current.set(taskId, Date.now())
-  }
-
-  const clearTaskTimer = (taskId: string) => {
-    activeTaskTimers.current.delete(taskId)
+    try {
+      const timers = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "{}")
+      timers[taskId] = Date.now()
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(timers))
+    } catch (e) {
+      console.error("Error storing task timer:", e)
+    }
   }
 
   const attachFocusListener = (
@@ -18,30 +20,45 @@ export function useTaskTimer() {
     isTaskCompleted: (taskId: string) => boolean
   ) => {
     const handleFocus = () => {
-      const now = Date.now()
-      const tasksToDelete: string[] = []
+      try {
+        const timers = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "{}")
+        if (!timers || Object.keys(timers).length === 0) return
 
-      for (const [taskId, startTime] of activeTaskTimers.current.entries()) {
-        // Skip and delete if task is already completed (no retrigger)
-        if (isTaskCompleted(taskId)) {
-          tasksToDelete.push(taskId)
-          continue
-        }
+        const now = Date.now()
+        const tasksToDelete: string[] = []
 
-        const elapsed = now - startTime
+        Object.entries(timers).forEach(([taskId, startTime]) => {
+          const elapsed = now - (startTime as number)
 
-        if (elapsed >= 10000) {
-          // Task completed — process and delete from tracking
-          onTaskSuccess(taskId, elapsed)
-          tasksToDelete.push(taskId)
+          // Skip already-completed tasks
+          if (isTaskCompleted(taskId)) {
+            tasksToDelete.push(taskId)
+            return
+          }
+
+          if (elapsed >= 10000) {
+            // Task qualifies for completion
+            onTaskSuccess(taskId, elapsed)
+            tasksToDelete.push(taskId)
+          } else {
+            // Task incomplete — show warning, keep timestamp for retry
+            onTaskIncomplete(taskId, elapsed)
+          }
+        })
+
+        // Remove completed/processed tasks from storage
+        tasksToDelete.forEach((taskId) => {
+          delete timers[taskId]
+        })
+
+        if (Object.keys(timers).length > 0) {
+          sessionStorage.setItem(STORAGE_KEY, JSON.stringify(timers))
         } else {
-          // Task incomplete — show warning but keep in tracking for retry
-          onTaskIncomplete(taskId, elapsed)
+          sessionStorage.removeItem(STORAGE_KEY)
         }
+      } catch (e) {
+        console.error("Error processing task timers on focus:", e)
       }
-
-      // Clean up completed tasks after processing
-      tasksToDelete.forEach((taskId) => activeTaskTimers.current.delete(taskId))
     }
 
     window.addEventListener("focus", handleFocus)
@@ -51,5 +68,5 @@ export function useTaskTimer() {
     }
   }
 
-  return { startTaskTimer, clearTaskTimer, attachFocusListener }
+  return { startTaskTimer, attachFocusListener }
 }
