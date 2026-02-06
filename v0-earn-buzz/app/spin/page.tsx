@@ -28,25 +28,25 @@ interface Prize {
 }
 
 const PRIZES: Prize[] = [
-  { name: "iPhone 15 Pro", emoji: "📱", color: "#E53E3E", value: "₦750,000", isWin: true, description: "The latest iPhone with A17 Pro chip, titanium design, and pro camera system.", image: imgIphone15 },
+  { name: "iPhone 16 Pro", emoji: "📱", color: "#E53E3E", value: "₦950,000", isWin: true, description: "The latest iPhone with Pro chip, titanium design, and pro camera system.", image: imgIphone15 },
   { name: "Smart Refrigerator", emoji: "❄️", color: "#2D9CDB", value: "₦650,000", isWin: true, description: "Samsung Family Hub smart fridge with touchscreen and AI-powered features.", image: imgFridge },
-  { name: "iPhone 17", emoji: "🤩", color: "#9B51E0", value: "₦900,000", isWin: true, description: "Next-gen iPhone 17 with revolutionary design and cutting-edge performance.", image: imgIphone17 },
+  { name: "iPhone 17", emoji: "🤩", color: "#9B51E0", value: "₦1,900,000", isWin: true, description: "Next-gen iPhone 17 with revolutionary design and cutting-edge performance.", image: imgIphone17 },
   { name: "55\" OLED Smart TV", emoji: "📺", color: "#219653", value: "₦500,000", isWin: true, description: "LG 55-inch OLED TV with Dolby Vision, Atmos, and smart webOS platform.", image: imgOledTv },
-  { name: "PlayStation 5", emoji: "🎮", color: "#2F80ED", value: "₦350,000", isWin: true, description: "Sony PS5 console with DualSense controller and 825GB SSD storage.", image: imgPs5 },
+  { name: "PlayStation 5", emoji: "🎮", color: "#2F80ED", value: "₦900,000", isWin: true, description: "Sony PS5 console with DualSense controller and 825GB SSD storage.", image: imgPs5 },
   { name: "Better Luck Next Time!", emoji: "😅", color: "#4A5568", value: "", isWin: false, description: "" },
   { name: "MacBook Air M3", emoji: "💻", color: "#F2994A", value: "₦850,000", isWin: true, description: "Apple MacBook Air with M3 chip, 15-hour battery, and Liquid Retina display.", image: imgMacbook },
   { name: "iPhone 16", emoji: "📲", color: "#EB5757", value: "₦800,000", isWin: true, description: "iPhone 16 with Action button, A18 chip, and advanced camera features.", image: imgIphone16 },
-  { name: "₦50,000 Gift Card", emoji: "🎁", color: "#27AE60", value: "₦50,000", isWin: true, description: "₦50,000 shopping gift card redeemable at any partner store nationwide.", image: imgGiftCard },
-  { name: "Gaming Headset", emoji: "🎧", color: "#8B5CF6", value: "₦120,000", isWin: true, description: "Premium wireless gaming headset with noise cancellation and surround sound.", image: imgHeadset },
+  { name: "₦50,000 Gift Card", emoji: "🎁", color: "#27AE60", value: "$1,000", isWin: true, description: "₦50,000 shopping gift card redeemable at any partner store nationwide.", image: imgGiftCard },
+  { name: "Streamer Headset", emoji: "🎧", color: "#8B5CF6", value: "₦200,000", isWin: true, description: "Premium wireless gaming headset with noise cancellation and surround sound.", image: imgHeadset },
   { name: "Portable Projector", emoji: "🎬", color: "#F59E0B", value: "₦180,000", isWin: true, description: "4K portable smart projector with built-in speakers and streaming apps.", image: imgProjector },
   { name: "Spin Again!", emoji: "🔄", color: "#718096", value: "", isWin: false, description: "" },
 ];
 
 const WINNERS = [
-  { name: "Adebayo O.", prize: "iPhone 15 Pro", date: "Feb 4, 2026", location: "Lagos" },
+  { name: "Adebayo O.", prize: "iPhone 16 Pro", date: "Feb 4, 2026", location: "Lagos" },
   { name: "Chioma N.", prize: "PlayStation 5", date: "Feb 3, 2026", location: "Abuja" },
   { name: "Emeka K.", prize: "MacBook Air M3", date: "Feb 2, 2026", location: "Port Harcourt" },
-  { name: "Fatima B.", prize: "₦50,000 Gift Card", date: "Feb 1, 2026", location: "Kano" },
+  { name: "Fatima B.", prize: "$1,000 Gift Card", date: "Feb 1, 2026", location: "Kano" },
   { name: "Grace A.", prize: "Gaming Headset", date: "Jan 31, 2026", location: "Ibadan" },
   { name: "Ibrahim M.", prize: "55\" OLED Smart TV", date: "Jan 30, 2026", location: "Enugu" },
   { name: "Jennifer U.", prize: "iPhone 16", date: "Jan 29, 2026", location: "Benin City" },
@@ -54,7 +54,7 @@ const WINNERS = [
 ];
 
 const FAQS = [
-  { q: "Is this promotion real?", a: "Absolutely! TechRewards Hub is an officially registered promotional campaign. All prizes are genuine and verifiable. Winners are contacted directly to arrange delivery." },
+  { q: "Is this promotion real?", a: "Absolutely! Helping Hands is an officially registered earning platform . All prizes are genuine and verifiable. Winners are contacted directly to arrange delivery." },
   { q: "How many times can I spin?", a: "You can spin as many times as you like! Each spin is completely independent, so your chances are fresh every time." },
   { q: "How do I claim my prize?", a: "When you win, a congratulations screen will appear with instructions. You'll be asked to provide delivery details and our team will process your prize within 3-5 business days." },
   { q: "Is there a cost to participate?", a: "No! Spinning the wheel is 100% free. There are no hidden charges, subscriptions, or fees of any kind." },
@@ -87,7 +87,7 @@ const Navbar = ({ activeSection }: { activeSection: string }) => {
         <div className="flex items-center justify-between h-16">
           <button onClick={() => scrollTo("hero")} className="flex items-center gap-2">
             <span className="text-2xl">🎰</span>
-            <span className="font-display font-bold text-lg bg-gradient-to-r from-amber-300 to-emerald-300 bg-clip-text text-transparent">TechRewards</span>
+            <span className="font-display font-bold text-lg bg-gradient-to-r from-amber-300 to-emerald-300 bg-clip-text text-transparent">Helping Hands</span>
           </button>
 
           <div className="hidden md:flex items-center gap-1">
@@ -776,7 +776,7 @@ const Index = () => {
             <li>Each spin result is randomly generated and independent of previous spins.</li>
             <li>Prize fulfilment is subject to verification and availability.</li>
             <li>Participants must be 18 years or older.</li>
-            <li>TechRewards Hub reserves the right to modify or end the promotion at any time.</li>
+            <li>Helping Hands Hub reserves the right to modify or end the promotion at any time.</li>
           </ul>
         </div>
       </Section>
@@ -812,10 +812,10 @@ const Index = () => {
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="font-display text-3xl sm:text-4xl font-bold bg-gradient-to-r from-amber-300 to-emerald-300 bg-clip-text text-transparent mb-6">
-              About TechRewards Hub
+              About Helping Hands
             </h2>
             <p className="text-white/80 mb-4 leading-relaxed">
-              TechRewards Hub is a premier promotional platform dedicated to giving back to our community.
+              Helping Hands is a premier promotional platform dedicated to giving back to our community.
               We partner with leading tech brands to bring you the most exciting giveaway campaigns.
             </p>
             <p className="text-white/80 mb-6 leading-relaxed">
@@ -927,7 +927,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
             <span className="text-xl">🎰</span>
-            <span className="font-display font-bold bg-gradient-to-r from-amber-300 to-emerald-300 bg-clip-text text-transparent">TechRewards Hub</span>
+            <span className="font-display font-bold bg-gradient-to-r from-amber-300 to-emerald-300 bg-clip-text text-transparent">Helping Hands</span>
           </div>
           <div className="flex gap-4">
             {["Twitter", "Instagram", "Facebook", "TikTok"].map((s) => (
@@ -937,7 +937,7 @@ const Index = () => {
             ))}
           </div>
           <p className="text-white/60 text-xs">
-            © 2026 TechRewards Hub. All rights reserved. |{" "}
+            © 2026 Helping Hands. All rights reserved. |{" "}
             <a href="#" className="hover:text-amber-300 transition-colors">Privacy Policy</a>
           </p>
         </div>
