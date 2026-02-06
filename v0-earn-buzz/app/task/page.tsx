@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { ArrowLeft, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -118,9 +118,9 @@ export default function TaskPage() {
   const { toast } = useToast()
   const [completedTasks, setCompletedTasks] = useState<string[]>([])
   const [balance, setBalance] = useState(0)
-  const [verifyingTask, setVerifyingTask] = useState<string | null>(null)
-  const [progress, setProgress] = useState(0)
+  const [verifyingTasks, setVerifyingTasks] = useState<Record<string, {progress: number, startTime: number}>>({})
   const [cooldowns, setCooldowns] = useState<Record<string, number>>({})
+  const progressIntervals = useRef<Record<string, NodeJS.Timeout>>({})
 
   // Load user and tasks
   useEffect(() => {
@@ -146,6 +146,7 @@ export default function TaskPage() {
       // Reset all tasks for the new day
       setCompletedTasks([])
       setCooldowns({})
+      setVerifyingTasks({})
       localStorage.setItem("tivexx-completed-tasks", "[]")
       localStorage.setItem("tivexx-task-cooldowns", "{}")
       localStorage.setItem("tivexx-last-reset-date", today)
@@ -157,22 +158,43 @@ export default function TaskPage() {
   // Initialize task timer hook
   const { attachFocusListener } = useTaskTimer()
 
+  // Clean up intervals on unmount
+  useEffect(() => {
+    return () => {
+      Object.values(progressIntervals.current).forEach(interval => {
+        clearInterval(interval)
+      })
+    }
+  }, [])
+
   // Set up focus listener on mount
   useEffect(() => {
     const detach = attachFocusListener(
       // onTaskSuccess callback
       (taskId: string, elapsed: number) => {
-        completeVerification(taskId)
-        toast({
-          title: "Task Completed 🎉",
-          description: "Reward has been added to your balance!",
-        })
+        // Only process if task is still verifying
+        if (verifyingTasks[taskId]) {
+          completeVerification(taskId)
+          toast({
+            title: "Task Completed 🎉",
+            description: "Reward has been added to your balance!",
+          })
+        }
       },
       // onTaskIncomplete callback
       (taskId: string, elapsed: number) => {
         // Clear verifying state when task is incomplete
-        setVerifyingTask(null)
-        setProgress(0)
+        setVerifyingTasks(prev => {
+          const newState = { ...prev }
+          delete newState[taskId]
+          return newState
+        })
+        
+        // Clear interval
+        if (progressIntervals.current[taskId]) {
+          clearInterval(progressIntervals.current[taskId])
+          delete progressIntervals.current[taskId]
+        }
         
         // Show specific prompt based on time spent
         const timeSpent = Math.round(elapsed)
@@ -198,27 +220,52 @@ export default function TaskPage() {
       }
     )
     return detach
-  }, [completedTasks, toast])
+  }, [completedTasks, verifyingTasks, toast])
 
-  // Persist verification state - visual progress bar
-  useEffect(() => {
-    if (!verifyingTask) {
-      setProgress(0)
-      return
+  // Start progress animation for a specific task
+  const startProgressAnimation = (taskId: string) => {
+    // Clear any existing interval for this task
+    if (progressIntervals.current[taskId]) {
+      clearInterval(progressIntervals.current[taskId])
     }
     
     const startTime = Date.now()
-    const interval = setInterval(() => {
-      const elapsed = (Date.now() - startTime) / 1000
-      const newProgress = Math.min((elapsed / 20) * 100, 100)
-      setProgress(newProgress)
-      if (newProgress >= 100) {
-        clearInterval(interval)
+    
+    // Update verifying tasks state with start time
+    setVerifyingTasks(prev => ({
+      ...prev,
+      [taskId]: {
+        progress: 0,
+        startTime
       }
+    }))
+    
+    // Start progress interval
+    const interval = setInterval(() => {
+      setVerifyingTasks(prev => {
+        if (!prev[taskId]) return prev
+        
+        const elapsed = (Date.now() - prev[taskId].startTime) / 1000
+        const newProgress = Math.min((elapsed / 20) * 100, 100)
+        
+        // Clear interval if progress reaches 100%
+        if (newProgress >= 100) {
+          clearInterval(progressIntervals.current[taskId])
+          delete progressIntervals.current[taskId]
+        }
+        
+        return {
+          ...prev,
+          [taskId]: {
+            ...prev[taskId],
+            progress: newProgress
+          }
+        }
+      })
     }, 1000)
-
-    return () => clearInterval(interval)
-  }, [verifyingTask])
+    
+    progressIntervals.current[taskId] = interval
+  }
 
   // Countdown for cooldowns
   useEffect(() => {
@@ -272,6 +319,19 @@ export default function TaskPage() {
     setCooldowns(newCooldowns)
     localStorage.setItem("tivexx-task-cooldowns", JSON.stringify(newCooldowns))
 
+    // Remove from verifying tasks
+    setVerifyingTasks(prev => {
+      const newState = { ...prev }
+      delete newState[taskId]
+      return newState
+    })
+    
+    // Clear interval
+    if (progressIntervals.current[taskId]) {
+      clearInterval(progressIntervals.current[taskId])
+      delete progressIntervals.current[taskId]
+    }
+
     toast({
       title: "Reward Credited 🎉",
       description: `₦${task.reward.toLocaleString()} has been added to your balance.`,
@@ -289,9 +349,6 @@ export default function TaskPage() {
       container.appendChild(coin)
     }
     setTimeout(() => container.remove(), 3000)
-
-    setVerifyingTask(null)
-    setProgress(0)
   }
 
   const handleTaskClick = (task: Task) => {
@@ -329,9 +386,8 @@ export default function TaskPage() {
       duration: 5000,
     })
 
-    // Set verifying task — timer hook will handle timing on blur/focus
-    setVerifyingTask(task.id)
-    setProgress(0)
+    // Start progress animation for this specific task
+    startProgressAnimation(task.id)
     
     // Navigate in the same tab
     window.location.href = task.link
@@ -354,7 +410,8 @@ export default function TaskPage() {
 
       <div className="px-4 mt-6 space-y-4">
         {AVAILABLE_TASKS.map((task) => {
-          const isVerifying = verifyingTask === task.id
+          const isVerifying = verifyingTasks[task.id] !== undefined
+          const progress = isVerifying ? verifyingTasks[task.id].progress : 0
           const cooldown = cooldowns[task.id]
           const isCompleted = completedTasks.includes(task.id)
 
