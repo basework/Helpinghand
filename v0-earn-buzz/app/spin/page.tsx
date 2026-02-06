@@ -956,68 +956,7 @@ const Index = () => {
         </div>
       </Section>
 
-      {/* ── CONTACT ── */}
-      <Section id="contact" className="bg-white/5">
-        <SectionTitle>
-          Contact Us
-        </SectionTitle>
-        <div className="max-w-xl mx-auto card-premium rounded-2xl p-8">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              alert("Message sent! We'll get back to you within 24 hours.");
-            }}
-            className="space-y-5"
-          >
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-white mb-1.5">
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                required
-                placeholder="Your full name"
-                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all text-sm"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-white mb-1.5">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                placeholder="you@example.com"
-                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all text-sm"
-              />
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-white mb-1.5">
-                Message
-              </label>
-              <textarea
-                id="message"
-                required
-                rows={4}
-                placeholder="How can we help?"
-                className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/60 focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all text-sm resize-none"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full py-3 rounded-lg font-semibold text-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
-              style={{
-                background: "linear-gradient(135deg, #fbbf24, #d97706)",
-                color: "hsl(220, 20%, 10%)",
-              }}
-            >
-              Send Message
-            </button>
-          </form>
-        </div>
-      </Section>
+      
 
       {/* ── FOOTER ── */}
       <footer className="border-t border-white/10 bg-gradient-to-r from-green-900 via-green-900 to-black py-10 px-4 sm:px-6 lg:px-8">
