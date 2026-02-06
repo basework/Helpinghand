@@ -148,6 +148,7 @@ const SpinWheel = () => {
   const [rotation, setRotation] = useState(0);
   const [result, setResult] = useState<Prize | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
   const [imagesLoaded, setImagesLoaded] = useState(false);
@@ -401,10 +402,12 @@ const SpinWheel = () => {
           <div
             className="relative max-w-md w-full rounded-2xl p-8 text-center animate-bounce-in"
             style={{
-              background: "linear-gradient(145deg, hsl(220 18% 16%), hsl(220 18% 12%))",
-              border: result.isWin ? "2px solid hsl(43 96% 56%)" : "2px solid hsl(220 15% 25%)",
+              background: result.isWin
+                ? "linear-gradient(145deg, #FFD700, #FFC700)"
+                : "linear-gradient(145deg, hsl(220 18% 16%), hsl(220 18% 12%))",
+              border: result.isWin ? "3px solid #FFB700" : "2px solid hsl(220 15% 25%)",
               boxShadow: result.isWin
-                ? "0 0 60px hsl(43 96% 56% / 0.3)"
+                ? "0 0 80px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 200, 0, 0.4)"
                 : "0 8px 32px rgba(0,0,0,0.5)",
             }}
             onClick={(e) => e.stopPropagation()}
@@ -412,7 +415,7 @@ const SpinWheel = () => {
             {result.isWin ? (
               <>
                 {result.image ? (
-                  <div className="w-32 h-32 mx-auto mb-4 rounded-2xl overflow-hidden bg-foreground/10 flex items-center justify-center animate-float">
+                  <div className="w-32 h-32 mx-auto mb-4 rounded-2xl overflow-hidden bg-foreground/10 flex items-center justify-center animate-float border-4" style={{ borderColor: "#FFB700" }}>
                     <img
                       src={result.image}
                       alt={result.name}
@@ -422,29 +425,37 @@ const SpinWheel = () => {
                 ) : (
                   <div className="text-6xl mb-4 animate-float">{result.emoji}</div>
                 )}
-                <h3 className="font-display text-2xl font-bold text-gradient-gold mb-2">
+                <h3 className="font-display text-3xl font-black mb-2" style={{ color: "#1a1a1a", textShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
                   🎉 CONGRATULATIONS! 🎉
                 </h3>
-                <p className="text-foreground text-lg font-semibold mb-1">You won:</p>
-                <p className="text-2xl font-bold text-secondary mb-1">{result.name}</p>
+                <p className="text-foreground text-lg font-bold mb-1" style={{ color: "#1a1a1a" }}>You won:</p>
+                <p className="text-3xl font-black mb-2" style={{ color: "#D00000" }}>{result.name}</p>
                 {result.value && (
-                  <p className="text-muted-foreground text-sm mb-4">Worth {result.value}</p>
+                  <p className="text-foreground font-semibold mb-4" style={{ color: "#1a1a1a" }}>Worth {result.value}</p>
                 )}
-                <p className="text-muted-foreground text-sm mb-6">{result.description}</p>
+                <p className="text-foreground text-sm mb-6" style={{ color: "#333333" }}>{result.description}</p>
                 <div className="flex gap-3 justify-center">
                   <button
-                    onClick={() => setShowModal(false)}
-                    className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105"
+                    onClick={() => {
+                      setShowModal(false);
+                      setShowUpgradeModal(true);
+                    }}
+                    className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105 text-white"
                     style={{
-                      background: "linear-gradient(135deg, hsl(43 96% 56%), hsl(35 90% 45%))",
-                      color: "hsl(220, 20%, 10%)",
+                      background: "linear-gradient(135deg, #D00000, #A00000)",
+                      boxShadow: "0 4px 12px rgba(208, 0, 0, 0.3)",
                     }}
                   >
                     Claim Prize
                   </button>
                   <button
                     onClick={() => setShowModal(false)}
-                    className="px-6 py-3 rounded-lg font-semibold text-sm bg-muted text-foreground transition-all hover:scale-105"
+                    className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105"
+                    style={{
+                      background: "#1a1a1a",
+                      color: "#FFD700",
+                      border: "2px solid #FFD700",
+                    }}
                   >
                     Spin Again
                   </button>
@@ -471,6 +482,87 @@ const SpinWheel = () => {
                 </button>
               </>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Upgrade Account Modal */}
+      {showUpgradeModal && result && (
+        <div
+          className="fixed inset-0 z-[101] flex items-center justify-center p-4"
+          style={{ background: "rgba(0,0,0,0.9)", backdropFilter: "blur(10px)" }}
+          onClick={() => setShowUpgradeModal(false)}
+        >
+          <div
+            className="relative max-w-md w-full rounded-3xl p-8 text-center animate-bounce-in"
+            style={{
+              background: "linear-gradient(135deg, hsl(220 20% 14%), hsl(220 20% 8%))",
+              border: "2px solid hsl(43 96% 56%)",
+              boxShadow: "0 0 60px rgba(232, 180, 23, 0.3), 0 20px 40px rgba(0,0,0,0.5)",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-5xl mb-6 animate-float">✨</div>
+            
+            <h2 className="font-display text-2xl font-bold text-foreground mb-2">
+              Unlock Your Prize
+            </h2>
+            
+            <p className="text-muted-foreground text-sm mb-6">
+              To claim your <span className="font-semibold text-secondary">{result.name}</span> worth <span className="font-bold text-secondary">{result.value}</span>, you need to upgrade your account to premium status.
+            </p>
+
+            <div className="bg-secondary/10 rounded-xl p-4 mb-6 border border-secondary/20">
+              <div className="flex items-start gap-3 text-left">
+                <span className="text-lg mt-0.5">🔒</span>
+                <div>
+                  <p className="font-semibold text-foreground text-sm mb-1">Why upgrade?</p>
+                  <p className="text-muted-foreground text-xs">Premium accounts enjoy verified identity benefits, priority support, and exclusive prize access.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3 mb-8">
+              <div className="flex items-center gap-3 text-left">
+                <span className="text-secondary text-lg">✓</span>
+                <span className="text-foreground text-sm">Instant prize verification</span>
+              </div>
+              <div className="flex items-center gap-3 text-left">
+                <span className="text-secondary text-lg">✓</span>
+                <span className="text-foreground text-sm">Fast delivery within 3-5 days</span>
+              </div>
+              <div className="flex items-center gap-3 text-left">
+                <span className="text-secondary text-lg">✓</span>
+                <span className="text-foreground text-sm">24/7 customer support</span>
+              </div>
+              <div className="flex items-center gap-3 text-left">
+                <span className="text-secondary text-lg">✓</span>
+                <span className="text-foreground text-sm">Lifetime premium benefits</span>
+              </div>
+            </div>
+
+            <div className="flex gap-3 justify-center">
+              <button
+                onClick={() => setShowUpgradeModal(false)}
+                className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105 bg-muted text-foreground"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setShowUpgradeModal(false);
+                  // Navigate to upgrade or payment page
+                  alert("Redirecting to upgrade account...");
+                }}
+                className="px-6 py-3 rounded-lg font-semibold text-sm transition-all hover:scale-105 text-foreground"
+                style={{
+                  background: "linear-gradient(135deg, hsl(43 96% 56%), hsl(35 90% 45%))",
+                  boxShadow: "0 4px 20px rgba(232,180,23,0.3)",
+                }}
+              >
+                Upgrade Account
+              </button>
+            </div>
           </div>
         </div>
       )}
