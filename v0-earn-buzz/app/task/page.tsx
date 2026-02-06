@@ -173,8 +173,8 @@ export default function TaskPage() {
       } else {
         // User returned but didn't spend enough time
         toast({
-          title: "Task Not Completed",
-          description: "You didn't spend enough time on the task. Please try again and stay for at least 10 seconds.",
+          title: "Not Enough Time ⏱️",
+          description: "Please spend at least 10 seconds on the website and interact with it to complete the task. Click the button again and try once more.",
           variant: "destructive",
         })
         clearTaskTimer(taskId)
