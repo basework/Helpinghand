@@ -50,21 +50,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="theme-color" content="#ea580c" />
-        {/* HilltopAds zone script - placed in head for reliable async loading */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(uz){
-var d = document,
-    s = d.createElement('script'),
-    l = d.scripts[d.scripts.length - 1];
-s.settings = uz || {};
-s.src = "//tautshake.com/bxX.V/sDdqG/lf0LY/W/cM/Me/mr9FurZvUylKk/PiTaYP3/N/jWk/w_OOD/E_txN/jbcg2VOVTPAa4uNAQL";
-s.async = true;
-s.referrerPolicy = 'no-referrer-when-downgrade';
-l.parentNode.insertBefore(s, l);
-})({})`,
-          }}
-        />
+        {/* Head scripts intentionally left minimal */}
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
