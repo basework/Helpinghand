@@ -173,11 +173,24 @@ export default function TaskPage() {
         // Clear verifying state when task is incomplete
         setVerifyingTask(null)
         setProgress(0)
-        toast({
-          title: "Not Enough Time ⏱️",
-          description: "You need to spend at least 10 seconds interacting with the external site to complete this task. Please try again.",
-          variant: "destructive",
-        })
+        
+        // Show specific prompt based on time spent
+        const timeSpent = Math.round(elapsed)
+        if (timeSpent < 10) {
+          toast({
+            title: "Not Enough Time Spent ⏱️",
+            description: `You only spent ${timeSpent} seconds on the site. Please spend at least 10 seconds interacting with the external site to complete this task. Try again!`,
+            variant: "destructive",
+            duration: 5000,
+          })
+        } else {
+          toast({
+            title: "Incomplete Task ⚠️",
+            description: "The task was not completed successfully. Please try again!",
+            variant: "destructive",
+            duration: 5000,
+          })
+        }
       },
       // isTaskCompleted checker
       (taskId: string) => {
@@ -314,6 +327,7 @@ export default function TaskPage() {
     toast({
       title: "Task Started ⏱️",
       description: "Make sure to spend at least 10 seconds on the site before returning.",
+      duration: 4000,
     })
 
     // Clear any existing verifying task
