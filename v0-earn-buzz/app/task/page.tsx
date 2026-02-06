@@ -6,6 +6,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
+import { useTaskTimer } from "@/hooks/useTaskTimer"
 
 interface Task {
   id: string
@@ -153,34 +154,33 @@ export default function TaskPage() {
     }
   }, [router])
 
-  // Check for return from external ad/redirect and validate time spent
+  // Initialize task timer hook
+  const { startTaskTimer, clearTaskTimer, attachFocusListener } = useTaskTimer()
+
+  // Set up focus listener on mount
   useEffect(() => {
-    try {
-      const start = localStorage.getItem("adClickStart")
-      const taskId = localStorage.getItem("adClickTaskId")
-      if (!start || !taskId) return
-
-      // Clear stored values once read
-      localStorage.removeItem("adClickStart")
-      localStorage.removeItem("adClickTaskId")
-
-      const elapsed = Date.now() - Number(start)
+    const detach = attachFocusListener((taskId: string, elapsed: number) => {
       const alreadyCompleted = JSON.parse(localStorage.getItem("tivexx-completed-tasks") || "[]") || []
-      if (alreadyCompleted.includes(taskId)) return
+      if (alreadyCompleted.includes(taskId)) {
+        clearTaskTimer(taskId)
+        return
+      }
 
       if (elapsed >= 10000) {
         // User spent at least 10s — credit the reward
         completeVerification(taskId)
+        clearTaskTimer(taskId)
       } else {
+        // User returned but didn't spend enough time
         toast({
           title: "Task Not Completed",
-          description: "You didn't spend enough time on the task. Please try again and stay on the site for at least 10 seconds.",
+          description: "You didn't spend enough time on the task. Please try again and stay for at least 10 seconds.",
           variant: "destructive",
         })
+        clearTaskTimer(taskId)
       }
-    } catch (e) {
-      // ignore
-    }
+    })
+    return detach
   }, [])
 
   // Persist verification state
@@ -302,13 +302,14 @@ export default function TaskPage() {
     }
 
     toast({
-      title: "Complete the Task First ⚠️",
-      description: "You'll be redirected — make sure to spend at least 10 seconds there before returning.",
+      title: "Task Started ⏱️",
+      description: "Make sure to spend at least 10 seconds on the site before returning.",
     })
 
-    const redirect = `/redirect?to=${encodeURIComponent(task.link)}&task=${encodeURIComponent(task.id)}`
-    // navigate in same tab so start timestamp is recorded by the redirect page
-    window.location.href = redirect
+    // Start recording time
+    startTaskTimer(task.id)
+    // Open external link in new tab
+    window.open(task.link, "_blank", "noopener,noreferrer")
   }
 
   return (
