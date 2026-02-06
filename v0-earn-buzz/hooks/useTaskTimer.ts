@@ -1,17 +1,11 @@
 import { useEffect, useRef } from "react"
 
-interface TaskTimerData {
-  startTime: number
-  notified: boolean
-}
-
 export function useTaskTimer() {
-  const activeTaskTimers = useRef<Map<string, TaskTimerData>>(new Map())
-  const focusListenerAttached = useRef(false)
+  const activeTaskTimers = useRef<Map<string, number>>(new Map()) // taskId -> startTime only
 
   const startTaskTimer = (taskId: string) => {
-    // Reset or create new timer entry (allows re-attempting the same task)
-    activeTaskTimers.current.set(taskId, { startTime: Date.now(), notified: false })
+    // Record or overwrite the start time for this task
+    activeTaskTimers.current.set(taskId, Date.now())
   }
 
   const clearTaskTimer = (taskId: string) => {
@@ -19,21 +13,35 @@ export function useTaskTimer() {
   }
 
   const attachFocusListener = (
-    onTaskReturn: (taskId: string, elapsed: number) => void
+    onTaskSuccess: (taskId: string, elapsed: number) => void,
+    onTaskIncomplete: (taskId: string, elapsed: number) => void,
+    isTaskCompleted: (taskId: string) => boolean
   ) => {
-    if (focusListenerAttached.current) return
-    focusListenerAttached.current = true
-
     const handleFocus = () => {
       const now = Date.now()
-      for (const [taskId, data] of activeTaskTimers.current.entries()) {
-        if (data.notified) continue // Skip if we already notified for this return
-        
-        const elapsed = now - data.startTime
-        data.notified = true // Mark as notified for this window return
-        onTaskReturn(taskId, elapsed)
-        // Do NOT delete here — let the caller decide when to clear
+      const tasksToDelete: string[] = []
+
+      for (const [taskId, startTime] of activeTaskTimers.current.entries()) {
+        // Skip and delete if task is already completed (no retrigger)
+        if (isTaskCompleted(taskId)) {
+          tasksToDelete.push(taskId)
+          continue
+        }
+
+        const elapsed = now - startTime
+
+        if (elapsed >= 10000) {
+          // Task completed — process and delete from tracking
+          onTaskSuccess(taskId, elapsed)
+          tasksToDelete.push(taskId)
+        } else {
+          // Task incomplete — show warning but keep in tracking for retry
+          onTaskIncomplete(taskId, elapsed)
+        }
       }
+
+      // Clean up completed tasks after processing
+      tasksToDelete.forEach((taskId) => activeTaskTimers.current.delete(taskId))
     }
 
     window.addEventListener("focus", handleFocus)

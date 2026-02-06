@@ -159,29 +159,29 @@ export default function TaskPage() {
 
   // Set up focus listener on mount
   useEffect(() => {
-    const detach = attachFocusListener((taskId: string, elapsed: number) => {
-      const alreadyCompleted = JSON.parse(localStorage.getItem("tivexx-completed-tasks") || "[]") || []
-      
-      // If task is already completed, just clear the timer and ignore
-      if (alreadyCompleted.includes(taskId)) {
-        clearTaskTimer(taskId)
-        return
-      }
-
-      if (elapsed >= 10000) {
-        // User spent at least 10s — credit the reward
+    const detach = attachFocusListener(
+      // onTaskSuccess callback
+      (taskId: string, elapsed: number) => {
         completeVerification(taskId)
-        clearTaskTimer(taskId)
-      } else {
-        // User returned but didn't spend enough time
+        toast({
+          title: "Task Completed 🎉",
+          description: "Reward has been added to your balance!",
+        })
+      },
+      // onTaskIncomplete callback
+      (taskId: string, elapsed: number) => {
         toast({
           title: "Not Enough Time ⏱️",
-          description: "Please spend at least 10 seconds on the website and interact with it to complete the task. Click the button again and try once more.",
+          description: "You need to spend at least 10 seconds interacting with the external site to complete this task. Please try again.",
           variant: "destructive",
         })
-        clearTaskTimer(taskId)
+      },
+      // isTaskCompleted checker
+      (taskId: string) => {
+        const alreadyCompleted = JSON.parse(localStorage.getItem("tivexx-completed-tasks") || "[]") || []
+        return alreadyCompleted.includes(taskId)
       }
-    })
+    )
     return detach
   }, [])
 
