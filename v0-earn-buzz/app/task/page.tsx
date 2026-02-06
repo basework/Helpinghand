@@ -170,6 +170,9 @@ export default function TaskPage() {
       },
       // onTaskIncomplete callback
       (taskId: string, elapsed: number) => {
+        // Clear verifying state when task is incomplete
+        setVerifyingTask(null)
+        setProgress(0)
         toast({
           title: "Not Enough Time ⏱️",
           description: "You need to spend at least 10 seconds interacting with the external site to complete this task. Please try again.",
@@ -185,9 +188,13 @@ export default function TaskPage() {
     return detach
   }, [])
 
-  // Persist verification state
+  // Persist verification state - FIXED: Clear interval when verifyingTask changes
   useEffect(() => {
-    if (!verifyingTask) return
+    if (!verifyingTask) {
+      setProgress(0)
+      return
+    }
+    
     const startTime = Date.now()
     const interval = setInterval(() => {
       const elapsed = (Date.now() - startTime) / 1000
@@ -273,6 +280,7 @@ export default function TaskPage() {
     setTimeout(() => container.remove(), 3000)
 
     setVerifyingTask(null)
+    setProgress(0)
   }
 
   const handleTaskClick = (task: Task) => {
@@ -308,6 +316,13 @@ export default function TaskPage() {
       description: "Make sure to spend at least 10 seconds on the site before returning.",
     })
 
+    // Clear any existing verifying task
+    setVerifyingTask(null)
+    setProgress(0)
+    
+    // Set the new verifying task
+    setVerifyingTask(task.id)
+    
     // Start recording time (resets notified flag so focus event will fire again)
     startTaskTimer(task.id)
     // Open external link in new tab
