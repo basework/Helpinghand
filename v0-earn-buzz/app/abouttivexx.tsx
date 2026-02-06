@@ -73,7 +73,7 @@ export default function AboutPage() {
           </div>
 
           <div className="space-x-3">
-            <Button onClick={() => window.open("https://t.me/helpinghandsupport")} className="bg-white/10 hover:bg-white/20 border border-white">
+            <Button onClick={() => window.open("https://t.me/helpinghandsupport", '_self')} className="bg-white/10 hover:bg-white/20 border border-white">
               <Phone className="h-4 w-4 mr-2" /> Support
             </Button>
           </div>

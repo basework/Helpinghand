@@ -42,7 +42,7 @@ export default function HelpPage() {
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
 
     // Open WhatsApp in same tab
-    window.open(whatsappUrl)
+    window.open(whatsappUrl, '_self')
   }
 
   return (

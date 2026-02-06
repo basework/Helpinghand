@@ -35,7 +35,7 @@ export default function LoginPage() {
     const phoneNumber = "2349059089490"
     const message = encodeURIComponent("hello, am from Helping Hands.")
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`
-    window.open(whatsappUrl)
+    window.open(whatsappUrl, '_self')
   }
 
   const handleLogin = async (e: React.FormEvent) => {

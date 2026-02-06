@@ -169,14 +169,14 @@ export default function AboutPage() {
 
               <div className="mt-4 space-y-3">
                 <Button
-                  onClick={() => window.open("https://t.me/helpinghandsupport")}
+                  onClick={() => window.open("https://t.me/helpinghandsupport", '_self')}
                   className="w-full bg-gradient-to-r from-purple-800 via-purple-700 to-green-600 text-white animate-inner-bounce-child delay-1"
                 >
                   Contact Support
                 </Button>
 
                 <Button
-                  onClick={() => window.open("https://t.me/helpinghandsnews")}
+                  onClick={() => window.open("https://t.me/helpinghandsnews", '_self')}
                   className="w-full bg-amber-400 text-black animate-inner-bounce-child delay-2"
                 >
                   Join Community Channel

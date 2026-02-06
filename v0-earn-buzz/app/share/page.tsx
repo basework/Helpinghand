@@ -21,7 +21,7 @@ export default function SharePage() {
 
   const handleShareWhatsApp = () => {
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareMessage + " " + shareLink)}`
-    window.open(whatsappUrl)
+    window.open(whatsappUrl, '_self')
   }
 
   return (

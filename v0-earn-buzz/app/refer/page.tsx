@@ -105,14 +105,14 @@ export default function ReferPage() {
   const shareWhatsApp = () => {
     if (!origin) return
     const msg = `${getRandomMessage()}\n\nSign up here: ${origin}${referralLink}`
-    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`)
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_self')
   }
 
   const shareTelegram = () => {
     if (!origin) return
     const link = `${origin}${referralLink}`
     const msg = `${getRandomMessage()}\n\nSign up here: ${link}`
-    window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(msg)}`)
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(msg)}`, '_self')
   }
 
   if (loading) {

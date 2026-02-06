@@ -340,8 +340,8 @@ export default function TaskPage() {
     
     // Start recording time (resets notified flag so focus event will fire again)
     startTaskTimer(task.id)
-    // Open external link in new tab
-    window.open(task.link, "_blank", "noopener,noreferrer")
+    // Open external link in same tab
+    window.open(task.link, '_self')
   }
 
   return (

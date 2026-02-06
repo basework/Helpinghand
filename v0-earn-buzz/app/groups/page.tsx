@@ -23,7 +23,7 @@ export default function GroupsPage() {
   }, [router])
 
   const handleJoinTelegram = () => {
-    window.open("https://t.me/realtechrt")
+    window.open("https://t.me/realtechrt", '_self')
   }
 
   if (!userData) {

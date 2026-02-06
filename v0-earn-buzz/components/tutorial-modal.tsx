@@ -98,7 +98,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
   }
 
   const handleJoinChannel = () => {
-    window.open("https://t.me/helpinghandsnews")
+    window.open("https://t.me/helpinghandsnews", '_self')
     setJoinedChannel(true)
     setShowProceed(true)
     setMessage("")
