@@ -155,7 +155,7 @@ export default function TaskPage() {
   }, [router])
 
   // Initialize task timer hook
-  const { startTaskTimer, attachFocusListener } = useTaskTimer()
+  const { attachFocusListener } = useTaskTimer()
 
   // Set up focus listener on mount
   useEffect(() => {
@@ -194,14 +194,13 @@ export default function TaskPage() {
       },
       // isTaskCompleted checker
       (taskId: string) => {
-        const alreadyCompleted = JSON.parse(localStorage.getItem("tivexx-completed-tasks") || "[]") || []
-        return alreadyCompleted.includes(taskId)
+        return completedTasks.includes(taskId)
       }
     )
     return detach
-  }, [])
+  }, [completedTasks, toast])
 
-  // Persist verification state - FIXED: Clear interval when verifyingTask changes
+  // Persist verification state - visual progress bar
   useEffect(() => {
     if (!verifyingTask) {
       setProgress(0)
@@ -215,7 +214,6 @@ export default function TaskPage() {
       setProgress(newProgress)
       if (newProgress >= 100) {
         clearInterval(interval)
-        completeVerification(verifyingTask)
       }
     }, 1000)
 
@@ -230,7 +228,7 @@ export default function TaskPage() {
       let changed = false
 
       Object.keys(updated).forEach((key) => {
-        if (updated[key] > 0) {
+        if (updated[key] > now) {
           updated[key] -= 1000
           changed = true
         } else {
@@ -270,7 +268,7 @@ export default function TaskPage() {
     const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
     const timeUntilMidnight = tomorrow.getTime() - now.getTime()
     
-    const newCooldowns = { ...cooldowns, [task.id]: timeUntilMidnight }
+    const newCooldowns = { ...cooldowns, [task.id]: now.getTime() + timeUntilMidnight }
     setCooldowns(newCooldowns)
     localStorage.setItem("tivexx-task-cooldowns", JSON.stringify(newCooldowns))
 
@@ -306,7 +304,7 @@ export default function TaskPage() {
       return
     }
 
-    if (cooldowns[task.id]) {
+    if (cooldowns[task.id] && cooldowns[task.id] > Date.now()) {
       toast({
         title: "Task on Cooldown",
         description: "You can only do this task once every 24 hours.",
@@ -331,17 +329,12 @@ export default function TaskPage() {
       duration: 5000,
     })
 
-    // Clear any existing verifying task
-    setVerifyingTask(null)
+    // Set verifying task — timer hook will handle timing on blur/focus
+    setVerifyingTask(task.id)
     setProgress(0)
     
-    // Set the new verifying task
-    setVerifyingTask(task.id)
-    
-    // Start recording time (resets notified flag so focus event will fire again)
-    startTaskTimer(task.id)
-    // Open external link in same tab
-    window.open(task.link, '_self')
+    // Navigate in the same tab
+    window.location.href = task.link
   }
 
   return (
@@ -366,17 +359,16 @@ export default function TaskPage() {
           const isCompleted = completedTasks.includes(task.id)
 
           const timeLeft = cooldown
-            ? new Date(cooldown).getTime() > 0
-              ? new Date(Date.now() + cooldown)
-              : null
-            : null
+            ? cooldown - Date.now()
+            : 0
 
           const formatTime = (ms: number) => {
+            if (ms <= 0) return "now"
             const totalSeconds = Math.floor(ms / 1000)
             const hours = Math.floor(totalSeconds / 3600)
             const minutes = Math.floor((totalSeconds % 3600) / 60)
             const seconds = totalSeconds % 60
-            return `${hours}h ${minutes}m ${seconds}s`
+            return `${hours > 0 ? hours + "h " : ""}${minutes}m ${seconds}s`
           }
 
           return (
@@ -384,57 +376,57 @@ export default function TaskPage() {
               <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-5 border border-white/8 shadow-lg task-float__inner">
                 <div className="flex items-start gap-4">
                   <div className="text-4xl">{task.icon}</div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-white">{task.platform}</h3>
-                  <p className="text-sm text-white/80 mt-1">{task.description}</p>
-                  <p className="text-xs text-emerald-200 mt-1">{task.category}</p>
-                  <p className="text-xl font-bold text-amber-300 mt-2">
-                    ₦{task.reward.toLocaleString()}
-                  </p>
-                </div>
-              </div>
-
-              {isVerifying ? (
-                <div className="relative w-full mt-4 bg-white/10 h-6 rounded-xl overflow-hidden border border-white/8">
-                  <div
-                    className="absolute left-0 top-0 h-full bg-gradient-to-r from-green-600 via-green-500 to-green-400 animate-liquid-flow"
-                    style={{ width: `${progress}%` }}
-                  />
-                  <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="bubble delay-0"></div>
-                    <div className="bubble delay-1"></div>
-                    <div className="bubble delay-2"></div>
-                    <div className="bubble delay-3"></div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold text-white">{task.platform}</h3>
+                    <p className="text-sm text-white/80 mt-1">{task.description}</p>
+                    <p className="text-xs text-emerald-200 mt-1">{task.category}</p>
+                    <p className="text-xl font-bold text-amber-300 mt-2">
+                      ₦{task.reward.toLocaleString()}
+                    </p>
                   </div>
-                  <p className="absolute inset-0 flex justify-center items-center text-sm font-semibold text-white drop-shadow-[0_0_3px_rgba(0,0,0,0.7)]">
-                    Verifying... {Math.floor(progress)}%
-                  </p>
                 </div>
-              ) : cooldown ? (
-                <Button
-                  disabled
-                  className="w-full mt-4 bg-white/10 text-white/70 cursor-not-allowed font-semibold py-3 rounded-xl flex items-center justify-center gap-2 border border-white/8"
-                >
-                  Available in: {formatTime(cooldown)}
-                </Button>
-              ) : isCompleted ? (
-                <Button
-                  disabled
-                  className="w-full mt-4 bg-white/10 cursor-not-allowed text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 border border-white/8"
-                >
-                  <CheckCircle2 className="h-5 w-5" />
-                  Completed
-                </Button>
-              ) : (
-                <Button
-                  onClick={() => handleTaskClick(task)}
-                  className="w-full mt-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 border border-green-500/20"
-                >
-                  Start Task
-                </Button>
-              )}
+
+                {isVerifying ? (
+                  <div className="relative w-full mt-4 bg-white/10 h-6 rounded-xl overflow-hidden border border-white/8">
+                    <div
+                      className="absolute left-0 top-0 h-full bg-gradient-to-r from-green-600 via-green-500 to-green-400 animate-liquid-flow"
+                      style={{ width: `${progress}%` }}
+                    />
+                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                      <div className="bubble delay-0"></div>
+                      <div className="bubble delay-1"></div>
+                      <div className="bubble delay-2"></div>
+                      <div className="bubble delay-3"></div>
+                    </div>
+                    <p className="absolute inset-0 flex justify-center items-center text-sm font-semibold text-white drop-shadow-[0_0_3px_rgba(0,0,0,0.7)]">
+                      Verifying... {Math.floor(progress)}%
+                    </p>
+                  </div>
+                ) : cooldown && timeLeft > 0 ? (
+                  <Button
+                    disabled
+                    className="w-full mt-4 bg-white/10 text-white/70 cursor-not-allowed font-semibold py-3 rounded-xl flex items-center justify-center gap-2 border border-white/8"
+                  >
+                    Available in: {formatTime(timeLeft)}
+                  </Button>
+                ) : isCompleted ? (
+                  <Button
+                    disabled
+                    className="w-full mt-4 bg-white/10 cursor-not-allowed text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 border border-white/8"
+                  >
+                    <CheckCircle2 className="h-5 w-5" />
+                    Completed
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => handleTaskClick(task)}
+                    className="w-full mt-4 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 border border-green-500/20"
+                  >
+                    Start Task
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
           )
         })}
       </div>
@@ -445,7 +437,7 @@ export default function TaskPage() {
           <div className="flex items-center justify-center gap-2">
             <div className="text-lg">⏱️</div>
             <div className="text-sm font-medium">
-              <span className="font-bold">Remember:</span> Stay and interract with the external site for at least 10 seconds else you wont be rewarded for the task!
+              <span className="font-bold">Remember:</span> Stay and interact with the external site for at least 10 seconds else you wont be rewarded for the task!
             </div>
           </div>
         </div>
