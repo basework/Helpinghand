@@ -84,7 +84,7 @@ const AVAILABLE_TASKS: Task[] = [
   },
   {
     id: "Telegram Channel Task 01",
-    platform: "Partnership ads 8",
+    platform: "Telegram Channel Task 01",
     description: "Tap our premium ad link for extra rewards",
     category: "Social Media",
     reward: 3000,
@@ -93,7 +93,7 @@ const AVAILABLE_TASKS: Task[] = [
   },
   {
     id: "Telegram Channel Task 02",
-    platform: "Partnership ads 9",
+    platform: "Telegram Channel Task 02",
     description: "Tap our premium ad link for extra rewards",
     category: "Tasks",
     reward: 3000,
