@@ -16,6 +16,8 @@ export default function WithdrawPage() {
   const [warningMessage, setWarningMessage] = useState("")
   const [toggleActive, setToggleActive] = useState(false)
   const [showUpgradePopup, setShowUpgradePopup] = useState(false)
+  const [completedTasksCount, setCompletedTasksCount] = useState(0)
+  const TOTAL_DAILY_TASKS = 10
 
   useEffect(() => {
     const storedUser = localStorage.getItem("tivexx-user")
@@ -28,6 +30,10 @@ export default function WithdrawPage() {
     const user = JSON.parse(storedUser)
     setUserData(user)
     setBalance(user.balance || 0)
+
+    // Get completed tasks for the day
+    const completedTasks = JSON.parse(localStorage.getItem("tivexx-completed-tasks") || "[]")
+    setCompletedTasksCount(completedTasks.length)
 
     fetchReferralCount(user.id || user.userId)
   }, [router])
@@ -65,14 +71,15 @@ export default function WithdrawPage() {
       return
     }
 
-    if (balance < 500000 || referralCount < 5) {
+    if (balance < 500000 || referralCount < 5 || completedTasksCount < TOTAL_DAILY_TASKS) {
       let message = ""
-      if (balance < 500000 && referralCount < 5)
-        message = "⚠️ You need at least ₦500,000 and 5 referrals to withdraw."
-      else if (balance < 500000)
-        message = "⚠️ You haven't reached the ₦500,000 minimum withdrawal balance."
-      else
-        message = "⚠️ You need at least 5 referrals to unlock withdrawals."
+      const failedChecks = []
+      
+      if (balance < 500000) failedChecks.push("₦500,000 minimum balance")
+      if (referralCount < 5) failedChecks.push("5 active referrals")
+      if (completedTasksCount < TOTAL_DAILY_TASKS) failedChecks.push(`all ${TOTAL_DAILY_TASKS} daily tasks`)
+
+      message = `⚠️ You need: ${failedChecks.join(", ")}.`
 
       setWarningMessage(message)
       setShowWarning(true)
@@ -152,21 +159,37 @@ export default function WithdrawPage() {
           <ul className="text-left space-y-2 text-white/80">
             <li>• Minimum balance: ₦500,000</li>
             <li>• At least 5 active referrals</li>
+            <li>• Complete all {TOTAL_DAILY_TASKS} daily tasks</li>
             <li>• Each referral must complete registration</li>
           </ul>
         </div>
 
         {/* Progress */}
-        <div className="text-left animate-inner-bounce-child delay-3">
-          <div className="flex justify-between mb-1">
-            <span className="text-white/80 text-sm font-medium">Referral Progress</span>
-            <span className="text-white font-semibold">{referralCount}/5</span>
+        <div className="space-y-4 animate-inner-bounce-child delay-3">
+          <div className="text-left">
+            <div className="flex justify-between mb-1">
+              <span className="text-white/80 text-sm font-medium">Referral Progress</span>
+              <span className="text-white font-semibold">{referralCount}/5</span>
+            </div>
+            <div className="w-full bg-white/10 rounded-full h-3">
+              <div
+                className="bg-gradient-to-r from-green-600 to-emerald-500 h-full rounded-full transition-all duration-700"
+                style={{ width: progressWidth }}
+              />
+            </div>
           </div>
-          <div className="w-full bg-white/10 rounded-full h-3">
-            <div
-              className="bg-gradient-to-r from-green-600 to-emerald-500 h-full rounded-full transition-all duration-700"
-              style={{ width: progressWidth }}
-            />
+
+          <div className="text-left">
+            <div className="flex justify-between mb-1">
+              <span className="text-white/80 text-sm font-medium">Daily Tasks Progress</span>
+              <span className="text-white font-semibold">{completedTasksCount}/{TOTAL_DAILY_TASKS}</span>
+            </div>
+            <div className="w-full bg-white/10 rounded-full h-3">
+              <div
+                className="bg-gradient-to-r from-amber-600 to-yellow-500 h-full rounded-full transition-all duration-700"
+                style={{ width: `${Math.min((completedTasksCount / TOTAL_DAILY_TASKS) * 100, 100)}%` }}
+              />
+            </div>
           </div>
         </div>
 
