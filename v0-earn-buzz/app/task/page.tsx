@@ -19,7 +19,6 @@ interface Task {
 }
 
 const AVAILABLE_TASKS: Task[] = [
-  
   {
     id: "Monetage-our-most-earned-spin-to-win-ad",
     platform: "Partnership ads 1",
@@ -413,21 +412,69 @@ export default function TaskPage() {
   }
 
   return (
-    <div className="min-h-screen liquid-bg pb-20">
-      <div className="bg-gradient-to-r from-green-600 to-emerald-600 p-6 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black text-white pb-20">
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+        .coin-rain {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 1000;
+        }
+        .coin {
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          background: linear-gradient(135deg, #fbbf24, #d97706);
+          border-radius: 50%;
+          animation: coin-fall 3s linear forwards;
+          box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+          top: -30px;
+        }
+        @keyframes coin-fall {
+          0% { 
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+          }
+          100% { 
+            transform: translateY(100vh) rotate(720deg);
+            opacity: 0;
+          }
+        }
+        
+        /* Custom card styles matching the previous page */
+        .card-premium {
+          background: rgba(255, 255, 255, 0.06);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .bg-hero {
+          background: linear-gradient(145deg, #065f46, #022c22, #000000);
+        }
+      `}</style>
+      
+      <div className="bg-gradient-to-r from-green-900/90 via-green-900/85 to-black/90 p-6 text-white backdrop-blur-xl border-b border-white/10">
         <div className="flex items-center gap-4">
           <Link href="/dashboard">
-            <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+            <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 rounded-full">
               <ArrowLeft className="w-5 h-5" />
             </Button>
           </Link>
-          <h1 className="text-2xl font-bold">Daily Tasks</h1>
+          <h1 className="text-2xl font-bold font-display bg-gradient-to-r from-amber-300 to-emerald-300 bg-clip-text text-transparent">Daily Tasks</h1>
         </div>
       </div>
 
       <div className="p-6 space-y-4">
-        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20">
-          <h2 className="text-xl font-bold mb-2 text-white">Earn Extra Rewards</h2>
+        <div className="card-premium rounded-xl p-6">
+          <h2 className="text-xl font-bold mb-2 text-white font-display">Earn Extra Rewards</h2>
           <p className="text-sm text-white/80">Complete tasks to earn bonus credits and boost your earnings</p>
         </div>
 
@@ -451,10 +498,13 @@ export default function TaskPage() {
 
           return (
             <div key={task.id}>
-              <div className="bg-white/10 backdrop-blur-lg rounded-lg p-4 border border-white/20">
+              <div className="card-premium rounded-xl p-4 hover:border-amber-300/40 transition-all">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
-                    <h3 className="font-semibold mb-1 text-white">{task.platform}</h3>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-lg">{task.icon}</span>
+                      <h3 className="font-semibold text-white font-display">{task.platform}</h3>
+                    </div>
                     <p className="text-sm text-white/80 mb-3">{task.description}</p>
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-bold text-amber-300">₦{task.reward.toLocaleString()}</span>
@@ -463,7 +513,9 @@ export default function TaskPage() {
                         <span className="text-xs bg-yellow-500 text-white px-2 py-1 rounded-full">⏳ Pending Verification</span>
                       )}
                       {isCompleted && !isPending && (
-                        <span className="text-xs bg-green-500 text-white px-2 py-1 rounded-full">✓ Claimed Today</span>
+                        <span className="text-xs bg-green-500 text-white px-2 py-1 rounded-full flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3" /> Claimed Today
+                        </span>
                       )}
                       {isProcessing && (
                         <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">Processing...</span>
@@ -474,14 +526,14 @@ export default function TaskPage() {
                   <Button
                     onClick={() => handleTaskClick(task)}
                     disabled={isCompleted || isProcessing}
-                    className={`px-6 py-3 font-bold whitespace-nowrap ${
+                    className={`px-6 py-3 font-bold whitespace-nowrap rounded-lg transition-all hover:scale-105 ${
                       isCompleted
                         ? 'bg-gray-400 cursor-not-allowed text-white'
                         : isPending
-                        ? 'bg-yellow-500 hover:bg-yellow-600 text-white'
+                        ? 'bg-gradient-to-r from-yellow-500 to-yellow-600 hover:opacity-90 text-white'
                         : isProcessing
                         ? 'bg-blue-400 cursor-not-allowed text-white'
-                        : 'bg-gradient-to-r from-green-600 to-emerald-600 hover:opacity-90 text-white'
+                        : 'bg-gradient-to-r from-amber-300 to-emerald-300 hover:opacity-90 text-black font-display font-bold'
                     }`}
                   >
                     {isProcessing ? 'Processing...' : isPending ? 'Verify & Claim' : isCompleted ? 'Claimed Today' : 'Claim Now'}
@@ -516,7 +568,7 @@ export default function TaskPage() {
           );
         })}
 
-        <div className="bg-white/10 rounded-lg p-4 border border-white/20">
+        <div className="card-premium rounded-xl p-4">
           <p className="text-sm text-center text-white/80">Tasks reset every day at midnight. Check back tomorrow for more rewards!</p>
         </div>
       </div>
