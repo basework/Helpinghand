@@ -156,7 +156,7 @@ export default function TaskPage() {
   }, [router])
 
   // Initialize task timer hook
-  const { attachFocusListener } = useTaskTimer()
+  const { attachFocusListener, startTaskTimer } = useTaskTimer()
 
   // Clean up intervals on unmount
   useEffect(() => {
@@ -388,6 +388,12 @@ export default function TaskPage() {
 
     // Start progress animation for this specific task
     startProgressAnimation(task.id)
+    // Start persistent session timer so returning focus can verify completion
+    try {
+      startTaskTimer(task.id)
+    } catch (e) {
+      console.error("Failed to start task timer:", e)
+    }
     
     // Navigate in the same tab
     window.location.href = task.link
