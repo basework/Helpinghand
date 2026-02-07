@@ -13,6 +13,7 @@ interface UserData {
   referral_code: string
   referral_count: number
   referral_balance: number
+  pending_count?: number
   balance?: number
 }
 
@@ -81,6 +82,7 @@ export default function ReferPage() {
           referral_code: data.referral_code,
           referral_count: data.referral_count,
           referral_balance: data.referral_balance,
+          pending_count: data.pending_count || 0,
           balance
         })
       })
@@ -217,6 +219,16 @@ export default function ReferPage() {
               </p>
               <p className="text-sm text-white/80 mt-1">Total Earned</p>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Pending referrals summary (only label + count) */}
+      <div className="px-6 mt-4 mb-8">
+        <div className="text-center text-sm text-white/80">
+          <div className="inline-block bg-white/6 px-4 py-2 rounded-xl border border-white/10">
+            <span className="font-medium">Pending referrals</span>
+            <div className="text-2xl font-bold text-amber-300 mt-1">{userData?.pending_count || 0}</div>
           </div>
         </div>
       </div>

@@ -38,11 +38,23 @@ export async function GET(request: Request) {
     const referralCount = (processedReferrals || []).length
     const referralBalance = (processedReferrals || []).reduce((s: number, r: any) => s + Number(r.amount || 0), 0)
 
+    // Also compute pending referrals count (not processed)
+    const { data: pendingReferrals, error: pendingError } = await supabase
+      .from("referrals")
+      .select("id")
+      .eq("referrer_id", userId)
+      .eq("processed", false)
+
+    if (pendingError) throw pendingError
+
+    const pendingCount = (pendingReferrals || []).length
+
     return NextResponse.json({
       success: true,
       referral_code: user?.referral_code || "",
       referral_count: referralCount,
-      referral_balance: referralBalance
+      referral_balance: referralBalance,
+      pending_count: pendingCount
     })
   } catch (error) {
     console.error("Error:", error)
