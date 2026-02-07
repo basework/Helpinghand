@@ -295,7 +295,7 @@ export default function TaskPage() {
     return () => clearInterval(timer)
   }, [cooldowns])
 
-  const completeVerification = (taskId: string) => {
+  const completeVerification = async (taskId: string) => {
     const task = AVAILABLE_TASKS.find((t) => t.id === taskId)
     if (!task) return
 
@@ -307,6 +307,16 @@ export default function TaskPage() {
       const user = JSON.parse(storedUser)
       user.balance = newBalance
       localStorage.setItem("tivexx-user", JSON.stringify(user))
+      // Sync balance to server so DB triggers (referral processing) run
+      try {
+        await fetch(`/api/user-balance`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId: user.id || user.user_id || user.userId, balance: newBalance }),
+        })
+      } catch (err) {
+        console.error("Failed to sync user balance to server:", err)
+      }
     }
 
     const newCompleted = [...completedTasks, task.id]
