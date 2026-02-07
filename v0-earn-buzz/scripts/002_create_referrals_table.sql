@@ -3,7 +3,9 @@ CREATE TABLE IF NOT EXISTS public.referrals (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   referrer_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
   referred_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
-  amount DECIMAL(10, 2) DEFAULT 500.00,
+  amount DECIMAL(10, 2) DEFAULT 10000.00,
+  processed BOOLEAN DEFAULT FALSE,
+  processed_at TIMESTAMP WITH TIME ZONE DEFAULT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 

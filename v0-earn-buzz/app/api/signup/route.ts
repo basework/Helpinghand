@@ -70,32 +70,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: insertError.message }, { status: 500 })
     }
 
-    // 5. Record referral and update referrer's count/balance
+    // 5. Record referral. Processing/crediting of the referrer is handled
+    //    by database triggers which will only credit when the referred user's
+    //    balance meets the configured threshold (₦110,000). Insert the referral
+    //    row as a pending referral; triggers will mark it processed when eligible.
     if (referrerId) {
-      // Insert referral record
       await supabase.from("referrals").insert({
         referrer_id: referrerId,
         referred_id: userId,
         amount: 10000, // 10,000 naira referral bonus
       })
-
-      // Update referrer's count and balance
-      const { data: referrer } = await supabase
-        .from("users")
-        .select("referral_count, referral_balance, balance")
-        .eq("id", referrerId)
-        .single()
-
-      if (referrer) {
-        await supabase
-          .from("users")
-          .update({
-            referral_count: (referrer.referral_count || 0) + 1,
-            referral_balance: (referrer.referral_balance || 0) + 10000, // 10,000 naira to referral_balance only
-            // REMOVED: No +10000 to main balance here—fetch merges it safely
-          })
-          .eq("id", referrerId)
-      }
     }
 
     return NextResponse.json({ success: true, user: newUser })

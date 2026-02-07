@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     
     const supabase = await createClient()
     
-    // Get stored values
+    // Get stored user balance
     const { data: user, error: userError } = await supabase
       .from("users")
       .select("balance, referral_balance, referral_count")
@@ -25,28 +25,29 @@ export async function GET(request: Request) {
 
     if (userError) throw userError
 
-    let balance = user.balance || 100000
-    let referralBalance = user.referral_balance || 0
-    let referralCount = user.referral_count || 0
+    const balance = user.balance || 100000
 
-    // Live sync for referral (optional, but fixed)
-    const { count: liveCount, error: countError } = await supabase
-      .from("users")
-      .select("*", { count: "exact", head: true })
-      .eq("referred_by", userId)
+    // Compute referral stats from processed referrals (single source of truth)
+    const { data: processedReferrals, error: refError } = await supabase
+      .from("referrals")
+      .select("amount")
+      .eq("referrer_id", userId)
+      .eq("processed", true)
 
-    if (!countError && liveCount != null && liveCount !== referralCount) {
-      referralCount = liveCount
-      referralBalance = liveCount * 10000
-      const { error: updateError } = await supabase
-        .from("users")
-        .update({ 
-          referral_count: referralCount, 
-          referral_balance: referralBalance 
-        })
-        .eq("id", userId)
-      if (updateError) console.error("Sync error:", updateError)
+    if (refError) {
+      console.error("Error fetching referrals:", refError)
+      return NextResponse.json({ success: true, balance, referral_balance: 0 })
     }
+
+    const referralBalance = (processedReferrals || []).reduce((sum: number, r: any) => sum + Number(r.amount || 0), 0)
+    const referralCount = (processedReferrals || []).length
+
+    // Optionally sync aggregated values back to users table for consistency
+    const { error: updateError } = await supabase
+      .from("users")
+      .update({ referral_count: referralCount, referral_balance: referralBalance })
+      .eq("id", userId)
+    if (updateError) console.error("Sync error:", updateError)
 
     return NextResponse.json({
       success: true,

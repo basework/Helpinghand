@@ -16,22 +16,31 @@ export async function GET(request: Request) {
     }
     
     const supabase = await createClient()
-    
-    // Get stored values (trust signup's direct update—no buggy live sync)
+
+    // Fetch the user's referral code from users table
     const { data: user, error: userError } = await supabase
       .from("users")
-      .select("referral_code, referral_count, referral_balance")
+      .select("referral_code")
       .eq("id", userId)
-      .single()
+      .maybeSingle()
 
     if (userError) throw userError
 
-    const referralCount = user.referral_count || 0
-    const referralBalance = user.referral_balance || 0
+    // Compute referral stats from processed referrals only
+    const { data: processedReferrals, error: refError } = await supabase
+      .from("referrals")
+      .select("amount")
+      .eq("referrer_id", userId)
+      .eq("processed", true)
+
+    if (refError) throw refError
+
+    const referralCount = (processedReferrals || []).length
+    const referralBalance = (processedReferrals || []).reduce((s: number, r: any) => s + Number(r.amount || 0), 0)
 
     return NextResponse.json({
       success: true,
-      referral_code: user.referral_code || "",
+      referral_code: user?.referral_code || "",
       referral_count: referralCount,
       referral_balance: referralBalance
     })
