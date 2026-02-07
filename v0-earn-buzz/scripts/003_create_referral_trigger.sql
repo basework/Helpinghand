@@ -15,6 +15,7 @@ BEGIN
   IF referred_balance IS NOT NULL AND referred_balance >= 110000 THEN
     UPDATE public.users
     SET
+      balance = COALESCE(balance, 0) + NEW.amount,
       referral_count = COALESCE(referral_count, 0) + 1,
       referral_balance = COALESCE(referral_balance, 0) + NEW.amount
     WHERE id = NEW.referrer_id;
@@ -51,9 +52,10 @@ BEGIN
   -- Only run when balance has crossed the threshold from below to >= 110000
   IF (TG_OP = 'UPDATE') AND (OLD.balance < 110000) AND (NEW.balance >= 110000) THEN
     FOR r IN SELECT * FROM public.referrals WHERE referred_id = NEW.id AND processed = FALSE LOOP
-      -- Credit the referrer
+      -- Credit the referrer: add to both balance and referral_balance
       UPDATE public.users
       SET
+        balance = COALESCE(balance, 0) + r.amount,
         referral_count = COALESCE(referral_count, 0) + 1,
         referral_balance = COALESCE(referral_balance, 0) + r.amount
       WHERE id = r.referrer_id;

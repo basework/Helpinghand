@@ -342,43 +342,35 @@ export default function DashboardPage() {
         const response = await fetch(`/api/user-balance?userId=${user.id || user.userId}&t=${Date.now()}`)
         const data = await response.json()
         
-        // FIX 1: Use the HIGHER balance between localStorage and database (preserves claims)
-        const localStorageBalance = user.balance || 100000
+        // Simply use the database balance (already includes referral credits from triggers)
         const dbBalance = data.balance || 100000
-        const baseBalance = Math.max(localStorageBalance, dbBalance)
+        const localStorageBalance = user.balance || 100000
+        const totalBalance = Math.max(localStorageBalance, dbBalance)
         
-        // FIX 2: Add referral earnings ONLY ONCE (no double-counting). But if referral already in DB main, skip re-add.
-        const referralEarnings = data.referral_balance || 0
-        const lastSyncedReferrals = localStorage.getItem("tivexx-last-synced-referrals") || "0"
-        
-        // Calculate NEW referral earnings since last sync
-        const newReferralEarnings = referralEarnings - parseInt(lastSyncedReferrals)
-        const totalBalance = baseBalance + Math.max(0, newReferralEarnings)
-        
-        // Update state with the correct total balance
         setBalance(totalBalance)
         setAnimatedBalance(totalBalance)
         
-        // Update localStorage to maintain consistency
         const updatedUser = { 
           ...user, 
           balance: totalBalance
         }
         localStorage.setItem("tivexx-user", JSON.stringify(updatedUser))
-        
-        // Track what we've already synced to prevent double-counting
-        if (newReferralEarnings > 0) {
-          localStorage.setItem("tivexx-last-synced-referrals", referralEarnings.toString())
-        }
-        
         setUserData(updatedUser)
 
-        // BEST FIX: Sync merged total back to DB (includes local claims, avoids loss on next load)
+        // Sync merged total back to DB
         await fetch(`/api/user-balance`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId: user.id || user.userId, balance: totalBalance })
         })
+
+      } catch (error) {
+        console.error("[Dashboard] Error fetching user balance:", error)
+        setBalance(user.balance)
+        setAnimatedBalance(user.balance)
+        setUserData(user)
+      }
+    }
 
       } catch (error) {
         console.error("[Dashboard] Error fetching user balance:", error)
