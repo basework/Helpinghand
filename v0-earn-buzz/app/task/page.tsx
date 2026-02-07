@@ -44,7 +44,7 @@ const AVAILABLE_TASKS: Task[] = [
      description: "Tap our ad link to earn Extra money",
      category: "Advertisement",
      reward: 3000,
-      link: "https://otieu.com/4/10573002",
+      link: "https://otieu.com/4/10575212",
      icon: "🎯",
    },
    {
@@ -108,7 +108,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "Tap our premium ad link for extra rewards",
     category: "Survey",
     reward: 3000,
-    link: "https://spin-to-win-hub-6676aed7.vercel.app/",
+    link: "https://otieu.com/4/10575212",
     icon: "🌐",
   },
 ]
