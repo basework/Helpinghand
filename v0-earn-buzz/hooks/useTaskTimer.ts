@@ -63,6 +63,18 @@ export function useTaskTimer() {
 
     window.addEventListener("focus", handleFocus)
 
+    // Run immediately once to handle cases where the page is loaded/refocused
+    // and the native focus event may have already occurred before the listener
+    // was attached (e.g., returning via back navigation). Use a short timeout
+    // to allow the environment to stabilize.
+    setTimeout(() => {
+      try {
+        handleFocus()
+      } catch (e) {
+        console.error("Error running initial task timer check:", e)
+      }
+    }, 100)
+
     return () => {
       window.removeEventListener("focus", handleFocus)
     }

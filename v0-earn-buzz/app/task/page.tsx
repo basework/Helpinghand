@@ -172,8 +172,11 @@ export default function TaskPage() {
     const detach = attachFocusListener(
       // onTaskSuccess callback
       (taskId: string, elapsed: number) => {
-        // Only process if task is still verifying
-        if (verifyingTasks[taskId]) {
+        // When returning from external site, sessionStorage indicates the task
+        // was started. We should credit the reward even if in-memory verifying
+        // state was lost (navigation/mount). Guard against double-crediting
+        // by checking completedTasks.
+        if (!completedTasks.includes(taskId)) {
           completeVerification(taskId)
           toast({
             title: "Task Completed 🎉",
