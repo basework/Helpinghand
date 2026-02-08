@@ -96,9 +96,14 @@ export default function WithdrawPage() {
     }
   }, [])
 
-  // Recompute whether the cashout button should be shown whenever requirements change
+  // Recompute whether the cashout button should be shown whenever requirements change.
+  // If `toggleActive` (withdraw without referral) is ON, skip the referral check
+  // but still require balance and completed tasks. Otherwise require referrals too.
   useEffect(() => {
-    const meetsRequirements = balance >= 500000 && referralCount >= 5 && completedTasksCount >= TOTAL_DAILY_TASKS && !toggleActive
+    const meetsRequirements = toggleActive
+      ? (balance >= 500000 && completedTasksCount >= TOTAL_DAILY_TASKS)
+      : (balance >= 500000 && referralCount >= 5 && completedTasksCount >= TOTAL_DAILY_TASKS)
+
     setShowCashout(meetsRequirements)
   }, [balance, referralCount, completedTasksCount, toggleActive])
 
