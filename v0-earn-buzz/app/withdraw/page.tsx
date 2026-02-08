@@ -103,17 +103,16 @@ export default function WithdrawPage() {
   }, [balance, referralCount, completedTasksCount, toggleActive])
 
   const handleCashout = () => {
-    if (toggleActive) {
-      setShowUpgradePopup(true)
-      return
-    }
+    // Determine which checks are required: if toggleActive (withdraw without referral)
+    // then referrals are NOT required, otherwise referrals are required.
+    const needsReferralCheck = !toggleActive
 
-    if (balance < 500000 || referralCount < 5 || completedTasksCount < TOTAL_DAILY_TASKS) {
+    if (balance < 500000 || (needsReferralCheck && referralCount < 5) || completedTasksCount < TOTAL_DAILY_TASKS) {
       let message = ""
-      const failedChecks = []
-      
+      const failedChecks: string[] = []
+
       if (balance < 500000) failedChecks.push("₦500,000 minimum balance")
-      if (referralCount < 5) failedChecks.push("5 active referrals")
+      if (needsReferralCheck && referralCount < 5) failedChecks.push("5 active referrals")
       if (completedTasksCount < TOTAL_DAILY_TASKS) failedChecks.push(`all ${TOTAL_DAILY_TASKS} daily tasks`)
 
       message = `⚠️ You need: ${failedChecks.join(", ")}.`
@@ -126,6 +125,12 @@ export default function WithdrawPage() {
         setShowWarning(false)
       }, 4000)
 
+      return
+    }
+
+    // If user chose "Withdraw Without Referral", show upgrade modal when they click withdraw.
+    if (toggleActive) {
+      setShowUpgradePopup(true)
       return
     }
 
