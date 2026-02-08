@@ -242,29 +242,60 @@ export default function WithdrawPage() {
 
         {/* Buttons */}
         <div className="mt-6 relative min-h-[100px]">
-          {showCashout ? (
-            <Button
-              onClick={handleCashout}
-              className="w-full py-5 text-lg font-semibold rounded-xl text-white bg-gradient-to-r from-green-600 to-green-700 hover:scale-[1.02] transition-all border border-green-500/20 animate-inner-bounce-child delay-0"
-            >
-              WITHDRAW NOW
-            </Button>
-          ) : (
-            <div className="space-y-4 animate-fade-in">
-              {showWarning && (
-                <div className="bg-red-900/30 border border-red-800 text-red-300 rounded-xl p-3 flex items-center justify-center gap-2 animate-bounce-in animate-inner-bounce-child delay-1">
-                  <AlertTriangle className="h-5 w-5" />
-                  <p className="font-medium text-sm">{warningMessage}</p>
-                </div>
-              )}
-              <Link href="/refer">
-                <Button className="w-full py-5 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-all border border-green-500/20 animate-inner-bounce-child delay-2">
-                  <Share2 className="h-5 w-5" />
-                  Refer Friends to Unlock Withdrawal
+          {/* compute requirement flags */}
+          {/* missing flags used to show clear messages on the button */}
+          {(() => {
+            const missingBalance = balance < 500000
+            const missingTasks = completedTasksCount < TOTAL_DAILY_TASKS
+            const missingReferrals = referralCount < 5
+            const meetsRequirements = toggleActive
+              ? (!missingBalance && !missingTasks)
+              : (!missingBalance && !missingTasks && !missingReferrals)
+
+            let buttonLabel = ""
+            if (meetsRequirements) {
+              buttonLabel = "WITHDRAW NOW"
+            } else if (missingBalance) {
+              const diff = Math.max(0, 500000 - (balance || 0))
+              buttonLabel = `Need ${formatCurrency(diff)} more`
+            } else if (missingTasks) {
+              buttonLabel = `${completedTasksCount}/${TOTAL_DAILY_TASKS} tasks completed`
+            } else if (!toggleActive && missingReferrals) {
+              buttonLabel = `${referralCount}/5 referrals`
+            } else {
+              buttonLabel = "Requirements not met"
+            }
+
+            return (
+              <div className="space-y-3">
+                <Button
+                  onClick={handleCashout}
+                  disabled={!meetsRequirements}
+                  className={`w-full py-5 text-lg font-semibold rounded-xl transition-all border animate-inner-bounce-child delay-0 ${meetsRequirements ? 'text-white bg-gradient-to-r from-green-600 to-green-700 hover:scale-[1.02] border-green-500/20' : 'bg-white/6 text-white/80 cursor-not-allowed border-white/10'}`}
+                >
+                  {buttonLabel}
                 </Button>
-              </Link>
-            </div>
-          )}
+
+                {/* If referrals are the missing piece and the user hasn't toggled withdraw-without-referral, show refer CTA */}
+                {!toggleActive && !meetsRequirements && referralCount < 5 && (
+                  <Link href="/refer">
+                    <Button className="w-full py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-all border border-green-500/20">
+                      <Share2 className="h-4 w-4" />
+                      Refer Friends to Unlock Withdrawal
+                    </Button>
+                  </Link>
+                )}
+
+                {/* Show inline warning message when other requirements fail */}
+                {showWarning && (
+                  <div className="bg-red-900/30 border border-red-800 text-red-300 rounded-xl p-3 flex items-center justify-center gap-2">
+                    <AlertTriangle className="h-5 w-5" />
+                    <p className="font-medium text-sm">{warningMessage}</p>
+                  </div>
+                )}
+              </div>
+            )
+          })()}
         </div>
 
         {/* Upgrade Popup */}
