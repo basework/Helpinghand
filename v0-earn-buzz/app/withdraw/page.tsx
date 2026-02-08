@@ -65,6 +65,43 @@ export default function WithdrawPage() {
     [referralCount]
   );
 
+  // Keep completed tasks count in sync across tabs and when the page regains focus
+  useEffect(() => {
+    const updateCompleted = () => {
+      try {
+        const completed = JSON.parse(localStorage.getItem("tivexx-completed-tasks") || "[]")
+        setCompletedTasksCount(Array.isArray(completed) ? completed.length : 0)
+      } catch {
+        setCompletedTasksCount(0)
+      }
+    }
+
+    // Update immediately on mount
+    updateCompleted()
+
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "tivexx-completed-tasks") updateCompleted()
+    }
+
+    const onFocus = () => updateCompleted()
+
+    window.addEventListener("storage", onStorage)
+    window.addEventListener("focus", onFocus)
+    document.addEventListener("visibilitychange", onFocus)
+
+    return () => {
+      window.removeEventListener("storage", onStorage)
+      window.removeEventListener("focus", onFocus)
+      document.removeEventListener("visibilitychange", onFocus)
+    }
+  }, [])
+
+  // Recompute whether the cashout button should be shown whenever requirements change
+  useEffect(() => {
+    const meetsRequirements = balance >= 500000 && referralCount >= 5 && completedTasksCount >= TOTAL_DAILY_TASKS && !toggleActive
+    setShowCashout(meetsRequirements)
+  }, [balance, referralCount, completedTasksCount, toggleActive])
+
   const handleCashout = () => {
     if (toggleActive) {
       setShowUpgradePopup(true)
@@ -101,7 +138,7 @@ export default function WithdrawPage() {
     setToggleActive(false)
 
     // If user meets both requirements, show cashout button again
-    if (balance >= 500000 && referralCount >= 5) {
+    if (balance >= 500000 && referralCount >= 5 && completedTasksCount >= TOTAL_DAILY_TASKS) {
       setShowCashout(true)
     } else {
       // Otherwise show refer & earn section
