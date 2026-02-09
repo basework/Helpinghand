@@ -284,23 +284,31 @@ export default function ReferPage() {
                 description: "Referral is verified once your friend completes at least 2 daily tasks",
                 color: "from-amber-500 to-amber-600"
               }
-            ].map((step, index) => (
-              <div 
-                key={index}
-                className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 flex items-center gap-4 hover:bg-white/10 transition-all duration-300"
-              >
-                <div className={`flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-lg`}>
-                  <step.icon className="h-6 w-6 text-white" />
-                </div>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-medium text-emerald-300/70">Step {index + 1}</span>
+            ].map((step, index, arr) => {
+              const isLastStep = index === arr.length - 1
+              return (
+                <div 
+                  key={index}
+                  className={`rounded-xl p-4 flex items-center gap-4 transition-all duration-300 ${
+                    isLastStep
+                      ? 'bg-gradient-to-r from-amber-600/30 to-amber-500/20 backdrop-blur-sm border-2 border-amber-500/60 shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40'
+                      : 'bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10'
+                  }`}
+                >
+                  <div className={`flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br ${step.color} flex items-center justify-center ${isLastStep ? 'shadow-lg shadow-amber-500/50' : 'shadow-lg'}`}>
+                    <step.icon className="h-6 w-6 text-white" />
                   </div>
-                  <h4 className="font-semibold text-white mt-1">{step.title}</h4>
-                  <p className="text-sm text-white/60 mt-1">{step.description}</p>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className={`text-xs font-bold ${isLastStep ? 'text-amber-300' : 'text-emerald-300/70'}`}>Step {index + 1}</span>
+                      {isLastStep && <span className="text-amber-400 text-lg">⭐</span>}
+                    </div>
+                    <h4 className={`${isLastStep ? 'text-lg font-bold text-amber-100' : 'font-semibold text-white'} mt-1`}>{step.title}</h4>
+                    <p className={`text-sm mt-1 ${isLastStep ? 'text-amber-100/80 font-medium' : 'text-white/60'}`}>{step.description}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
 
