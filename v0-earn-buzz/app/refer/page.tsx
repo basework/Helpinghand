@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Copy, Share2, Gift, Users, Wallet, Send } from 'lucide-react'
+import { ArrowLeft, Copy, Share2, Gift, Users, Wallet, Send, ChevronRight, Check, Sparkles, TrendingUp, Award } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { formatCurrency } from '@/lib/utils/referral'
@@ -22,7 +22,8 @@ export default function ReferPage() {
   const [copied, setCopied] = useState(false)
   const [userData, setUserData] = useState<UserData | null>(null)
   const [loading, setLoading] = useState(true)
-  const [origin, setOrigin] = useState('') // ← WILL BE SET IN useEffect
+  const [origin, setOrigin] = useState('')
+  const [activeMessage, setActiveMessage] = useState('')
 
   const referralMessages = [
     "Join Helping Hands now and start earning instantly! Complete simple tasks and get paid today!",
@@ -42,12 +43,12 @@ export default function ReferPage() {
     "Take loans easily and start earning too! Helping Hands is your one-stop money app!",
   ]
 
-  // ALL BROWSER LOGIC IN useEffect
   useEffect(() => {
-    // Set origin
     setOrigin(window.location.origin)
+    
+    // Set initial random message
+    setActiveMessage(referralMessages[Math.floor(Math.random() * referralMessages.length)])
 
-    // Check auth
     const storedUser = localStorage.getItem('tivexx-user')
     if (!storedUser) {
       router.push('/login')
@@ -57,7 +58,6 @@ export default function ReferPage() {
     const user = JSON.parse(storedUser)
     const userId = user.id || user.userId
 
-    // Fetch data
     fetch(`/api/referral-stats?userId=${userId}&t=${Date.now()}`)
       .then(r => r.json())
       .then(data => {
@@ -94,11 +94,9 @@ export default function ReferPage() {
     ? `/register?ref=${userData.referral_code}`
     : '/register'
 
-  const getRandomMessage = () => referralMessages[Math.floor(Math.random() * referralMessages.length)]
-
   const handleCopy = () => {
     if (!origin) return
-    const msg = `${getRandomMessage()}\n\nSign up here: ${origin}${referralLink}`
+    const msg = `${activeMessage}\n\nSign up here: ${origin}${referralLink}`
     navigator.clipboard.writeText(msg)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
@@ -106,15 +104,21 @@ export default function ReferPage() {
 
   const shareWhatsApp = () => {
     if (!origin) return
-    const msg = `${getRandomMessage()}\n\nSign up here: ${origin}${referralLink}`
+    const msg = `${activeMessage}\n\nSign up here: ${origin}${referralLink}`
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_self')
   }
 
   const shareTelegram = () => {
     if (!origin) return
     const link = `${origin}${referralLink}`
-    const msg = `${getRandomMessage()}\n\nSign up here: ${link}`
+    const msg = `${activeMessage}\n\nSign up here: ${link}`
     window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(msg)}`, '_self')
+  }
+
+  const cycleMessage = () => {
+    const currentIndex = referralMessages.indexOf(activeMessage)
+    const nextIndex = (currentIndex + 1) % referralMessages.length
+    setActiveMessage(referralMessages[nextIndex])
   }
 
   if (loading) {
@@ -129,130 +133,231 @@ export default function ReferPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black pb-20 animate-page-bounce">
-      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white p-6 rounded-b-3xl shadow-lg">
-        <div className="flex items-center mb-6">
-          <Link href="/dashboard">
-            <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 mr-2">
-              <ArrowLeft className="h-6 w-6" />
-            </Button>
-          </Link>
-          <h1 className="text-2xl font-bold">Refer & Earn</h1>
-        </div>
-        <div className="bg-purple-900/10 backdrop-blur-lg rounded-2xl p-6 text-center border border-purple-700/20 animate-inner-bounce">
-          <Gift className="h-16 w-16 mx-auto mb-4 text-purple-300 animate-inner-bounce-child delay-0" />
-          <h2 className="text-3xl font-bold mb-2 text-purple-200 animate-inner-bounce-child delay-1">Earn ₦10,000</h2>
-          <p className="text-purple-200 animate-inner-bounce-child delay-2">For every friend you refer!</p>
-        </div>
-      </div>
-
-      <div className="px-6 mt-8">
-        <h3 className="text-xl font-bold text-emerald-200 mb-4">How It Works</h3>
-        <div className="space-y-4">
-          <div className="flex items-start gap-4 bg-white/6 backdrop-blur-lg p-4 rounded-xl border border-white/8">
-            <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
-              <Share2 className="h-5 w-5 text-white" />
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black pb-20">
+      {/* Header */}
+      <div className="sticky top-0 z-10 bg-gradient-to-b from-green-800/95 to-green-900/90 backdrop-blur-lg border-b border-green-600/20 px-6 pt-8 pb-6">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center">
+            <Link href="/dashboard">
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 mr-3">
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+            </Link>
             <div>
-              <h4 className="font-semibold text-white mb-1">Share Your Link</h4>
-              <p className="text-sm text-white/80">Share your unique referral link with friends and family</p>
+              <h1 className="text-2xl font-bold text-white">Refer & Earn</h1>
+              <p className="text-sm text-emerald-200/80 mt-1">Invite friends and earn rewards</p>
             </div>
           </div>
-          <div className="flex items-start gap-4 bg-white/6 backdrop-blur-lg p-4 rounded-xl border border-white/8">
-            <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
-              <Users className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-1">They Sign Up</h4>
-              <p className="text-sm text-white/80">Your friends register using your referral code</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-4 bg-white/6 backdrop-blur-lg p-4 rounded-xl border border-white/8">
-            <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
-              <Wallet className="h-5 w-5 text-white" />
-            </div>
-            <div>
-              <h4 className="font-semibold text-white mb-1">Earn Rewards</h4>
-              <p className="text-sm text-white/80">Get ₦10,000 credited to your account instantly</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="px-6 mt-8">
-        <div className="mt-4 bg-white/6 backdrop-blur-lg rounded-xl p-4 border border-white/8 animate-inner-bounce-child delay-3">
-          <p className="text-sm text-white/80 mb-2">Your Referral Link</p>
           <div className="flex items-center gap-2">
-            <input
-              type="text"
-              value={origin ? `${origin}${referralLink}` : 'Loading...'}
-              readOnly
-              className="flex-1 text-sm text-white bg-white/10 rounded-lg px-3 py-2 border border-white/8 placeholder:text-white/60"
-            />
-            <Button onClick={handleCopy} variant="outline" size="icon" disabled={!origin} className="border-white/8 text-white hover:bg-white/10">
-              <Copy className="h-4 w-4" />
-            </Button>
+            <Sparkles className="h-5 w-5 text-amber-300" />
+            <span className="text-sm font-medium text-white">Earn ₦10,000</span>
+          </div>
+        </div>
+
+        {/* Hero Card */}
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600/90 to-emerald-800/90 p-6 border border-emerald-500/30 shadow-xl">
+          <div className="absolute top-4 right-4">
+            <Gift className="h-12 w-12 text-emerald-200/40" />
+          </div>
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 rounded-full bg-emerald-500/20">
+                <Award className="h-6 w-6 text-amber-300" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-white">Your Referral Program</h2>
+                <p className="text-emerald-100/80 text-sm">Share and earn with every friend</p>
+              </div>
+            </div>
+            <div className="flex items-center justify-between mt-6">
+              <div>
+                <p className="text-emerald-100/70 text-sm">Earn per referral</p>
+                <p className="text-3xl font-bold text-white mt-1">₦10,000</p>
+              </div>
+              <div className="text-right">
+                <p className="text-emerald-100/70 text-sm">Potential earnings</p>
+                <p className="text-3xl font-bold text-amber-300 mt-1">
+                  {userData ? formatCurrency(userData.referral_balance + (userData.pending_count || 0) * 10000) : '₦0'}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="px-6 mt-6 flex flex-col gap-4">
-        <Button onClick={shareWhatsApp} disabled={!origin} className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3 border border-green-500/20 animate-inner-bounce-child delay-2">
-          <Share2 className="h-5 w-5" /> Share on WhatsApp
-        </Button>
-        <Button onClick={shareTelegram} disabled={!origin} className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-6 rounded-xl text-lg font-semibold shadow-lg flex items-center justify-center gap-3 border border-green-500/20 animate-inner-bounce-child delay-3">
-          <Send className="h-5 w-5" /> Share on Telegram
-        </Button>
-      </div>
-
-      <div className="px-6 mt-8 mb-6">
-        <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-6 border border-white/8">
-          <h3 className="text-lg font-bold text-emerald-200 mb-4 text-center">Your Referral Stats</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/8 animate-inner-bounce-child delay-2">
-              <p className="text-3xl font-bold text-amber-300">{userData?.referral_count || 0}</p>
-              <p className="text-sm text-white/80 mt-1">Total Referrals</p>
+      {/* Main Content */}
+      <div className="px-6 pt-6">
+        {/* Referral Link Section */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-white">Your Referral Link</h3>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={cycleMessage}
+              className="text-emerald-200 hover:text-white hover:bg-white/5 text-sm"
+            >
+              <TrendingUp className="h-4 w-4 mr-1" />
+              Change message
+            </Button>
+          </div>
+          
+          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+            <p className="text-sm text-emerald-200/80 mb-3 font-medium">Share this message:</p>
+            <div className="bg-black/30 rounded-lg p-3 mb-4">
+              <p className="text-white text-sm leading-relaxed">{activeMessage}</p>
             </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 text-center border border-white/8 animate-inner-bounce-child delay-3">
+            
+            <div className="flex items-center gap-2">
+              <div className="flex-1 bg-black/40 rounded-lg px-4 py-3 border border-white/10">
+                <p className="text-xs text-emerald-200/60 mb-1">Your unique link</p>
+                <p className="text-white font-medium truncate">
+                  {origin ? `${origin}${referralLink}` : 'Loading...'}
+                </p>
+              </div>
+              <Button 
+                onClick={handleCopy} 
+                variant={copied ? "default" : "outline"}
+                size="icon" 
+                disabled={!origin}
+                className={`h-12 w-12 rounded-xl ${copied ? 'bg-emerald-600 text-white' : 'border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20'}`}
+              >
+                {copied ? <Check className="h-5 w-5" /> : <Copy className="h-5 w-5" />}
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Share Buttons */}
+        <div className="grid grid-cols-2 gap-3 mb-8">
+          <Button 
+            onClick={shareWhatsApp} 
+            disabled={!origin}
+            className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white py-5 rounded-xl font-medium shadow-lg flex items-center justify-center gap-3 border border-green-500/30"
+          >
+            <Share2 className="h-5 w-5" />
+            WhatsApp
+          </Button>
+          <Button 
+            onClick={shareTelegram} 
+            disabled={!origin}
+            className="bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white py-5 rounded-xl font-medium shadow-lg flex items-center justify-center gap-3 border border-emerald-500/30"
+          >
+            <Send className="h-5 w-5" />
+            Telegram
+          </Button>
+        </div>
+
+        {/* How It Works */}
+        <div className="mb-8">
+          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <ChevronRight className="h-5 w-5 text-emerald-400" />
+            How It Works
+          </h3>
+          <div className="space-y-3">
+            {[
+              {
+                icon: Share2,
+                title: "Share Your Link",
+                description: "Share your unique referral link with friends",
+                color: "from-emerald-500 to-emerald-600"
+              },
+              {
+                icon: Users,
+                title: "They Sign Up",
+                description: "Friends register using your referral code",
+                color: "from-green-500 to-green-600"
+              },
+              {
+                icon: Wallet,
+                title: "Earn Rewards",
+                description: "Get ₦10,000 credited instantly per referral",
+                color: "from-emerald-600 to-emerald-700"
+              }
+            ].map((step, index) => (
+              <div 
+                key={index}
+                className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 flex items-center gap-4 hover:bg-white/10 transition-all duration-300"
+              >
+                <div className={`flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br ${step.color} flex items-center justify-center shadow-lg`}>
+                  <step.icon className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-medium text-emerald-300/70">Step {index + 1}</span>
+                  </div>
+                  <h4 className="font-semibold text-white mt-1">{step.title}</h4>
+                  <p className="text-sm text-white/60 mt-1">{step.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Stats Dashboard */}
+        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-5 border border-white/10 mb-6">
+          <h3 className="text-lg font-semibold text-white mb-5 text-center">Your Referral Performance</h3>
+          
+          <div className="grid grid-cols-2 gap-4 mb-5">
+            <div className="bg-gradient-to-br from-emerald-900/50 to-emerald-800/30 rounded-xl p-4 text-center border border-emerald-500/20">
+              <p className="text-3xl font-bold text-amber-300">{userData?.referral_count || 0}</p>
+              <p className="text-sm text-emerald-200/80 mt-2">Successful Referrals</p>
+            </div>
+            <div className="bg-gradient-to-br from-green-900/50 to-green-800/30 rounded-xl p-4 text-center border border-green-500/20">
               <p className="text-3xl font-bold text-emerald-300">
                 {userData ? formatCurrency(userData.referral_balance) : '₦0'}
               </p>
-              <p className="text-sm text-white/80 mt-1">Total Earned</p>
+              <p className="text-sm text-emerald-200/80 mt-2">Total Earned</p>
+            </div>
+          </div>
+
+          {/* Pending Referrals */}
+          <div className="bg-gradient-to-r from-amber-900/20 to-amber-800/10 rounded-xl p-4 border border-amber-500/20">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-amber-200/80">Pending referrals</p>
+                <p className="text-2xl font-bold text-amber-300 mt-1">{userData?.pending_count || 0}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-sm text-amber-200/80">Potential earnings</p>
+                <p className="text-xl font-bold text-amber-200 mt-1">
+                  {userData ? formatCurrency((userData.pending_count || 0) * 10000) : '₦0'}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tips Section */}
+        <div className="bg-gradient-to-r from-emerald-900/20 to-emerald-800/10 rounded-xl p-5 border border-emerald-500/20 mb-8">
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-lg bg-emerald-500/20">
+              <Sparkles className="h-5 w-5 text-emerald-300" />
+            </div>
+            <div>
+              <h4 className="font-semibold text-white mb-2">Pro Tip</h4>
+              <p className="text-sm text-emerald-200/80">
+                Share your link on social media and messaging platforms to maximize your earnings. 
+                Each successful referral earns you ₦10,000 instantly!
+              </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Pending referrals summary (only label + count) */}
-      <div className="px-6 mt-4 mb-8">
-        <div className="text-center text-sm text-white/80">
-          <div className="inline-block bg-white/6 px-4 py-2 rounded-xl border border-white/10">
-            <span className="font-medium">Pending referrals</span>
-            <div className="text-2xl font-bold text-amber-300 mt-1">{userData?.pending_count || 0}</div>
-          </div>
-        </div>
+      {/* Floating Action Button */}
+      <div className="fixed bottom-6 left-0 right-0 px-6">
+        <Button 
+          onClick={shareWhatsApp}
+          className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white py-6 rounded-xl text-lg font-semibold shadow-xl flex items-center justify-center gap-3 border border-emerald-500/30"
+        >
+          <Share2 className="h-6 w-6" />
+          Start Sharing Now
+          <ChevronRight className="h-5 w-5 ml-1" />
+        </Button>
       </div>
-
-      <style jsx global>{`
-        /* Page-wide gentle bounce */
-        @keyframes gentleBouncePage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-        .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
-
-        /* Subtle inner bounce for the card and children */
-        @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-        .animate-inner-bounce { animation: gentleBounceInner 1.8s ease-in-out infinite; }
-        .animate-inner-bounce-child { animation: gentleBounceInner 1.8s ease-in-out infinite; }
-
-        /* Staggered delays */
-        .delay-0 { animation-delay: 0s; }
-        .delay-1 { animation-delay: 0.12s; }
-        .delay-2 { animation-delay: 0.24s; }
-        .delay-3 { animation-delay: 0.36s; }
-        .delay-4 { animation-delay: 0.48s; }
-      `}</style>
     </div>
   )
 }
 
-// THIS IS THE ONLY EXPORT
 export const dynamic = 'force-dynamic'
