@@ -31,9 +31,20 @@ export default function WithdrawPage() {
     setUserData(user)
     setBalance(user.balance || 0)
 
-    // Get completed tasks for the day
-    const completedTasks = JSON.parse(localStorage.getItem("tivexx-completed-tasks") || "[]")
-    setCompletedTasksCount(completedTasks.length)
+    // Check if a new day has started and reset tasks if needed
+    const lastResetDate = localStorage.getItem("tivexx-last-reset-date")
+    const today = new Date().toDateString()
+    
+    if (lastResetDate !== today) {
+      // Reset completed tasks for the new day
+      localStorage.setItem("tivexx-completed-tasks", "[]")
+      localStorage.setItem("tivexx-last-reset-date", today)
+      setCompletedTasksCount(0)
+    } else {
+      // Get completed tasks for the current day
+      const completedTasks = JSON.parse(localStorage.getItem("tivexx-completed-tasks") || "[]")
+      setCompletedTasksCount(completedTasks.length)
+    }
 
     fetchReferralCount(user.id || user.userId)
   }, [router])
