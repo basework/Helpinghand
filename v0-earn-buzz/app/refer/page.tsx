@@ -281,7 +281,7 @@ export default function ReferPage() {
               {
                 icon: Award,
                 title: "Friends Complete Tasks",
-                description: "<h3>Referral is verified once your friend completes at least 2 daily tasks</h3>",
+                description: "Referral is verified once your friend completes at least 2 daily tasks",
                 color: "from-amber-500 to-amber-600"
               }
             ].map((step, index) => (
