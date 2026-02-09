@@ -209,21 +209,25 @@ export default function ReferPage() {
             </div>
             
             <div className="flex items-center gap-2">
-              <div className="flex-1 bg-black/40 rounded-lg px-4 py-3 border border-white/10">
-                <p className="text-xs text-emerald-200/60 mb-1">Your unique link</p>
-                <p className="text-white font-medium truncate">
-                  {origin ? `${origin}${referralLink}` : 'Loading...'}
-                </p>
-              </div>
-              <Button 
-                onClick={handleCopy} 
+              <Button
+                onClick={handleCopy}
                 variant={copied ? "default" : "outline"}
-                size="icon" 
+                size="icon"
                 disabled={!origin}
                 className={`h-12 w-12 rounded-xl ${copied ? 'bg-emerald-600 text-white' : 'border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20'}`}
               >
                 {copied ? <Check className="h-5 w-5" /> : <Copy className="h-5 w-5" />}
               </Button>
+
+              <div className="flex-1 min-w-0 bg-black/40 rounded-lg px-4 py-3 border border-white/10">
+                <p className="text-xs text-emerald-200/60 mb-1">Your unique link</p>
+                <p
+                  className="text-white font-medium truncate min-w-0"
+                  title={origin ? `${origin}${referralLink}` : ''}
+                >
+                  {origin ? `${origin}${referralLink}` : 'Loading...'}
+                </p>
+              </div>
             </div>
           </div>
         </div>
