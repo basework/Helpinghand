@@ -170,13 +170,13 @@ export default function ReferPage() {
               </div>
             </div>
             <div className="flex items-center justify-between mt-6">
-              <div>
+              <div className="min-w-0">
                 <p className="text-emerald-100/70 text-sm">Earn per referral</p>
-                <p className="text-3xl font-bold text-white mt-1">₦10,000</p>
+                <p className="text-3xl font-bold text-white mt-1 truncate overflow-hidden" title="₦10,000">₦10,000</p>
               </div>
-              <div className="text-right">
+              <div className="text-right min-w-0">
                 <p className="text-emerald-100/70 text-sm">Potential earnings</p>
-                <p className="text-3xl font-bold text-amber-300 mt-1">
+                <p className="text-3xl font-bold text-amber-300 mt-1 truncate overflow-hidden">
                   {userData ? formatCurrency(userData.referral_balance + (userData.pending_count || 0) * 10000) : '₦0'}
                 </p>
               </div>
@@ -317,12 +317,12 @@ export default function ReferPage() {
           <h3 className="text-lg font-semibold text-white mb-5 text-center">Your Referral Performance</h3>
           
           <div className="grid grid-cols-2 gap-4 mb-5">
-            <div className="bg-gradient-to-br from-emerald-900/50 to-emerald-800/30 rounded-xl p-4 text-center border border-emerald-500/20">
-              <p className="text-3xl font-bold text-amber-300">{userData?.referral_count || 0}</p>
+            <div className="bg-gradient-to-br from-emerald-900/50 to-emerald-800/30 rounded-xl p-4 text-center border border-emerald-500/20 min-w-0">
+              <p className="text-3xl font-bold text-amber-300 truncate overflow-hidden" title={String(userData?.referral_count || 0)}>{userData?.referral_count || 0}</p>
               <p className="text-sm text-emerald-200/80 mt-2">Successful Referrals</p>
             </div>
-            <div className="bg-gradient-to-br from-green-900/50 to-green-800/30 rounded-xl p-4 text-center border border-green-500/20">
-              <p className="text-3xl font-bold text-emerald-300">
+            <div className="bg-gradient-to-br from-green-900/50 to-green-800/30 rounded-xl p-4 text-center border border-green-500/20 min-w-0">
+              <p className="text-3xl font-bold text-emerald-300 truncate overflow-hidden" title={userData ? formatCurrency(userData.referral_balance) : '₦0'}>
                 {userData ? formatCurrency(userData.referral_balance) : '₦0'}
               </p>
               <p className="text-sm text-emerald-200/80 mt-2">Total Earned</p>
@@ -332,13 +332,13 @@ export default function ReferPage() {
           {/* Pending Referrals */}
           <div className="bg-gradient-to-r from-amber-900/20 to-amber-800/10 rounded-xl p-4 border border-amber-500/20">
             <div className="flex items-center justify-between">
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm text-amber-200/80">Pending referrals</p>
-                <p className="text-2xl font-bold text-amber-300 mt-1">{userData?.pending_count || 0}</p>
+                <p className="text-2xl font-bold text-amber-300 mt-1 truncate overflow-hidden" title={String(userData?.pending_count || 0)}>{userData?.pending_count || 0}</p>
               </div>
-              <div className="text-right">
+              <div className="text-right min-w-0">
                 <p className="text-sm text-amber-200/80">Potential earnings</p>
-                <p className="text-xl font-bold text-amber-200 mt-1">
+                <p className="text-xl font-bold text-amber-200 mt-1 truncate overflow-hidden" title={userData ? formatCurrency((userData.pending_count || 0) * 10000) : '₦0'}>
                   {userData ? formatCurrency((userData.pending_count || 0) * 10000) : '₦0'}
                 </p>
               </div>
