@@ -183,7 +183,7 @@ export default function ReferPage() {
         <div className="bg-blue-900/20 backdrop-blur-lg rounded-2xl p-5 border border-blue-700/30 animate-inner-bounce-child delay-4">
           <h3 className="text-lg font-bold text-blue-200 mb-4">✨ Important Requirement</h3>
           <p className="text-sm text-blue-100 leading-relaxed">
-            Your referred friends must complete <span className="font-bold text-blue-300">2 or more tasks</span> within Helping Hands before their referral is verified and you receive your ₦10,000 reward.
+            Your referred friends must complete <span className="font-bold text-blue-300">2 tasks</span> within Helping Hands before their referral is verified and you receive your ₦10,000 reward.
           </p>
           <p className="text-xs text-blue-200/70 mt-3">This ensures quality referrals and helps maintain platform integrity.</p>
         </div>
