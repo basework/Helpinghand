@@ -277,6 +277,12 @@ export default function ReferPage() {
                 title: "Earn Rewards",
                 description: "Get ₦10,000 credited instantly per referral",
                 color: "from-emerald-600 to-emerald-700"
+              },
+              {
+                icon: Award,
+                title: "Friends Complete Tasks",
+                description: "<h3 className='text-amber-300'>Referral is verified once your friend completes at least 2 daily tasks</h3>",
+                color: "from-amber-500 to-amber-600"
               }
             ].map((step, index) => (
               <div 
