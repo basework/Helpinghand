@@ -169,7 +169,7 @@ export default function ReferPage() {
                 <p className="text-emerald-100/80 text-sm">Share and earn with every friend</p>
               </div>
             </div>
-            <div className="flex items-center justify-between mt-6">
+            <div className="flex items-center justify-between mt-6 gap-4">
               <div className="min-w-0">
                 <p className="text-emerald-100/70 text-sm">Earn per referral</p>
                 <p className="text-3xl font-bold text-white mt-1 truncate overflow-hidden" title="₦10,000">₦10,000</p>
