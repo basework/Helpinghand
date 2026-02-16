@@ -478,7 +478,7 @@ export default function DashboardPage() {
       </Dialog>
 
       <Dialog open={showReminderDialog} onOpenChange={setShowReminderDialog}>
-        <DialogContent className="max-w-sm">
+        <DialogContent className="max-w-sm bg-white/95 text-black rounded-2xl shadow-lg">
           <DialogHeader>
             <DialogTitle className="text-center text-xl">📢 Stay Updated!</DialogTitle>
             <DialogDescription className="text-center space-y-4 pt-4">
