@@ -107,7 +107,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "Tap our premium ad link for extra rewards",
     category: "Social Media",
     reward: 5000,
-    link: "https://t.me/helpinghtask3",
+    link: "https://t.me/opaydotmoney",
     icon: "🌐",
   },
 ]
