@@ -299,7 +299,6 @@ export default function DashboardPage() {
     { name: "Helping Hands Channel", emoji: "📢", link: "https://t.me/helpinghandsnews", external: true, color: "text-blue-400", bgColor: "bg-blue-500/10", },
   ]
 
-  // FIXED: Fetch user data with proper balance sync
   useEffect(() => {
     const storedUser = localStorage.getItem("tivexx-user")
 
@@ -311,55 +310,38 @@ export default function DashboardPage() {
     const user = JSON.parse(storedUser)
 
     const tutorialShown = localStorage.getItem("tivexx-tutorial-shown")
-    if (!tutorialShown) {
-      setShowTutorial(true)
-    }
-
-    if (typeof user.balance !== "number") {
-      user.balance = 50000
-    }
-
-    if (!user.userId) {
-      user.userId = `TX${Math.random().toString(36).substr(2, 9).toUpperCase()}`
-    }
+    if (!tutorialShown) setShowTutorial(true)
 
     const fetchUserBalance = async () => {
       try {
         const response = await fetch(`/api/user-balance?userId=${user.id || user.userId}&t=${Date.now()}`)
         const data = await response.json()
-        
-        // FIX 1: Use the HIGHER balance between localStorage and database (preserves claims)
+
         const localStorageBalance = user.balance || 50000
         const dbBalance = data.balance || 50000
         const baseBalance = Math.max(localStorageBalance, dbBalance)
-        
-        // FIX 2: Add referral earnings ONLY ONCE (no double-counting). But if referral already in DB main, skip re-add.
+
         const referralEarnings = data.referral_balance || 0
         const lastSyncedReferrals = localStorage.getItem("tivexx-last-synced-referrals") || "0"
-        
-        // Calculate NEW referral earnings since last sync
+
         const newReferralEarnings = referralEarnings - parseInt(lastSyncedReferrals)
         const totalBalance = baseBalance + Math.max(0, newReferralEarnings)
-        
-        // Update state with the correct total balance
+
         setBalance(totalBalance)
         setAnimatedBalance(totalBalance)
-        
-        // Update localStorage to maintain consistency
+
         const updatedUser = { 
           ...user, 
           balance: totalBalance
         }
         localStorage.setItem("tivexx-user", JSON.stringify(updatedUser))
-        
-        // Track what we've already synced to prevent double-counting
+
         if (newReferralEarnings > 0) {
           localStorage.setItem("tivexx-last-synced-referrals", referralEarnings.toString())
         }
-        
+
         setUserData(updatedUser)
 
-        // BEST FIX: Sync merged total back to DB (includes local claims, avoids loss on next load)
         await fetch(`/api/user-balance`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -367,8 +349,7 @@ export default function DashboardPage() {
         })
 
       } catch (error) {
-        console.error("[Dashboard] Error fetching user balance:", error)
-        // Fallback to localStorage data only
+        console.error(error)
         setBalance(user.balance)
         setAnimatedBalance(user.balance)
         setUserData(user)
@@ -377,9 +358,7 @@ export default function DashboardPage() {
 
     fetchUserBalance()
 
-    setTimeout(() => {
-      setShowWithdrawalNotification(true)
-    }, 3000)
+    setTimeout(() => setShowWithdrawalNotification(true), 3000)
 
     const showRandomNotification = () => {
       const randomDelay = Math.floor(Math.random() * (30000 - 15000 + 1)) + 15000
