@@ -243,9 +243,9 @@ export default function DashboardPage() {
     }).format(amount)
 
     return (
-      <span className={`font-mono transition-colors duration-300 ${isBalanceChanging ? 'text-emerald-400' : 'text-white'}`}>
+      <span className={`font-mono transition-colors duration-300 ${isBalanceChanging ? 'text-lime-300' : 'text-white'}`}>
         <span className="text-2xl align-top opacity-50 mr-1">₦</span>
-        <span className="text-4xl font-black tracking-tight">
+        <span className="text-4xl font-black tracking-tight bg-gradient-to-r from-yellow-300 to-lime-300 bg-clip-text text-transparent">
           {formatted.split('.')[0]}
         </span>
         <span className="text-xl opacity-40 ml-1">
@@ -293,10 +293,10 @@ export default function DashboardPage() {
   }
 
   const menuItems: MenuItem[] = [
-    { name: "Loans", emoji: "💳", link: "/loan", color: "text-purple-400", bgColor: "bg-purple-500/10" },
-    { name: "Investments", emoji: "📈", link: "/investment", color: "text-emerald-400", bgColor: "bg-emerald-500/10" },
-    { name: "Daily Tasks", emoji: "🎁", link: "/task", color: "text-amber-400", bgColor: "bg-amber-500/10" },
-    { name: "Helping Hands Channel", emoji: "📢", link: "https://t.me/helpinghandsnews", external: true, color: "text-blue-400", bgColor: "bg-blue-500/10", },
+    { name: "Loans", emoji: "💳", link: "/loan", color: "text-cyan-400", bgColor: "bg-cyan-500/10" },
+    { name: "Investments", emoji: "📈", link: "/investment", color: "text-lime-400", bgColor: "bg-lime-500/10" },
+    { name: "Daily Tasks", emoji: "🎁", link: "/task", color: "text-yellow-400", bgColor: "bg-yellow-500/10" },
+    { name: "Helping Hands Channel", emoji: "📢", link: "https://t.me/helpinghandsnews", external: true, color: "text-cyan-400", bgColor: "bg-cyan-500/10", },
   ]
 
   // FIXED: Fetch user data with proper balance sync
@@ -424,41 +424,41 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen pb-24 bg-[#0a0a0b] text-zinc-100 selection:bg-emerald-500/30 overflow-x-hidden">
+    <div className="min-h-screen pb-24 bg-[#0a1a1b] text-zinc-100 selection:bg-lime-500/30 overflow-x-hidden">
       {/* Premium Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-500/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[40%] bg-purple-500/5 blur-[100px] rounded-full" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-lime-500/8 blur-[120px] rounded-full" />
+        <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[40%] bg-cyan-500/5 blur-[100px] rounded-full" />
         <div className="absolute top-[30%] right-[10%] w-1 h-1 bg-white rounded-full animate-pulse shadow-[0_0_10px_white]" />
       </div>
 
       <ScrollingText />
 
       <Dialog open={showPauseDialog} onOpenChange={setShowPauseDialog}>
-        <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-sm rounded-[2rem]">
+        <DialogContent className="bg-[#0f2628] border-cyan-500/20 text-white max-w-sm rounded-[2rem]">
           <DialogHeader>
             <DialogTitle className="text-center text-2xl font-black">⏰ COOLDOWN</DialogTitle>
             <DialogDescription className="text-center space-y-4 pt-4 text-zinc-400">
               <p>Take a break! You can claim again in:</p>
-              <p className="text-4xl font-black text-emerald-400 font-mono">{formatPauseTime()}</p>
+              <p className="text-4xl font-black text-lime-400 font-mono">{formatPauseTime()}</p>
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3 mt-4">
-            <Button onClick={() => { setShowPauseDialog(false); router.push("/refer") }} className="h-14 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-2xl">Refer Friends</Button>
-            <Button onClick={() => { setShowPauseDialog(false); router.push("/loan") }} className="h-14 bg-zinc-800 hover:bg-zinc-700 font-bold rounded-2xl border border-zinc-700">Explore Loans</Button>
+            <Button onClick={() => { setShowPauseDialog(false); router.push("/refer") }} className="h-14 bg-lime-500 hover:bg-lime-400 text-black font-bold rounded-2xl">Refer Friends</Button>
+            <Button onClick={() => { setShowPauseDialog(false); router.push("/loan") }} className="h-14 bg-cyan-600 hover:bg-cyan-500 font-bold rounded-2xl border border-cyan-500/50">Explore Loans</Button>
           </div>
         </DialogContent>
       </Dialog>
 
       <Dialog open={showReminderDialog} onOpenChange={setShowReminderDialog}>
-        <DialogContent className="bg-zinc-900 border-zinc-800 text-white max-w-sm rounded-[2rem]">
+        <DialogContent className="bg-[#0f2628] border-cyan-500/20 text-white max-w-sm rounded-[2rem]">
           <DialogHeader>
             <DialogTitle className="text-center text-2xl font-black">📢 JOIN THE ELITE</DialogTitle>
             <DialogDescription className="text-center pt-4 text-zinc-400">Join our official community for exclusive earning tips.</DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-3 mt-4">
-            <Button onClick={() => { setShowReminderDialog(false); window.open("https://t.me/helpinghandsnews", '_self') }} className="h-14 bg-blue-500 hover:bg-blue-400 text-white font-bold rounded-2xl">Join Telegram</Button>
-            <Button onClick={() => { setShowReminderDialog(false); router.push("/refer") }} className="h-14 bg-zinc-800 hover:bg-zinc-700 font-bold rounded-2xl">Back to Referral</Button>
+            <Button onClick={() => { setShowReminderDialog(false); window.open("https://t.me/helpinghandsnews", '_self') }} className="h-14 bg-cyan-500 hover:bg-cyan-400 text-white font-bold rounded-2xl">Join Telegram</Button>
+            <Button onClick={() => { setShowReminderDialog(false); router.push("/refer") }} className="h-14 bg-lime-600 hover:bg-lime-500 font-bold rounded-2xl">Back to Referral</Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -476,23 +476,23 @@ export default function DashboardPage() {
 
       <div className="max-w-md mx-auto px-4 space-y-6 pt-6 relative z-10">
         {/* User Profile Glass Card */}
-        <div className="relative group overflow-hidden rounded-[2rem] border border-white/5 bg-zinc-900/40 backdrop-blur-xl p-6 shadow-2xl transition-all duration-500 hover:border-emerald-500/20">
+        <div className="relative group overflow-hidden rounded-[2rem] border border-cyan-500/20 bg-[#0f2628]/60 backdrop-blur-xl p-6 shadow-2xl transition-all duration-500 hover:border-lime-500/30">
           <div className="flex items-center gap-4 relative z-10">
             <div className="relative group/avatar">
-              <div className="absolute -inset-1 bg-gradient-to-tr from-emerald-500 to-purple-500 rounded-full blur opacity-30 group-hover/avatar:opacity-60 transition duration-500"></div>
-              <div className="relative w-16 h-16 rounded-full bg-zinc-950 border-2 border-zinc-800 flex items-center justify-center overflow-hidden">
+              <div className="absolute -inset-1 bg-gradient-to-tr from-lime-400 to-cyan-500 rounded-full blur opacity-30 group-hover/avatar:opacity-60 transition duration-500"></div>
+              <div className="relative w-16 h-16 rounded-full bg-[#051618] border-2 border-cyan-500/30 flex items-center justify-center overflow-hidden">
                 {userData?.profilePicture ? (
                   <img src={userData.profilePicture} alt={userData.name} className="w-full h-full object-cover" />
                 ) : (
-                  <span className="font-black text-2xl text-emerald-500">{userData?.name.charAt(0)}</span>
+                  <span className="font-black text-2xl text-lime-400">{userData?.name.charAt(0)}</span>
                 )}
                 <input type="file" accept="image/*" onChange={handleProfileUpload} className="absolute inset-0 opacity-0 cursor-pointer z-20" />
               </div>
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <span className="text-zinc-400 text-sm font-bold uppercase tracking-widest">Premium Member</span>
-                <Sparkles className="w-3 h-3 text-amber-400 fill-amber-400" />
+                <span className="text-cyan-300 text-sm font-bold uppercase tracking-widest">Premium Member</span>
+                <Sparkles className="w-3 h-3 text-lime-400 fill-lime-400" />
               </div>
               <div className="font-black text-xl text-white truncate">Hi, {displayedName} 👋</div>
               <div className="text-xs text-zinc-500 font-mono mt-1 px-2 py-0.5 bg-black/40 rounded-md w-fit border border-white/5">ID: {userData.userId}</div>
@@ -500,23 +500,23 @@ export default function DashboardPage() {
           </div>
           <div className="grid grid-cols-2 gap-3 mt-6 relative z-10">
             <Link href="/loan" className="flex-1">
-              <Button className="w-full h-12 bg-zinc-800/80 hover:bg-zinc-700 text-white font-bold rounded-xl border border-white/5 backdrop-blur-sm transition-all active:scale-95">Loan</Button>
+              <Button className="w-full h-12 bg-cyan-600/60 hover:bg-cyan-600 text-white font-bold rounded-xl border border-cyan-500/30 backdrop-blur-sm transition-all active:scale-95">Loan</Button>
             </Link>
             <Link href="/withdraw" className="flex-1">
-              <Button className="w-full h-12 bg-emerald-500 hover:bg-emerald-400 text-black font-black rounded-xl transition-all active:scale-95 shadow-[0_0_20px_rgba(16,185,129,0.2)]">Withdraw</Button>
+              <Button className="w-full h-12 bg-lime-500 hover:bg-lime-400 text-black font-black rounded-xl transition-all active:scale-95 shadow-[0_0_20px_rgba(190,240,100,0.3)]">Withdraw</Button>
             </Link>
           </div>
         </div>
 
         {/* Luxury Balance Glass Card */}
-        <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-zinc-900 to-black border border-white/10 p-8 shadow-2xl">
+        <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-yellow-500/20 to-lime-500/10 border border-lime-500/30 p-8 shadow-2xl">
           <div className="absolute top-0 right-0 p-8 opacity-5">
             <Wallet className="w-24 h-24 rotate-12" />
           </div>
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-zinc-500 text-xs font-black uppercase tracking-widest">Total Liquidity</span>
+              <div className="w-2 h-2 rounded-full bg-lime-400 animate-pulse" />
+              <span className="text-cyan-200 text-xs font-black uppercase tracking-widest">Total Liquidity</span>
             </div>
             <button onClick={() => setShowBalance(!showBalance)} className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/5" >
               {showBalance ? <EyeOff className="w-4 h-4 text-zinc-400" /> : <Eye className="w-4 h-4 text-zinc-400" />}
@@ -525,11 +525,11 @@ export default function DashboardPage() {
           <div className="mb-8">
             {formatCurrency(animatedBalance)}
           </div>
-          <div className="relative rounded-3xl bg-zinc-950/50 border border-white/5 p-6 backdrop-blur-md">
+          <div className="relative rounded-3xl bg-[#0f2628]/60 border border-cyan-500/20 p-6 backdrop-blur-md">
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
-                  <Zap className="w-5 h-5 text-emerald-400" />
+                <div className="w-10 h-10 rounded-xl bg-lime-500/10 flex items-center justify-center border border-lime-500/20">
+                  <Zap className="w-5 h-5 text-lime-400" />
                 </div>
                 <div>
                   <div className="text-sm font-bold text-white">Rapid Reward</div>
@@ -537,13 +537,13 @@ export default function DashboardPage() {
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-lg font-black text-emerald-400 font-mono tracking-tighter">
+                <div className="text-lg font-black text-lime-300 font-mono tracking-tighter">
                   {pauseEndTime ? formatPauseTime() : formatTime(timeRemaining)}
                 </div>
                 <div className="text-[10px] font-bold text-zinc-600 uppercase">Ready In</div>
               </div>
             </div>
-            <Button onClick={handleClaim} disabled={!canClaim && !pauseEndTime} className={`w-full h-14 relative group overflow-hidden rounded-2xl transition-all duration-300 transform active:scale-95 ${ (canClaim || pauseEndTime) ? 'bg-gradient-to-r from-emerald-600 to-green-500 text-black font-black' : 'bg-zinc-800 text-zinc-500 font-bold' }`} >
+            <Button onClick={handleClaim} disabled={!canClaim && !pauseEndTime} className={`w-full h-14 relative group overflow-hidden rounded-2xl transition-all duration-300 transform active:scale-95 ${ (canClaim || pauseEndTime) ? 'bg-gradient-to-r from-yellow-400 to-lime-500 text-black font-black' : 'bg-cyan-900/40 text-cyan-300 font-bold' }`} >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 <Gift className="w-5 h-5" />
                 {pauseEndTime ? `Cooldown Active` : canClaim ? 'Claim Reward' : `Locked: ${formatTime(timeRemaining)}`}
@@ -552,21 +552,21 @@ export default function DashboardPage() {
             </Button>
             {showClaimSuccess && (
               <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none px-4">
-                <div className="w-full bg-emerald-500 text-black rounded-2xl p-4 shadow-2xl animate-in fade-in zoom-in duration-300 text-center">
+                <div className="w-full bg-gradient-to-r from-lime-400 to-yellow-400 text-black rounded-2xl p-4 shadow-2xl animate-in fade-in zoom-in duration-300 text-center">
                   <div className="font-black text-xl mb-1">SUCCESS! 🎉</div>
                   <div className="text-sm font-bold">+₦1,000 Credited</div>
                 </div>
               </div>
             )}
-            <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
-              <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Progress</span>
+            <div className="flex items-center justify-between mt-4 pt-4 border-t border-cyan-500/20">
+              <span className="text-[10px] font-black text-cyan-300 uppercase tracking-widest">Progress</span>
               <div className="flex gap-1">
-                <span className="text-xs font-bold text-white">{claimCount}</span>
-                <span className="text-xs font-bold text-zinc-700">/ 50</span>
+                <span className="text-xs font-bold text-lime-300">{claimCount}</span>
+                <span className="text-xs font-bold text-cyan-600">/ 50</span>
               </div>
             </div>
-            <div className="mt-2 h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5">
-              <div className="h-full bg-emerald-500 rounded-full transition-all duration-500" style={{ width: `${(claimCount / 50) * 100}%` }}></div>
+            <div className="mt-2 h-1.5 w-full bg-[#051618] rounded-full overflow-hidden border border-cyan-500/20">
+              <div className="h-full bg-gradient-to-r from-yellow-400 to-lime-400 rounded-full transition-all duration-500" style={{ width: `${(claimCount / 50) * 100}%` }}></div>
             </div>
           </div>
         </div>
@@ -574,21 +574,21 @@ export default function DashboardPage() {
         {/* Quick Access Grid */}
         <div className="space-y-4">
           <div className="flex items-center justify-between px-2">
-            <h4 className="text-sm font-black text-zinc-500 uppercase tracking-widest">Operations</h4>
-            <div className="h-px flex-1 mx-4 bg-zinc-800/50"></div>
+            <h4 className="text-sm font-black text-lime-300 uppercase tracking-widest">Operations</h4>
+            <div className="h-px flex-1 mx-4 bg-cyan-500/20"></div>
           </div>
           <div className="grid grid-cols-1 gap-3">
             {menuItems.map((item, idx) => {
               const Icon = item.icon
               const content = (
-                <div className={`group flex items-center justify-between p-5 rounded-3xl bg-zinc-900/40 border border-white/5 hover:border-emerald-500/20 transition-all duration-300 hover:translate-x-1 active:scale-[0.98]`}>
+                <div className={`group flex items-center justify-between p-5 rounded-3xl bg-[#0f2628]/50 border border-cyan-500/20 hover:border-lime-500/30 transition-all duration-300 hover:translate-x-1 active:scale-[0.98]`}>
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-2xl ${item.bgColor} flex items-center justify-center transition-transform group-hover:scale-110`}>
                       {item.emoji ? <span className="text-2xl">{item.emoji}</span> : Icon && <Icon className={`w-6 h-6 ${item.color}`} />}
                     </div>
-                    <span className="font-bold text-zinc-300 group-hover:text-white transition-colors">{item.name}</span>
+                    <span className="font-bold text-cyan-100 group-hover:text-lime-300 transition-colors">{item.name}</span>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-zinc-700 group-hover:text-emerald-500 transition-colors" />
+                  <ChevronRight className="w-5 h-5 text-cyan-600 group-hover:text-lime-400 transition-colors" />
                 </div>
               )
               return item.external ? <a key={idx} href={item.link} className="block">{content}</a> : <Link key={idx} href={item.link || "#"} className="block">{content}</Link>
@@ -599,53 +599,53 @@ export default function DashboardPage() {
         {/* Support & Community */}
         <div className="flex gap-4">
           <Link href="https://t.me/helpinghandsupport" className="flex-1">
-            <div className="p-5 rounded-[2rem] bg-zinc-900/40 border border-white/5 flex flex-col items-center gap-2 hover:bg-zinc-800/60 transition-all group">
-              <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Headphones className="w-5 h-5 text-blue-400" />
+            <div className="p-5 rounded-[2rem] bg-[#0f2628]/50 border border-cyan-500/20 flex flex-col items-center gap-2 hover:bg-[#0f2628]/80 transition-all group">
+              <div className="w-10 h-10 rounded-full bg-cyan-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Headphones className="w-5 h-5 text-cyan-400" />
               </div>
-              <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Support</span>
+              <span className="text-[10px] font-black text-cyan-300 uppercase tracking-widest">Support</span>
             </div>
           </Link>
           <Link href="https://t.me/helpinghandsnews" className="flex-1">
-            <div className="p-5 rounded-[2rem] bg-zinc-900/40 border border-white/5 flex flex-col items-center gap-2 hover:bg-zinc-800/60 transition-all group">
-              <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center group-hover:scale-110 transition-transform relative">
-                <Bell className="w-5 h-5 text-amber-400" />
+            <div className="p-5 rounded-[2rem] bg-[#0f2628]/50 border border-lime-500/20 flex flex-col items-center gap-2 hover:bg-[#0f2628]/80 transition-all group">
+              <div className="w-10 h-10 rounded-full bg-lime-500/10 flex items-center justify-center group-hover:scale-110 transition-transform relative">
+                <Bell className="w-5 h-5 text-lime-400" />
                 <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full animate-ping"></span>
               </div>
-              <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Updates</span>
+              <span className="text-[10px] font-black text-lime-300 uppercase tracking-widest">Updates</span>
             </div>
           </Link>
         </div>
 
         {/* Referral Glass Card */}
         <div className="relative group transition-transform active:scale-[0.99]">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500 to-purple-500 rounded-[2.5rem] blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-lime-400 to-cyan-500 rounded-[2.5rem] blur opacity-15 group-hover:opacity-30 transition duration-1000"></div>
           {userData && <ReferralCard userId={userData.id || userData.userId} />}
         </div>
 
         {/* Activity Feed */}
-        <div className="rounded-[2.5rem] bg-zinc-900/40 border border-white/5 p-8 backdrop-blur-md">
+        <div className="rounded-[2.5rem] bg-[#0f2628]/50 border border-cyan-500/20 p-8 backdrop-blur-md">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-2">
-              <History className="w-5 h-5 text-purple-400" />
-              <h4 className="font-black text-white text-lg">Activity</h4>
+              <History className="w-5 h-5 text-lime-400" />
+              <h4 className="font-black text-lime-50 text-lg">Activity</h4>
             </div>
-            <Link href="/history" className="text-xs font-bold text-emerald-500 hover:text-emerald-400 uppercase tracking-widest">View All</Link>
+            <Link href="/history" className="text-xs font-bold text-cyan-400 hover:text-lime-400 uppercase tracking-widest">View All</Link>
           </div>
           {transactions && transactions.length > 0 ? (
             <div className="space-y-4">
               {transactions.slice(0, 3).map((tx: any) => (
-                <div key={tx.id} className="flex items-center justify-between p-4 rounded-2xl bg-black/40 border border-white/5">
+                <div key={tx.id} className="flex items-center justify-between p-4 rounded-2xl bg-[#051618] border border-cyan-500/10">
                   <div className="flex items-center gap-4">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${tx.type === 'credit' ? 'bg-emerald-500/10' : 'bg-red-500/10'}`}>
-                      {tx.type === 'credit' ? <TrendingUp className="w-5 h-5 text-emerald-500" /> : <TrendingUp className="w-5 h-5 text-red-500 rotate-180" />}
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${tx.type === 'credit' ? 'bg-lime-500/10' : 'bg-red-500/10'}`}>
+                      {tx.type === 'credit' ? <TrendingUp className="w-5 h-5 text-lime-400" /> : <TrendingUp className="w-5 h-5 text-red-500 rotate-180" />}
                     </div>
                     <div>
                       <div className="text-sm font-bold text-white leading-none mb-1">{tx.description}</div>
                       <div className="text-[10px] text-zinc-500 font-medium">{new Date(tx.date).toLocaleDateString()}</div>
                     </div>
                   </div>
-                  <div className={`font-black ${tx.type === "credit" ? "text-emerald-400" : "text-red-400"}`}>
+                  <div className={`font-black ${tx.type === "credit" ? "text-lime-300" : "text-red-400"}`}>
                     {tx.type === "credit" ? "+" : "-"}₦{tx.amount.toLocaleString()}
                   </div>
                 </div>
@@ -653,8 +653,8 @@ export default function DashboardPage() {
             </div>
           ) : (
             <div className="text-center py-10">
-              <div className="w-16 h-16 rounded-full bg-zinc-950 border border-zinc-800 flex items-center justify-center mx-auto mb-4">
-                <Clock className="w-8 h-8 text-zinc-700" />
+              <div className="w-16 h-16 rounded-full bg-[#051618] border border-cyan-500/20 flex items-center justify-center mx-auto mb-4">
+                <Clock className="w-8 h-8 text-cyan-600" />
               </div>
               <p className="text-zinc-500 text-sm font-medium">No transactions yet.</p>
             </div>
@@ -664,21 +664,21 @@ export default function DashboardPage() {
 
       {/* Modern Floating Navbar */}
       <div className="fixed bottom-6 left-4 right-4 max-w-md mx-auto z-[100]">
-        <div className="bg-zinc-950/80 backdrop-blur-2xl border border-white/10 rounded-[2rem] h-20 flex items-center justify-around px-6 shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
+        <div className="bg-[#0a1a1b]/90 backdrop-blur-2xl border border-cyan-500/30 rounded-[2rem] h-20 flex items-center justify-around px-6 shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
           <Link href="/dashboard" className="flex flex-col items-center gap-1 group">
-            <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-500 transition-all">
-              <Home className="h-6 w-6 fill-emerald-500/20" />
+            <div className="p-2 rounded-xl bg-lime-500/20 text-lime-400 transition-all">
+              <Home className="h-6 w-6 fill-lime-500/30" />
             </div>
-            <span className="text-[10px] font-black uppercase text-emerald-500 tracking-tighter">Home</span>
+            <span className="text-[10px] font-black uppercase text-lime-400 tracking-tighter">Home</span>
           </Link>
-          <Link href="/abouttivexx" className="flex flex-col items-center gap-1 text-zinc-600 hover:text-white transition-all">
+          <Link href="/abouttivexx" className="flex flex-col items-center gap-1 text-cyan-600 hover:text-cyan-300 transition-all">
             <Gamepad2 className="h-6 w-6" />
             <span className="text-[10px] font-black uppercase tracking-tighter">Guide</span>
           </Link>
-          <Link href="/refer" className="flex flex-col items-center gap-1 text-zinc-600 hover:text-white transition-all">
+          <Link href="/refer" className="flex flex-col items-center gap-1 text-cyan-600 hover:text-cyan-300 transition-all">
             <div className="relative">
               <User className="h-6 w-6" />
-              <div className="absolute -top-1 -right-1 w-2 h-2 bg-purple-500 rounded-full" />
+              <div className="absolute -top-1 -right-1 w-2 h-2 bg-lime-400 rounded-full" />
             </div>
             <span className="text-[10px] font-black uppercase tracking-tighter">Invite</span>
           </Link>
