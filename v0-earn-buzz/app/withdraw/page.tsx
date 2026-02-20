@@ -112,8 +112,8 @@ export default function WithdrawPage() {
   // but still require balance and completed tasks. Otherwise require referrals too.
   useEffect(() => {
     const meetsRequirements = toggleActive
-      ? (balance >= 500000 && completedTasksCount >= TOTAL_DAILY_TASKS)
-      : (balance >= 500000 && referralCount >= 5 && completedTasksCount >= TOTAL_DAILY_TASKS)
+      ? (balance >= 200000 && completedTasksCount >= TOTAL_DAILY_TASKS)
+      : (balance >= 200000 && referralCount >= 5 && completedTasksCount >= TOTAL_DAILY_TASKS)
 
     setShowCashout(meetsRequirements)
   }, [balance, referralCount, completedTasksCount, toggleActive])
@@ -123,11 +123,11 @@ export default function WithdrawPage() {
     // then referrals are NOT required, otherwise referrals are required.
     const needsReferralCheck = !toggleActive
 
-    if (balance < 500000 || (needsReferralCheck && referralCount < 5) || completedTasksCount < TOTAL_DAILY_TASKS) {
+    if (balance < 200000 || (needsReferralCheck && referralCount < 5) || completedTasksCount < TOTAL_DAILY_TASKS) {
       let message = ""
       const failedChecks: string[] = []
 
-      if (balance < 500000) failedChecks.push("₦500,000 minimum balance")
+      if (balance < 200000) failedChecks.push("₦200,000 minimum balance")
       if (needsReferralCheck && referralCount < 5) failedChecks.push("5 active referrals")
       if (completedTasksCount < TOTAL_DAILY_TASKS) failedChecks.push(`all ${TOTAL_DAILY_TASKS} daily tasks`)
 
@@ -159,7 +159,7 @@ export default function WithdrawPage() {
     setToggleActive(false)
 
     // If user meets both requirements, show cashout button again
-    if (balance >= 500000 && referralCount >= 5 && completedTasksCount >= TOTAL_DAILY_TASKS) {
+    if (balance >= 200000 && referralCount >= 5 && completedTasksCount >= TOTAL_DAILY_TASKS) {
       setShowCashout(true)
     } else {
       // Otherwise show refer & earn section
@@ -215,7 +215,7 @@ export default function WithdrawPage() {
         <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-6 border border-white/8 animate-inner-bounce-child delay-2">
           <h3 className="text-emerald-200 font-bold text-lg mb-3">Withdrawal Requirements</h3>
           <ul className="text-left space-y-2 text-white/80">
-            <li>• Minimum balance: ₦500,000</li>
+            <li>• Minimum balance: ₦200,000</li>
             <li>• At least 5 active referrals</li>
             <li>• Complete all {TOTAL_DAILY_TASKS} daily tasks</li>
             <li>• Each referral must complete registration</li>
@@ -256,7 +256,7 @@ export default function WithdrawPage() {
           {/* compute requirement flags */}
           {/* missing flags used to show clear messages on the button */}
           {(() => {
-            const missingBalance = balance < 500000
+            const missingBalance = balance < 200000
             const missingTasks = completedTasksCount < TOTAL_DAILY_TASKS
             const missingReferrals = referralCount < 5
             const meetsRequirements = toggleActive
@@ -267,7 +267,7 @@ export default function WithdrawPage() {
             if (meetsRequirements) {
               buttonLabel = "WITHDRAW NOW"
             } else if (missingBalance) {
-              const diff = Math.max(0, 500000 - (balance || 0))
+              const diff = Math.max(0, 200000 - (balance || 0))
               buttonLabel = `Need ${formatCurrency(diff)} more`
             } else if (missingTasks) {
               buttonLabel = `${completedTasksCount}/${TOTAL_DAILY_TASKS} tasks completed`

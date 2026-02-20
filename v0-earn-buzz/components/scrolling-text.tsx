@@ -91,7 +91,7 @@ const messages = [
   "⚡ Your phone = your ATM now!",
   "🔥 New earnings every minute on Helping Hands!",
   "💸 Ngozi earned ₦500,000 in 2 weeks!",
-    "🏦 Minimum withdrawal: ₦500,000 - Start earning now!",
+    "🏦 Minimum withdrawal: ₦200,000 - Start earning now!",
     "🌈 From zero to ₦500,000 – your turn next!",
     "🎯 You’re 5 friends away from ₦500,000!",
     "🎯 Unlock your ₦500,000 goal!",
