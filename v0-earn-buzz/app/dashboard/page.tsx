@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useCallback, useEffect, useState, Component } from 'react'
 // ─── Icon Components (lucide-react equivalents) ───────────────────────────────
 const HomeIcon = ({ size = 24, className = '' }) => (
