@@ -169,6 +169,17 @@ const EyeOffIcon = ({ size = 16, className = '' }) => (
     <line x1="1" y1="1" x2="23" y2="23" />
   </svg>
 )
+// Safely render icon values that may be a React element, a component function, or a string/emoji.
+function IconRenderer({ icon, size, className }: { icon: any; size?: number; className?: string }) {
+  if (!icon && icon !== 0) return null
+  if (React.isValidElement(icon)) return icon
+  if (typeof icon === 'function') {
+    const IconComp = icon
+    return <IconComp size={size} className={className} />
+  }
+  // fallback: render as text (emoji or string)
+  return <span className={className} style={{ fontSize: size ? size - 2 : undefined }}>{String(icon)}</span>
+}
 const XIcon = ({ size = 20, className = '' }) => (
   <svg
     width={size}
@@ -1776,7 +1787,7 @@ export function App() {
               href={item.href}
               className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all duration-200 ${item.active ? 'text-emerald-400' : 'text-slate-500 hover:text-slate-300'}`}
             >
-              {item.icon}
+              <IconRenderer icon={item.icon} size={22} className="" />
               <span className="text-[10px] font-medium">{item.label}</span>
               {item.active && (
                 <div className="w-1 h-1 rounded-full bg-emerald-400" />
