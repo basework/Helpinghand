@@ -61,11 +61,11 @@ export default function ReferPage() {
     fetch(`/api/referral-stats?userId=${userId}&t=${Date.now()}`)
       .then(r => r.json())
       .then(data => {
-        let balance = 100000
+        let balance = 50000
         const stored = localStorage.getItem('tivexx-user')
         if (stored) {
           const u = JSON.parse(stored)
-          const localBal = u.balance || 100000
+          const localBal = u.balance || 50000
           const refEarned = data.referral_balance || 0
           const lastSync = localStorage.getItem('tivexx-last-synced-referrals') || '0'
           const newEarned = Math.max(0, refEarned - parseInt(lastSync))

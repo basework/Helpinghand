@@ -10,7 +10,7 @@ const messages = [
   "⭐ Your success story starts with one referral!",
   "💎 Turn your network into income!",
   "🔥 The more you share, the more you earn!",
-  "🎁 Welcome bonus: ₦100,000 waiting for you!",
+  "🎁 Welcome bonus: ₦50,000 waiting for you!",
   "💪 Build your wealth one referral at a time!",
   "🌟 Join thousands earning daily on Helping Hands!",
   "📈 Watch your balance grow every minute!",
