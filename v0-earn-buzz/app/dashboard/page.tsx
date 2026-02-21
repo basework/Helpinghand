@@ -79,7 +79,7 @@ export default function DashboardPage() {
         }
         return Math.round(newValue)
       })
-    }, 16) // ~60fps
+    }, 16)
     
     return () => clearInterval(timer)
   }, [balance])
@@ -182,14 +182,11 @@ export default function DashboardPage() {
       const newClaimCount = claimCount + 1
       const newBalance = balance + 1000
 
-      // Update state
       setBalance(newBalance)
       setClaimCount(newClaimCount)
       
-      // Save to localStorage
       localStorage.setItem("tivexx-claim-count", newClaimCount.toString())
       
-      // CRITICAL FIX: Update user data in localStorage
       if (userData) {
         const updatedUser = { ...userData, balance: newBalance }
         localStorage.setItem("tivexx-user", JSON.stringify(updatedUser))
@@ -231,29 +228,26 @@ export default function DashboardPage() {
   const formatCurrency = (amount: number) => {
     if (!showBalance) {
       return (
-        <span className="tracking-widest">
-          <span className="inline-block w-12 h-6 bg-white/20 rounded animate-pulse mr-1"></span>
-          <span className="inline-block w-8 h-6 bg-white/20 rounded animate-pulse mr-1"></span>
-          <span className="inline-block w-16 h-6 bg-white/20 rounded animate-pulse"></span>
+        <span className="tracking-widest flex items-center gap-1">
+          {[...Array(4)].map((_, i) => (
+            <span key={i} className="inline-block w-8 h-5 bg-white/15 rounded-md animate-pulse" style={{ animationDelay: `${i * 0.15}s` }}></span>
+          ))}
         </span>
       )
     }
 
-    // For Nigerian Naira with proper spacing
     const formatted = new Intl.NumberFormat('en-NG', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(amount)
 
     return (
-      <span className={`font-mono ${isBalanceChanging ? 'text-green-300' : 'text-white'}`}>
-        <span className="text-2xl align-top">₦</span>
-        <span className="text-3xl font-bold tracking-tight ml-1">
-          {formatted}
+      <span className={`font-mono transition-colors duration-300 ${isBalanceChanging ? 'text-emerald-300' : 'text-white'}`}>
+        <span className="text-xl align-top opacity-80">₦</span>
+        <span className="text-4xl font-black tracking-tight ml-0.5">
+          {formatted.split('.')[0]}
         </span>
-        <span className="text-lg opacity-80 ml-0.5">
-          {formatted.includes('.') ? formatted.split('.')[1] : '00'}
-        </span>
+        <span className="text-xl opacity-60">.{formatted.split('.')[1] || '00'}</span>
       </span>
     )
   }
@@ -273,18 +267,15 @@ export default function DashboardPage() {
     return `${hours}h ${minutes}m ${seconds}s`
   }
 
-  // New: handle profile picture upload (updates state + localStorage)
   const handleProfileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0]
     if (!file) return
 
-    // Read as DataURL and store locally (this avoids adding server logic here)
     const reader = new FileReader()
     reader.onloadend = () => {
       const result = reader.result as string
       const updatedUser = userData ? { ...userData, profilePicture: result } : { name: "User", email: "", balance, userId: `TX${Math.random().toString(36).substr(2, 9).toUpperCase()}`, hasMomoNumber: false, profilePicture: result }
       setUserData(updatedUser)
-      // persist
       try {
         localStorage.setItem("tivexx-user", JSON.stringify(updatedUser))
       } catch (err) {
@@ -299,20 +290,19 @@ export default function DashboardPage() {
   }
 
   const menuItems: MenuItem[] = [
-    { name: "Loans", emoji: "💳", link: "/loan", color: "text-purple-600", bgColor: "" },
-    { name: "Investments", emoji: "📈", link: "/investment", color: "text-violet-600", bgColor: "" },
-    { name: "Daily Tasks", emoji: "🎁", link: "/task", color: "text-yellow-600", bgColor: "" },
+    { name: "Loans", emoji: "💳", link: "/loan", color: "text-purple-400", bgColor: "" },
+    { name: "Investments", emoji: "📈", link: "/investment", color: "text-violet-400", bgColor: "" },
+    { name: "Daily Tasks", emoji: "🎁", link: "/task", color: "text-yellow-400", bgColor: "" },
     {
       name: "Helping Hands Channel",
       emoji: "📢",
       link: "https://t.me/helpinghandsnews",
       external: true,
-      color: "text-blue-500",
+      color: "text-blue-400",
       bgColor: "",
     },
   ]
 
-  // FIXED: Fetch user data with proper balance sync
   useEffect(() => {
     const storedUser = localStorage.getItem("tivexx-user")
 
@@ -341,38 +331,31 @@ export default function DashboardPage() {
         const response = await fetch(`/api/user-balance?userId=${user.id || user.userId}&t=${Date.now()}`)
         const data = await response.json()
         
-        // FIX 1: Use the HIGHER balance between localStorage and database (preserves claims)
         const localStorageBalance = user.balance || 50000
         const dbBalance = data.balance || 50000
         const baseBalance = Math.max(localStorageBalance, dbBalance)
         
-        // FIX 2: Add referral earnings ONLY ONCE (no double-counting). But if referral already in DB main, skip re-add.
         const referralEarnings = data.referral_balance || 0
         const lastSyncedReferrals = localStorage.getItem("tivexx-last-synced-referrals") || "0"
         
-        // Calculate NEW referral earnings since last sync
         const newReferralEarnings = referralEarnings - parseInt(lastSyncedReferrals)
         const totalBalance = baseBalance + Math.max(0, newReferralEarnings)
         
-        // Update state with the correct total balance
         setBalance(totalBalance)
         setAnimatedBalance(totalBalance)
         
-        // Update localStorage to maintain consistency
         const updatedUser = { 
           ...user, 
           balance: totalBalance
         }
         localStorage.setItem("tivexx-user", JSON.stringify(updatedUser))
         
-        // Track what we've already synced to prevent double-counting
         if (newReferralEarnings > 0) {
           localStorage.setItem("tivexx-last-synced-referrals", referralEarnings.toString())
         }
         
         setUserData(updatedUser)
 
-        // BEST FIX: Sync merged total back to DB (includes local claims, avoids loss on next load)
         await fetch(`/api/user-balance`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -381,7 +364,6 @@ export default function DashboardPage() {
 
       } catch (error) {
         console.error("[Dashboard] Error fetching user balance:", error)
-        // Fallback to localStorage data only
         setBalance(user.balance)
         setAnimatedBalance(user.balance)
         setUserData(user)
@@ -428,586 +410,997 @@ export default function DashboardPage() {
 
   if (!userData) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-green-900 to-black">
+      <div className="min-h-screen flex items-center justify-center bg-[#050d14]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-tiv-1 mx-auto"></div>
-          <p className="mt-4 text-tiv-3">Loading...</p>
+          <div className="relative w-16 h-16 mx-auto mb-4">
+            <div className="absolute inset-0 rounded-full border-2 border-emerald-500/30 animate-ping"></div>
+            <div className="absolute inset-2 rounded-full border-2 border-emerald-400/50 animate-ping" style={{ animationDelay: '0.3s' }}></div>
+            <div className="absolute inset-4 rounded-full bg-emerald-500/20 animate-pulse"></div>
+          </div>
+          <p className="text-emerald-400 text-sm font-medium tracking-widest uppercase">Loading</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen pb-4 bg-gradient-to-br from-gray-900 via-green-900 to-black relative overflow-hidden">
-      {/* Ocean wave animation for entire page */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer"></div>
-      
+    <div className="hh-root min-h-screen pb-24 relative overflow-hidden">
+      {/* Animated background bubbles */}
+      <div className="hh-bubbles-container" aria-hidden="true">
+        {[...Array(12)].map((_, i) => (
+          <div key={i} className={`hh-bubble hh-bubble-${i + 1}`}></div>
+        ))}
+      </div>
+
+      {/* Mesh gradient overlay */}
+      <div className="hh-mesh-overlay" aria-hidden="true"></div>
+
       <ScrollingText />
 
+      {/* DIALOGS - unchanged logic */}
       <Dialog open={showPauseDialog} onOpenChange={setShowPauseDialog}>
-        <DialogContent className="max-w-sm">
+        <DialogContent className="hh-dialog max-w-sm">
           <DialogHeader>
-            <DialogTitle className="text-center text-xl">⏰ Wait Required</DialogTitle>
+            <DialogTitle className="text-center text-xl text-white">⏰ Wait Required</DialogTitle>
             <DialogDescription className="text-center space-y-4 pt-4">
-              <p className="text-base">You must wait 5 hours before claiming again.</p>
-              <p className="text-2xl font-bold text-tiv-2">{formatPauseTime()}</p>
-              <p className="text-sm">In the meantime, you can earn by referring or taking loans.</p>
+              <p className="text-base text-gray-300">You must wait 5 hours before claiming again.</p>
+              <p className="text-2xl font-bold text-emerald-400">{formatPauseTime()}</p>
+              <p className="text-sm text-gray-400">In the meantime, you can earn by referring or taking loans.</p>
             </DialogDescription>
           </DialogHeader>
           <div className="flex gap-3 mt-4">
-            <Button
-              onClick={() => {
-                setShowPauseDialog(false)
-                router.push("/refer")
-              }}
-              className="flex-1 bg-tiv-1 hover:bg-tiv-1"
-            >
-              Refer Friends
-            </Button>
-            <Button
-              onClick={() => {
-                setShowPauseDialog(false)
-                router.push("/loan")
-              }}
-              className="flex-1 bg-purple-600 hover:bg-purple-700"
-            >
-              Take Loan
-            </Button>
+            <Button onClick={() => { setShowPauseDialog(false); router.push("/refer") }} className="flex-1 hh-btn-primary">Refer Friends</Button>
+            <Button onClick={() => { setShowPauseDialog(false); router.push("/loan") }} className="flex-1 hh-btn-secondary">Take Loan</Button>
           </div>
         </DialogContent>
       </Dialog>
 
       <Dialog open={showReminderDialog} onOpenChange={setShowReminderDialog}>
-        <DialogContent className="max-w-sm bg-white/95 text-black rounded-2xl shadow-lg">
+        <DialogContent className="hh-dialog max-w-sm">
           <DialogHeader>
-            <DialogTitle className="text-center text-xl">📢 Stay Updated!</DialogTitle>
+            <DialogTitle className="text-center text-xl text-white">📢 Stay Updated!</DialogTitle>
             <DialogDescription className="text-center space-y-4 pt-4">
-              <p className="text-base">Join our channel for updates and tips for earning.</p>
+              <p className="text-base text-gray-300">Join our channel for updates and tips for earning.</p>
             </DialogDescription>
           </DialogHeader>
           <div className="flex gap-3 mt-4">
-            <Button
-              onClick={() => {
-                setShowReminderDialog(false)
-                window.open("https://t.me/helpinghandsnews", '_self')
-              }}
-              className="flex-1 bg-blue-600 hover:bg-blue-700"
-            >
-              Join Channel
-            </Button>
-            <Button
-              onClick={() => {
-                setShowReminderDialog(false)
-                router.push("/refer")
-              }}
-              className="flex-1 bg-tiv-1 hover:bg-tiv-1"
-            >
-              Refer More Friends
-            </Button>
+            <Button onClick={() => { setShowReminderDialog(false); window.open("https://t.me/helpinghandsnews", '_self') }} className="flex-1 hh-btn-blue">Join Channel</Button>
+            <Button onClick={() => { setShowReminderDialog(false); router.push("/refer") }} className="flex-1 hh-btn-primary">Refer More Friends</Button>
           </div>
         </DialogContent>
       </Dialog>
 
       {showTutorial && (
-        <TutorialModal
-          onClose={() => {
-            setShowTutorial(false)
-            localStorage.setItem("tivexx-tutorial-shown", "true")
-          }}
-        />
+        <TutorialModal onClose={() => { setShowTutorial(false); localStorage.setItem("tivexx-tutorial-shown", "true") }} />
       )}
 
       {showWithdrawalNotification && <WithdrawalNotification onClose={handleCloseWithdrawalNotification} />}
 
-      {/* MAIN CONTENT - NOW STACKED VERTICALLY LIKE MOBILE */}
-      <div className="max-w-md mx-auto px-4 space-y-4 mt-6 relative z-10 animate-page-bounce">
-        {/* Profile Card */}
-          <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 border border-green-800/30 shadow-lg animate-pop-bounce-1 animate-inner-bounce-child delay-0">
-          <div className="flex items-center gap-3">
-            <div className="relative w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-md overflow-hidden">
-              {userData?.profilePicture ? (
-                <img src={userData.profilePicture || "/placeholder.svg"} alt={userData.name} className="w-full h-full object-cover" />
-              ) : (
-                <span className="font-semibold text-xl text-tiv-2">{userData?.name.charAt(0)}</span>
-              )}
-              <input type="file" accept="image/*" onChange={handleProfileUpload} className="absolute inset-0 opacity-0 cursor-pointer" aria-label="Upload profile picture" />
-            </div>
+      {/* MAIN CONTENT */}
+      <div className="max-w-md mx-auto px-4 space-y-4 pt-6 relative z-10">
 
-            <div className="flex-1">
-              <div className="font-medium text-lg">Hi, {displayedName} <span className="ml-1">👋</span></div>
-              <div className="text-sm text-gray-200">Welcome back!</div>
-              <div className="mt-2 text-xs text-tiv-3">User ID: <span className="font-mono">{userData.userId}</span></div>
+        {/* ── HEADER / PROFILE CARD ── */}
+        <div className="hh-card hh-card-profile hh-entry-1">
+          {/* Top row */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="hh-avatar-ring">
+                <div className="hh-avatar">
+                  {userData?.profilePicture ? (
+                    <img src={userData.profilePicture || "/placeholder.svg"} alt={userData.name} className="w-full h-full object-cover rounded-full" />
+                  ) : (
+                    <span className="text-xl font-black text-emerald-400">{userData?.name.charAt(0)}</span>
+                  )}
+                  <input type="file" accept="image/*" onChange={handleProfileUpload} className="absolute inset-0 opacity-0 cursor-pointer rounded-full" aria-label="Upload profile picture" />
+                </div>
+              </div>
+              <div>
+                <div className="text-xs text-emerald-400 font-semibold uppercase tracking-widest mb-0.5">Welcome back</div>
+                <div className="text-white font-black text-lg leading-tight">{displayedName} <span>👋</span></div>
+              </div>
+            </div>
+            <div className="text-right">
+              <div className="text-xs text-gray-500 mb-1">User ID</div>
+              <div className="hh-user-id">{userData.userId}</div>
             </div>
           </div>
 
-          <div className="flex gap-2 mt-3 items-center justify-between">
+          {/* Action buttons */}
+          <div className="flex gap-3 mt-4">
             <Link href="/loan" className="flex-1">
-              <Button className="w-full bg-purple-600 hover:scale-105 transform transition-transform active:scale-95 py-3 text-base rounded-lg">Loan</Button>
+              <button className="hh-action-btn hh-action-purple w-full">
+                <span className="hh-action-icon">💳</span>
+                <span>Loan</span>
+              </button>
             </Link>
             <Link href="/withdraw" className="flex-1">
-              <Button className="w-full bg-green-700 hover:scale-105 transform transition-transform active:scale-95 py-3 text-base rounded-lg">Withdraw</Button>
+              <button className="hh-action-btn hh-action-green w-full">
+                <span className="hh-action-icon">💸</span>
+                <span>Withdraw</span>
+              </button>
             </Link>
           </div>
         </div>
 
-        {/* Enhanced Balance Card */}
-        <div className="bg-gradient-to-br from-gray-900 via-green-900 to-black rounded-xl p-4 mt-4 shadow-lg border border-green-800/30 animate-pop-bounce-2 animate-inner-bounce-child delay-1 relative overflow-hidden">
-          {/* Ocean wave animation ALSO in balance box */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer"></div>
-          
-          <div className="flex items-center justify-between mb-2 relative z-10">
-            <div className="text-sm font-medium text-gray-300 flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span>Available Balance</span>
-            </div>
-            <button 
-              className="text-gray-300 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-lg"
-              onClick={() => setShowBalance(!showBalance)}
-              aria-label={showBalance ? "Hide balance" : "Show balance"}
-            >
-              {showBalance ? (
-                <div className="flex items-center gap-1 text-sm">
-                  <span>👁️</span>
-                  <span className="hidden sm:inline">Hide</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-1 text-sm">
-                  <span>🙈</span>
-                  <span className="hidden sm:inline">Show</span>
-                </div>
-              )}
-            </button>
-          </div>
-          
-          <div className="relative">
-            <div className="text-3xl font-bold min-h-[3.5rem] flex items-center">
-              {formatCurrency(animatedBalance)}
-            </div>
-            
-            {isBalanceChanging && (
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-500/10 to-transparent animate-shimmer"></div>
-            )}
-          </div>
-          
-          <div className="mt-4 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 relative overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 via-blue-500 to-purple-500"></div>
-            
+        {/* ── BALANCE CARD ── */}
+        <div className="hh-card hh-card-balance hh-entry-2 relative overflow-hidden">
+          {/* Decorative glow orbs */}
+          <div className="hh-orb hh-orb-1" aria-hidden="true"></div>
+          <div className="hh-orb hh-orb-2" aria-hidden="true"></div>
+
+          <div className="relative z-10">
+            {/* Balance header */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
-                  <Gift className="h-4 w-4 text-white" />
-                </div>
-                <div>
-                  <div className="text-sm font-medium text-white">Next Reward</div>
-                  <div className="text-xs text-gray-300">Claim daily bonus</div>
-                </div>
+                <span className="hh-live-dot"></span>
+                <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">Available Balance</span>
               </div>
-              
-              <div className="text-right">
-                <div className="text-sm font-bold text-tiv-3 flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  {pauseEndTime ? formatPauseTime() : formatTime(timeRemaining)}
-                </div>
-                <div className="text-xs text-gray-400">
-                  {pauseEndTime ? 'Cooldown' : 'Time remaining'}
-                </div>
-              </div>
+              <button
+                className="hh-eye-btn"
+                onClick={() => setShowBalance(!showBalance)}
+                aria-label={showBalance ? "Hide balance" : "Show balance"}
+              >
+                {showBalance ? '👁️' : '🙈'}
+              </button>
             </div>
-            
-            <Button 
-              onClick={handleClaim} 
-              disabled={!canClaim && !pauseEndTime} 
-              className={`
-                w-full relative overflow-hidden group
-                ${(canClaim || pauseEndTime) 
-                  ? 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500' 
-                  : 'bg-gray-700 cursor-not-allowed'
-                } 
-                text-white font-semibold py-3 rounded-lg
-                transition-all duration-300 transform
-                hover:scale-[1.02] active:scale-[0.98]
-                disabled:transform-none disabled:hover:scale-100
-              `}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
-              
-              <div className="flex items-center justify-center gap-2 relative">
-                <Gift className="h-5 w-5" />
-                <span className="text-base">
-                  {pauseEndTime 
-                    ? `Wait ${formatPauseTime()}` 
-                    : canClaim 
-                      ? 'Claim ₦1,000 Now' 
-                      : `Wait ${formatTime(timeRemaining)}`
-                  }
-                </span>
-              </div>
-            </Button>
-            
-            {/* Claim Success Notification - MOVED HERE */}
-            {showClaimSuccess && (
-              <div className="absolute -top-4 left-0 right-0 z-50 pointer-events-none">
-                <div className="relative max-w-xs mx-auto">
-                  {/* Main notification */}
-                  <div className="relative bg-gradient-to-br from-green-600 to-emerald-700 text-white rounded-2xl p-4 shadow-2xl border border-emerald-400/30 backdrop-blur-sm animate-slide-up">
-                    {/* Confetti particles */}
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-6 overflow-hidden">
-                      <div className="absolute w-1.5 h-1.5 bg-yellow-300 rounded-full top-0 left-1/4 animate-confetti-1"></div>
-                      <div className="absolute w-1.5 h-1.5 bg-pink-300 rounded-full top-0 left-1/2 animate-confetti-2"></div>
-                      <div className="absolute w-1.5 h-1.5 bg-blue-300 rounded-full top-0 left-3/4 animate-confetti-3"></div>
-                    </div>
-                    
-                    {/* Icon */}
-                    <div className="flex justify-center mb-2">
-                      <div className="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full shadow-lg">
-                        <span className="text-xl">🎉</span>
-                      </div>
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="text-center">
-                      <h3 className="text-lg font-bold mb-1 animate-fade-in">Success!</h3>
-                      <div className="flex items-center justify-center gap-1 mb-1">
-                        <span className="text-xl font-bold text-yellow-300 animate-scale-in">₦1,000</span>
-                        <span className="text-xs opacity-90">credited</span>
-                      </div>
-                      <p className="text-xs opacity-80">Balance updated</p>
-                      
-                      {/* Progress indicator */}
-                      <div className="mt-2 h-1 bg-white/20 rounded-full overflow-hidden">
-                        <div className="h-full bg-white/50 rounded-full animate-progress"></div>
-                      </div>
-                    </div>
+
+            {/* Balance amount */}
+            <div className={`hh-balance-amount ${isBalanceChanging ? 'hh-balance-pulse' : ''}`}>
+              {formatCurrency(animatedBalance)}
+            </div>
+
+            {/* Claim reward section */}
+            <div className="hh-claim-section mt-5 relative">
+              {/* Claim header */}
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <div className="hh-reward-icon">
+                    <Gift className="h-4 w-4 text-white" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-white">Daily Reward</div>
+                    <div className="text-xs text-gray-400">Click to claim ₦1,000</div>
                   </div>
                 </div>
+                <div className="hh-timer-badge">
+                  <Clock className="h-3 w-3" />
+                  <span>{pauseEndTime ? formatPauseTime() : formatTime(timeRemaining)}</span>
+                </div>
               </div>
-            )}
-            
-            <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/10">
-              <div className="text-xs text-gray-400">
-                Claims today: <span className="font-bold text-white">{claimCount}/50</span>
-              </div>
-              {claimCount >= 50 && (
-                <div className="text-xs text-yellow-400 animate-pulse">
-                  ⚠️ Limit reached
+
+              {/* Claim button */}
+              <button
+                onClick={handleClaim}
+                disabled={!canClaim && !pauseEndTime}
+                className={`hh-claim-btn ${(canClaim && !pauseEndTime) ? 'hh-claim-ready' : pauseEndTime ? 'hh-claim-paused' : 'hh-claim-waiting'}`}
+              >
+                <span className="hh-claim-shimmer"></span>
+                <span className="flex items-center justify-center gap-2 relative">
+                  <span className="text-lg">{pauseEndTime ? '⏳' : canClaim ? '🎁' : '⏰'}</span>
+                  <span>
+                    {pauseEndTime
+                      ? `Wait ${formatPauseTime()}`
+                      : canClaim
+                        ? 'Claim ₦1,000 Now'
+                        : `Next claim in ${formatTime(timeRemaining)}`
+                    }
+                  </span>
+                </span>
+              </button>
+
+              {/* Claim success notification */}
+              {showClaimSuccess && (
+                <div className="hh-claim-success-popup">
+                  <div className="hh-confetti-dot hh-confetti-1"></div>
+                  <div className="hh-confetti-dot hh-confetti-2"></div>
+                  <div className="hh-confetti-dot hh-confetti-3"></div>
+                  <div className="hh-confetti-dot hh-confetti-4"></div>
+                  <div className="hh-confetti-dot hh-confetti-5"></div>
+                  <div className="text-2xl mb-1">🎉</div>
+                  <div className="font-black text-white text-lg">₦1,000 Added!</div>
+                  <div className="text-xs text-emerald-300 mt-0.5">Balance updated</div>
+                  <div className="hh-success-bar">
+                    <div className="hh-success-bar-fill"></div>
+                  </div>
                 </div>
               )}
+
+              {/* Claim progress */}
+              <div className="flex items-center justify-between mt-3">
+                <div className="text-xs text-gray-500">Claims today</div>
+                <div className="flex items-center gap-2">
+                  <div className="hh-progress-track">
+                    <div className="hh-progress-fill" style={{ width: `${(claimCount / 50) * 100}%` }}></div>
+                  </div>
+                  <span className="text-xs font-bold text-white">{claimCount}<span className="text-gray-500">/50</span></span>
+                  {claimCount >= 50 && <span className="text-xs text-yellow-400 animate-pulse">🔥 Max</span>}
+                </div>
+              </div>
             </div>
-          </div>
-          
-          {/* Balance trend indicators */}
-          <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/10">
-            <div className="flex-1 text-center">
-              <div className="text-xs text-gray-400">Daily Income</div>
-              <div className="text-sm font-bold text-green-400">+₦{(claimCount * 1000).toLocaleString()}</div>
-            </div>
-            <div className="h-8 w-px bg-white/20"></div>
-            <div className="flex-1 text-center">
-              <div className="text-xs text-gray-400">Available Claims</div>
-              <div className="text-sm font-bold text-blue-400">{Math.max(0, 50 - claimCount)} left</div>
+
+            {/* Stats row */}
+            <div className="hh-stats-row mt-4">
+              <div className="hh-stat-item">
+                <div className="hh-stat-label">Today's income</div>
+                <div className="hh-stat-value text-emerald-400">+₦{(claimCount * 1000).toLocaleString()}</div>
+              </div>
+              <div className="hh-stat-divider"></div>
+              <div className="hh-stat-item">
+                <div className="hh-stat-label">Claims left</div>
+                <div className="hh-stat-value text-blue-400">{Math.max(0, 50 - claimCount)} remaining</div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 space-y-3 animate-pop-bounce-3 animate-inner-bounce-child delay-2">
-          <h4 className="text-sm text-white font-semibold">Quick Actions</h4>
-          <div className="flex flex-col gap-2 w-full">
+        {/* ── QUICK ACTIONS ── */}
+        <div className="hh-card hh-entry-3">
+          <div className="hh-section-title">Quick Actions</div>
+          <div className="grid grid-cols-2 gap-3 mt-3">
             {menuItems.map((item, idx) => {
               const Icon = item.icon
               const key = `qa-${idx}`
               const content = (
-                <div style={{ animationDelay: `${idx * 80}ms` }} className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white/6 transition transform hover:-translate-y-1 hover:scale-102 active:scale-95">
-                  <div className={`w-10 h-10 flex items-center justify-center ${item.color} rounded-md shrink-0`}>
-                    {item.emoji ? <span className="text-xl">{item.emoji}</span> : Icon && <Icon size={20} />}
+                <div className="hh-action-card" style={{ animationDelay: `${idx * 80 + 400}ms` }}>
+                  <div className="hh-action-card-icon">
+                    {item.emoji ? <span className="text-2xl">{item.emoji}</span> : Icon && <Icon size={20} className="text-white" />}
                   </div>
-                  <div className="text-sm font-medium text-white">{item.name}</div>
+                  <div className="text-sm font-semibold text-white mt-2">{item.name}</div>
+                  <div className="hh-action-card-arrow">→</div>
                 </div>
               )
 
               return item.external ? (
-                <a key={key} href={item.link} className="block w-full focus:outline-none">
-                  {content}
-                </a>
+                <a key={key} href={item.link} className="block focus:outline-none">{content}</a>
               ) : (
-                <Link key={key} href={item.link || "#"} className="block w-full focus:outline-none">
-                  {content}
-                </Link>
+                <Link key={key} href={item.link || "#"} className="block focus:outline-none">{content}</Link>
               )
             })}
           </div>
         </div>
 
-        {/* Help & Support */}
-        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 animate-pop-bounce-5 animate-inner-bounce-child delay-3">
+        {/* ── SUPPORT CARD ── */}
+        <div className="hh-card hh-entry-4">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm text-white font-semibold">Help & Support</div>
-              <div className="text-xs text-tiv-3">24/7 support</div>
+              <div className="hh-section-title mb-0.5">Help & Support</div>
+              <div className="text-xs text-gray-500">Available 24/7 for you</div>
             </div>
             <div className="flex items-center gap-2">
               <Link href="https://t.me/helpinghandsupport">
-                <Button className="h-10 w-10 rounded-full bg-blue-600 hover:bg-blue-500 active:scale-95">
+                <button className="hh-support-btn hh-support-blue">
                   <Headphones className="h-5 w-5 text-white" />
-                </Button>
+                </button>
               </Link>
               <Link href="https://t.me/helpinghandsnews">
-                <Button className="h-10 w-10 rounded-full bg-tiv-2 hover:opacity-95 active:scale-95 relative">
+                <button className="hh-support-btn hh-support-green relative">
                   <Bell className="h-5 w-5 text-white" />
-                  <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
-                </Button>
+                  <span className="hh-notif-dot"></span>
+                </button>
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Referral Card */}
-        <div className="animate-pop-bounce-4 animate-inner-bounce-child delay-4">
+        {/* ── REFERRAL CARD ── */}
+        <div className="hh-entry-5">
           {userData && <ReferralCard userId={userData.id || userData.userId} />}
         </div>
 
-        {/* History */}
-        <div className="bg-white/5 rounded-xl p-4 border border-green-800/20 border-l-4 border-purple-600/60 pl-3 animate-pop-bounce-2 animate-inner-bounce-child delay-2 shadow-md">
-          <div className="flex items-center justify-between mb-3">
+        {/* ── ACTIVITY CARD ── */}
+        <div className="hh-card hh-entry-6">
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <div className="text-sm text-white font-semibold flex items-center gap-2">
-                <History className="h-4 w-4 text-purple-300" />
-                <span>Recent Activity</span>
-              </div>
-              <div className="text-xs text-tiv-3">Latest transactions</div>
+              <div className="hh-section-title mb-0.5">Recent Activity</div>
+              <div className="text-xs text-gray-500">Your latest transactions</div>
             </div>
-            <Link href="/history" className="text-sm text-purple-400 hover:underline font-medium">See more →</Link>
+            <Link href="/history" className="hh-see-more-btn">See all →</Link>
           </div>
 
           {transactions && transactions.length > 0 ? (
-            <ul className="space-y-2">
-              {transactions.slice(0, 3).map((tx: any) => (
-                <li key={tx.id} className="flex items-center justify-between bg-white/3 p-3 rounded-md hover:bg-white/5 transition">
-                  <div>
-                    <div className="text-sm text-white font-medium">{tx.description}</div>
-                    <div className="text-xs text-tiv-3">{new Date(tx.date).toLocaleString()}</div>
+            <div className="space-y-2">
+              {transactions.slice(0, 3).map((tx: any, i: number) => (
+                <div key={tx.id} className="hh-tx-item" style={{ animationDelay: `${i * 100}ms` }}>
+                  <div className={`hh-tx-icon ${tx.type === 'credit' ? 'hh-tx-credit' : 'hh-tx-debit'}`}>
+                    {tx.type === 'credit' ? '↑' : '↓'}
                   </div>
-                  <div className={`text-sm font-semibold ${tx.type === "credit" ? "text-green-400" : "text-red-400"}`}>
-                    {tx.type === "credit" ? "+" : "-"}{tx.amount ? new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN" }).format(tx.amount).replace("NGN", "₦") : ""}
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-semibold text-white truncate">{tx.description}</div>
+                    <div className="text-xs text-gray-500">{new Date(tx.date).toLocaleString()}</div>
                   </div>
-                </li>
+                  <div className={`text-sm font-black ${tx.type === 'credit' ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {tx.type === 'credit' ? '+' : '-'}
+                    {tx.amount ? new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(tx.amount).replace('NGN', '₦') : ''}
+                  </div>
+                </div>
               ))}
-            </ul>
+            </div>
           ) : (
-            <div className="text-sm text-tiv-3">No history yet. Your transactions will appear here.</div>
+            <div className="hh-empty-state">
+              <div className="text-2xl mb-2">📋</div>
+              <div className="text-sm text-gray-500">No transactions yet</div>
+            </div>
           )}
         </div>
+
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-br from-gray-900 via-green-900 to-black border-t border-green-800/30 shadow-lg flex justify-around items-center h-16 max-w-md mx-auto z-50">
-        <Link href="/dashboard" className="flex flex-col items-center text-tiv-3">
-          <Home className="h-6 w-6" />
-          <span className="text-xs font-medium">Home</span>
+      {/* ── BOTTOM NAV ── */}
+      <div className="hh-bottom-nav">
+        <Link href="/dashboard" className="hh-nav-item hh-nav-active">
+          <Home className="h-5 w-5" />
+          <span>Home</span>
         </Link>
-        <Link href="/abouttivexx" className="flex flex-col items-center text-gray-400 hover:text-green-400">
-          <Gamepad2 className="h-6 w-6" />
-          <span className="text-xs font-medium">About Helping Hands</span>
+        <Link href="/abouttivexx" className="hh-nav-item">
+          <Gamepad2 className="h-5 w-5" />
+          <span>About</span>
         </Link>
-        <Link href="/refer" className="flex flex-col items-center text-gray-400 hover:text-green-400">
-          <User className="h-6 w-6" />
-          <span className="text-xs font-medium">Refer & Earn</span>
+        <Link href="/refer" className="hh-nav-item">
+          <User className="h-5 w-5" />
+          <span>Refer & Earn</span>
         </Link>
       </div>
 
       <style jsx global>{`
-        @keyframes bounce-slow {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-6px);
-          }
+        /* ─── IMPORT FONT ─── */
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+        /* ─── ROOT & BACKGROUND ─── */
+        .hh-root {
+          font-family: 'Syne', sans-serif;
+          background: #050d14;
+          color: white;
         }
 
-        .animate-bounce-slow {
-          animation: bounce-slow 3s ease-in-out infinite;
+        /* ─── BUBBLES ─── */
+        .hh-bubbles-container {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          overflow: hidden;
         }
 
-        @keyframes glow-swipe {
-          0% {
-            opacity: 0.7;
-            transform: translateX(-10%);
-            filter: blur(10px);
-          }
-          50% {
-            opacity: 1;
-            transform: translateX(10%);
-            filter: blur(18px);
-          }
-          100% {
-            opacity: 0.7;
-            transform: translateX(-10%);
-            filter: blur(10px);
-          }
+        .hh-bubble {
+          position: absolute;
+          border-radius: 50%;
+          opacity: 0;
+          animation: hh-bubble-rise linear infinite;
         }
 
-        @keyframes shimmer {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
+        .hh-bubble-1  { width: 8px; height: 8px; left: 10%; background: radial-gradient(circle, rgba(16,185,129,0.6), transparent); animation-duration: 8s; animation-delay: 0s; }
+        .hh-bubble-2  { width: 14px; height: 14px; left: 25%; background: radial-gradient(circle, rgba(59,130,246,0.5), transparent); animation-duration: 11s; animation-delay: 1.5s; }
+        .hh-bubble-3  { width: 6px; height: 6px; left: 40%; background: radial-gradient(circle, rgba(16,185,129,0.7), transparent); animation-duration: 9s; animation-delay: 3s; }
+        .hh-bubble-4  { width: 18px; height: 18px; left: 55%; background: radial-gradient(circle, rgba(139,92,246,0.4), transparent); animation-duration: 13s; animation-delay: 0.5s; }
+        .hh-bubble-5  { width: 10px; height: 10px; left: 70%; background: radial-gradient(circle, rgba(16,185,129,0.5), transparent); animation-duration: 10s; animation-delay: 2s; }
+        .hh-bubble-6  { width: 5px; height: 5px; left: 82%; background: radial-gradient(circle, rgba(52,211,153,0.8), transparent); animation-duration: 7s; animation-delay: 4s; }
+        .hh-bubble-7  { width: 12px; height: 12px; left: 15%; background: radial-gradient(circle, rgba(59,130,246,0.4), transparent); animation-duration: 12s; animation-delay: 5s; }
+        .hh-bubble-8  { width: 7px; height: 7px; left: 35%; background: radial-gradient(circle, rgba(16,185,129,0.6), transparent); animation-duration: 9.5s; animation-delay: 2.5s; }
+        .hh-bubble-9  { width: 20px; height: 20px; left: 60%; background: radial-gradient(circle, rgba(16,185,129,0.2), transparent); animation-duration: 15s; animation-delay: 1s; }
+        .hh-bubble-10 { width: 9px; height: 9px; left: 88%; background: radial-gradient(circle, rgba(139,92,246,0.5), transparent); animation-duration: 10.5s; animation-delay: 6s; }
+        .hh-bubble-11 { width: 4px; height: 4px; left: 5%; background: radial-gradient(circle, rgba(52,211,153,0.9), transparent); animation-duration: 6.5s; animation-delay: 3.5s; }
+        .hh-bubble-12 { width: 16px; height: 16px; left: 48%; background: radial-gradient(circle, rgba(59,130,246,0.3), transparent); animation-duration: 14s; animation-delay: 7s; }
+
+        @keyframes hh-bubble-rise {
+          0%   { transform: translateY(100vh) scale(0.5); opacity: 0; }
+          10%  { opacity: 1; }
+          90%  { opacity: 0.6; }
+          100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
 
-        .animate-shimmer {
-          animation: shimmer 2s infinite;
+        /* ─── MESH OVERLAY ─── */
+        .hh-mesh-overlay {
+          position: fixed;
+          inset: 0;
+          background:
+            radial-gradient(ellipse 60% 40% at 20% 80%, rgba(16,185,129,0.07) 0%, transparent 60%),
+            radial-gradient(ellipse 50% 50% at 80% 20%, rgba(59,130,246,0.06) 0%, transparent 60%),
+            radial-gradient(ellipse 40% 30% at 50% 50%, rgba(139,92,246,0.04) 0%, transparent 60%);
+          pointer-events: none;
+          z-index: 0;
         }
 
-        @keyframes pulse-glow {
-          0%, 100% {
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
-          }
-          50% {
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
-          }
+        /* ─── CARDS ─── */
+        .hh-card {
+          background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 20px;
+          padding: 20px;
+          backdrop-filter: blur(12px);
+          position: relative;
+          overflow: hidden;
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .animate-pulse-glow {
-          animation: pulse-glow 2s ease-in-out infinite;
+        .hh-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(16,185,129,0.05);
         }
 
-        @keyframes coin-spin {
-          0% {
-            transform: rotateY(0deg);
-          }
-          100% {
-            transform: rotateY(360deg);
-          }
+        .hh-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
         }
 
-        .animate-coin-spin {
-          animation: coin-spin 1s ease-out;
+        .hh-card-balance {
+          background: linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(5,13,20,0.9) 50%, rgba(59,130,246,0.1) 100%);
+          border-color: rgba(16,185,129,0.2);
+          box-shadow: 0 0 40px rgba(16,185,129,0.08), inset 0 0 40px rgba(0,0,0,0.3);
         }
 
-        /* Stronger entry + micro-interaction utils */
-        @keyframes pop-in {
-          0% { opacity: 0; transform: translateY(12px) scale(.995); }
-          60% { opacity: 1; transform: translateY(-6px) scale(1.02); }
-          100% { opacity: 1; transform: translateY(0) scale(1); }
+        .hh-card-profile {
+          background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%);
         }
 
-        .animate-pop-bounce-1 { animation: pop-in 0.4s ease-out; }
-        .animate-pop-bounce-2 { animation: pop-in 0.5s ease-out; }
-        .animate-pop-bounce-3 { animation: pop-in 0.6s ease-out; }
-        .animate-pop-bounce-4 { animation: pop-in 0.7s ease-out; }
-        .animate-pop-bounce-5 { animation: pop-in 0.8s ease-out; }
-
-        /* New animations for the claim success notification */
-        @keyframes slide-up {
-          0% {
-            opacity: 0;
-            transform: translateY(10px) scale(0.95);
-          }
-          70% {
-            opacity: 1;
-            transform: translateY(-5px) scale(1.05);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
+        /* ─── ORB DECORATIONS ─── */
+        .hh-orb {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(40px);
+          pointer-events: none;
         }
 
-        @keyframes fade-in {
-          0% { opacity: 0; }
-          100% { opacity: 1; }
+        .hh-orb-1 {
+          width: 150px; height: 150px;
+          background: radial-gradient(circle, rgba(16,185,129,0.2), transparent);
+          top: -40px; right: -40px;
+          animation: hh-orb-float 6s ease-in-out infinite;
         }
 
-        @keyframes scale-in {
-          0% {
-            opacity: 0;
-            transform: scale(0.5);
-          }
-          70% {
-            opacity: 1;
-            transform: scale(1.2);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1);
-          }
+        .hh-orb-2 {
+          width: 100px; height: 100px;
+          background: radial-gradient(circle, rgba(59,130,246,0.15), transparent);
+          bottom: 20px; left: -20px;
+          animation: hh-orb-float 8s ease-in-out infinite reverse;
         }
 
-        @keyframes progress {
-          0% { width: 0%; }
-          100% { width: 100%; }
+        @keyframes hh-orb-float {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33%       { transform: translate(8px, -8px) scale(1.05); }
+          66%       { transform: translate(-4px, 6px) scale(0.97); }
         }
 
-        @keyframes confetti-1 {
-          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-          100% { transform: translateY(30px) rotate(360deg); opacity: 0; }
+        /* ─── AVATAR ─── */
+        .hh-avatar-ring {
+          position: relative;
+          width: 52px; height: 52px;
+          border-radius: 50%;
+          padding: 2px;
+          background: linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6);
+          animation: hh-ring-spin 4s linear infinite;
         }
 
-        @keyframes confetti-2 {
-          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-          100% { transform: translateY(40px) rotate(-360deg); opacity: 0; }
+        @keyframes hh-ring-spin {
+          0%   { background: linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6); }
+          33%  { background: linear-gradient(135deg, #3b82f6, #8b5cf6, #10b981); }
+          66%  { background: linear-gradient(135deg, #8b5cf6, #10b981, #3b82f6); }
+          100% { background: linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6); }
         }
 
-        @keyframes confetti-3 {
-          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-          100% { transform: translateY(35px) rotate(180deg); opacity: 0; }
+        .hh-avatar {
+          width: 100%; height: 100%;
+          background: #0a1628;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          position: relative;
         }
 
-        .animate-slide-up {
-          animation: slide-up 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        /* ─── USER ID ─── */
+        .hh-user-id {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 11px;
+          color: #10b981;
+          background: rgba(16,185,129,0.08);
+          border: 1px solid rgba(16,185,129,0.2);
+          border-radius: 6px;
+          padding: 2px 8px;
+          letter-spacing: 0.05em;
         }
 
-        .animate-fade-in {
-          animation: fade-in 0.4s ease-out 0.1s both;
+        /* ─── ACTION BUTTONS (Loan / Withdraw) ─── */
+        .hh-action-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          padding: 12px 16px;
+          border-radius: 14px;
+          font-weight: 700;
+          font-size: 15px;
+          font-family: 'Syne', sans-serif;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          position: relative;
+          overflow: hidden;
+          cursor: pointer;
+          border: none;
+          color: white;
         }
 
-        .animate-scale-in {
-          animation: scale-in 0.5s ease-out 0.1s both;
+        .hh-action-btn:hover  { transform: translateY(-2px) scale(1.02); }
+        .hh-action-btn:active { transform: scale(0.97); }
+
+        .hh-action-purple {
+          background: linear-gradient(135deg, #7c3aed, #5b21b6);
+          box-shadow: 0 4px 20px rgba(124,58,237,0.3);
         }
 
-        .animate-progress {
-          animation: progress 2.5s linear forwards;
+        .hh-action-green {
+          background: linear-gradient(135deg, #059669, #047857);
+          box-shadow: 0 4px 20px rgba(5,150,105,0.3);
         }
 
-        .animate-confetti-1 {
-          animation: confetti-1 0.8s ease-out forwards;
+        .hh-action-icon { font-size: 18px; }
+
+        /* ─── LIVE DOT ─── */
+        .hh-live-dot {
+          display: inline-block;
+          width: 8px; height: 8px;
+          border-radius: 50%;
+          background: #10b981;
+          box-shadow: 0 0 6px #10b981;
+          animation: hh-live-pulse 1.5s ease-in-out infinite;
         }
 
-        .animate-confetti-2 {
-          animation: confetti-2 1s ease-out 0.1s forwards;
+        @keyframes hh-live-pulse {
+          0%, 100% { box-shadow: 0 0 4px #10b981; transform: scale(1); }
+          50%       { box-shadow: 0 0 10px #10b981, 0 0 20px rgba(16,185,129,0.4); transform: scale(1.15); }
         }
 
-        .animate-confetti-3 {
-          animation: confetti-3 0.9s ease-out 0.2s forwards;
+        /* ─── EYE BTN ─── */
+        .hh-eye-btn {
+          background: rgba(255,255,255,0.06);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 10px;
+          padding: 6px 10px;
+          font-size: 16px;
+          cursor: pointer;
+          transition: background 0.2s, transform 0.15s;
         }
 
-        @keyframes gentleBouncePage {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
+        .hh-eye-btn:hover  { background: rgba(255,255,255,0.1); transform: scale(1.05); }
+        .hh-eye-btn:active { transform: scale(0.95); }
+
+        /* ─── BALANCE ─── */
+        .hh-balance-amount {
+          font-family: 'JetBrains Mono', monospace;
+          min-height: 56px;
+          display: flex;
+          align-items: center;
+          transition: all 0.3s ease;
         }
 
-        @keyframes gentleBounceInner {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-4px); }
+        .hh-balance-pulse {
+          animation: hh-balance-flash 0.4s ease;
         }
 
-        .animate-page-bounce { animation: gentleBouncePage 1.2s ease-in-out infinite; }
-        .animate-inner-bounce { animation: gentleBounceInner 1.3s ease-in-out infinite; }
-        .animate-inner-bounce-child { animation: gentleBounceInner 1.3s ease-in-out infinite; }
+        @keyframes hh-balance-flash {
+          0%   { text-shadow: none; }
+          50%  { text-shadow: 0 0 20px rgba(52,211,153,0.6), 0 0 40px rgba(52,211,153,0.3); }
+          100% { text-shadow: none; }
+        }
 
-        .delay-0 { animation-delay: 0s; }
-        .delay-1 { animation-delay: 0.12s; }
-        .delay-2 { animation-delay: 0.24s; }
-        .delay-3 { animation-delay: 0.36s; }
-        .delay-4 { animation-delay: 0.48s; }
+        /* ─── CLAIM SECTION ─── */
+        .hh-claim-section {
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 16px;
+          padding: 16px;
+        }
 
+        .hh-reward-icon {
+          width: 34px; height: 34px;
+          border-radius: 10px;
+          background: linear-gradient(135deg, #10b981, #3b82f6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 12px rgba(16,185,129,0.3);
+        }
+
+        .hh-timer-badge {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 12px;
+          font-weight: 700;
+          color: #10b981;
+          background: rgba(16,185,129,0.1);
+          border: 1px solid rgba(16,185,129,0.2);
+          border-radius: 20px;
+          padding: 4px 10px;
+        }
+
+        /* ─── CLAIM BUTTON ─── */
+        .hh-claim-btn {
+          width: 100%;
+          padding: 15px;
+          border-radius: 14px;
+          font-family: 'Syne', sans-serif;
+          font-weight: 800;
+          font-size: 15px;
+          border: none;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          color: white;
+        }
+
+        .hh-claim-btn:hover  { transform: translateY(-2px); }
+        .hh-claim-btn:active { transform: scale(0.98); }
+
+        .hh-claim-ready {
+          background: linear-gradient(135deg, #10b981, #059669, #047857);
+          box-shadow: 0 6px 30px rgba(16,185,129,0.4), 0 2px 8px rgba(0,0,0,0.3);
+          animation: hh-claim-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes hh-claim-glow {
+          0%, 100% { box-shadow: 0 6px 30px rgba(16,185,129,0.4), 0 2px 8px rgba(0,0,0,0.3); }
+          50%       { box-shadow: 0 6px 40px rgba(16,185,129,0.6), 0 2px 8px rgba(0,0,0,0.3), 0 0 60px rgba(16,185,129,0.15); }
+        }
+
+        .hh-claim-waiting {
+          background: rgba(255,255,255,0.07);
+          cursor: not-allowed;
+          color: rgba(255,255,255,0.4);
+        }
+
+        .hh-claim-paused {
+          background: linear-gradient(135deg, rgba(234,179,8,0.3), rgba(202,138,4,0.3));
+          border: 1px solid rgba(234,179,8,0.3);
+          cursor: pointer;
+        }
+
+        .hh-claim-shimmer {
+          position: absolute;
+          top: 0; left: -100%; width: 100%; height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+          animation: hh-shimmer-slide 2.5s ease-in-out infinite;
+        }
+
+        @keyframes hh-shimmer-slide {
+          0%   { left: -100%; }
+          100% { left: 200%; }
+        }
+
+        /* ─── CLAIM SUCCESS POPUP ─── */
+        .hh-claim-success-popup {
+          position: absolute;
+          top: -120px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: linear-gradient(135deg, #065f46, #047857);
+          border: 1px solid rgba(52,211,153,0.4);
+          border-radius: 18px;
+          padding: 16px 24px;
+          text-align: center;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(16,185,129,0.2);
+          min-width: 160px;
+          animation: hh-popup-bounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          z-index: 50;
+        }
+
+        @keyframes hh-popup-bounce {
+          0%   { opacity: 0; transform: translateX(-50%) translateY(20px) scale(0.9); }
+          70%  { opacity: 1; transform: translateX(-50%) translateY(-6px) scale(1.05); }
+          100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+        }
+
+        .hh-success-bar {
+          height: 3px;
+          background: rgba(255,255,255,0.15);
+          border-radius: 3px;
+          overflow: hidden;
+          margin-top: 8px;
+        }
+
+        .hh-success-bar-fill {
+          height: 100%;
+          background: #34d399;
+          border-radius: 3px;
+          animation: hh-bar-drain 3s linear forwards;
+        }
+
+        @keyframes hh-bar-drain {
+          from { width: 100%; }
+          to   { width: 0%; }
+        }
+
+        /* ─── CONFETTI ─── */
+        .hh-confetti-dot {
+          position: absolute;
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          animation: hh-confetti-fall 0.8s ease-out forwards;
+        }
+
+        .hh-confetti-1 { top: 5px; left: 20%; background: #fbbf24; animation-delay: 0s; }
+        .hh-confetti-2 { top: 5px; left: 40%; background: #f472b6; animation-delay: 0.1s; }
+        .hh-confetti-3 { top: 5px; left: 60%; background: #60a5fa; animation-delay: 0.05s; }
+        .hh-confetti-4 { top: 5px; left: 75%; background: #34d399; animation-delay: 0.15s; }
+        .hh-confetti-5 { top: 5px; left: 10%; background: #a78bfa; animation-delay: 0.2s; }
+
+        @keyframes hh-confetti-fall {
+          0%   { transform: translateY(0) rotate(0); opacity: 1; }
+          100% { transform: translateY(50px) rotate(360deg); opacity: 0; }
+        }
+
+        /* ─── PROGRESS ─── */
+        .hh-progress-track {
+          width: 80px; height: 5px;
+          background: rgba(255,255,255,0.08);
+          border-radius: 10px;
+          overflow: hidden;
+        }
+
+        .hh-progress-fill {
+          height: 100%;
+          background: linear-gradient(90deg, #10b981, #3b82f6);
+          border-radius: 10px;
+          transition: width 0.5s ease;
+          box-shadow: 0 0 6px rgba(16,185,129,0.5);
+        }
+
+        /* ─── STATS ─── */
+        .hh-stats-row {
+          display: flex;
+          align-items: center;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 12px;
+          padding: 12px 16px;
+        }
+
+        .hh-stat-item  { flex: 1; text-align: center; }
+        .hh-stat-divider { width: 1px; height: 32px; background: rgba(255,255,255,0.08); }
+        .hh-stat-label { font-size: 11px; color: #6b7280; font-weight: 500; }
+        .hh-stat-value { font-size: 14px; font-weight: 800; margin-top: 2px; }
+
+        /* ─── SECTION TITLE ─── */
+        .hh-section-title {
+          font-size: 15px;
+          font-weight: 800;
+          color: white;
+          letter-spacing: -0.01em;
+        }
+
+        /* ─── ACTION CARDS GRID ─── */
+        .hh-action-card {
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 16px;
+          padding: 16px;
+          cursor: pointer;
+          transition: all 0.25s ease;
+          position: relative;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          animation: hh-card-appear 0.4s ease-out both;
+        }
+
+        @keyframes hh-card-appear {
+          from { opacity: 0; transform: translateY(12px) scale(0.97); }
+          to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .hh-action-card::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(59,130,246,0.05));
+          opacity: 0;
+          transition: opacity 0.25s ease;
+          border-radius: 16px;
+        }
+
+        .hh-action-card:hover {
+          transform: translateY(-4px) scale(1.02);
+          border-color: rgba(16,185,129,0.25);
+          box-shadow: 0 12px 30px rgba(0,0,0,0.3), 0 0 20px rgba(16,185,129,0.06);
+        }
+
+        .hh-action-card:hover::before { opacity: 1; }
+        .hh-action-card:active { transform: scale(0.97); }
+
+        .hh-action-card-icon {
+          font-size: 26px;
+          line-height: 1;
+          margin-bottom: 2px;
+        }
+
+        .hh-action-card-arrow {
+          font-size: 14px;
+          color: rgba(255,255,255,0.2);
+          margin-top: 6px;
+          transition: color 0.2s, transform 0.2s;
+        }
+
+        .hh-action-card:hover .hh-action-card-arrow {
+          color: #10b981;
+          transform: translateX(4px);
+        }
+
+        /* ─── SUPPORT BUTTONS ─── */
+        .hh-support-btn {
+          width: 42px; height: 42px;
+          border-radius: 12px;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .hh-support-btn:hover  { transform: scale(1.08); }
+        .hh-support-btn:active { transform: scale(0.95); }
+
+        .hh-support-blue  { background: linear-gradient(135deg, #2563eb, #1d4ed8); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+        .hh-support-green { background: linear-gradient(135deg, #059669, #047857); box-shadow: 0 4px 12px rgba(5,150,105,0.3); }
+
+        .hh-notif-dot {
+          position: absolute;
+          top: 6px; right: 6px;
+          width: 8px; height: 8px;
+          background: #ef4444;
+          border-radius: 50%;
+          border: 2px solid #050d14;
+          animation: hh-live-pulse 1.5s ease-in-out infinite;
+        }
+
+        /* ─── TRANSACTION ITEMS ─── */
+        .hh-tx-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.05);
+          border-radius: 12px;
+          transition: all 0.2s ease;
+          animation: hh-card-appear 0.4s ease-out both;
+        }
+
+        .hh-tx-item:hover {
+          background: rgba(255,255,255,0.06);
+          transform: translateX(2px);
+        }
+
+        .hh-tx-icon {
+          width: 36px; height: 36px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+          font-weight: 900;
+          flex-shrink: 0;
+        }
+
+        .hh-tx-credit { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.2); }
+        .hh-tx-debit  { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+
+        /* ─── EMPTY STATE ─── */
+        .hh-empty-state {
+          text-align: center;
+          padding: 24px 0;
+          opacity: 0.6;
+        }
+
+        /* ─── SEE MORE BUTTON ─── */
+        .hh-see-more-btn {
+          font-size: 13px;
+          font-weight: 700;
+          color: #10b981;
+          background: rgba(16,185,129,0.08);
+          border: 1px solid rgba(16,185,129,0.2);
+          border-radius: 20px;
+          padding: 4px 12px;
+          transition: all 0.2s;
+          text-decoration: none;
+        }
+
+        .hh-see-more-btn:hover {
+          background: rgba(16,185,129,0.15);
+          transform: translateX(2px);
+        }
+
+        /* ─── BOTTOM NAV ─── */
+        .hh-bottom-nav {
+          position: fixed;
+          bottom: 0; left: 0; right: 0;
+          max-width: 448px;
+          margin: 0 auto;
+          background: rgba(5,13,20,0.92);
+          backdrop-filter: blur(20px);
+          border-top: 1px solid rgba(255,255,255,0.08);
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          height: 64px;
+          z-index: 100;
+          box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+        }
+
+        .hh-nav-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 3px;
+          color: #4b5563;
+          text-decoration: none;
+          font-size: 11px;
+          font-weight: 600;
+          transition: color 0.2s, transform 0.2s;
+          padding: 8px 16px;
+          border-radius: 12px;
+        }
+
+        .hh-nav-item:hover  { color: #10b981; transform: translateY(-2px); }
+        .hh-nav-active      { color: #10b981 !important; }
+        .hh-nav-active svg  { filter: drop-shadow(0 0 6px rgba(16,185,129,0.6)); }
+
+        /* ─── DIALOG ─── */
+        .hh-dialog {
+          background: linear-gradient(135deg, #0d1f2d, #0a1628) !important;
+          border: 1px solid rgba(255,255,255,0.1) !important;
+          border-radius: 20px !important;
+          color: white !important;
+        }
+
+        .hh-btn-primary {
+          background: linear-gradient(135deg, #10b981, #059669);
+          color: white;
+          font-weight: 700;
+          border-radius: 12px;
+          padding: 10px;
+        }
+
+        .hh-btn-secondary {
+          background: linear-gradient(135deg, #7c3aed, #5b21b6);
+          color: white;
+          font-weight: 700;
+          border-radius: 12px;
+          padding: 10px;
+        }
+
+        .hh-btn-blue {
+          background: linear-gradient(135deg, #2563eb, #1d4ed8);
+          color: white;
+          font-weight: 700;
+          border-radius: 12px;
+          padding: 10px;
+        }
+
+        /* ─── STAGGERED ENTRY ANIMATIONS ─── */
+        .hh-entry-1 { animation: hh-entry 0.5s ease-out 0.0s both; }
+        .hh-entry-2 { animation: hh-entry 0.5s ease-out 0.1s both; }
+        .hh-entry-3 { animation: hh-entry 0.5s ease-out 0.2s both; }
+        .hh-entry-4 { animation: hh-entry 0.5s ease-out 0.3s both; }
+        .hh-entry-5 { animation: hh-entry 0.5s ease-out 0.4s both; }
+        .hh-entry-6 { animation: hh-entry 0.5s ease-out 0.5s both; }
+
+        @keyframes hh-entry {
+          from { opacity: 0; transform: translateY(20px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── REDUCED MOTION ─── */
         @media (prefers-reduced-motion: reduce) {
-          .animate-page-bounce,
-          .animate-inner-bounce,
-          .animate-inner-bounce-child {
-            animation-duration: 0.001ms !important;
-            animation-iteration-count: 1 !important;
+          .hh-bubble, .hh-orb-1, .hh-orb-2,
+          .hh-avatar-ring, .hh-live-dot,
+          .hh-claim-ready, .hh-claim-shimmer,
+          [class*="hh-entry-"] {
+            animation: none !important;
           }
         }
       `}</style>
