@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, Share2, AlertTriangle } from "lucide-react"
+import { ArrowLeft, Share2, AlertTriangle, Home, Gamepad2, User, Wallet, Gift, Users, TrendingUp, Award, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function WithdrawPage() {
@@ -174,87 +174,182 @@ export default function WithdrawPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-700 via-green-900 to-black pb-24 animate-page-bounce">
-      {/* Header */}
-      <div className="flex items-center p-4 bg-white/6 border-b border-white/8 backdrop-blur-sm">
-        <Link href="/dashboard">
-          <Button variant="ghost" size="icon" className="mr-2 text-white hover:bg-white/10">
-            <ArrowLeft className="h-6 w-6" />
-          </Button>
-        </Link>
-        <h1 className="text-xl font-bold text-white">Withdraw Funds</h1>
+    <div className="hh-root min-h-screen pb-28 relative overflow-hidden">
+      {/* Animated background bubbles */}
+      <div className="hh-bubbles-container" aria-hidden="true">
+        {[...Array(12)].map((_, i) => (
+          <div key={i} className={`hh-bubble hh-bubble-${i + 1}`}></div>
+        ))}
       </div>
 
-      <div className="p-6 max-w-md mx-auto text-center space-y-6 animate-inner-bounce">
+      {/* Mesh gradient overlay */}
+      <div className="hh-mesh-overlay" aria-hidden="true"></div>
+
+      {/* Header */}
+      <div className="sticky top-0 z-10 hh-header">
+        <div className="max-w-md mx-auto px-6 pt-8 pb-4">
+          <div className="flex items-center gap-3">
+            <Link href="/dashboard">
+              <button className="hh-back-btn">
+                <ArrowLeft className="h-5 w-5" />
+              </button>
+            </Link>
+            <div>
+              <h1 className="hh-title">Withdraw Funds</h1>
+              <p className="hh-subtitle">Cash out your earnings</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-md mx-auto px-4 space-y-4 pt-2 relative z-10 pb-6">
+
         {/* Toggle Section */}
-        <div className="flex justify-end items-center mb-2 animate-bounce-slow">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <span className="text-sm font-medium text-emerald-200">Withdraw Without Referral</span>
-            <div
+        <div className="hh-card hh-entry-1">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="hh-icon-ring">
+                <Award className="h-4 w-4 text-amber-300" />
+              </div>
+              <span className="text-sm font-medium text-white">Withdraw Without Referral</span>
+            </div>
+            <button
               onClick={() => setToggleActive(!toggleActive)}
-              className={`relative w-12 h-6 rounded-full transition-all duration-300 ${
-                toggleActive ? "bg-gradient-to-r from-green-600 to-emerald-500" : "bg-white/20"
-              }`}
+              className={`hh-toggle ${toggleActive ? 'hh-toggle-active' : ''}`}
             >
-              <div
-                className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-md transform transition-all duration-300 ${
-                  toggleActive ? "translate-x-6" : ""
-                }`}
-              />
-            </div>
-          </label>
-        </div>
-
-        {/* Balance Section */}
-        <div className="bg-white/6 backdrop-blur-lg rounded-3xl border border-white/8 p-6 animate-fade-in animate-inner-bounce-child delay-0">
-          <p className="text-white/80 text-sm mb-1">Available Balance</p>
-          <h2 className="text-4xl font-extrabold text-amber-300">{formatCurrency(balance)}</h2>
-        </div>
-
-        {/* Requirements */}
-        <div className="bg-white/6 backdrop-blur-lg rounded-2xl p-6 border border-white/8 animate-inner-bounce-child delay-2">
-          <h3 className="text-emerald-200 font-bold text-lg mb-3">Withdrawal Requirements</h3>
-          <ul className="text-left space-y-2 text-white/80">
-            <li>• Minimum balance: ₦200,000</li>
-            <li>• At least 5 active referrals</li>
-            <li>• Complete all {TOTAL_DAILY_TASKS} daily tasks</li>
-            <li>• Each referral must complete registration</li>
-          </ul>
-        </div>
-
-        {/* Progress */}
-        <div className="space-y-4 animate-inner-bounce-child delay-3">
-          <div className="text-left">
-            <div className="flex justify-between mb-1">
-              <span className="text-white/80 text-sm font-medium">Referral Progress</span>
-              <span className="text-white font-semibold">{referralCount}/5</span>
-            </div>
-            <div className="w-full bg-white/10 rounded-full h-3">
-              <div
-                className="bg-gradient-to-r from-green-600 to-emerald-500 h-full rounded-full transition-all duration-700"
-                style={{ width: progressWidth }}
-              />
-            </div>
-          </div>
-
-          <div className="text-left">
-            <div className="flex justify-between mb-1">
-              <span className="text-white/80 text-sm font-medium">Daily Tasks Progress</span>
-              <span className="text-white font-semibold">{completedTasksCount}/{TOTAL_DAILY_TASKS}</span>
-            </div>
-            <div className="w-full bg-white/10 rounded-full h-3">
-              <div
-                className="bg-gradient-to-r from-amber-600 to-yellow-500 h-full rounded-full transition-all duration-700"
-                style={{ width: `${Math.min((completedTasksCount / TOTAL_DAILY_TASKS) * 100, 100)}%` }}
-              />
-            </div>
+              <span className={`hh-toggle-dot ${toggleActive ? 'hh-toggle-dot-active' : ''}`} />
+            </button>
           </div>
         </div>
 
-        {/* Buttons */}
-        <div className="mt-6 relative min-h-[100px]">
-          {/* compute requirement flags */}
-          {/* missing flags used to show clear messages on the button */}
+        {/* Balance Card */}
+        <div className="hh-card hh-card-balance hh-entry-2 relative overflow-hidden">
+          <div className="hh-orb hh-orb-1" aria-hidden="true"></div>
+          <div className="hh-orb hh-orb-2" aria-hidden="true"></div>
+          
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="hh-live-dot"></span>
+              <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">Available Balance</span>
+            </div>
+            
+            <h2 className="hh-balance-large">
+              <span className="text-2xl align-top opacity-80">₦</span>
+              <span className="text-5xl font-black tracking-tight">
+                {balance.toLocaleString().split('.')[0]}
+              </span>
+              <span className="text-2xl opacity-60">.{balance.toFixed(2).split('.')[1] || '00'}</span>
+            </h2>
+          </div>
+        </div>
+
+        {/* Requirements Card */}
+        <div className="hh-card hh-entry-3">
+          <div className="hh-section-title mb-4">Withdrawal Requirements</div>
+          
+          <div className="space-y-3">
+            <div className="hh-req-item">
+              <div className="flex items-center gap-3">
+                <div className={`hh-req-icon ${balance >= 200000 ? 'hh-req-met' : 'hh-req-pending'}`}>
+                  <Wallet className="h-4 w-4" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-white">Minimum balance</span>
+                    <span className={`text-sm font-bold ${balance >= 200000 ? 'text-emerald-400' : 'text-amber-400'}`}>
+                      ₦200,000
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between mt-1">
+                    <span className="text-xs text-gray-500">Current</span>
+                    <span className="text-xs font-mono text-white">{formatCurrency(balance)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="hh-req-item">
+              <div className="flex items-center gap-3">
+                <div className={`hh-req-icon ${referralCount >= 5 ? 'hh-req-met' : 'hh-req-pending'}`}>
+                  <Users className="h-4 w-4" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-white">Active referrals</span>
+                    <span className={`text-sm font-bold ${referralCount >= 5 ? 'text-emerald-400' : 'text-amber-400'}`}>
+                      5 required
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between mt-1">
+                    <span className="text-xs text-gray-500">Current</span>
+                    <span className="text-xs font-mono text-white">{referralCount}/5</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="hh-req-item">
+              <div className="flex items-center gap-3">
+                <div className={`hh-req-icon ${completedTasksCount >= TOTAL_DAILY_TASKS ? 'hh-req-met' : 'hh-req-pending'}`}>
+                  <Gift className="h-4 w-4" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-white">Daily tasks</span>
+                    <span className={`text-sm font-bold ${completedTasksCount >= TOTAL_DAILY_TASKS ? 'text-emerald-400' : 'text-amber-400'}`}>
+                      {TOTAL_DAILY_TASKS} required
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between mt-1">
+                    <span className="text-xs text-gray-500">Completed</span>
+                    <span className="text-xs font-mono text-white">{completedTasksCount}/{TOTAL_DAILY_TASKS}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Progress Section */}
+        <div className="hh-card hh-entry-4">
+          <div className="space-y-4">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="h-4 w-4 text-emerald-400" />
+                  <span className="text-sm font-medium text-white">Referral Progress</span>
+                </div>
+                <span className="text-sm font-bold text-amber-300">{referralCount}/5</span>
+              </div>
+              <div className="hh-progress-track">
+                <div 
+                  className="hh-progress-fill" 
+                  style={{ width: progressWidth }}
+                />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-amber-400" />
+                  <span className="text-sm font-medium text-white">Daily Tasks Progress</span>
+                </div>
+                <span className="text-sm font-bold text-amber-300">{completedTasksCount}/{TOTAL_DAILY_TASKS}</span>
+              </div>
+              <div className="hh-progress-track">
+                <div 
+                  className="hh-progress-fill hh-progress-tasks" 
+                  style={{ width: `${Math.min((completedTasksCount / TOTAL_DAILY_TASKS) * 100, 100)}%` }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Buttons Section */}
+        <div className="space-y-3 hh-entry-5">
           {(() => {
             const missingBalance = balance < 200000
             const missingTasks = completedTasksCount < TOTAL_DAILY_TASKS
@@ -278,110 +373,632 @@ export default function WithdrawPage() {
             }
 
             return (
-              <div className="space-y-3">
-                <Button
+              <>
+                <button
                   onClick={handleCashout}
                   disabled={!meetsRequirements}
-                  className={`w-full py-5 text-lg font-semibold rounded-xl transition-all border animate-inner-bounce-child delay-0 ${meetsRequirements ? 'text-white bg-gradient-to-r from-green-600 to-green-700 hover:scale-[1.02] border-green-500/20' : 'bg-white/6 text-white/80 cursor-not-allowed border-white/10'}`}
+                  className={`hh-withdraw-btn ${meetsRequirements ? 'hh-withdraw-ready' : 'hh-withdraw-disabled'}`}
                 >
                   {buttonLabel}
-                </Button>
+                </button>
 
                 {/* If referrals are the missing piece and the user hasn't toggled withdraw-without-referral, show refer CTA */}
                 {!toggleActive && !meetsRequirements && referralCount < 5 && (
-                  <Link href="/refer">
-                    <Button className="w-full py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-all border border-green-500/20">
+                  <Link href="/refer" className="block">
+                    <button className="hh-refer-btn">
                       <Share2 className="h-4 w-4" />
                       Refer Friends to Unlock Withdrawal
-                    </Button>
+                    </button>
                   </Link>
                 )}
 
                 {/* Show inline warning message when other requirements fail */}
                 {showWarning && (
-                  <div className="bg-red-900/30 border border-red-800 text-red-300 rounded-xl p-3 flex items-center justify-center gap-2">
-                    <AlertTriangle className="h-5 w-5" />
-                    <p className="font-medium text-sm">{warningMessage}</p>
+                  <div className="hh-warning-message">
+                    <AlertTriangle className="h-4 w-4 flex-shrink-0" />
+                    <p className="text-sm font-medium">{warningMessage}</p>
                   </div>
                 )}
-              </div>
+              </>
             )
           })()}
         </div>
 
         {/* Upgrade Popup */}
         {showUpgradePopup && (
-          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex justify-center items-center z-50 animate-fade-in">
-            <div className="bg-white rounded-2xl shadow-2xl p-6 w-80 text-center animate-inner-bounce-child delay-1">
-              <h2 className="text-lg font-bold text-green-700 mb-2">
-                Withdraw Without Referral
-              </h2>
-              <p className="text-gray-600 text-sm mb-4">
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4">
+            <div className="hh-popup">
+              <div className="hh-popup-header">
+                <Award className="h-8 w-8 text-amber-400" />
+                <h2 className="text-xl font-bold text-white">Withdraw Without Referral</h2>
+              </div>
+              
+              <p className="text-gray-300 text-center mb-6">
                 To use this feature, you need to upgrade your account.
               </p>
-              <div className="flex justify-between gap-4">
-                <Button
+              
+              <div className="flex gap-3">
+                <button
                   onClick={handleUpgradeCancel}
-                  className="w-1/2 bg-gray-200 text-gray-700 rounded-xl hover:bg-gray-300"
+                  className="hh-popup-btn hh-popup-btn-cancel"
                 >
                   Cancel
-                </Button>
-                <Button
+                </button>
+                <button
                   onClick={handleUpgradeConfirm}
-                  className="w-1/2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-xl hover:scale-[1.02]"
+                  className="hh-popup-btn hh-popup-btn-confirm"
                 >
                   Upgrade Account
-                </Button>
+                </button>
               </div>
             </div>
           </div>
         )}
+
+        {/* Bottom Info */}
+        <div className="hh-card hh-tip-card hh-entry-6">
+          <div className="flex items-start gap-3">
+            <div className="hh-tip-icon">
+              <Gift className="h-5 w-5 text-amber-300" />
+            </div>
+            <div>
+              <h4 className="font-bold text-white mb-1">Quick Tip</h4>
+              <p className="text-sm text-emerald-200/80">
+                Complete all {TOTAL_DAILY_TASKS} daily tasks and get 5 referrals to unlock withdrawals.
+              </p>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      {/* Animations */}
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
+      {/* Bottom Navigation */}
+      <div className="hh-bottom-nav">
+        <Link href="/dashboard" className="hh-nav-item">
+          <Home className="h-5 w-5" />
+          <span>Home</span>
+        </Link>
+        <Link href="/abouttivexx" className="hh-nav-item">
+          <Gamepad2 className="h-5 w-5" />
+          <span>About</span>
+        </Link>
+        <Link href="/refer" className="hh-nav-item">
+          <User className="h-5 w-5" />
+          <span>Refer</span>
+        </Link>
+      </div>
+
+      <style jsx global>{`
+        /* ─── IMPORT FONT ─── */
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+        /* ─── ROOT & BACKGROUND ─── */
+        .hh-root {
+          font-family: 'Syne', sans-serif;
+          background: #050d14;
+          color: white;
+          min-height: 100vh;
         }
-        .animate-fade-in { animation: fadeIn 0.5s ease forwards; }
 
-        @keyframes slideIn {
-          from { transform: translateY(20px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
-        }
-        .animate-slide-in { animation: slideIn 0.6s ease forwards; }
-
-        @keyframes bounceIn {
-          0% { transform: scale(0.9); opacity: 0.3; }
-          50% { transform: scale(1.05); opacity: 1; }
-          100% { transform: scale(1); }
-        }
-        .animate-bounce-in { animation: bounceIn 0.4s ease-in-out; }
-
-        @keyframes bounceSlow {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-5px); }
-        }
-        .animate-bounce-slow {
-          animation: bounceSlow 2s infinite;
+        /* ─── BUBBLES ─── */
+        .hh-bubbles-container {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          overflow: hidden;
         }
 
-        /* Page-wide gentle bounce */
-        @keyframes gentleBouncePage { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-        .animate-page-bounce { animation: gentleBouncePage 1.6s ease-in-out infinite; }
+        .hh-bubble {
+          position: absolute;
+          border-radius: 50%;
+          opacity: 0;
+          animation: hh-bubble-rise linear infinite;
+        }
 
-        /* Subtler inner bounce for the box and contents */
-        @keyframes gentleBounceInner { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-        .animate-inner-bounce { animation: gentleBounceInner 1.8s ease-in-out infinite; }
-        .animate-inner-bounce-child { animation: gentleBounceInner 1.8s ease-in-out infinite; }
+        .hh-bubble-1  { width: 8px; height: 8px; left: 10%; background: radial-gradient(circle, rgba(16,185,129,0.6), transparent); animation-duration: 8s; animation-delay: 0s; }
+        .hh-bubble-2  { width: 14px; height: 14px; left: 25%; background: radial-gradient(circle, rgba(59,130,246,0.5), transparent); animation-duration: 11s; animation-delay: 1.5s; }
+        .hh-bubble-3  { width: 6px; height: 6px; left: 40%; background: radial-gradient(circle, rgba(16,185,129,0.7), transparent); animation-duration: 9s; animation-delay: 3s; }
+        .hh-bubble-4  { width: 18px; height: 18px; left: 55%; background: radial-gradient(circle, rgba(139,92,246,0.4), transparent); animation-duration: 13s; animation-delay: 0.5s; }
+        .hh-bubble-5  { width: 10px; height: 10px; left: 70%; background: radial-gradient(circle, rgba(16,185,129,0.5), transparent); animation-duration: 10s; animation-delay: 2s; }
+        .hh-bubble-6  { width: 5px; height: 5px; left: 82%; background: radial-gradient(circle, rgba(52,211,153,0.8), transparent); animation-duration: 7s; animation-delay: 4s; }
+        .hh-bubble-7  { width: 12px; height: 12px; left: 15%; background: radial-gradient(circle, rgba(59,130,246,0.4), transparent); animation-duration: 12s; animation-delay: 5s; }
+        .hh-bubble-8  { width: 7px; height: 7px; left: 35%; background: radial-gradient(circle, rgba(16,185,129,0.6), transparent); animation-duration: 9.5s; animation-delay: 2.5s; }
+        .hh-bubble-9  { width: 20px; height: 20px; left: 60%; background: radial-gradient(circle, rgba(16,185,129,0.2), transparent); animation-duration: 15s; animation-delay: 1s; }
+        .hh-bubble-10 { width: 9px; height: 9px; left: 88%; background: radial-gradient(circle, rgba(139,92,246,0.5), transparent); animation-duration: 10.5s; animation-delay: 6s; }
+        .hh-bubble-11 { width: 4px; height: 4px; left: 5%; background: radial-gradient(circle, rgba(52,211,153,0.9), transparent); animation-duration: 6.5s; animation-delay: 3.5s; }
+        .hh-bubble-12 { width: 16px; height: 16px; left: 48%; background: radial-gradient(circle, rgba(59,130,246,0.3), transparent); animation-duration: 14s; animation-delay: 7s; }
 
-        /* Staggered delays for organic motion */
-        .delay-0 { animation-delay: 0s; }
-        .delay-1 { animation-delay: 0.12s; }
-        .delay-2 { animation-delay: 0.24s; }
-        .delay-3 { animation-delay: 0.36s; }
-        .delay-4 { animation-delay: 0.48s; }
+        @keyframes hh-bubble-rise {
+          0%   { transform: translateY(100vh) scale(0.5); opacity: 0; }
+          10%  { opacity: 1; }
+          90%  { opacity: 0.6; }
+          100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        }
+
+        /* ─── MESH OVERLAY ─── */
+        .hh-mesh-overlay {
+          position: fixed;
+          inset: 0;
+          background:
+            radial-gradient(ellipse 60% 40% at 20% 80%, rgba(16,185,129,0.07) 0%, transparent 60%),
+            radial-gradient(ellipse 50% 50% at 80% 20%, rgba(59,130,246,0.06) 0%, transparent 60%),
+            radial-gradient(ellipse 40% 30% at 50% 50%, rgba(139,92,246,0.04) 0%, transparent 60%);
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        /* ─── HEADER ─── */
+        .hh-header {
+          background: linear-gradient(180deg, rgba(5,13,20,0.95) 0%, rgba(5,13,20,0.8) 100%);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid rgba(16,185,129,0.15);
+        }
+
+        .hh-back-btn {
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          transition: all 0.2s ease;
+          cursor: pointer;
+        }
+
+        .hh-back-btn:hover {
+          background: rgba(255,255,255,0.1);
+          transform: scale(1.05);
+        }
+
+        .hh-back-btn:active {
+          transform: scale(0.95);
+        }
+
+        .hh-title {
+          font-size: 20px;
+          font-weight: 800;
+          color: white;
+          line-height: 1.2;
+        }
+
+        .hh-subtitle {
+          font-size: 12px;
+          color: rgba(16,185,129,0.8);
+        }
+
+        /* ─── CARDS ─── */
+        .hh-card {
+          background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 20px;
+          padding: 20px;
+          backdrop-filter: blur(12px);
+          position: relative;
+          overflow: hidden;
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .hh-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(16,185,129,0.05);
+        }
+
+        .hh-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+        }
+
+        .hh-card-balance {
+          background: linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(5,13,20,0.9) 50%, rgba(245,158,11,0.1) 100%);
+          border-color: rgba(16,185,129,0.2);
+        }
+
+        /* ─── ORBS ─── */
+        .hh-orb {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(40px);
+          pointer-events: none;
+        }
+
+        .hh-orb-1 {
+          width: 150px; height: 150px;
+          background: radial-gradient(circle, rgba(16,185,129,0.2), transparent);
+          top: -40px; right: -40px;
+          animation: hh-orb-float 6s ease-in-out infinite;
+        }
+
+        .hh-orb-2 {
+          width: 100px; height: 100px;
+          background: radial-gradient(circle, rgba(245,158,11,0.15), transparent);
+          bottom: 20px; left: -20px;
+          animation: hh-orb-float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes hh-orb-float {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33%       { transform: translate(8px, -8px) scale(1.05); }
+          66%       { transform: translate(-4px, 6px) scale(0.97); }
+        }
+
+        /* ─── ICON RING ─── */
+        .hh-icon-ring {
+          width: 32px;
+          height: 32px;
+          border-radius: 10px;
+          background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(245,158,11,0.2));
+          border: 1px solid rgba(245,158,11,0.3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* ─── LIVE DOT ─── */
+        .hh-live-dot {
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #10b981;
+          box-shadow: 0 0 6px #10b981;
+          animation: hh-live-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes hh-live-pulse {
+          0%, 100% { box-shadow: 0 0 4px #10b981; transform: scale(1); }
+          50%       { box-shadow: 0 0 10px #10b981, 0 0 20px rgba(16,185,129,0.4); transform: scale(1.15); }
+        }
+
+        /* ─── BALANCE LARGE ─── */
+        .hh-balance-large {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 48px;
+          font-weight: 800;
+          color: white;
+          line-height: 1.2;
+        }
+
+        /* ─── TOGGLE ─── */
+        .hh-toggle {
+          position: relative;
+          width: 52px;
+          height: 28px;
+          border-radius: 30px;
+          background: rgba(255,255,255,0.1);
+          border: 1px solid rgba(255,255,255,0.1);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .hh-toggle-active {
+          background: linear-gradient(135deg, #10b981, #059669);
+          border-color: rgba(16,185,129,0.3);
+        }
+
+        .hh-toggle-dot {
+          position: absolute;
+          top: 3px;
+          left: 3px;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: white;
+          transition: transform 0.3s ease;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hh-toggle-dot-active {
+          transform: translateX(24px);
+        }
+
+        /* ─── SECTION TITLE ─── */
+        .hh-section-title {
+          font-size: 15px;
+          font-weight: 800;
+          color: white;
+          letter-spacing: -0.01em;
+        }
+
+        /* ─── REQUIREMENT ITEMS ─── */
+        .hh-req-item {
+          padding: 12px;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.05);
+          border-radius: 14px;
+          transition: all 0.2s ease;
+        }
+
+        .hh-req-item:hover {
+          background: rgba(255,255,255,0.05);
+        }
+
+        .hh-req-icon {
+          width: 36px;
+          height: 36px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .hh-req-met {
+          background: rgba(16,185,129,0.15);
+          border: 1px solid rgba(16,185,129,0.3);
+          color: #10b981;
+        }
+
+        .hh-req-pending {
+          background: rgba(245,158,11,0.15);
+          border: 1px solid rgba(245,158,11,0.3);
+          color: #fbbf24;
+        }
+
+        /* ─── PROGRESS TRACK ─── */
+        .hh-progress-track {
+          width: 100%;
+          height: 8px;
+          background: rgba(255,255,255,0.08);
+          border-radius: 10px;
+          overflow: hidden;
+        }
+
+        .hh-progress-fill {
+          height: 100%;
+          background: linear-gradient(90deg, #10b981, #059669);
+          border-radius: 10px;
+          transition: width 0.5s ease;
+          box-shadow: 0 0 10px rgba(16,185,129,0.5);
+        }
+
+        .hh-progress-tasks {
+          background: linear-gradient(90deg, #fbbf24, #d97706);
+        }
+
+        /* ─── WITHDRAW BUTTONS ─── */
+        .hh-withdraw-btn {
+          width: 100%;
+          padding: 18px;
+          border-radius: 16px;
+          font-weight: 800;
+          font-size: 16px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          color: white;
+        }
+
+        .hh-withdraw-ready {
+          background: linear-gradient(135deg, #10b981, #059669, #047857);
+          box-shadow: 0 6px 30px rgba(16,185,129,0.4);
+          animation: hh-btn-glow 2s ease-in-out infinite;
+        }
+
+        .hh-withdraw-ready:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 40px rgba(16,185,129,0.6);
+        }
+
+        .hh-withdraw-ready:active {
+          transform: scale(0.98);
+        }
+
+        .hh-withdraw-disabled {
+          background: rgba(255,255,255,0.1);
+          cursor: not-allowed;
+          color: rgba(255,255,255,0.4);
+        }
+
+        @keyframes hh-btn-glow {
+          0%, 100% { box-shadow: 0 6px 30px rgba(16,185,129,0.4); }
+          50% { box-shadow: 0 6px 40px rgba(16,185,129,0.6), 0 0 30px rgba(16,185,129,0.3); }
+        }
+
+        /* ─── REFER BUTTON ─── */
+        .hh-refer-btn {
+          width: 100%;
+          padding: 16px;
+          border-radius: 14px;
+          background: linear-gradient(135deg, #7c3aed, #5b21b6);
+          color: white;
+          font-weight: 700;
+          font-size: 15px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          box-shadow: 0 4px 20px rgba(124,58,237,0.3);
+        }
+
+        .hh-refer-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(124,58,237,0.5);
+        }
+
+        .hh-refer-btn:active {
+          transform: scale(0.98);
+        }
+
+        /* ─── WARNING MESSAGE ─── */
+        .hh-warning-message {
+          background: rgba(239,68,68,0.15);
+          border: 1px solid rgba(239,68,68,0.3);
+          border-radius: 14px;
+          padding: 14px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: #f87171;
+          animation: hh-warning-pulse 0.5s ease;
+        }
+
+        @keyframes hh-warning-pulse {
+          0% { transform: scale(0.95); opacity: 0; }
+          70% { transform: scale(1.02); }
+          100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* ─── POPUP ─── */
+        .hh-popup {
+          background: linear-gradient(135deg, #0d1f2d, #0a1628);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 24px;
+          padding: 24px;
+          max-width: 320px;
+          width: 100%;
+          box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+          animation: hh-popup-appear 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes hh-popup-appear {
+          from {
+            opacity: 0;
+            transform: scale(0.8) translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+          }
+        }
+
+        .hh-popup-header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 16px;
+        }
+
+        .hh-popup-btn {
+          flex: 1;
+          padding: 14px;
+          border-radius: 12px;
+          font-weight: 700;
+          font-size: 14px;
+          border: none;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .hh-popup-btn-cancel {
+          background: rgba(255,255,255,0.1);
+          color: white;
+        }
+
+        .hh-popup-btn-cancel:hover {
+          background: rgba(255,255,255,0.15);
+        }
+
+        .hh-popup-btn-confirm {
+          background: linear-gradient(135deg, #10b981, #059669);
+          color: white;
+          box-shadow: 0 4px 15px rgba(16,185,129,0.3);
+        }
+
+        .hh-popup-btn-confirm:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(16,185,129,0.5);
+        }
+
+        /* ─── TIP CARD ─── */
+        .hh-tip-card {
+          background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.05));
+          border: 1px solid rgba(16,185,129,0.2);
+        }
+
+        .hh-tip-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
+          background: rgba(245,158,11,0.15);
+          border: 1px solid rgba(245,158,11,0.3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        /* ─── BOTTOM NAV ─── */
+        .hh-bottom-nav {
+          position: fixed;
+          bottom: 0; left: 0; right: 0;
+          max-width: 448px;
+          margin: 0 auto;
+          background: rgba(5,13,20,0.92);
+          backdrop-filter: blur(20px);
+          border-top: 1px solid rgba(255,255,255,0.08);
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          height: 64px;
+          z-index: 100;
+          box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+        }
+
+        .hh-nav-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 3px;
+          color: #4b5563;
+          text-decoration: none;
+          font-size: 11px;
+          font-weight: 600;
+          transition: color 0.2s, transform 0.2s;
+          padding: 8px 16px;
+          border-radius: 12px;
+        }
+
+        .hh-nav-item:hover {
+          color: #10b981;
+          transform: translateY(-2px);
+        }
+
+        .hh-nav-active {
+          color: #10b981 !important;
+        }
+
+        .hh-nav-active svg {
+          filter: drop-shadow(0 0 6px rgba(16,185,129,0.6));
+        }
+
+        /* ─── ANIMATIONS ─── */
+        .hh-entry-1 { animation: hh-entry 0.5s ease-out 0.0s both; }
+        .hh-entry-2 { animation: hh-entry 0.5s ease-out 0.1s both; }
+        .hh-entry-3 { animation: hh-entry 0.5s ease-out 0.2s both; }
+        .hh-entry-4 { animation: hh-entry 0.5s ease-out 0.3s both; }
+        .hh-entry-5 { animation: hh-entry 0.5s ease-out 0.4s both; }
+        .hh-entry-6 { animation: hh-entry 0.5s ease-out 0.5s both; }
+
+        @keyframes hh-entry {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* ─── REDUCED MOTION ─── */
+        @media (prefers-reduced-motion: reduce) {
+          .hh-bubble, .hh-orb-1, .hh-orb-2,
+          .hh-live-dot, .hh-withdraw-ready,
+          [class*="hh-entry-"] {
+            animation: none !important;
+          }
+        }
       `}</style>
     </div>
   )
