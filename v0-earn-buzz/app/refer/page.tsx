@@ -248,7 +248,6 @@ export default function ReferPage() {
               <div>
                 <p className="text-xs text-gray-400 mb-1">Earn per referral</p>
                 <p className="text-3xl font-black text-white hh-fit-amount">
-                  <span className="text-xs mr-2 text-gray-400 align-middle">each</span>
                   <span className="text-sm align-top opacity-80">₦</span>
                   <span className="tracking-tight">10,000</span>
                 </p>
