@@ -620,10 +620,10 @@ export default function DashboardPage() {
 
         {/* ── LOAN & WITHDRAW BUTTONS ── */}
         <div className="flex gap-3 hh-entry-3">
-          <Link href="/loan" className="flex-1">
+          <Link href="/task" className="flex-1">
             <button className="hh-action-btn hh-action-purple w-full">
               <span className="hh-action-icon">💳</span>
-              <span>Loan</span>
+              <span>Task</span>
             </button>
           </Link>
           <Link href="/withdraw" className="flex-1">
