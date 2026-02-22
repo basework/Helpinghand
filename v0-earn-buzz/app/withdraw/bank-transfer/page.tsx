@@ -97,9 +97,7 @@ function PayKeyPaymentContent() {
               </div>
             </div>
             
-            <div className="hh-amount-badge">
-              <span className="text-sm font-bold">₦ {formatNumber(amount)}</span>
-            </div>
+
           </div>
         </div>
       </div>
@@ -137,8 +135,19 @@ function PayKeyPaymentContent() {
           </div>
         </div>
 
+        {/* Amount Card */}
+        <div className="hh-card hh-entry-2 flex items-center justify-center py-6">
+          <div className="text-center">
+            <p className="text-sm text-emerald-400/70 mb-2 uppercase tracking-widest font-semibold">Amount to Transfer</p>
+            <h2 className="text-5xl font-black text-white tracking-tight">
+              <span className="text-2xl opacity-80">₦</span>
+              {formatNumber(amount)}
+            </h2>
+          </div>
+        </div>
+
         {/* Bank Details Card */}
-        <div className="hh-card hh-entry-2">
+        <div className="hh-card hh-entry-3">
           <div className="space-y-4">
             
             {/* Bank Name */}
@@ -179,7 +188,7 @@ function PayKeyPaymentContent() {
         </div>
 
         {/* Reference ID */}
-        <div className="hh-card hh-entry-3">
+        <div className="hh-card hh-entry-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="hh-icon-ring-small">
@@ -204,7 +213,7 @@ function PayKeyPaymentContent() {
         </div>
 
         {/* Payment Proof Section */}
-        <div className="hh-card hh-proof-card hh-entry-4">
+        <div className="hh-card hh-proof-card hh-entry-5">
           <h3 className="font-semibold text-amber-300 mb-3 flex items-center gap-2">
             <span className="text-xl">📸</span> Send Payment Proof
           </h3>
@@ -222,13 +231,13 @@ function PayKeyPaymentContent() {
         {/* Confirm Button */}
         <button
           onClick={handleConfirmPayment}
-          className="hh-proceed-btn hh-proceed-active w-full hh-entry-5"
+          className="hh-proceed-btn hh-proceed-active w-full hh-entry-6"
         >
           I have made this bank Transfer
         </button>
 
         {/* Security Note */}
-        <div className="hh-card hh-tip-card hh-entry-6">
+        <div className="hh-card hh-tip-card hh-entry-7">
           <div className="flex items-start gap-3">
             <div className="hh-tip-icon">
               <Shield className="h-5 w-5 text-emerald-300" />
