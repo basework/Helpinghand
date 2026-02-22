@@ -108,13 +108,26 @@ export default function VerifyMePage() {
       {/* Header */}
       <div className="sticky top-0 z-10 hh-header">
         <div className="max-w-md mx-auto px-6 pt-8 pb-4">
-          <div className="flex items-center gap-3">
-            <button onClick={() => router.back()} className="hh-back-btn">
-              <ArrowLeft className="h-5 w-5" />
-            </button>
-            <div>
-              <h1 className="hh-title">Verification</h1>
-              <p className="hh-subtitle">Secure your account</p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <button onClick={() => router.back()} className="hh-back-btn">
+                <ArrowLeft className="h-5 w-5" />
+              </button>
+              <div>
+                <h1 className="hh-title">Verification</h1>
+                <p className="hh-subtitle">Secure your account</p>
+              </div>
+            </div>
+            
+            {/* Withdraw without paying toggle in header */}
+            <div className="hh-toggle-container">
+              <span className="hh-toggle-label">Withdraw Without Paying</span>
+              <button
+                onClick={() => setShowNoReferralDialog(true)}
+                className={`hh-toggle ${showNoReferralDialog ? 'hh-toggle-active' : ''}`}
+              >
+                <span className={`hh-toggle-dot ${showNoReferralDialog ? 'hh-toggle-dot-active' : ''}`} />
+              </button>
             </div>
           </div>
         </div>
@@ -208,26 +221,8 @@ export default function VerifyMePage() {
           </div>
         </div>
 
-        {/* Toggle Card */}
-        <div className="hh-card hh-entry-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="hh-icon-ring">
-                <Award className="h-4 w-4 text-amber-300" />
-              </div>
-              <span className="text-sm font-medium text-white">Withdraw Without Paying</span>
-            </div>
-            <button
-              onClick={() => setShowNoReferralDialog(true)}
-              className={`hh-toggle ${showNoReferralDialog ? 'hh-toggle-active' : ''}`}
-            >
-              <span className={`hh-toggle-dot ${showNoReferralDialog ? 'hh-toggle-dot-active' : ''}`} />
-            </button>
-          </div>
-        </div>
-
         {/* Security Note */}
-        <div className="hh-card hh-tip-card hh-entry-4">
+        <div className="hh-card hh-tip-card hh-entry-3">
           <div className="flex items-start gap-3">
             <div className="hh-tip-icon">
               <ShieldCheck className="h-5 w-5 text-emerald-300" />
@@ -392,6 +387,56 @@ export default function VerifyMePage() {
         .hh-subtitle {
           font-size: 12px;
           color: rgba(16,185,129,0.8);
+        }
+
+        /* ─── TOGGLE CONTAINER ─── */
+        .hh-toggle-container {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 30px;
+          padding: 4px 8px 4px 12px;
+        }
+
+        .hh-toggle-label {
+          font-size: 11px;
+          font-weight: 600;
+          color: #10b981;
+          white-space: nowrap;
+        }
+
+        .hh-toggle {
+          position: relative;
+          width: 44px;
+          height: 24px;
+          border-radius: 30px;
+          background: rgba(255,255,255,0.1);
+          border: 1px solid rgba(255,255,255,0.1);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .hh-toggle-active {
+          background: linear-gradient(135deg, #10b981, #059669);
+          border-color: rgba(16,185,129,0.3);
+        }
+
+        .hh-toggle-dot {
+          position: absolute;
+          top: 2px;
+          left: 2px;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: white;
+          transition: transform 0.3s ease;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hh-toggle-dot-active {
+          transform: translateX(20px);
         }
 
         /* ─── CARDS ─── */
@@ -629,39 +674,6 @@ export default function VerifyMePage() {
           50% { box-shadow: 0 6px 40px rgba(16,185,129,0.6), 0 0 30px rgba(16,185,129,0.3); }
         }
 
-        /* ─── TOGGLE ─── */
-        .hh-toggle {
-          position: relative;
-          width: 52px;
-          height: 28px;
-          border-radius: 30px;
-          background: rgba(255,255,255,0.1);
-          border: 1px solid rgba(255,255,255,0.1);
-          cursor: pointer;
-          transition: all 0.3s ease;
-        }
-
-        .hh-toggle-active {
-          background: linear-gradient(135deg, #10b981, #059669);
-          border-color: rgba(16,185,129,0.3);
-        }
-
-        .hh-toggle-dot {
-          position: absolute;
-          top: 3px;
-          left: 3px;
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background: white;
-          transition: transform 0.3s ease;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .hh-toggle-dot-active {
-          transform: translateX(24px);
-        }
-
         /* ─── TIP CARD ─── */
         .hh-tip-card {
           background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.05));
@@ -766,7 +778,6 @@ export default function VerifyMePage() {
         .hh-entry-1 { animation: hh-entry 0.5s ease-out 0.0s both; }
         .hh-entry-2 { animation: hh-entry 0.5s ease-out 0.1s both; }
         .hh-entry-3 { animation: hh-entry 0.5s ease-out 0.2s both; }
-        .hh-entry-4 { animation: hh-entry 0.5s ease-out 0.3s both; }
 
         @keyframes hh-entry {
           from {
