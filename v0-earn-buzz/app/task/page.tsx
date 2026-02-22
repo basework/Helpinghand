@@ -121,6 +121,7 @@ export default function TaskPage() {
   const [cooldowns, setCooldowns] = useState<Record<string, number>>({})
   const progressIntervals = useRef<Record<string, NodeJS.Timeout>>({})
   const [showCoinRain, setShowCoinRain] = useState(false)
+  const [modalTask, setModalTask] = useState<Task | null>(null)
 
   // Load user and tasks
   useEffect(() => {
@@ -383,7 +384,13 @@ export default function TaskPage() {
       return
     }
 
-    // Show warning message about 10-second requirement
+    // Show confirmation modal telling user they must interact with the ad
+    setModalTask(task)
+  }
+
+  const confirmStartTask = (task: Task) => {
+    setModalTask(null)
+
     toast({
       title: "Task Started ⏱️",
       description: "Make sure to spend at least 10 seconds on the site before returning. If you return too quickly, you'll need to try again!",
@@ -398,10 +405,12 @@ export default function TaskPage() {
     } catch (e) {
       console.error("Failed to start task timer:", e)
     }
-    
+
     // Open link in a new tab
     window.open(task.link, '_blank')
   }
+
+  const cancelStart = () => setModalTask(null)
 
   const formatTime = (ms: number) => {
     if (ms <= 0) return "now"
@@ -423,6 +432,20 @@ export default function TaskPage() {
 
       {/* Mesh gradient overlay */}
       <div className="hh-mesh-overlay" aria-hidden="true"></div>
+
+      {/* Confirm modal shown before opening external ad links */}
+      {modalTask && (
+        <div className="hh-modal-backdrop" role="dialog" aria-modal="true">
+          <div className="hh-modal">
+            <h3 className="hh-modal-title">Please interact with the ad</h3>
+            <p className="hh-modal-desc">Before the task counts, make sure you interact with the ad for at least 10 seconds. Closing too early may invalidate the award.</p>
+            <div className="hh-modal-actions">
+              <button className="hh-modal-btn hh-modal-cancel" onClick={cancelStart}>Cancel</button>
+              <button className="hh-modal-btn hh-modal-continue" onClick={() => confirmStartTask(modalTask)}>Continue to Ad</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Coin Rain Animation */}
       {showCoinRain && (
@@ -1139,6 +1162,66 @@ export default function TaskPage() {
           .coin, [class*="hh-entry-"] {
             animation: none !important;
           }
+        }
+
+        /* ─── MODAL ─── */
+        .hh-modal-backdrop {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.6);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 220;
+          padding: 24px;
+        }
+
+        .hh-modal {
+          width: 100%;
+          max-width: 440px;
+          background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 16px;
+          padding: 18px;
+          backdrop-filter: blur(8px);
+        }
+
+        .hh-modal-title {
+          font-weight: 800;
+          color: white;
+          margin-bottom: 8px;
+        }
+
+        .hh-modal-desc {
+          color: rgba(255,255,255,0.9);
+          font-size: 14px;
+          line-height: 1.35;
+        }
+
+        .hh-modal-actions {
+          display: flex;
+          justify-content: flex-end;
+          gap: 10px;
+          margin-top: 14px;
+        }
+
+        .hh-modal-btn {
+          padding: 10px 14px;
+          border-radius: 10px;
+          font-weight: 700;
+          cursor: pointer;
+        }
+
+        .hh-modal-cancel {
+          background: transparent;
+          border: 1px solid rgba(255,255,255,0.06);
+          color: white;
+        }
+
+        .hh-modal-continue {
+          background: linear-gradient(135deg, #10b981, #059669);
+          color: white;
+          border: none;
         }
       `}</style>
     </div>
