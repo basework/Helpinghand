@@ -216,7 +216,7 @@ export default function ReferPage() {
             </div>
             <div className="hh-reward-badge">
               <Sparkles className="h-4 w-4 text-amber-300" />
-              <span>₦10k each</span>
+              <span>each ₦10k</span>
             </div>
           </div>
         </div>
@@ -247,7 +247,8 @@ export default function ReferPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-xs text-gray-400 mb-1">Earn per referral</p>
-                <p className="text-3xl font-black text-white">
+                <p className="text-3xl font-black text-white hh-fit-amount">
+                  <span className="text-xs mr-2 text-gray-400 align-middle">each</span>
                   <span className="text-sm align-top opacity-80">₦</span>
                   <span className="tracking-tight">10,000</span>
                 </p>
@@ -875,11 +876,11 @@ export default function ReferPage() {
         .hh-step-item {
           display: flex;
           align-items: center;
-          gap: 16px;
-          padding: 16px;
+          gap: 10px;
+          padding: 10px;
           background: rgba(255,255,255,0.03);
           border: 1px solid rgba(255,255,255,0.05);
-          border-radius: 16px;
+          border-radius: 12px;
           transition: all 0.2s ease;
           animation: hh-card-appear 0.4s ease-out both;
         }
@@ -895,13 +896,14 @@ export default function ReferPage() {
         }
 
         .hh-step-icon {
-          width: 48px;
-          height: 48px;
-          border-radius: 14px;
+          width: 28px;
+          height: 28px;
+          border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
+          font-size: 14px;
         }
 
         .hh-step-emerald {
@@ -941,13 +943,26 @@ export default function ReferPage() {
         .hh-step-title {
           font-weight: 700;
           color: white;
-          margin-top: 4px;
+          margin-top: 2px;
+          font-size: 13px;
         }
 
         .hh-step-desc {
-          font-size: 12px;
+          font-size: 11px;
           color: rgba(255,255,255,0.5);
           margin-top: 2px;
+        }
+
+        /* Make earnings amount responsive to avoid overflow */
+        .hh-fit-amount {
+          display: inline-flex;
+          align-items: baseline;
+          gap: 6px;
+          max-width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: clamp(1.25rem, 5.5vw, 1.875rem);
         }
 
         /* ─── STAT CARDS ─── */
