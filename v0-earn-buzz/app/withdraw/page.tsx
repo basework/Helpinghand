@@ -269,6 +269,7 @@ export default function WithdrawPage() {
               </div>
             </div>
 
+            {!toggleActive && (
             <div className="hh-req-item">
               <div className="flex items-center gap-3">
                 <div className={`hh-req-icon ${referralCount >= 5 ? 'hh-req-met' : 'hh-req-pending'}`}>
@@ -288,6 +289,7 @@ export default function WithdrawPage() {
                 </div>
               </div>
             </div>
+            )}
 
             <div className="hh-req-item">
               <div className="flex items-center gap-3">
@@ -444,7 +446,11 @@ export default function WithdrawPage() {
             <div>
               <h4 className="font-bold text-white mb-1">Quick Tip</h4>
               <p className="text-sm text-emerald-200/80">
-                Complete all {TOTAL_DAILY_TASKS} daily tasks and get 5 referrals to unlock withdrawals.
+                {toggleActive ? (
+                  <>Complete all {TOTAL_DAILY_TASKS} daily tasks and no referral required to unlock withdrawals.</>
+                ) : (
+                  <>Complete all {TOTAL_DAILY_TASKS} daily tasks and get 5 referrals to unlock withdrawals.</>
+                )}
               </p>
             </div>
           </div>
