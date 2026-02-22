@@ -505,25 +505,26 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Action buttons */}
-          <div className="flex gap-3 mt-4">
-            <Link href="/loan" className="flex-1">
-              <button className="hh-action-btn hh-action-purple w-full">
-                <span className="hh-action-icon">💳</span>
-                <span>Loan</span>
-              </button>
-            </Link>
-            <Link href="/withdraw" className="flex-1">
-              <button className="hh-action-btn hh-action-green w-full">
-                <span className="hh-action-icon">💸</span>
-                <span>Withdraw</span>
-              </button>
-            </Link>
-          </div>
+        </div>
+
+        {/* ── LOAN & WITHDRAW BUTTONS ── */}
+        <div className="flex gap-3 hh-entry-2">
+          <Link href="/loan" className="flex-1">
+            <button className="hh-action-btn hh-action-purple w-full">
+              <span className="hh-action-icon">💳</span>
+              <span>Loan</span>
+            </button>
+          </Link>
+          <Link href="/withdraw" className="flex-1">
+            <button className="hh-action-btn hh-action-green w-full">
+              <span className="hh-action-icon">💸</span>
+              <span>Withdraw</span>
+            </button>
+          </Link>
         </div>
 
         {/* ── BALANCE CARD ── */}
-        <div className="hh-card hh-card-balance hh-entry-2 relative overflow-hidden">
+        <div className="hh-card hh-card-balance hh-entry-3 relative overflow-hidden">
           {/* Decorative glow orbs */}
           <div className="hh-orb hh-orb-1" aria-hidden="true"></div>
           <div className="hh-orb hh-orb-2" aria-hidden="true"></div>
@@ -634,7 +635,7 @@ export default function DashboardPage() {
         </div>
 
         {/* ── QUICK ACTIONS ── */}
-        <div className="hh-card hh-entry-3">
+        <div className="hh-card hh-entry-4">
           <div className="hh-section-title">Quick Actions</div>
           <div className="grid grid-cols-2 gap-3 mt-3">
             {menuItems.map((item, idx) => {
