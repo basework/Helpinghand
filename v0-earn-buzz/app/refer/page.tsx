@@ -130,8 +130,8 @@ export default function ReferPage() {
 
   const handleCopy = () => {
     if (!origin) return
-    const msg = `${activeMessage}\n\nSign up here: ${origin}${referralLink}`
-    navigator.clipboard.writeText(msg)
+    const linkOnly = `${origin}${referralLink}`
+    navigator.clipboard.writeText(linkOnly)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
