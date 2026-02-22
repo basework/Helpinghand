@@ -659,8 +659,15 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* ── SUPPORT CARD ── */}
-        <div className="hh-card hh-entry-4">
+        {/* Support card moved below Referral card per request */}
+
+        {/* ── REFERRAL CARD ── */}
+        <div className="hh-entry-5">
+          {userData && <ReferralCard userId={userData.id || userData.userId} />}
+        </div>
+
+        {/* ── SUPPORT CARD (moved) ── */}
+        <div className="hh-card hh-entry-6">
           <div className="flex items-center justify-between">
             <div>
               <div className="hh-section-title mb-0.5">Help & Support</div>
@@ -681,13 +688,6 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
-
-        {/* ── REFERRAL CARD ── */}
-        <div className="hh-entry-5">
-          {userData && <ReferralCard userId={userData.id || userData.userId} />}
-        </div>
-
-        {/* Recent Activity card removed per request */}
 
       </div>
 
