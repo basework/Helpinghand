@@ -953,16 +953,14 @@ export default function ReferPage() {
           margin-top: 2px;
         }
 
-        /* Make earnings amount responsive to avoid overflow */
+        /* Reduce earning amount size to keep layout neat (do not hide content) */
         .hh-fit-amount {
           display: inline-flex;
           align-items: baseline;
           gap: 6px;
-          max-width: 100%;
           white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          font-size: clamp(1.25rem, 5.5vw, 1.875rem);
+          font-size: 1.25rem; /* slightly reduced for a cooler look */
+          letter-spacing: -0.01em;
         }
 
         /* ─── STAT CARDS ─── */
