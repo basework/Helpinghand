@@ -688,7 +688,7 @@ export default function InvestmentPlatformPage() {
               <div className="space-y-4">
                 <div>
                   <label className="text-sm text-white/50 mb-2 block">
-                    Investment Amount ($)
+                    Investment Amount (₦)
                   </label>
                   <input
                     type="range"
@@ -700,7 +700,7 @@ export default function InvestmentPlatformPage() {
                     className="w-full accent-emerald-500"
                   />
                   <div className="text-right font-bold text-white mt-2 animate-pulse-subtle">
-                    ${parseInt(investmentAmount).toLocaleString()}
+                    ₦{parseInt(investmentAmount).toLocaleString()}
                   </div>
                 </div>
 
