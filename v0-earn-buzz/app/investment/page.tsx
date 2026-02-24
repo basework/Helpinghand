@@ -41,6 +41,7 @@ import {
   User,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function InvestmentPlatformPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,6 +51,7 @@ export default function InvestmentPlatformPage() {
   const [selectedDuration, setSelectedDuration] = useState("1");
   const [activeTab, setActiveTab] = useState("overview");
   const [hoveredPlan, setHoveredPlan] = useState<string | null>(null);
+  const router = useRouter();
 
   // Handle scroll effect for header
   useEffect(() => {
@@ -650,7 +652,14 @@ export default function InvestmentPlatformPage() {
                     ))}
                   </div>
 
-                  <button className="w-full py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl relative overflow-hidden group">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const amountNumeric = (plan.minDeposit || "").toString().replace(/[^\d]/g, "") || investmentAmount;
+                      router.push(`/investment/payment?amount=${amountNumeric}&plan=${encodeURIComponent(plan.id)}`);
+                    }}
+                    className="w-full py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl relative overflow-hidden group"
+                  >
                     <span className="relative z-10">Select Plan</span>
                     <span className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                   </button>
@@ -765,6 +774,16 @@ export default function InvestmentPlatformPage() {
                     <p className="text-xs text-white/50 mt-1">
                       +₦{Math.round(parseInt(investmentAmount) * 96).toLocaleString('en-NG')} profit
                     </p>
+                  </div>
+
+                  <div className="pt-6">
+                    <button
+                      type="button"
+                      onClick={() => router.push(`/investment/payment?amount=${parseInt(investmentAmount)}&plan=custom`)}
+                      className="w-full py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                    >
+                      Invest ₦{parseInt(investmentAmount).toLocaleString('en-NG')}
+                    </button>
                   </div>
                 </div>
               </div>
