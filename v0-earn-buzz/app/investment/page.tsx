@@ -95,8 +95,8 @@ export default function InvestmentPlatformPage() {
       name: "Starter Portfolio",
       risk: "Conservative",
       riskLevel: "Low",
-      minDeposit: "$5,000",
-      maxDeposit: "$50,000",
+      minDeposit: "₦5,000",
+      maxDeposit: "₦50,000",
       duration: "3 months",
       projectedReturn: "200%",
       annualizedReturn: "8-10%",
@@ -122,8 +122,8 @@ export default function InvestmentPlatformPage() {
       name: "Growth Portfolio",
       risk: "Moderate",
       riskLevel: "Medium",
-      minDeposit: "$50,000",
-      maxDeposit: "$250,000",
+      minDeposit: "₦50,000",
+      maxDeposit: "₦250,000",
       duration: "6 months",
       projectedReturn: "200%",
       annualizedReturn: "12-15%",
@@ -151,8 +151,8 @@ export default function InvestmentPlatformPage() {
       name: "Premium Portfolio",
       risk: "Aggressive",
       riskLevel: "High",
-      minDeposit: "$250,000",
-      maxDeposit: "$1,000,000+",
+      minDeposit: "₦250,000",
+      maxDeposit: "₦1,000,000+",
       duration: "12 months",
       projectedReturn: "200%",
       annualizedReturn: "15-20%",
@@ -217,7 +217,7 @@ export default function InvestmentPlatformPage() {
               </div>
               <div>
                 <span className="text-xl font-bold text-white block leading-tight">
-                  WealthGuard
+                  Helping Hands Investment.
                 </span>
                 <span className="text-xs text-emerald-300/70">
                   Est. 2018 • Regulated
@@ -330,7 +330,7 @@ export default function InvestmentPlatformPage() {
                     <div className="text-sm text-white/50">
                       Assets Under Management
                     </div>
-                    <div className="text-lg font-bold text-white">$2.4B+</div>
+                    <div className="text-lg font-bold text-white">₦2.4B+</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 group">
@@ -353,7 +353,7 @@ export default function InvestmentPlatformPage() {
                 {
                   emoji: "🏦",
                   title: "FDIC Insured",
-                  desc: "Up to $250,000",
+                  desc: "Up to ₦250,000",
                   delay: 0,
                 },
                 {
@@ -817,7 +817,7 @@ export default function InvestmentPlatformPage() {
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-12 hh-entry-1">
             <h2 className="text-3xl font-bold text-white mb-4 relative inline-block">
-              Why Choose WealthGuard
+              Why Choose HelpingHands
               <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-emerald-500 rounded-full animate-width-slow"></span>
             </h2>
             <p className="text-xl text-white/70">
@@ -959,7 +959,7 @@ export default function InvestmentPlatformPage() {
                     {
                       icon: Mail,
                       title: "Email",
-                      value: "invest@wealthguard.com",
+                      value: "invest@HelpingHands.com",
                       delay: 150,
                     },
                   ].map((item, i) => {
@@ -1007,10 +1007,10 @@ export default function InvestmentPlatformPage() {
                     <option className="bg-[#0d1f2d]">
                       Investment Amount Range
                     </option>
-                    <option className="bg-[#0d1f2d]">$5,000 - $50,000</option>
-                    <option className="bg-[#0d1f2d]">$50,000 - $250,000</option>
+                    <option className="bg-[#0d1f2d]">₦5,000 - ₦50,000</option>
+                    <option className="bg-[#0d1f2d]">₦50,000 - ₦250,000</option>
                     <option className="bg-[#0d1f2d]">
-                      $250,000 - $1,000,000+
+                      ₦250,000 - ₦1,000,000+
                     </option>
                   </select>
                   <button className="w-full py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl relative overflow-hidden group">
@@ -1036,7 +1036,7 @@ export default function InvestmentPlatformPage() {
                   <Building className="w-4 h-4 text-white" />
                 </div>
                 <span className="text-lg font-bold text-white">
-                  WealthGuard
+                  HelpingHands
                 </span>
               </div>
               <p className="text-sm text-white/50">
@@ -1087,7 +1087,7 @@ export default function InvestmentPlatformPage() {
 
           <div className="mt-12 pt-8 border-t border-white/10 text-center text-sm text-white/40">
             <p>
-              © {new Date().getFullYear()} WealthGuard Capital Management. All
+              © {new Date().getFullYear()} HelpingHands Capital Management. All
               rights reserved.
             </p>
             <p className="mt-2 animate-pulse-subtle">
