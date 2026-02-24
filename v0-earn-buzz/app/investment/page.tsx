@@ -36,6 +36,9 @@ import {
   Sparkles,
   Zap,
   Activity,
+  Home,
+  Gamepad2,
+  User,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -99,7 +102,7 @@ export default function InvestmentPlatformPage() {
       annualizedReturn: "8-10%",
       color: "emerald",
       gradient: "from-emerald-500 to-emerald-600",
-      lightGradient: "from-emerald-50 to-emerald-100",
+      lightGradient: "from-emerald-500/20 to-emerald-600/10",
       badge: "Ideal for beginners",
       allocation: {
         gold: "40%",
@@ -126,7 +129,7 @@ export default function InvestmentPlatformPage() {
       annualizedReturn: "12-15%",
       color: "blue",
       gradient: "from-blue-500 to-blue-600",
-      lightGradient: "from-blue-50 to-blue-100",
+      lightGradient: "from-blue-500/20 to-blue-600/10",
       badge: "Most Popular",
       popular: true,
       allocation: {
@@ -155,7 +158,7 @@ export default function InvestmentPlatformPage() {
       annualizedReturn: "15-20%",
       color: "amber",
       gradient: "from-amber-500 to-amber-600",
-      lightGradient: "from-amber-50 to-amber-100",
+      lightGradient: "from-amber-500/20 to-amber-600/10",
       badge: "For High Net Worth",
       allocation: {
         gold: "25%",
@@ -189,42 +192,34 @@ export default function InvestmentPlatformPage() {
   const projected = calculateProjectedValue();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50">
-      {/* Floating particles background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        {[...Array(30)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-amber-200/30 rounded-full animate-float-particle"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${15 + Math.random() * 20}s`,
-            }}
-          />
+    <div className="hh-root min-h-screen pb-28 relative overflow-hidden">
+      {/* Animated background bubbles */}
+      <div className="hh-bubbles-container" aria-hidden="true">
+        {[...Array(12)].map((_, i) => (
+          <div key={i} className={`hh-bubble hh-bubble-${i + 1}`}></div>
         ))}
       </div>
+
+      {/* Mesh gradient overlay */}
+      <div className="hh-mesh-overlay" aria-hidden="true"></div>
 
       {/* Navigation */}
       <nav
         className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-          scrolled
-            ? "bg-white/95 backdrop-blur-lg shadow-lg py-2"
-            : "bg-transparent py-4"
+          scrolled ? "hh-header py-2" : "bg-transparent py-4"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-all duration-300 group-hover:rotate-3">
-                <Building className="w-6 h-6 text-amber-400" />
+              <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-xl flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-all duration-300 group-hover:rotate-3">
+                <Building className="w-6 h-6 text-white" />
               </div>
               <div>
-                <span className="text-xl font-bold text-slate-900 block leading-tight">
+                <span className="text-xl font-bold text-white block leading-tight">
                   WealthGuard
                 </span>
-                <span className="text-xs text-slate-500">
+                <span className="text-xs text-emerald-300/70">
                   Est. 2018 • Regulated
                 </span>
               </div>
@@ -236,13 +231,13 @@ export default function InvestmentPlatformPage() {
                 <Link
                   key={item}
                   href={`#${item.toLowerCase().replace(" ", "-")}`}
-                  className="text-slate-600 hover:text-slate-900 transition-all duration-300 text-sm font-medium relative group"
+                  className="text-white/70 hover:text-emerald-400 transition-all duration-300 text-sm font-medium relative group"
                 >
                   {item}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-500 group-hover:w-full transition-all duration-300"></span>
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-400 group-hover:w-full transition-all duration-300"></span>
                 </Link>
               ))}
-              <button className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 text-sm">
+              <button className="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 text-sm">
                 Client Portal
               </button>
             </div>
@@ -250,7 +245,7 @@ export default function InvestmentPlatformPage() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden text-slate-600 hover:text-slate-900 transition-transform duration-300 hover:scale-110"
+              className="md:hidden text-white/70 hover:text-emerald-400 transition-transform duration-300 hover:scale-110"
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -263,7 +258,7 @@ export default function InvestmentPlatformPage() {
 
         {/* Mobile Menu */}
         <div
-          className={`md:hidden bg-white border-t border-slate-200 overflow-hidden transition-all duration-500 ${
+          className={`md:hidden bg-gradient-to-b from-[#0d1f2d] to-[#0a1628] border-t border-emerald-500/20 overflow-hidden transition-all duration-500 ${
             isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
           }`}
         >
@@ -272,14 +267,14 @@ export default function InvestmentPlatformPage() {
               <Link
                 key={item}
                 href={`#${item.toLowerCase().replace(" ", "-")}`}
-                className="block text-slate-600 hover:text-slate-900 py-2 text-sm transition-all duration-300 hover:translate-x-2"
+                className="block text-white/70 hover:text-emerald-400 py-2 text-sm transition-all duration-300 hover:translate-x-2"
                 style={{ transitionDelay: `${index * 50}ms` }}
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item}
               </Link>
             ))}
-            <button className="w-full px-4 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-medium transition-all duration-300 hover:scale-105">
+            <button className="w-full px-4 py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-xl font-medium transition-all duration-300 hover:scale-105">
               Client Portal
             </button>
           </div>
@@ -289,75 +284,71 @@ export default function InvestmentPlatformPage() {
       {/* Hero Section */}
       <section className="relative pt-40 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Animated background elements */}
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-50/50 via-transparent to-transparent"></div>
-        <div className="absolute top-20 right-0 w-96 h-96 bg-amber-100/30 rounded-full blur-3xl animate-pulse-slow"></div>
-        <div className="absolute bottom-20 left-0 w-64 h-64 bg-blue-100/30 rounded-full blur-3xl animate-pulse-slow animation-delay-2000"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 via-transparent to-transparent"></div>
+        <div className="absolute top-20 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute bottom-20 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow animation-delay-2000"></div>
 
-        <div className="max-w-7xl mx-auto relative">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-6 animate-fade-in-up">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 border border-amber-200 rounded-full hover:shadow-lg transition-all duration-300 hover:scale-105">
-                <Shield className="w-4 h-4 text-amber-600 animate-pulse" />
-                <span className="text-sm text-amber-800 font-medium">
+            <div className="space-y-6 hh-entry-1">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full hover:shadow-lg transition-all duration-300 hover:scale-105">
+                <Shield className="w-4 h-4 text-emerald-400 animate-pulse" />
+                <span className="text-sm text-emerald-300 font-medium">
                   SEC Registered Investment Advisor
                 </span>
               </div>
 
-              <h1 className="text-5xl md:text-6xl font-bold text-slate-900 leading-tight">
+              <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight">
                 Build Wealth Through{" "}
-                <span className="text-amber-600 relative">
+                <span className="text-emerald-400 relative">
                   Smart Investments
-                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-amber-200 rounded-full animate-width"></span>
+                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-emerald-500/50 rounded-full animate-width"></span>
                 </span>
               </h1>
 
-              <p className="text-xl text-slate-600 max-w-lg leading-relaxed">
+              <p className="text-xl text-white/70 max-w-lg leading-relaxed">
                 Secure and diversified long-term investment opportunities backed
                 by gold, crypto, and traditional assets.
               </p>
 
               <div className="flex flex-wrap gap-4 pt-4">
-                <button className="group px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center gap-2 hover:scale-105">
+                <button className="group px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-xl font-semibold text-lg transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center gap-2 hover:scale-105">
                   Schedule Consultation
                   <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
-                <button className="px-8 py-4 bg-white hover:bg-slate-50 text-slate-900 rounded-xl font-semibold text-lg transition-all duration-300 border border-slate-200 shadow-lg hover:shadow-xl hover:scale-105">
+                <button className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-xl font-semibold text-lg transition-all duration-300 border border-white/10 shadow-lg hover:shadow-xl hover:scale-105">
                   View Prospectus
                 </button>
               </div>
 
               <div className="flex items-center gap-8 pt-6">
                 <div className="flex items-center gap-2 group">
-                  <div className="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Award className="w-5 h-5 text-emerald-600" />
+                  <div className="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Award className="w-5 h-5 text-emerald-400" />
                   </div>
                   <div>
-                    <div className="text-sm text-slate-500">
+                    <div className="text-sm text-white/50">
                       Assets Under Management
                     </div>
-                    <div className="text-lg font-bold text-slate-900">
-                      $2.4B+
-                    </div>
+                    <div className="text-lg font-bold text-white">$2.4B+</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 group">
-                  <div className="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Users className="w-5 h-5 text-amber-600" />
+                  <div className="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Users className="w-5 h-5 text-emerald-400" />
                   </div>
                   <div>
-                    <div className="text-sm text-slate-500">
+                    <div className="text-sm text-white/50">
                       Active Investors
                     </div>
-                    <div className="text-lg font-bold text-slate-900">
-                      45,000+
-                    </div>
+                    <div className="text-lg font-bold text-white">45,000+</div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Trust Badges Grid with animations */}
-            <div className="grid grid-cols-2 gap-4 animate-fade-in">
+            <div className="grid grid-cols-2 gap-4 hh-entry-2">
               {[
                 {
                   emoji: "🏦",
@@ -386,14 +377,14 @@ export default function InvestmentPlatformPage() {
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="bg-white rounded-2xl p-6 shadow-xl border border-slate-100 hover:border-amber-200 transition-all duration-500 hover:scale-105 hover:shadow-2xl"
+                  className="hh-card hover:border-emerald-500/30 transition-all duration-500 hover:scale-105 hover:shadow-2xl"
                   style={{ animationDelay: `${item.delay}ms` }}
                 >
                   <div className="text-3xl mb-3 animate-bounce-subtle">
                     {item.emoji}
                   </div>
-                  <div className="font-bold text-slate-900">{item.title}</div>
-                  <div className="text-sm text-slate-500">{item.desc}</div>
+                  <div className="font-bold text-white">{item.title}</div>
+                  <div className="text-sm text-white/50">{item.desc}</div>
                 </div>
               ))}
             </div>
@@ -404,21 +395,21 @@ export default function InvestmentPlatformPage() {
       {/* About Section */}
       <section
         id="about"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50 relative overflow-hidden"
+        className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-50/30 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-transparent"></div>
 
-        <div className="max-w-7xl mx-auto relative">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="space-y-6 animate-on-scroll">
+            <div className="space-y-6 hh-entry-3">
               <div className="inline-block">
-                <h2 className="text-3xl font-bold text-slate-900 relative">
+                <h2 className="text-3xl font-bold text-white relative">
                   Diversified Investment Approach
-                  <span className="absolute -bottom-2 left-0 w-20 h-1 bg-amber-500 rounded-full animate-width-slow"></span>
+                  <span className="absolute -bottom-2 left-0 w-20 h-1 bg-emerald-500 rounded-full animate-width-slow"></span>
                 </h2>
               </div>
 
-              <p className="text-lg text-slate-600 leading-relaxed">
+              <p className="text-lg text-white/70 leading-relaxed">
                 Our platform focuses on gold-backed and crypto-backed long-term
                 investment funds, providing investors with stable, secure, and
                 growth-oriented opportunities. We combine traditional asset
@@ -453,14 +444,12 @@ export default function InvestmentPlatformPage() {
                       className="flex items-start gap-4 group hover:translate-x-2 transition-all duration-300"
                       style={{ transitionDelay: `${item.delay}ms` }}
                     >
-                      <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300">
-                        <Icon className="w-4 h-4 text-amber-600" />
+                      <div className="w-8 h-8 bg-emerald-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1 group-hover:scale-110 transition-transform duration-300">
+                        <Icon className="w-4 h-4 text-emerald-400" />
                       </div>
                       <div>
-                        <h3 className="font-bold text-slate-900">
-                          {item.title}
-                        </h3>
-                        <p className="text-sm text-slate-500">{item.desc}</p>
+                        <h3 className="font-bold text-white">{item.title}</h3>
+                        <p className="text-sm text-white/50">{item.desc}</p>
                       </div>
                     </div>
                   );
@@ -469,13 +458,13 @@ export default function InvestmentPlatformPage() {
             </div>
 
             {/* Allocation Pie Chart Visualization with animation */}
-            <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100 hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-float">
-              <h3 className="font-bold text-slate-900 mb-6">
+            <div className="hh-card hover:border-emerald-500/30 transition-all duration-500 hover:scale-105 animate-float hh-entry-4">
+              <h3 className="font-bold text-white mb-6">
                 Sample Portfolio Allocation
               </h3>
               <div className="space-y-4">
                 {[
-                  { label: "Gold", percentage: 35, color: "amber", delay: 0 },
+                  { label: "Gold", percentage: 35, color: "emerald", delay: 0 },
                   {
                     label: "Cryptocurrency",
                     percentage: 30,
@@ -485,13 +474,13 @@ export default function InvestmentPlatformPage() {
                   {
                     label: "Bonds",
                     percentage: 20,
-                    color: "emerald",
+                    color: "purple",
                     delay: 200,
                   },
                   {
                     label: "Real Estate",
                     percentage: 15,
-                    color: "purple",
+                    color: "amber",
                     delay: 300,
                   },
                 ].map((item, i) => (
@@ -501,14 +490,14 @@ export default function InvestmentPlatformPage() {
                     style={{ animationDelay: `${item.delay}ms` }}
                   >
                     <div className="flex justify-between text-sm mb-2">
-                      <span className="text-slate-600">{item.label}</span>
-                      <span className="font-bold text-slate-900">
+                      <span className="text-white/60">{item.label}</span>
+                      <span className="font-bold text-white">
                         {item.percentage}%
                       </span>
                     </div>
-                    <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                       <div
-                        className={`h-full w-0 bg-${item.color}-500 rounded-full transition-all duration-1000`}
+                        className={`h-full bg-${item.color}-500 rounded-full transition-all duration-1000`}
                         style={{
                           width: `${item.percentage}%`,
                           animationDelay: `${item.delay}ms`,
@@ -518,8 +507,8 @@ export default function InvestmentPlatformPage() {
                   </div>
                 ))}
               </div>
-              <div className="mt-6 pt-6 border-t border-slate-100">
-                <p className="text-xs text-slate-400 text-center animate-pulse-subtle">
+              <div className="mt-6 pt-6 border-t border-white/10">
+                <p className="text-xs text-white/40 text-center animate-pulse-subtle">
                   Allocation varies by investment plan and risk profile
                 </p>
               </div>
@@ -533,15 +522,15 @@ export default function InvestmentPlatformPage() {
         id="plans"
         className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-amber-50/20 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/5 via-transparent to-transparent"></div>
 
-        <div className="max-w-7xl mx-auto relative">
-          <div className="text-center mb-12 animate-fade-in">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4 relative inline-block">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-12 hh-entry-5">
+            <h2 className="text-3xl font-bold text-white mb-4 relative inline-block">
               Investment Plans
-              <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-amber-500 rounded-full animate-width-slow"></span>
+              <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-emerald-500 rounded-full animate-width-slow"></span>
             </h2>
-            <p className="text-xl text-slate-600">
+            <p className="text-xl text-white/70">
               Choose the strategy that aligns with your financial goals
             </p>
           </div>
@@ -550,17 +539,17 @@ export default function InvestmentPlatformPage() {
             {investmentPlans.map((plan, i) => (
               <div
                 key={i}
-                className={`relative bg-white rounded-3xl border transition-all duration-500 hover:shadow-2xl ${
+                className={`hh-card transition-all duration-500 hover:shadow-2xl ${
                   plan.popular
-                    ? "border-amber-200 shadow-xl scale-105 hover:scale-110 z-10"
-                    : "border-slate-200 hover:border-amber-200 hover:scale-105"
+                    ? "border-emerald-500/50 shadow-xl scale-105 hover:scale-110 z-10"
+                    : "hover:border-emerald-500/30 hover:scale-105"
                 }`}
                 onMouseEnter={() => setHoveredPlan(plan.id)}
                 onMouseLeave={() => setHoveredPlan(null)}
                 style={{ animationDelay: `${i * 150}ms` }}
               >
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-amber-500 text-white text-sm rounded-full font-medium animate-pulse shadow-lg">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-emerald-500 text-white text-sm rounded-full font-medium animate-pulse shadow-lg">
                     Most Popular
                   </div>
                 )}
@@ -569,55 +558,55 @@ export default function InvestmentPlatformPage() {
                   <div
                     className={`mb-6 bg-gradient-to-br ${plan.lightGradient} rounded-xl p-4 transform transition-all duration-300 hover:scale-105`}
                   >
-                    <h3 className="text-xl font-bold text-slate-900 mb-1">
+                    <h3 className="text-xl font-bold text-white mb-1">
                       {plan.name}
                     </h3>
-                    <p className="text-sm text-slate-500">{plan.risk}</p>
+                    <p className="text-sm text-white/50">{plan.risk}</p>
                   </div>
 
                   <div className="space-y-4 mb-6">
                     <div className="flex justify-between text-sm group hover:translate-x-1 transition-transform">
-                      <span className="text-slate-500">Risk Level</span>
+                      <span className="text-white/50">Risk Level</span>
                       <span
                         className={`font-medium ${
                           plan.riskLevel === "Low"
-                            ? "text-emerald-600"
+                            ? "text-emerald-400"
                             : plan.riskLevel === "Medium"
-                              ? "text-amber-600"
-                              : "text-red-600"
+                              ? "text-amber-400"
+                              : "text-red-400"
                         }`}
                       >
                         {plan.riskLevel}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm group hover:translate-x-1 transition-transform">
-                      <span className="text-slate-500">Minimum Deposit</span>
-                      <span className="font-bold text-slate-900">
+                      <span className="text-white/50">Minimum Deposit</span>
+                      <span className="font-bold text-white">
                         {plan.minDeposit}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm group hover:translate-x-1 transition-transform">
-                      <span className="text-slate-500">Duration</span>
-                      <span className="font-bold text-slate-900">
+                      <span className="text-white/50">Duration</span>
+                      <span className="font-bold text-white">
                         {plan.duration}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm group hover:translate-x-1 transition-transform">
-                      <span className="text-slate-500">Projected Return</span>
-                      <span className="font-bold text-amber-600 animate-pulse-subtle">
+                      <span className="text-white/50">Projected Return</span>
+                      <span className="font-bold text-emerald-400 animate-pulse-subtle">
                         {plan.projectedReturn}
                       </span>
                     </div>
                     <div className="flex justify-between text-sm group hover:translate-x-1 transition-transform">
-                      <span className="text-slate-500">Annualized Return</span>
-                      <span className="font-bold text-emerald-600">
+                      <span className="text-white/50">Annualized Return</span>
+                      <span className="font-bold text-emerald-400">
                         {plan.annualizedReturn}
                       </span>
                     </div>
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="text-sm font-bold text-slate-900 mb-3">
+                    <h4 className="text-sm font-bold text-white mb-3">
                       Portfolio Allocation
                     </h4>
                     <div className="space-y-2">
@@ -628,10 +617,10 @@ export default function InvestmentPlatformPage() {
                             className="flex justify-between text-xs group hover:translate-x-1 transition-transform"
                             style={{ transitionDelay: `${j * 50}ms` }}
                           >
-                            <span className="text-slate-500 capitalize">
+                            <span className="text-white/50 capitalize">
                               {asset}
                             </span>
-                            <span className="font-medium text-slate-700">
+                            <span className="font-medium text-white">
                               {percentage}
                             </span>
                           </div>
@@ -644,21 +633,21 @@ export default function InvestmentPlatformPage() {
                     {plan.features.map((feature, j) => (
                       <div
                         key={j}
-                        className="flex items-center gap-2 text-sm text-slate-600 group hover:translate-x-1 transition-transform"
+                        className="flex items-center gap-2 text-sm text-white/60 group hover:translate-x-1 transition-transform"
                         style={{ transitionDelay: `${j * 30}ms` }}
                       >
-                        <CheckCircle className="w-4 h-4 text-amber-500 group-hover:scale-110 transition-transform" />
+                        <CheckCircle className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform" />
                         {feature}
                       </div>
                     ))}
                   </div>
 
-                  <button className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl relative overflow-hidden group">
+                  <button className="w-full py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl relative overflow-hidden group">
                     <span className="relative z-10">Select Plan</span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-amber-500 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                   </button>
 
-                  <p className="text-xs text-slate-400 text-center mt-4 animate-pulse-subtle">
+                  <p className="text-xs text-white/40 text-center mt-4 animate-pulse-subtle">
                     *Past performance does not guarantee future returns
                   </p>
                 </div>
@@ -671,26 +660,26 @@ export default function InvestmentPlatformPage() {
       {/* Portfolio Dashboard */}
       <section
         id="portfolio"
-        className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50 relative overflow-hidden"
+        className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-50/30 via-transparent to-amber-50/30"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/5 via-transparent to-emerald-500/5"></div>
 
-        <div className="max-w-7xl mx-auto relative">
-          <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center animate-fade-in">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <h2 className="text-3xl font-bold text-white mb-12 text-center hh-entry-6">
             Your Portfolio Dashboard
           </h2>
 
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Calculator with animations */}
-            <div className="lg:col-span-1 bg-white rounded-3xl p-6 shadow-xl border border-slate-100 hover:shadow-2xl transition-all duration-500 hover:scale-105 animate-float">
-              <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <Wallet className="w-5 h-5 text-amber-500" />
+            <div className="lg:col-span-1 hh-card hover:border-emerald-500/30 transition-all duration-500 hover:scale-105 animate-float">
+              <h3 className="font-bold text-white mb-4 flex items-center gap-2">
+                <Wallet className="w-5 h-5 text-emerald-400" />
                 Investment Calculator
               </h3>
 
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm text-slate-500 mb-2 block">
+                  <label className="text-sm text-white/50 mb-2 block">
                     Investment Amount ($)
                   </label>
                   <input
@@ -700,21 +689,21 @@ export default function InvestmentPlatformPage() {
                     step="1000"
                     value={investmentAmount}
                     onChange={(e) => setInvestmentAmount(e.target.value)}
-                    className="w-full accent-amber-500"
+                    className="w-full accent-emerald-500"
                   />
-                  <div className="text-right font-bold text-slate-900 mt-2 animate-pulse-subtle">
+                  <div className="text-right font-bold text-white mt-2 animate-pulse-subtle">
                     ${parseInt(investmentAmount).toLocaleString()}
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-sm text-slate-500 mb-2 block">
+                  <label className="text-sm text-white/50 mb-2 block">
                     Investment Period
                   </label>
                   <select
                     value={selectedDuration}
                     onChange={(e) => setSelectedDuration(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all duration-300"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300"
                   >
                     <option value="3">3 Months</option>
                     <option value="6">6 Months</option>
@@ -724,26 +713,26 @@ export default function InvestmentPlatformPage() {
                   </select>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100">
+                <div className="pt-4 border-t border-white/10">
                   <div className="flex justify-between mb-2 group hover:translate-x-1 transition-transform">
-                    <span className="text-sm text-slate-500">
+                    <span className="text-sm text-white/50">
                       Initial Investment
                     </span>
-                    <span className="font-bold text-slate-900">
+                    <span className="font-bold text-white">
                       ${projected.invested.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex justify-between mb-2 group hover:translate-x-1 transition-transform">
-                    <span className="text-sm text-slate-500">
+                    <span className="text-sm text-white/50">
                       Projected Growth
                     </span>
-                    <span className="font-bold text-emerald-600">
+                    <span className="font-bold text-emerald-400">
                       +${projected.growth.toLocaleString()}
                     </span>
                   </div>
                   <div className="flex justify-between text-lg font-bold group hover:translate-x-1 transition-transform">
-                    <span className="text-slate-900">Estimated Value</span>
-                    <span className="text-amber-600 animate-pulse-subtle">
+                    <span className="text-white">Estimated Value</span>
+                    <span className="text-emerald-400 animate-pulse-subtle">
                       ${projected.total.toLocaleString()}
                     </span>
                   </div>
@@ -752,16 +741,16 @@ export default function InvestmentPlatformPage() {
             </div>
 
             {/* Growth Chart with animations */}
-            <div className="lg:col-span-2 bg-white rounded-3xl p-6 shadow-xl border border-slate-100 hover:shadow-2xl transition-all duration-500 hover:scale-105">
+            <div className="lg:col-span-2 hh-card hover:border-emerald-500/30 transition-all duration-500 hover:scale-105">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="font-bold text-slate-900 flex items-center gap-2">
-                  <Activity className="w-5 h-5 text-amber-500" />
+                <h3 className="font-bold text-white flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-emerald-400" />
                   Growth Projection
                 </h3>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1">
-                    <div className="w-3 h-3 bg-amber-500 rounded-full animate-pulse"></div>
-                    <span className="text-xs text-slate-500">Projected</span>
+                    <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span className="text-xs text-white/50">Projected</span>
                   </div>
                 </div>
               </div>
@@ -773,18 +762,18 @@ export default function InvestmentPlatformPage() {
                     return (
                       <div key={i} className="relative w-8 group">
                         <div
-                          className="absolute bottom-0 w-full bg-gradient-to-t from-amber-500 to-amber-400 rounded-t-lg transition-all duration-300 group-hover:from-amber-600 group-hover:scale-110 group-hover:z-10"
+                          className="absolute bottom-0 w-full bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-lg transition-all duration-300 group-hover:from-emerald-600 group-hover:scale-110 group-hover:z-10"
                           style={{
                             height: `${height}%`,
                             animationDelay: `${i * 50}ms`,
                           }}
                         >
-                          <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-slate-900 text-white text-xs rounded px-2 py-1 whitespace-nowrap transition-all duration-300">
+                          <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-[#0d1f2d] text-white text-xs rounded px-2 py-1 whitespace-nowrap transition-all duration-300 border border-emerald-500/30">
                             ${Math.round(data.value).toLocaleString()}
                           </div>
                         </div>
                         {i % 2 === 0 && (
-                          <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-slate-400">
+                          <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-white/40">
                             {data.month.split(" ")[1]}
                           </div>
                         )}
@@ -794,22 +783,22 @@ export default function InvestmentPlatformPage() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between mt-8 pt-4 border-t border-slate-100">
+              <div className="flex items-center justify-between mt-8 pt-4 border-t border-white/10">
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2 group hover:translate-x-1 transition-transform">
-                    <Calendar className="w-4 h-4 text-slate-400" />
-                    <span className="text-sm text-slate-600">
+                    <Calendar className="w-4 h-4 text-white/40" />
+                    <span className="text-sm text-white/60">
                       Duration: {selectedDuration} months
                     </span>
                   </div>
                   <div className="flex items-center gap-2 group hover:translate-x-1 transition-transform">
-                    <Target className="w-4 h-4 text-slate-400" />
-                    <span className="text-sm text-slate-600">
+                    <Target className="w-4 h-4 text-white/40" />
+                    <span className="text-sm text-white/60">
                       Target: 12% annual
                     </span>
                   </div>
                 </div>
-                <div className="text-xs text-slate-400 animate-pulse-subtle">
+                <div className="text-xs text-white/40 animate-pulse-subtle">
                   *Hypothetical growth
                 </div>
               </div>
@@ -823,15 +812,15 @@ export default function InvestmentPlatformPage() {
         id="why-us"
         className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-gradient-to-bl from-amber-50/30 via-transparent to-emerald-50/30"></div>
+        <div className="absolute inset-0 bg-gradient-to-bl from-emerald-500/5 via-transparent to-blue-500/5"></div>
 
-        <div className="max-w-7xl mx-auto relative">
-          <div className="text-center mb-12 animate-fade-in">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4 relative inline-block">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-12 hh-entry-1">
+            <h2 className="text-3xl font-bold text-white mb-4 relative inline-block">
               Why Choose WealthGuard
-              <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-amber-500 rounded-full animate-width-slow"></span>
+              <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-emerald-500 rounded-full animate-width-slow"></span>
             </h2>
-            <p className="text-xl text-slate-600">
+            <p className="text-xl text-white/70">
               Professional fund management with institutional-grade security
             </p>
           </div>
@@ -867,16 +856,16 @@ export default function InvestmentPlatformPage() {
               return (
                 <div
                   key={i}
-                  className="bg-white rounded-2xl p-6 shadow-xl border border-slate-100 hover:border-amber-200 transition-all duration-500 hover:scale-105 hover:shadow-2xl group"
+                  className="hh-card hover:border-emerald-500/30 transition-all duration-500 hover:scale-105 hover:shadow-2xl group"
                   style={{ animationDelay: `${item.delay}ms` }}
                 >
-                  <div className="w-14 h-14 bg-amber-50 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                    <Icon className="w-7 h-7 text-amber-600" />
+                  <div className="w-14 h-14 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                    <Icon className="w-7 h-7 text-emerald-400" />
                   </div>
-                  <h3 className="font-bold text-slate-900 mb-2 group-hover:text-amber-600 transition-colors">
+                  <h3 className="font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-slate-500">{item.desc}</p>
+                  <p className="text-sm text-white/50">{item.desc}</p>
                 </div>
               );
             })}
@@ -885,19 +874,19 @@ export default function InvestmentPlatformPage() {
       </section>
 
       {/* Risk Assurance */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-transparent to-blue-500/10"></div>
-        <div className="absolute top-0 left-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl animate-pulse-slow"></div>
-        <div className="absolute bottom-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl animate-pulse-slow animation-delay-2000"></div>
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-[#0d1f2d] relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-transparent to-blue-500/10"></div>
+        <div className="absolute top-0 left-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute bottom-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow animation-delay-2000"></div>
 
-        <div className="max-w-7xl mx-auto relative">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h2 className="text-3xl font-bold text-white relative inline-block">
                 Risk-Assured Investment Protection
-                <span className="absolute -bottom-2 left-0 w-20 h-1 bg-amber-500 rounded-full animate-width-slow"></span>
+                <span className="absolute -bottom-2 left-0 w-20 h-1 bg-emerald-500 rounded-full animate-width-slow"></span>
               </h2>
-              <p className="text-lg text-slate-300 leading-relaxed">
+              <p className="text-lg text-white/70 leading-relaxed">
                 Your principal investment is protected through our diversified
                 risk management strategy and institutional-grade safeguards.
               </p>
@@ -912,12 +901,12 @@ export default function InvestmentPlatformPage() {
                     style={{ transitionDelay: `${item.delay}ms` }}
                   >
                     <CheckCircle className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform" />
-                    <span className="text-slate-300">{item.text}</span>
+                    <span className="text-white/70">{item.text}</span>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700 hover:border-amber-500/50 transition-all duration-500 hover:scale-105">
+            <div className="bg-white/5 rounded-2xl p-8 border border-white/10 hover:border-emerald-500/30 transition-all duration-500 hover:scale-105">
               <div className="grid grid-cols-2 gap-4">
                 {[
                   { value: "$2.4B+", label: "Assets Protected", delay: 0 },
@@ -930,10 +919,10 @@ export default function InvestmentPlatformPage() {
                     className="text-center group hover:scale-110 transition-transform"
                     style={{ transitionDelay: `${item.delay}ms` }}
                   >
-                    <div className="text-3xl font-bold text-amber-400 group-hover:text-amber-300 transition-colors">
+                    <div className="text-3xl font-bold text-emerald-400 group-hover:text-emerald-300 transition-colors">
                       {item.value}
                     </div>
-                    <div className="text-sm text-slate-400">{item.label}</div>
+                    <div className="text-sm text-white/50">{item.label}</div>
                   </div>
                 ))}
               </div>
@@ -943,18 +932,18 @@ export default function InvestmentPlatformPage() {
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-amber-50/30 via-transparent to-transparent"></div>
+      <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/5 via-transparent to-transparent"></div>
 
-        <div className="max-w-7xl mx-auto relative">
-          <div className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-8 md:p-12 border border-slate-200 shadow-xl hover:shadow-2xl transition-all duration-500 hover:scale-105">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="hh-card hover:border-emerald-500/30 transition-all duration-500 hover:scale-105 p-8 md:p-12">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div className="space-y-4">
-                <h2 className="text-3xl font-bold text-slate-900 relative inline-block">
+                <h2 className="text-3xl font-bold text-white relative inline-block">
                   Start Your Investment Journey
-                  <span className="absolute -bottom-2 left-0 w-20 h-1 bg-amber-500 rounded-full animate-width-slow"></span>
+                  <span className="absolute -bottom-2 left-0 w-20 h-1 bg-emerald-500 rounded-full animate-width-slow"></span>
                 </h2>
-                <p className="text-lg text-slate-600">
+                <p className="text-lg text-white/70">
                   Schedule a consultation with our wealth advisors to discuss
                   your financial goals.
                 </p>
@@ -981,14 +970,14 @@ export default function InvestmentPlatformPage() {
                         className="flex items-center gap-4 group hover:translate-x-2 transition-all duration-300"
                         style={{ transitionDelay: `${item.delay}ms` }}
                       >
-                        <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                          <Icon className="w-6 h-6 text-amber-600" />
+                        <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                          <Icon className="w-6 h-6 text-emerald-400" />
                         </div>
                         <div>
-                          <div className="text-sm text-slate-500">
+                          <div className="text-sm text-white/50">
                             {item.title}
                           </div>
-                          <div className="font-bold text-slate-900">
+                          <div className="font-bold text-white">
                             {item.value}
                           </div>
                         </div>
@@ -998,31 +987,35 @@ export default function InvestmentPlatformPage() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105">
-                <h3 className="font-bold text-xl text-slate-900 mb-4 flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-amber-500" />
+              <div className="bg-white/5 rounded-2xl p-6 border border-white/10 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105">
+                <h3 className="font-bold text-xl text-white mb-4 flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-emerald-400" />
                   Request Information
                 </h3>
                 <form className="space-y-4">
                   <input
                     type="text"
                     placeholder="Full Name"
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all duration-300"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300"
                   />
                   <input
                     type="email"
                     placeholder="Email Address"
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all duration-300"
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300"
                   />
-                  <select className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all duration-300">
-                    <option>Investment Amount Range</option>
-                    <option>$5,000 - $50,000</option>
-                    <option>$50,000 - $250,000</option>
-                    <option>$250,000 - $1,000,000+</option>
+                  <select className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300">
+                    <option className="bg-[#0d1f2d]">
+                      Investment Amount Range
+                    </option>
+                    <option className="bg-[#0d1f2d]">$5,000 - $50,000</option>
+                    <option className="bg-[#0d1f2d]">$50,000 - $250,000</option>
+                    <option className="bg-[#0d1f2d]">
+                      $250,000 - $1,000,000+
+                    </option>
                   </select>
-                  <button className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl relative overflow-hidden group">
+                  <button className="w-full py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl relative overflow-hidden group">
                     <span className="relative z-10">Schedule Consultation</span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-amber-500 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                   </button>
                 </form>
               </div>
@@ -1032,21 +1025,21 @@ export default function InvestmentPlatformPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 py-12 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-50 to-transparent"></div>
+      <footer className="border-t border-white/10 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/5 to-transparent"></div>
 
-        <div className="max-w-7xl mx-auto relative">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid md:grid-cols-4 gap-8">
             <div className="space-y-4 group">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-to-br from-slate-800 to-slate-900 rounded-lg flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-                  <Building className="w-4 h-4 text-amber-400" />
+                <div className="w-8 h-8 bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-lg flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+                  <Building className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-lg font-bold text-slate-900">
+                <span className="text-lg font-bold text-white">
                   WealthGuard
                 </span>
               </div>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-white/50">
                 SEC-registered investment advisor providing diversified
                 long-term investment solutions.
               </p>
@@ -1067,20 +1060,20 @@ export default function InvestmentPlatformPage() {
               },
             ].map((section, i) => (
               <div key={i} className="group">
-                <h4 className="font-bold text-slate-900 mb-4 group-hover:text-amber-600 transition-colors">
+                <h4 className="font-bold text-white mb-4 group-hover:text-emerald-400 transition-colors">
                   {section.title}
                 </h4>
-                <ul className="space-y-2 text-sm text-slate-500">
+                <ul className="space-y-2 text-sm text-white/50">
                   {section.links.map((link, j) => (
                     <li key={j}>
                       {section.title === "Regulatory" ? (
-                        <span className="hover:text-amber-600 transition-colors cursor-default">
+                        <span className="hover:text-emerald-400 transition-colors cursor-default">
                           {link}
                         </span>
                       ) : (
                         <Link
                           href="#"
-                          className="hover:text-amber-600 transition-colors inline-block hover:translate-x-1 transform duration-300"
+                          className="hover:text-emerald-400 transition-colors inline-block hover:translate-x-1 transform duration-300"
                         >
                           {link}
                         </Link>
@@ -1092,7 +1085,7 @@ export default function InvestmentPlatformPage() {
             ))}
           </div>
 
-          <div className="mt-12 pt-8 border-t border-slate-200 text-center text-sm text-slate-400">
+          <div className="mt-12 pt-8 border-t border-white/10 text-center text-sm text-white/40">
             <p>
               © {new Date().getFullYear()} WealthGuard Capital Management. All
               rights reserved.
@@ -1105,7 +1098,367 @@ export default function InvestmentPlatformPage() {
         </div>
       </footer>
 
-      <style jsx>{`
+      {/* Bottom Navigation - Matching Dashboard */}
+      <div className="hh-bottom-nav">
+        <Link href="/dashboard" className="hh-nav-item">
+          <Home className="h-5 w-5" />
+          <span>Home</span>
+        </Link>
+        <Link href="/about" className="hh-nav-item hh-nav-active">
+          <Gamepad2 className="h-5 w-5" />
+          <span>About</span>
+        </Link>
+        <Link href="/refer" className="hh-nav-item">
+          <User className="h-5 w-5" />
+          <span>Refer</span>
+        </Link>
+      </div>
+
+      <style jsx global>{`
+        /* ─── IMPORT FONT ─── */
+        @import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap");
+
+        /* ─── ROOT & BACKGROUND ─── */
+        .hh-root {
+          font-family: "Syne", sans-serif;
+          background: #050d14;
+          color: white;
+          min-height: 100vh;
+        }
+
+        /* ─── BUBBLES ─── */
+        .hh-bubbles-container {
+          position: fixed;
+          inset: 0;
+          pointer-events: none;
+          z-index: 0;
+          overflow: hidden;
+        }
+
+        .hh-bubble {
+          position: absolute;
+          border-radius: 50%;
+          opacity: 0;
+          animation: hh-bubble-rise linear infinite;
+        }
+
+        .hh-bubble-1 {
+          width: 8px;
+          height: 8px;
+          left: 10%;
+          background: radial-gradient(
+            circle,
+            rgba(16, 185, 129, 0.6),
+            transparent
+          );
+          animation-duration: 8s;
+          animation-delay: 0s;
+        }
+        .hh-bubble-2 {
+          width: 14px;
+          height: 14px;
+          left: 25%;
+          background: radial-gradient(
+            circle,
+            rgba(59, 130, 246, 0.5),
+            transparent
+          );
+          animation-duration: 11s;
+          animation-delay: 1.5s;
+        }
+        .hh-bubble-3 {
+          width: 6px;
+          height: 6px;
+          left: 40%;
+          background: radial-gradient(
+            circle,
+            rgba(16, 185, 129, 0.7),
+            transparent
+          );
+          animation-duration: 9s;
+          animation-delay: 3s;
+        }
+        .hh-bubble-4 {
+          width: 18px;
+          height: 18px;
+          left: 55%;
+          background: radial-gradient(
+            circle,
+            rgba(139, 92, 246, 0.4),
+            transparent
+          );
+          animation-duration: 13s;
+          animation-delay: 0.5s;
+        }
+        .hh-bubble-5 {
+          width: 10px;
+          height: 10px;
+          left: 70%;
+          background: radial-gradient(
+            circle,
+            rgba(16, 185, 129, 0.5),
+            transparent
+          );
+          animation-duration: 10s;
+          animation-delay: 2s;
+        }
+        .hh-bubble-6 {
+          width: 5px;
+          height: 5px;
+          left: 82%;
+          background: radial-gradient(
+            circle,
+            rgba(52, 211, 153, 0.8),
+            transparent
+          );
+          animation-duration: 7s;
+          animation-delay: 4s;
+        }
+        .hh-bubble-7 {
+          width: 12px;
+          height: 12px;
+          left: 15%;
+          background: radial-gradient(
+            circle,
+            rgba(59, 130, 246, 0.4),
+            transparent
+          );
+          animation-duration: 12s;
+          animation-delay: 5s;
+        }
+        .hh-bubble-8 {
+          width: 7px;
+          height: 7px;
+          left: 35%;
+          background: radial-gradient(
+            circle,
+            rgba(16, 185, 129, 0.6),
+            transparent
+          );
+          animation-duration: 9.5s;
+          animation-delay: 2.5s;
+        }
+        .hh-bubble-9 {
+          width: 20px;
+          height: 20px;
+          left: 60%;
+          background: radial-gradient(
+            circle,
+            rgba(16, 185, 129, 0.2),
+            transparent
+          );
+          animation-duration: 15s;
+          animation-delay: 1s;
+        }
+        .hh-bubble-10 {
+          width: 9px;
+          height: 9px;
+          left: 88%;
+          background: radial-gradient(
+            circle,
+            rgba(139, 92, 246, 0.5),
+            transparent
+          );
+          animation-duration: 10.5s;
+          animation-delay: 6s;
+        }
+        .hh-bubble-11 {
+          width: 4px;
+          height: 4px;
+          left: 5%;
+          background: radial-gradient(
+            circle,
+            rgba(52, 211, 153, 0.9),
+            transparent
+          );
+          animation-duration: 6.5s;
+          animation-delay: 3.5s;
+        }
+        .hh-bubble-12 {
+          width: 16px;
+          height: 16px;
+          left: 48%;
+          background: radial-gradient(
+            circle,
+            rgba(59, 130, 246, 0.3),
+            transparent
+          );
+          animation-duration: 14s;
+          animation-delay: 7s;
+        }
+
+        @keyframes hh-bubble-rise {
+          0% {
+            transform: translateY(100vh) scale(0.5);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 0.6;
+          }
+          100% {
+            transform: translateY(-10vh) scale(1.2);
+            opacity: 0;
+          }
+        }
+
+        /* ─── MESH OVERLAY ─── */
+        .hh-mesh-overlay {
+          position: fixed;
+          inset: 0;
+          background:
+            radial-gradient(
+              ellipse 60% 40% at 20% 80%,
+              rgba(16, 185, 129, 0.07) 0%,
+              transparent 60%
+            ),
+            radial-gradient(
+              ellipse 50% 50% at 80% 20%,
+              rgba(59, 130, 246, 0.06) 0%,
+              transparent 60%
+            ),
+            radial-gradient(
+              ellipse 40% 30% at 50% 50%,
+              rgba(139, 92, 246, 0.04) 0%,
+              transparent 60%
+            );
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        /* ─── HEADER ─── */
+        .hh-header {
+          background: linear-gradient(
+            180deg,
+            rgba(5, 13, 20, 0.95) 0%,
+            rgba(5, 13, 20, 0.8) 100%
+          );
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid rgba(16, 185, 129, 0.15);
+        }
+
+        /* ─── CARDS ─── */
+        .hh-card {
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.06) 0%,
+            rgba(255, 255, 255, 0.02) 100%
+          );
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 20px;
+          padding: 20px;
+          backdrop-filter: blur(12px);
+          position: relative;
+          overflow: hidden;
+          transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease;
+        }
+
+        .hh-card:hover {
+          transform: translateY(-2px);
+          box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.4),
+            0 0 30px rgba(16, 185, 129, 0.05);
+        }
+
+        .hh-card::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.15),
+            transparent
+          );
+        }
+
+        /* ─── BOTTOM NAV ─── */
+        .hh-bottom-nav {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          max-width: 448px;
+          margin: 0 auto;
+          background: rgba(5, 13, 20, 0.92);
+          backdrop-filter: blur(20px);
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          height: 64px;
+          z-index: 100;
+          box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .hh-nav-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 3px;
+          color: #4b5563;
+          text-decoration: none;
+          font-size: 11px;
+          font-weight: 600;
+          transition:
+            color 0.2s,
+            transform 0.2s;
+          padding: 8px 16px;
+          border-radius: 12px;
+        }
+
+        .hh-nav-item:hover {
+          color: #10b981;
+          transform: translateY(-2px);
+        }
+
+        .hh-nav-active {
+          color: #10b981 !important;
+        }
+
+        .hh-nav-active svg {
+          filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.6));
+        }
+
+        /* ─── STAGGERED ENTRY ANIMATIONS ─── */
+        .hh-entry-1 {
+          animation: hh-entry 0.5s ease-out 0s both;
+        }
+        .hh-entry-2 {
+          animation: hh-entry 0.5s ease-out 0.1s both;
+        }
+        .hh-entry-3 {
+          animation: hh-entry 0.5s ease-out 0.2s both;
+        }
+        .hh-entry-4 {
+          animation: hh-entry 0.5s ease-out 0.3s both;
+        }
+        .hh-entry-5 {
+          animation: hh-entry 0.5s ease-out 0.4s both;
+        }
+        .hh-entry-6 {
+          animation: hh-entry 0.5s ease-out 0.5s both;
+        }
+
+        @keyframes hh-entry {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        /* ─── ANIMATIONS ─── */
         @keyframes float-particle {
           0% {
             transform: translateY(0) translateX(0);
@@ -1259,10 +1612,19 @@ export default function InvestmentPlatformPage() {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          * {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
+          .hh-bubble,
+          [class*="hh-entry-"],
+          .animate-float-particle,
+          .animate-fade-in-up,
+          .animate-fade-in,
+          .animate-slide-in,
+          .animate-float,
+          .animate-pulse-slow,
+          .animate-pulse-subtle,
+          .animate-width,
+          .animate-width-slow,
+          .animate-bounce-subtle {
+            animation: none !important;
           }
         }
       `}</style>
