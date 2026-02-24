@@ -961,98 +961,7 @@ export default function InvestmentPlatformPage() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/5 via-transparent to-transparent"></div>
-
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="hh-card hover:border-emerald-500/30 transition-all duration-500 hover:scale-105 p-8 md:p-12">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div className="space-y-4">
-                <h2 className="text-3xl font-bold text-white relative inline-block">
-                  Start Your Investment Journey
-                  <span className="absolute -bottom-2 left-0 w-20 h-1 bg-emerald-500 rounded-full animate-width-slow"></span>
-                </h2>
-                <p className="text-lg text-white/70">
-                  Schedule a consultation with our wealth advisors to discuss
-                  your financial goals.
-                </p>
-
-                <div className="space-y-4 pt-4">
-                  {[
-                    {
-                      icon: Phone,
-                      title: "Call Us",
-                      value: "+1 (888) 456-7890",
-                      delay: 0,
-                    },
-                    {
-                      icon: Mail,
-                      title: "Email",
-                      value: "invest@HelpingHands.com",
-                      delay: 150,
-                    },
-                  ].map((item, i) => {
-                    const Icon = item.icon;
-                    return (
-                      <div
-                        key={i}
-                        className="flex items-center gap-4 group hover:translate-x-2 transition-all duration-300"
-                        style={{ transitionDelay: `${item.delay}ms` }}
-                      >
-                        <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                          <Icon className="w-6 h-6 text-emerald-400" />
-                        </div>
-                        <div>
-                          <div className="text-sm text-white/50">
-                            {item.title}
-                          </div>
-                          <div className="font-bold text-white">
-                            {item.value}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="bg-white/5 rounded-2xl p-6 border border-white/10 shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105">
-                <h3 className="font-bold text-xl text-white mb-4 flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-emerald-400" />
-                  Request Information
-                </h3>
-                <form className="space-y-4">
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300"
-                  />
-                  <select className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300">
-                    <option className="bg-[#0d1f2d]">
-                      Investment Amount Range
-                    </option>
-                    <option className="bg-[#0d1f2d]">₦5,000 - ₦50,000</option>
-                    <option className="bg-[#0d1f2d]">₦50,000 - ₦250,000</option>
-                    <option className="bg-[#0d1f2d]">
-                      ₦250,000 - ₦1,000,000+
-                    </option>
-                  </select>
-                  <button className="w-full py-3 bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white rounded-lg font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl relative overflow-hidden group">
-                    <span className="relative z-10">Schedule Consultation</span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Contact section removed per request */}
 
       {/* Footer */}
       <footer className="border-t border-white/10 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -1075,44 +984,7 @@ export default function InvestmentPlatformPage() {
               </p>
             </div>
 
-            {[
-              {
-                title: "Company",
-                links: ["About Us", "Careers", "Newsroom"],
-              },
-              {
-                title: "Legal",
-                links: ["Form ADV", "Privacy Policy", "Terms of Use"],
-              },
-              {
-                title: "Regulatory",
-                links: ["SEC#: 801-123456", "CRD#: 123456", "FINRA#: 789012"],
-              },
-            ].map((section, i) => (
-              <div key={i} className="group">
-                <h4 className="font-bold text-white mb-4 group-hover:text-emerald-400 transition-colors">
-                  {section.title}
-                </h4>
-                <ul className="space-y-2 text-sm text-white/50">
-                  {section.links.map((link, j) => (
-                    <li key={j}>
-                      {section.title === "Regulatory" ? (
-                        <span className="hover:text-emerald-400 transition-colors cursor-default">
-                          {link}
-                        </span>
-                      ) : (
-                        <Link
-                          href="#"
-                          className="hover:text-emerald-400 transition-colors inline-block hover:translate-x-1 transform duration-300"
-                        >
-                          {link}
-                        </Link>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+            {/* Company / Legal / Regulatory links removed per request (FINRA omitted) */}
           </div>
 
           <div className="mt-12 pt-8 border-t border-white/10 text-center text-sm text-white/40">
