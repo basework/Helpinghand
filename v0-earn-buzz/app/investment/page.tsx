@@ -95,7 +95,8 @@ export default function InvestmentPlatformPage() {
       name: "Starter Portfolio",
       risk: "Conservative",
       riskLevel: "Low",
-      minDeposit: "₦14,231",
+      minDeposit: "₦5,000",
+      oneWeekReturn: "₦14,231",
       maxDeposit: "₦50,000",
       duration: "one week",
       projectedReturn: "184.6%",
@@ -584,6 +585,14 @@ export default function InvestmentPlatformPage() {
                         {plan.minDeposit}
                       </span>
                     </div>
+                    {plan.oneWeekReturn && (
+                      <div className="flex justify-between text-sm group hover:translate-x-1 transition-transform">
+                        <span className="text-white/50">Returns (1 week)</span>
+                        <span className="font-bold text-emerald-400">
+                          {plan.oneWeekReturn}
+                        </span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-sm group hover:translate-x-1 transition-transform">
                       <span className="text-white/50">Duration</span>
                       <span className="font-bold text-white">
