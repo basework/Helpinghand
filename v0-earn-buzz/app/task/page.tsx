@@ -37,42 +37,42 @@ const AVAILABLE_TASKS: Task[] = [
     link: "https://spin-to-win-hub-6676aed7-seven.vercel.app/",
     icon: "💬",
   },
-   {
-     id: "effectivegatecpm-ad",
-     platform: "EffectiveGate CPM Ad",
-     description: "Tap our ad link to earn Extra money",
-     category: "Advertisement",
-     reward: 5000,
-      link: "https://otieu.com/4/10575212",
-     icon: "🎯",
-   },
-   {
-     id: "effectivegatecpm-ad-2",
-     platform: "EffectiveGate Offer",
-     description: "Tap our premium ad link for extra rewards",
-     category: "Advertisement",
-     reward: 5000,
-      link: "https://spin-to-win-hub-6676aed7-seven.vercel.app/",
-     icon: "🎁",
-   },
-   {
-     id: "spin-to-win-hub",
-     platform: "Spin-to-Win Hub",
-     description: "Tap our premium ad link for extra rewards",
-     category: "Advertisement",
-     reward: 5000,
-      link: "https://spin-to-win-hub-6676aed7-seven.vercel.app/",
-     icon: "🎡",
-   },
-   {
-     id: "Winners hub",
-     platform: "Winners Hub Promo",
-     description: "Tap our ad link to earn Extra money",
-     category: "Advertisement",
-     reward: 5000,
-     link: "https://spin-to-win-hub-6676aed7-seven.vercel.app/",
-     icon: "💸💲",
-   },
+  {
+    id: "effectivegatecpm-ad",
+    platform: "EffectiveGate CPM Ad",
+    description: "Tap our ad link to earn Extra money",
+    category: "Advertisement",
+    reward: 5000,
+    link: "https://otieu.com/4/10575212",
+    icon: "🎯",
+  },
+  {
+    id: "effectivegatecpm-ad-2",
+    platform: "EffectiveGate Offer",
+    description: "Tap our premium ad link for extra rewards",
+    category: "Advertisement",
+    reward: 5000,
+    link: "https://spin-to-win-hub-6676aed7-seven.vercel.app/",
+    icon: "🎁",
+  },
+  {
+    id: "spin-to-win-hub",
+    platform: "Spin-to-Win Hub",
+    description: "Tap our premium ad link for extra rewards",
+    category: "Advertisement",
+    reward: 5000,
+    link: "https://spin-to-win-hub-6676aed7-seven.vercel.app/",
+    icon: "🎡",
+  },
+  {
+    id: "Winners hub",
+    platform: "Winners Hub Promo",
+    description: "Tap our ad link to earn Extra money",
+    category: "Advertisement",
+    reward: 5000,
+    link: "https://spin-to-win-hub-6676aed7-seven.vercel.app/",
+    icon: "💸💲",
+  },
   {
     id: "Join Nova Cash",
     platform: "Quick Survey Task",
@@ -88,7 +88,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "Tap our premium ad link for extra rewards",
     category: "Social Media",
     reward: 5000,
-    link: "https://t.me/helpinghtask1",
+    link: "https://otieu.com/4/10575212",
     icon: "🤖",
   },
   {
@@ -100,7 +100,7 @@ const AVAILABLE_TASKS: Task[] = [
     link: "https://t.me/helpinghtask2",
     icon: "🎁",
   },
-  
+
   {
     id: "Task 03",
     platform: "COMMUNITY TELEGRAM CHANNEL 3",
@@ -110,7 +110,7 @@ const AVAILABLE_TASKS: Task[] = [
     link: "https://t.me/opaydotmoney",
     icon: "🌐",
   },
-]
+];
 
 export default function TaskPage() {
   const router = useRouter()
