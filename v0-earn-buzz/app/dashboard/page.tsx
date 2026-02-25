@@ -633,9 +633,18 @@ export default function DashboardPage() {
                 <div className="text-white font-black text-lg leading-tight">{displayedName} <span>👋</span></div>
               </div>
             </div>
-            <div className="text-right">
-              <div className="text-xs text-gray-500 mb-1">User ID</div>
-              <div className="hh-user-id">{userData.userId}</div>
+            <div className="text-right flex items-center gap-2">
+              <Link href="https://t.me/helpinghandsupport">
+                <button className="hh-support-btn hh-support-blue">
+                  <Headphones className="h-5 w-5 text-white" />
+                </button>
+              </Link>
+              <Link href="https://t.me/helpinghandsnews">
+                <button className="hh-support-btn hh-support-green relative">
+                  <Bell className="h-5 w-5 text-white" />
+                  <span className="hh-notif-dot"></span>
+                </button>
+              </Link>
             </div>
           </div>
 
