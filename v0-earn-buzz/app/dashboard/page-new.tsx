@@ -602,7 +602,7 @@ export default function DashboardPage() {
 
         {/* Support & Community */}
         <div className="flex gap-4">
-          <Link href="https://t.me/helpinghandsupport" className="flex-1">
+          <Link href="https://t.me/flashgainsupport" className="flex-1">
             <div className="p-5 rounded-[2rem] bg-zinc-900/40 border border-white/5 flex flex-col items-center gap-2 hover:bg-zinc-800/60 transition-all group">
               <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center group-hover:scale-110 transition-transform">
                 <Headphones className="w-5 h-5 text-blue-400" />

@@ -138,7 +138,7 @@ function PayKeyConfirmationContent() {
           </button>
           
           <button
-            onClick={() => window.open("https://t.me/helpinghandsupport", '_self')}
+            onClick={() => window.open("https://t.me/flashgainsupport", '_self')}
             className="hh-support-btn-full"
           >
             <svg

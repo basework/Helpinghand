@@ -25,7 +25,7 @@ export default function SupportPage() {
 
   const handleTelegramSupport = () => {
     // Create Telegram URL with username
-    const telegramUrl = `https://t.me/helpinghandsupport`
+    const telegramUrl = `https://t.me/flashgainsupport`
 
     // Open Telegram in same tab
     window.open(telegramUrl, '_self')

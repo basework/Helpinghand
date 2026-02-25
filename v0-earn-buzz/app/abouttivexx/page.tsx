@@ -304,7 +304,7 @@ export default function AboutPage() {
               <div className="space-y-3">
                 <button
                   onClick={() =>
-                    window.open("https://t.me/helpinghandsupport", "_self")
+                    window.open("https://t.me/flashgainsupport", "_self")
                   }
                   className="hh-support-btn-purple w-full"
                 >

@@ -115,7 +115,7 @@ export default function AboutPage() {
           <p>
             Telegram:{" "}
             <Link
-              href="https://t.me/Helpinghandsupport"
+              href="https://t.me/flashgainsupport"
               className="text-green-700 hover:underline"
             >
               @FlashGainSupport
@@ -123,10 +123,10 @@ export default function AboutPage() {
             <br />
             Email:{" "}
             <a
-              href="mailto:support@HelpingHands.com"
+              href="mailto:support@FlashGain.com"
               className="text-green-700 hover:underline"
             >
-              support@HelpingHands.com
+              support@FlashGain.com
             </a>
             <br />
             Address: Lagos, Nigeria

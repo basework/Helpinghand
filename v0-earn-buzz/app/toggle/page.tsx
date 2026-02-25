@@ -111,7 +111,7 @@ export default function UpgradeTiersPage() {
       <div className="text-center mb-12 animate-slide-up">
         <Button
           onClick={() =>
-            window.open("https://t.me/helpinghandsupport", "_self")
+            window.open("https://t.me/flashgainsupport", "_self")
           }
           className="bg-white text-green-700 font-semibold hover:bg-white/80 rounded-xl px-5 py-2 shadow-md"
         >

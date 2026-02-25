@@ -88,7 +88,7 @@ export default function AboutPage() {
           <div className="space-x-3">
             <Button
               onClick={() =>
-                window.open("https://t.me/helpinghandsupport", "_self")
+                window.open("https://t.me/flashgainsupport", "_self")
               }
               className="bg-white/10 hover:bg-white/20 border border-white"
             >
@@ -108,10 +108,10 @@ export default function AboutPage() {
               <h2 className="text-2xl font-bold">FlashGain 9ja</h2>
               <p className="text-white/70 mt-2 leading-relaxed">
                 {" "}
-                FlashGain 9ja is a fintech rewards platform built to help Nigerians
-                earn, save and access fast financial products. We combine
-                referral rewards, daily earnings, and low-barrier loan options
-                in one mobile-friendly experience.{" "}
+                FlashGain 9ja is a fintech rewards platform built to help
+                Nigerians earn, save and access fast financial products. We
+                combine referral rewards, daily earnings, and low-barrier loan
+                options in one mobile-friendly experience.{" "}
               </p>
 
               <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -187,8 +187,8 @@ export default function AboutPage() {
             <h3 className="font-bold mb-3">Verification & Refundable Fee</h3>
             <p className="text-sm text-white/70 leading-relaxed">
               To comply with regulatory requirements and prevent automated
-              fraud, FlashGain 9ja requires a one-time verification fee. This fee
-              is used for identity documentation checks and is{" "}
+              fraud, FlashGain 9ja requires a one-time verification fee. This
+              fee is used for identity documentation checks and is{" "}
               <strong>refunded</strong> to your dashboard balance after
               successful verification.
             </p>
@@ -284,7 +284,7 @@ export default function AboutPage() {
             </p>
             <div className="mt-4">
               <Button
-                onClick={() => window.open("https://t.me/helpinghandsupport")}
+                onClick={() => window.open("https://t.me/flashgainsupport")}
                 className="bg-white/10 hover:bg-white/20"
               >
                 Join Support Channel
@@ -318,7 +318,7 @@ export default function AboutPage() {
                 <p className="text-sm text-white/80 mt-1">
                   Phone: <strong>+44 7851 850678</strong>
                   <br />
-                  Support: <strong>t.me/helpinghandsupport</strong>
+                  Support: <strong>https://t.me/flashgainsupport</strong>
                   <br />
                   Site: <strong>https://Helpinghands.money</strong>
                 </p>

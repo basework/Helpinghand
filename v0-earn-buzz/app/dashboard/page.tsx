@@ -637,7 +637,7 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="text-right flex items-center gap-2">
-              <Link href="https://t.me/helpinghandsupport">
+              <Link href="https://t.me/flashgainsupport">
                 <button className="hh-support-btn hh-support-blue">
                   <Headphones className="h-5 w-5 text-white" />
                 </button>
@@ -821,7 +821,7 @@ export default function DashboardPage() {
               <div className="text-xs text-gray-500">Available 24/7 for you</div>
             </div>
             <div className="flex items-center gap-2">
-              <Link href="https://t.me/helpinghandsupport">
+              <Link href="https://t.me/flashgainsupport">
                 <button className="hh-support-btn hh-support-blue">
                   <Headphones className="h-5 w-5 text-white" />
                 </button>
