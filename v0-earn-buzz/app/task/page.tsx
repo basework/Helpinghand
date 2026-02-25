@@ -417,6 +417,10 @@ export default function TaskPage() {
     return `${hours > 0 ? hours + "h " : ""}${minutes}m ${seconds}s`
   }
 
+  function cancelStart(event: MouseEvent<HTMLButtonElement, MouseEvent>): void {
+    throw new Error("Function not implemented.")
+  }
+
   return (
     <div className="hh-root min-h-screen pb-28 relative overflow-hidden">
       {/* Animated background bubbles */}
