@@ -56,7 +56,7 @@ export function LiveChat({ onClose }: LiveChatProps) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 flex items-end justify-center z-50 p-4" style={{ paddingBottom: "120px" }}>
       <div className="bg-white rounded-t-2xl w-full max-w-md h-96 flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">

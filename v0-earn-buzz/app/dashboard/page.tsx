@@ -1480,7 +1480,7 @@ export default function DashboardPage() {
         /* ─── LIVE CHAT MODAL ─── */
         .hh-live-chat-modal {
           position: fixed;
-          bottom: 150px;
+          bottom: 300px;
           left: 20px;
           z-index: 50;
           animation: hh-chat-slide-up 0.3s ease;
