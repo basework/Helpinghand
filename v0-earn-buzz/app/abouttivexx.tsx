@@ -300,7 +300,7 @@ export default function AboutPage() {
             </p>
             <div className="mt-4">
               <Button
-                onClick={() => window.open("https://t.me/helpinghandsnews")}
+                onClick={() => window.open("https://t.me/flashgain9janews")}
                 className="bg-emerald-300 text-black"
               >
                 Join Community

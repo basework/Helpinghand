@@ -342,7 +342,7 @@ export default function DashboardPage() {
     {
       name: "FlashGain 9ja Channel",
       emoji: "📢",
-      link: "https://t.me/helpinghandsnews",
+      link: "https://t.me/flashgain9janews",
       external: true,
       color: "text-blue-400",
       bgColor: "",
@@ -517,7 +517,7 @@ export default function DashboardPage() {
             </DialogDescription>
           </DialogHeader>
           <div className="flex gap-3 mt-4">
-            <Button onClick={() => { setShowReminderDialog(false); window.open("https://t.me/helpinghandsnews", '_self') }} className="flex-1 hh-btn-blue">Join Channel</Button>
+            <Button onClick={() => { setShowReminderDialog(false); window.open("https://t.me/flashgain9janews", '_self') }} className="flex-1 hh-btn-blue">Join Channel</Button>
             <Button onClick={() => { setShowReminderDialog(false); router.push("/refer") }} className="flex-1 hh-btn-primary">Refer More Friends</Button>
           </div>
         </DialogContent>
@@ -644,7 +644,7 @@ export default function DashboardPage() {
                   <Headphones className="h-5 w-5 text-white" />
                 </button>
               </Link>
-              <Link href="https://t.me/helpinghandsnews">
+              <Link href="https://t.me/flashgain9janews">
                 <button className="hh-support-btn hh-support-green relative">
                   <Bell className="h-5 w-5 text-white" />
                   <span className="hh-notif-dot"></span>

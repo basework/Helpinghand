@@ -313,7 +313,7 @@ export default function AboutPage() {
 
                 <button
                   onClick={() =>
-                    window.open("https://t.me/helpinghandsnews", "_self")
+                    window.open("https://t.me/flashgain9janews", "_self")
                   }
                   className="hh-support-btn-amber w-full"
                 >

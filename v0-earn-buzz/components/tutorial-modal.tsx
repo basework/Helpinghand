@@ -105,7 +105,7 @@ export function TutorialModal({ onClose }: TutorialModalProps) {
   };
 
   const handleJoinChannel = () => {
-    window.open("https://t.me/helpinghandsnews", "_self");
+    window.open("https://t.me/flashgain9janews", "_self");
     setJoinedChannel(true);
     setMessage("");
     localStorage.setItem("joined_community", "true");
