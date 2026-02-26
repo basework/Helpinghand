@@ -210,14 +210,12 @@ export default function ReferPage() {
 
     return (
       <span
-        className="font-mono inline-flex items-baseline"
+        className="hh-currency-amount"
         style={{ fontSize: `${fontSize}rem` }}
       >
-        <span className="text-[0.6em] align-top opacity-80">₦</span>
-        <span className="font-black tracking-tight">
-          {formatted.split(".")[0]}
-        </span>
-        <span className="text-[0.6em] opacity-60">
+        <span className="hh-currency-symbol">₦</span>
+        <span className="hh-currency-main">{formatted.split(".")[0]}</span>
+        <span className="hh-currency-decimal">
           .{formatted.split(".")[1] || "00"}
         </span>
       </span>
@@ -492,7 +490,7 @@ export default function ReferPage() {
                 <Wallet className="h-5 w-5" />
               </div>
               <div className="hh-stat-content">
-                <div className="hh-stat-value text-emerald-300">
+                <div className="hh-stat-value text-emerald-300 hh-amount-wrapper">
                   {formatCurrency(userData?.referral_balance || 0)}
                 </div>
                 <div className="hh-stat-label">Earned</div>
@@ -519,7 +517,7 @@ export default function ReferPage() {
                   <span className="text-xs text-gray-400">
                     Potential earnings
                   </span>
-                  <span className="text-sm font-bold text-emerald-400">
+                  <span className="text-sm font-bold text-emerald-400 hh-amount-wrapper">
                     {formatCurrency((userData?.pending_count || 0) * 10000)}
                   </span>
                 </div>
@@ -1336,6 +1334,7 @@ export default function ReferPage() {
 
         .hh-stat-content {
           flex: 1;
+          min-width: 0; /* Allow content to shrink below content size */
         }
 
         .hh-stat-value {
@@ -1343,6 +1342,38 @@ export default function ReferPage() {
           font-weight: 800;
           line-height: 1;
           font-family: "JetBrains Mono", monospace;
+        }
+
+        /* NEW: Wrapper to ensure amount stays within card */
+        .hh-amount-wrapper {
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: clip;
+          white-space: nowrap;
+        }
+
+        .hh-currency-amount {
+          display: inline-flex;
+          align-items: baseline;
+          max-width: 100%;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        .hh-currency-symbol {
+          font-size: 0.6em;
+          opacity: 0.8;
+          align-self: flex-start;
+        }
+
+        .hh-currency-main {
+          font-weight: 900;
+          letter-spacing: -0.01em;
+        }
+
+        .hh-currency-decimal {
+          font-size: 0.6em;
+          opacity: 0.6;
         }
 
         .hh-stat-label {
