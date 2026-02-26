@@ -25,6 +25,8 @@ export function LiveChat({ onClose }: LiveChatProps) {
     {
       id: 1,
       text: "Hello good day\n\nWhat do you need help on⁉️\n\nPick 1 number below:\n1. About FlashGain\n2. How To Earn\n3. Withdrawals\n4. Refferal/link\n5. Verification.",
+      isImage: true,
+      imageUrl: "/chatbot-img/image0.png",
       sender: "agent",
       timestamp: new Date(),
     },

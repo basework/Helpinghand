@@ -18,17 +18,17 @@ const REPLIES = {
   },
   "2": {
     text: "If you have created an account on helpinghands you can use the claim button on the site dashboard to claim 1000 every 1 minutes👇👇👇\nhttps://flashgain9ja.money/dashboard",
-    image: "/chatbot-img/image3.png",
+    image: "/chatbot-img/image2.png",
     has_image: true,
   },
   "3": {
     text: "If you have gotten up to 5 referrals and you have a minimum of 200k on your balance you can withdraw by clicking the withdraw button on the dashboard and following the instructions carefully \nhttps://flashgain9ja.money/withdraw",
-    image: "/chatbot-img/image4.png",
+    image: "/chatbot-img/image3.png",
     has_image: true,
   },
   "4": {
     text: "Click on the refer and earn button on the site and follow the instructions carefully",
-    image: ["/chatbot-img/image5.png", "/chatbot-img/image05.png"],
+    images: ["/chatbot-img/image4.png", "/chatbot-img/image04.png"],
     has_image: true,
     has_multiple_images: true,
   },
@@ -83,48 +83,43 @@ function processMessage(userInput: string, sessionId: string) {
 
   // Check for common variations
   if (['about', 'flashgain', 'company', 'what is'].some(word => cleanInput.includes(word))) {
-    return {
-      reply: REPLIES['1'].text,
-      hasImage: true,
-      imageUrl: REPLIES['1'].image,
-      followUpMenu: null
-    };
+    const entry: any = REPLIES['1'];
+    if (entry.images && Array.isArray(entry.images)) {
+      return { reply: entry.text, hasImage: true, imageUrls: entry.images, followUpMenu: null };
+    }
+    return { reply: entry.text, hasImage: Boolean(entry.has_image), imageUrl: entry.image, followUpMenu: null };
   }
 
   if (['earn', 'money', 'how to', 'income'].some(word => cleanInput.includes(word))) {
-    return {
-      reply: REPLIES['2'].text,
-      hasImage: true,
-      imageUrl: REPLIES['2'].image,
-      followUpMenu: null
-    };
+    const entry: any = REPLIES['2'];
+    if (entry.images && Array.isArray(entry.images)) {
+      return { reply: entry.text, hasImage: true, imageUrls: entry.images, followUpMenu: null };
+    }
+    return { reply: entry.text, hasImage: Boolean(entry.has_image), imageUrl: entry.image, followUpMenu: null };
   }
 
   if (['withdraw', 'withdrawal', 'cash out', 'money out'].some(word => cleanInput.includes(word))) {
-    return {
-      reply: REPLIES['3'].text,
-      hasImage: true,
-      imageUrl: REPLIES['3'].image,
-      followUpMenu: null
-    };
+    const entry: any = REPLIES['3'];
+    if (entry.images && Array.isArray(entry.images)) {
+      return { reply: entry.text, hasImage: true, imageUrls: entry.images, followUpMenu: null };
+    }
+    return { reply: entry.text, hasImage: Boolean(entry.has_image), imageUrl: entry.image, followUpMenu: null };
   }
 
   if (['refer', 'referral', 'link', 'invite', 'friend'].some(word => cleanInput.includes(word))) {
-    return {
-      reply: REPLIES['4'].text,
-      hasImage: true,
-      imageUrl: REPLIES['4'].image,
-      followUpMenu: null
-    };
+    const entry: any = REPLIES['4'];
+    if (entry.images && Array.isArray(entry.images)) {
+      return { reply: entry.text, hasImage: true, imageUrls: entry.images, followUpMenu: null };
+    }
+    return { reply: entry.text, hasImage: Boolean(entry.has_image), imageUrl: entry.image, followUpMenu: null };
   }
 
   if (['verify', 'verification', 'kyc', 'identity', 'cbn'].some(word => cleanInput.includes(word))) {
-    return {
-      reply: REPLIES['5'].text,
-      hasImage: true,
-      imageUrls: REPLIES['5'].images,
-      followUpMenu: null
-    };
+    const entry: any = REPLIES['5'];
+    if (entry.images && Array.isArray(entry.images)) {
+      return { reply: entry.text, hasImage: true, imageUrls: entry.images, followUpMenu: null };
+    }
+    return { reply: entry.text, hasImage: Boolean(entry.has_image), imageUrl: entry.image, followUpMenu: null };
   }
 
   // If input is "menu" or "help", show main menu
