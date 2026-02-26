@@ -1,7 +1,8 @@
 {
-  "buildCommand": "cd v0-earn-buzz && pnpm install && pnpm run build",
-  "outputDirectory": "v0-earn-buzz/.next",
   "framework": "nextjs",
+  "projectSettings": {
+    "rootDirectory": "v0-earn-buzz"
+  },
   "headers": [
     {
       "source": "/api/:path*",
