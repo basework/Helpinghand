@@ -88,7 +88,7 @@ export default function AboutPage() {
           <div className="space-x-3">
             <Button
               onClick={() =>
-                window.open("https://t.me/flashgainsupport", "_self")
+                window.location.href = "/dashboard#chat"
               }
               className="bg-white/10 hover:bg-white/20 border border-white"
             >
@@ -284,7 +284,7 @@ export default function AboutPage() {
             </p>
             <div className="mt-4">
               <Button
-                onClick={() => window.open("https://t.me/flashgainsupport")}
+                onClick={() => window.location.href = "/dashboard#chat"}
                 className="bg-white/10 hover:bg-white/20"
               >
                 Join Support Channel
@@ -318,7 +318,7 @@ export default function AboutPage() {
                 <p className="text-sm text-white/80 mt-1">
                   Phone: <strong>+44 7851 850678</strong>
                   <br />
-                  Support: <strong>https://t.me/flashgainsupport</strong>
+                  Support: <strong><a href="/dashboard#chat">Live Chat</a></strong>
                   <br />
                   Site: <strong>https://Helpinghands.money</strong>
                 </p>

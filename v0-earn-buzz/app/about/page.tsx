@@ -115,10 +115,10 @@ export default function AboutPage() {
           <p>
             Telegram:{" "}
             <Link
-              href="https://t.me/flashgainsupport"
+              href="/dashboard#chat"
               className="text-green-700 hover:underline"
             >
-              @FlashGainSupport
+              Chat with us
             </Link>
             <br />
             Email:{" "}

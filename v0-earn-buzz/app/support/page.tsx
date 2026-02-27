@@ -24,11 +24,8 @@ export default function SupportPage() {
   }, [router])
 
   const handleTelegramSupport = () => {
-    // Create Telegram URL with username
-    const telegramUrl = `https://t.me/flashgainsupport`
-
-    // Open Telegram in same tab
-    window.open(telegramUrl, '_self')
+    // open live chat modal via dashboard hash
+    window.location.href = "/dashboard#chat"
   }
 
   const handleTelegramChannel = () => {
@@ -59,9 +56,9 @@ export default function SupportPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Send className="h-5 w-5 text-orange-600" />
-              Telegram Support
+              Live Chat Support
             </CardTitle>
-            <CardDescription>Chat with our support team on Telegram for quick assistance</CardDescription>
+            <CardDescription>Chat with our support bot for quick assistance</CardDescription>
           </CardHeader>
           <CardContent>
             <Button
@@ -69,7 +66,7 @@ export default function SupportPage() {
               className="w-full bg-blue-600 hover:bg-blue-700 flex items-center gap-2"
             >
               <Send className="h-5 w-5" />
-              Support
+              Live Chat
             </Button>
             <p className="text-sm text-gray-500 mt-2">Contact @Earnbuzzsupport on Telegram for support and assistance.</p>
           </CardContent>
