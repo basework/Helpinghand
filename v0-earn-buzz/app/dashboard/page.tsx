@@ -60,10 +60,23 @@ export default function DashboardPage() {
   const [showBrowserCheck, setShowBrowserCheck] = useState(false)
   const [copiedLink, setCopiedLink] = useState(false)
   const [showLiveChat, setShowLiveChat] = useState(false)
-  // open chat if URL hash is #chat
+  // open chat if URL hash is #chat (on mount or when hash changes)
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.location.hash === '#chat') {
-      setShowLiveChat(true)
+    const checkHash = () => {
+      if (window.location.hash === '#chat') {
+        setShowLiveChat(true)
+      }
+    }
+
+    if (typeof window !== 'undefined') {
+      checkHash()
+      window.addEventListener('hashchange', checkHash)
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('hashchange', checkHash)
+      }
     }
   }, [])
 
@@ -645,11 +658,12 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="text-right flex items-center gap-2">
-              <Link href="/dashboard#chat">
-                <button className="hh-support-btn hh-support-blue">
-                  <Headphones className="h-5 w-5 text-white" />
-                </button>
-              </Link>
+              <button
+                onClick={() => setShowLiveChat(true)}
+                className="hh-support-btn hh-support-blue"
+              >
+                <Headphones className="h-5 w-5 text-white" />
+              </button>
               <Link href="https://t.me/flashgain9janews">
                 <button className="hh-support-btn hh-support-green relative">
                   <Bell className="h-5 w-5 text-white" />
