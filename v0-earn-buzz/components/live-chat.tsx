@@ -18,6 +18,8 @@ interface Message {
   isImage?: boolean
   imageUrl?: string
   imageUrls?: string[]
+  link?: string
+  linkLabel?: string
 }
 
 export function LiveChat({ onClose }: LiveChatProps) {
@@ -94,6 +96,8 @@ export function LiveChat({ onClose }: LiveChatProps) {
         isImage: data.hasImage || false,
         imageUrl: data.imageUrl || undefined,
         imageUrls: data.imageUrls || undefined,
+        link: data.link || undefined,
+        linkLabel: data.linkLabel || undefined,
       }
       setMessages(prev => [...prev, botMessage])
 
@@ -217,6 +221,15 @@ export function LiveChat({ onClose }: LiveChatProps) {
                     </div>
                   )}
                   <div className="whitespace-pre-line">{message.text}</div>
+                  {message.link && (
+                    <div className="mt-2">
+                      <a href={message.link} target="_blank" rel="noopener noreferrer">
+                        <Button variant="outline" size="sm">
+                          {message.linkLabel || 'Open link'}
+                        </Button>
+                      </a>
+                    </div>
+                  )}
                   <div className={`text-xs mt-1 ${message.sender === "user" ? "text-orange-100" : "text-gray-400"}`}>
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
