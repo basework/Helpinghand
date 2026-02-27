@@ -224,7 +224,7 @@ export function LiveChat({ onClose }: LiveChatProps) {
                   {message.link && (
                     <div className="mt-2">
                       <a href={message.link} target="_blank" rel="noopener noreferrer">
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline" size="sm" className="bg-teal-400 hover:bg-teal-500 text-white">
                           {message.linkLabel || 'Open link'}
                         </Button>
                       </a>
