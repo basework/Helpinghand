@@ -52,7 +52,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "Tap our premium ad link for extra rewards",
     category: "Advertisement",
     reward: 5000,
-    link: "https://spin-to-win-hub-self.vercel.app/",
+    link: "https://omg10.com/4/10676426",
     icon: "🎁",
   },
   {
@@ -70,7 +70,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "Tap our ad link to earn Extra money",
     category: "Advertisement",
     reward: 5000,
-    link: "https://spin-to-win-hub-self.vercel.app/",
+    link: "https://omg10.com/4/10676426",
     icon: "💸💲",
   },
   {
@@ -107,7 +107,7 @@ const AVAILABLE_TASKS: Task[] = [
     description: "Tap our premium ad link for extra rewards",
     category: "Social Media",
     reward: 5000,
-    link: "https://creditbuzz.online",
+    link: "https://omg10.com/4/10676426",
     icon: "🌐",
   },
 ];
