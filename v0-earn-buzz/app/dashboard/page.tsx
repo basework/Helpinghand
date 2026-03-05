@@ -4,7 +4,7 @@ import type React from "react"
 import { useEffect, useState, useCallback } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { CreditCard, Gamepad2, History, Home, Bell, User, Gift, Clock, Headphones, Shield, TrendingUp, Users, MessageCircle, Chrome, Firefox, Safari } from "lucide-react"
+import { CreditCard, Gamepad2, History, Home, Bell, User, Gift, Clock, Headphones, Shield, TrendingUp, Users, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DashboardImageCarousel } from "@/components/dashboard-image-carousel"
 import { WithdrawalNotification } from "@/components/withdrawal-notification"
@@ -549,26 +549,8 @@ export default function DashboardPage() {
             <p className="text-sm text-gray-300 mb-4 text-center">
               ⚠️ Use a Supported Browser
             </p>
-            <div className="flex justify-center gap-4 mb-6 flex-wrap">
-              <div className="flex flex-col items-center gap-1">
-                <Chrome className="h-8 w-8 text-blue-400" />
-                <span className="text-xs text-gray-300">Chrome</span>
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <Firefox className="h-8 w-8 text-orange-400" />
-                <span className="text-xs text-gray-300">Firefox</span>
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <Safari className="h-8 w-8 text-blue-300" />
-                <span className="text-xs text-gray-300">Safari</span>
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <span className="h-8 w-8 flex items-center justify-center text-red-400 font-bold text-lg">O</span>
-                <span className="text-xs text-gray-300">Opera</span>
-              </div>
-            </div>
             <p className="text-xs text-gray-400 mb-6 text-center leading-relaxed">
-              If you are not using one of the supported browsers, copy your link below and login with your credentials so you don't lose access to your account.
+              Supported browsers: Chrome, Firefox, Safari, Opera. If you're not using one, copy your link below and log in with your credentials so you don't lose access to your account.
             </p>
 
             {/* Secure Link Display */}
