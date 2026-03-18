@@ -85,7 +85,7 @@ export function PWAInstallPrompt() {
   if (showAndroidPrompt && deferredPrompt) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-        <Card className="w-full max-w-sm shadow-2xl">
+        <Card className="w-full max-w-sm shadow-2xl bg-yellow-50 border-yellow-300 border-2">
           <div className="p-6 space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -135,7 +135,7 @@ export function PWAInstallPrompt() {
   if (showIOSPrompt) {
     return (
       <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
-        <Card className="w-full shadow-2xl border-yellow-400 border-2">
+        <Card className="w-full shadow-2xl border-yellow-400 border-2 bg-amber-50">
           <div className="p-5 space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">

@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { NotificationPermissionPopup } from "@/components/notification-permission-popup"
 import { useNotification } from "@/hooks/useNotification"
@@ -20,6 +20,7 @@ function resolveUserId(): string {
 
 export function NotificationHelperTools() {
   const [open, setOpen] = useState(false)
+  const [showFloatingButtons, setShowFloatingButtons] = useState(true)
 
   const config = useMemo(
     () => ({
@@ -65,8 +66,20 @@ export function NotificationHelperTools() {
 
   const hideHelpers = isHelperThrottled("tools_visible")
 
+  useEffect(() => {
+    if (hideHelpers) return
+
+    const timer = window.setTimeout(() => {
+      setShowFloatingButtons(false)
+      recordHelperUsage("tools_visible")
+    }, 25_000)
+
+    return () => window.clearTimeout(timer)
+  }, [hideHelpers, recordHelperUsage])
+
   const onEnable = async () => {
     await requestPermission()
+    setOpen(true)
     recordHelperUsage("tools_visible")
   }
 
@@ -93,19 +106,21 @@ export function NotificationHelperTools() {
 
   return (
     <>
-      <div className="fixed bottom-4 right-4 z-40 flex flex-col gap-2">
-        <Button 
-          size="sm" 
-          onClick={onEnable} 
-          disabled={isLoading}
-          className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold shadow-lg rounded-lg transition-colors"
-        >
-          Enable Notifications
-        </Button>
-        <Button size="sm" variant="outline" onClick={onCheck} disabled={isLoading}>
-          Check Notification Status
-        </Button>
-      </div>
+      {!hideHelpers && showFloatingButtons && (
+        <div className="fixed bottom-4 right-4 z-40 flex flex-col gap-2">
+          <Button 
+            size="sm" 
+            onClick={onEnable} 
+            disabled={isLoading}
+            className="bg-yellow-400 hover:bg-yellow-500 text-black font-semibold shadow-lg rounded-lg transition-colors"
+          >
+            Enable Notifications
+          </Button>
+          <Button size="sm" variant="outline" onClick={onCheck} disabled={isLoading}>
+            Check Notification Status
+          </Button>
+        </div>
+      )}
       <NotificationPermissionPopup
         isOpen={open}
         permission={permission}
