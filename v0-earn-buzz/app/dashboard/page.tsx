@@ -327,7 +327,7 @@ export default function DashboardPage() {
     return () => clearInterval(timer)
   }, [isCounting, notifyClaimReady])
 
-  const handleClaim = () => {
+  const handleClaim = async () => {
     if (pauseEndTime && pauseEndTime > Date.now()) {
       setShowPauseDialog(true)
       return
