@@ -24,7 +24,7 @@ export default function Loading() {
           </div>
         </div>
         <h1 className="hh-loading-title">FlashGain 9ja</h1>
-        <p className="hh-loading-text">Loading your experience...</p>
+        <p className="hh-loading-text">Loading your experience....</p>
       </div>
 
       <style jsx>{`
