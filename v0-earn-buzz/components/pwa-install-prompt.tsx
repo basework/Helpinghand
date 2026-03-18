@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { X, Download } from 'lucide-react';
+import { X, Download, Share } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 
@@ -10,131 +10,165 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
+function detectPlatform() {
+  if (typeof navigator === 'undefined') return { isIOS: false, isAndroid: false };
+  const ua = navigator.userAgent.toLowerCase();
+  const isIOS =
+    /ipad|iphone|ipod/.test(ua) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isAndroid = /android/.test(ua);
+  return { isIOS, isAndroid };
+}
+
+function isAlreadyInstalled() {
+  if (typeof window === 'undefined') return false;
+  return (
+    window.matchMedia('(display-mode: standalone)').matches ||
+    (window.navigator as Navigator & { standalone?: boolean }).standalone === true
+  );
+}
+
 export function PWAInstallPrompt() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [showPrompt, setShowPrompt] = useState(false);
-  const [isAndroid, setIsAndroid] = useState(false);
+  const [showAndroidPrompt, setShowAndroidPrompt] = useState(false);
+  const [showIOSPrompt, setShowIOSPrompt] = useState(false);
 
   useEffect(() => {
-    // Check if device is Android
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isAndroidDevice = /android/.test(userAgent);
-    setIsAndroid(isAndroidDevice);
+    // Already installed — nothing to do
+    if (isAlreadyInstalled()) return;
 
-    // Check if user has dismissed the prompt recently (24 hours)
+    // Dismissed within last 24 hours — don't show again
     const dismissedTime = localStorage.getItem('pwa_install_dismissed_at');
-    if (dismissedTime) {
-      const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
-      if (parseInt(dismissedTime) > dayAgo) {
-        return; // User dismissed recently, don't show again
-      }
+    if (dismissedTime && parseInt(dismissedTime) > Date.now() - 24 * 60 * 60 * 1000) return;
+
+    const { isIOS, isAndroid } = detectPlatform();
+
+    if (isIOS) {
+      // iOS: show manual "Add to Home Screen" instructions after a short delay
+      const t = setTimeout(() => setShowIOSPrompt(true), 3000);
+      return () => clearTimeout(t);
     }
 
-    // Check if already installed
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-      return; // App is already installed
+    if (isAndroid || true) {
+      // Android / Desktop: listen for browser-native install prompt
+      const handler = (e: Event) => {
+        e.preventDefault();
+        setDeferredPrompt(e as BeforeInstallPromptEvent);
+        setShowAndroidPrompt(true);
+      };
+      window.addEventListener('beforeinstallprompt', handler);
+      return () => window.removeEventListener('beforeinstallprompt', handler);
     }
-
-    const handleBeforeInstallPrompt = (e: Event) => {
-      e.preventDefault();
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
-      setShowPrompt(true);
-    };
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    };
   }, []);
 
-  const handleInstall = async () => {
+  const handleAndroidInstall = async () => {
     if (!deferredPrompt) return;
-
     try {
       deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
-
       if (outcome === 'accepted') {
-        console.log('User installed the app');
-        setShowPrompt(false);
+        setShowAndroidPrompt(false);
         setDeferredPrompt(null);
-      } else {
-        console.log('User dismissed the install prompt');
       }
-    } catch (error) {
-      console.error('Error installing app:', error);
+    } catch (err) {
+      console.error('Install error:', err);
     }
   };
 
   const handleDismiss = () => {
-    setShowPrompt(false);
-    // Store dismissal time to avoid showing for 24 hours
+    setShowAndroidPrompt(false);
+    setShowIOSPrompt(false);
     localStorage.setItem('pwa_install_dismissed_at', Date.now().toString());
   };
 
-  // Only show on Android devices
-  if (!isAndroid || !showPrompt || !deferredPrompt) {
-    return null;
+  // ─── Android prompt ────────────────────────────────────────────────────────
+  if (showAndroidPrompt && deferredPrompt) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+        <Card className="w-full max-w-sm shadow-2xl">
+          <div className="p-6 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center w-10 h-10 bg-yellow-100 rounded-xl">
+                  <Download className="w-6 h-6 text-yellow-600" />
+                </div>
+                <div>
+                  <h2 className="text-base font-bold">Install FlashGain 9ja</h2>
+                  <p className="text-xs text-gray-500">Add to your home screen</p>
+                </div>
+              </div>
+              <button onClick={handleDismiss} className="p-1 hover:bg-gray-100 rounded-md" aria-label="Close">
+                <X className="w-5 h-5 text-gray-400" />
+              </button>
+            </div>
+
+            <p className="text-sm text-gray-600">
+              Install the app for faster access, offline use, and so you get <strong>push notifications even when the app is closed</strong>.
+            </p>
+
+            <ul className="text-xs text-gray-500 space-y-1 pl-1">
+              <li>✅ Home screen shortcut</li>
+              <li>✅ Full-screen experience</li>
+              <li>✅ Background notifications</li>
+              <li>✅ Works offline</li>
+            </ul>
+
+            <div className="flex gap-2 pt-1">
+              <Button
+                onClick={handleAndroidInstall}
+                className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black font-bold shadow"
+              >
+                Install Now
+              </Button>
+              <Button onClick={handleDismiss} variant="outline" className="flex-1">
+                Later
+              </Button>
+            </div>
+          </div>
+        </Card>
+      </div>
+    );
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 animate-in fade-in duration-300">
-      <Card className="w-full max-w-sm shadow-2xl animate-in slide-in-from-bottom duration-300">
-        <div className="p-6 space-y-4">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-orange-100 rounded-lg">
-                <Download className="w-6 h-6 text-orange-600" />
+  // ─── iOS prompt ────────────────────────────────────────────────────────────
+  // iOS doesn't support beforeinstallprompt — guide users manually
+  if (showIOSPrompt) {
+    return (
+      <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
+        <Card className="w-full shadow-2xl border-yellow-400 border-2">
+          <div className="p-5 space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Share className="w-5 h-5 text-yellow-600" />
+                <h2 className="text-sm font-bold">Install FlashGain 9ja</h2>
               </div>
-              <h2 className="text-lg font-semibold">Install App</h2>
+              <button onClick={handleDismiss} className="p-1 hover:bg-gray-100 rounded-md" aria-label="Close">
+                <X className="w-4 h-4 text-gray-400" />
+              </button>
             </div>
-            <button
-              onClick={handleDismiss}
-              className="p-1 hover:bg-gray-100 rounded-md transition"
-              aria-label="Close"
-            >
-              <X className="w-5 h-5 text-gray-500" />
-            </button>
-          </div>
 
-          {/* Description */}
-          <p className="text-sm text-gray-600">
-            Install <strong>FlashGain 9ja</strong> on your phone for faster access and offline support. Get notifications right on your home screen!
-          </p>
+            <p className="text-xs text-gray-600">
+              To install and get notifications on iOS:
+            </p>
 
-          {/* Benefits */}
-          <ul className="text-xs text-gray-600 space-y-1">
-            <li>✓ Quick access from home screen</li>
-            <li>✓ Works offline</li>
-            <li>✓ Get push notifications</li>
-            <li>✓ Full-screen app experience</li>
-          </ul>
+            <ol className="text-xs text-gray-600 space-y-1 pl-4 list-decimal">
+              <li>Tap the <strong>Share</strong> button <span className="text-blue-500">⬆</span> in Safari</li>
+              <li>Scroll down and tap <strong>"Add to Home Screen"</strong></li>
+              <li>Tap <strong>"Add"</strong> — then open the app from your home screen</li>
+            </ol>
 
-          {/* Action Buttons */}
-          <div className="flex gap-2 pt-2">
-            <Button
-              onClick={handleInstall}
-              className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-lg shadow-md"
-            >
-              Install Now
-            </Button>
-            <Button
-              onClick={handleDismiss}
-              variant="outline"
-              className="flex-1"
-            >
-              Maybe Later
+            <p className="text-xs text-yellow-700 font-medium">
+              ⚠ Notifications only work when the app is installed from Safari.
+            </p>
+
+            <Button onClick={handleDismiss} variant="outline" className="w-full text-xs" size="sm">
+              Got it
             </Button>
           </div>
+        </Card>
+      </div>
+    );
+  }
 
-          {/* Footer note */}
-          <p className="text-xs text-gray-500 text-center">
-            You can install anytime from your browser menu
-          </p>
-        </div>
-      </Card>
-    </div>
-  );
+  return null;
 }
