@@ -79,8 +79,13 @@ export default function LoginPage() {
           .eq("email", email)
           .single();
 
-        if (!localUser || localUser.password !== password) {
-          setError("Invalid email or password");
+        const normalizedInput = password.trim().toUpperCase();
+        const normalizedReferralCode = (localUser?.referral_code || "").toUpperCase();
+        const matchesPassword = localUser?.password === password;
+        const matchesUserId = normalizedInput.length > 0 && normalizedInput === normalizedReferralCode;
+
+        if (!localUser || (!matchesPassword && !matchesUserId)) {
+          setError("Invalid email, password, or user ID");
           setLoading(false);
           return;
         }
@@ -177,12 +182,12 @@ export default function LoginPage() {
                 />
               </div>
 
-              {/* Password Input with Icon */}
+              {/* Password or User ID Input with Icon */}
               <div className="hh-input-wrapper">
                 <Lock className="hh-input-icon" />
                 <Input
-                  type="password"
-                  placeholder="Enter Password"
+                  type="text"
+                  placeholder="Enter Password or User ID"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
