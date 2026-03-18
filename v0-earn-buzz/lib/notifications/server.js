@@ -212,10 +212,14 @@ export async function sendNotificationToUser(payload) {
     }
 
     if (deadTokenIds.length) {
-      await supabaseRest(`notification_fcm_tokens?id=in.(${buildDeleteInFilter(deadTokenIds)})`, {
-        method: "DELETE",
-      })
-      stats.cleaned += deadTokenIds.length
+      try {
+        await supabaseRest(`notification_fcm_tokens?id=in.(${buildDeleteInFilter(deadTokenIds)})`, {
+          method: "DELETE",
+        })
+        stats.cleaned += deadTokenIds.length
+      } catch (error) {
+        console.error("[notifications] Failed to delete dead FCM tokens:", error)
+      }
     }
   }
 
@@ -247,10 +251,14 @@ export async function sendNotificationToUser(payload) {
     }
 
     if (deadEndpointIds.length) {
-      await supabaseRest(`notification_webpush_subscriptions?id=in.(${buildDeleteInFilter(deadEndpointIds)})`, {
-        method: "DELETE",
-      })
-      stats.cleaned += deadEndpointIds.length
+      try {
+        await supabaseRest(`notification_webpush_subscriptions?id=in.(${buildDeleteInFilter(deadEndpointIds)})`, {
+          method: "DELETE",
+        })
+        stats.cleaned += deadEndpointIds.length
+      } catch (error) {
+        console.error("[notifications] Failed to delete dead webpush endpoints:", error)
+      }
     }
   }
 
