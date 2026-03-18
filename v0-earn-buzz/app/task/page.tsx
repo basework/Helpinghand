@@ -215,7 +215,8 @@ export default function TaskPage() {
       }
     )
     return detach
-  }, [completedTasks, verifyingTasks, toast])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [completedTasks, toast])
 
   // Start progress animation for a specific task
   const startProgressAnimation = (taskId: string) => {

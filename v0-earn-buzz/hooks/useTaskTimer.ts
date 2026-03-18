@@ -19,7 +19,16 @@ export function useTaskTimer() {
     onTaskIncomplete: (taskId: string, elapsed: number) => void,
     isTaskCompleted: (taskId: string) => boolean
   ) => {
-    const handleFocus = () => {
+    // Track whether the page was actually hidden/blurred.
+    // Initialise from current state so re-attachments while the page
+    // is already in the background still work correctly.
+    let pageWasHidden = document.hidden || !document.hasFocus()
+
+    const processTimers = () => {
+      // Only process when the user is genuinely RETURNING to the page
+      if (!pageWasHidden) return
+      pageWasHidden = false
+
       try {
         const timers = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || "{}")
         if (!timers || Object.keys(timers).length === 0) return
@@ -58,26 +67,35 @@ export function useTaskTimer() {
           sessionStorage.removeItem(STORAGE_KEY)
         }
       } catch (e) {
-        console.error("Error processing task timers on focus:", e)
+        console.error("Error processing task timers on return:", e)
       }
     }
 
-    window.addEventListener("focus", handleFocus)
-
-    // Run immediately once to handle cases where the page is loaded/refocused
-    // and the native focus event may have already occurred before the listener
-    // was attached (e.g., returning via back navigation). Use a short timeout
-    // to allow the environment to stabilize.
-    setTimeout(() => {
-      try {
-        handleFocus()
-      } catch (e) {
-        console.error("Error running initial task timer check:", e)
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        pageWasHidden = true
+      } else {
+        processTimers()
       }
-    }, 100)
+    }
+
+    const handleFocus = () => {
+      // Fallback: some browsers fire focus but not visibilitychange
+      processTimers()
+    }
+
+    const handleBlur = () => {
+      pageWasHidden = true
+    }
+
+    document.addEventListener("visibilitychange", handleVisibilityChange)
+    window.addEventListener("focus", handleFocus)
+    window.addEventListener("blur", handleBlur)
 
     return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
       window.removeEventListener("focus", handleFocus)
+      window.removeEventListener("blur", handleBlur)
     }
   }
 
