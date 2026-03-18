@@ -22,6 +22,19 @@ const DEFAULT_BADGE = "/icons/icon-192x192.png"
 const DEFAULT_CLICK_URL = "/"
 const DEFAULT_TITLE = "Helping Hands Notification"
 
+function buildAbsoluteClickUrl(clickUrl) {
+  if (!clickUrl) {
+    return process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://helpinghands.money/"
+  }
+
+  if (/^https?:\/\//i.test(clickUrl)) {
+    return clickUrl
+  }
+
+  const base = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXT_PUBLIC_SITE_URL || "https://helpinghands.money"
+  return `${base.replace(/\/$/, "")}/${String(clickUrl).replace(/^\//, "")}`
+}
+
 function getSupabaseRestConfig() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -143,6 +156,7 @@ export async function sendNotificationToUser(payload) {
   const icon = payload.icon || DEFAULT_ICON
   const badge = payload.badge || DEFAULT_BADGE
   const clickUrl = payload.clickUrl || DEFAULT_CLICK_URL
+  const absoluteClickUrl = buildAbsoluteClickUrl(clickUrl)
 
   const stats = {
     fcmAttempted: 0,
@@ -195,9 +209,21 @@ export async function sendNotificationToUser(payload) {
         await messaging.send({
           token: row.token,
           notification: { title, body },
+          data: {
+            title,
+            body,
+            icon,
+            badge,
+            clickUrl: absoluteClickUrl,
+            tag: "claim-timer-ready",
+          },
           webpush: {
-            notification: { title, body, icon },
-            fcmOptions: { link: clickUrl },
+            headers: {
+              Urgency: "high",
+              TTL: "300",
+            },
+            notification: { title, body, icon, badge, requireInteraction: false },
+            fcmOptions: { link: absoluteClickUrl },
           },
           android: { priority: "high" },
         })
@@ -238,7 +264,7 @@ export async function sendNotificationToUser(payload) {
               auth: row.auth_key,
             },
           },
-          JSON.stringify({ title, body, icon, badge, clickUrl }),
+          JSON.stringify({ title, body, icon, badge, clickUrl: absoluteClickUrl }),
         )
         stats.webpushSent += 1
       } catch (error) {

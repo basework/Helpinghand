@@ -10,6 +10,49 @@ const urlsToCache = [
   "/icons/icon-512x512.png",
 ]
 
+// Load Firebase Messaging inside the same SW so FCM background delivery and
+// generic Web Push share one stable "/" scope.
+try {
+  importScripts("https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js")
+  importScripts("https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js")
+
+  if (typeof firebase !== "undefined" && firebase.apps && !firebase.apps.length) {
+    firebase.initializeApp({
+      apiKey: "AIzaSyAXHBpjh7TfRHoOdxduMaxbACLmKhc10Ts",
+      authDomain: "basework-76679.firebaseapp.com",
+      projectId: "basework-76679",
+      storageBucket: "basework-76679.firebasestorage.app",
+      messagingSenderId: "776150811852",
+      appId: "1:776150811852:web:f0c69a11487993e5cd6e69",
+    })
+  }
+
+  if (typeof firebase !== "undefined" && firebase.messaging) {
+    const messaging = firebase.messaging()
+    messaging.onBackgroundMessage((payload) => {
+      const title = payload.notification?.title || payload.data?.title || "FlashGain 9ja"
+      const body = payload.notification?.body || payload.data?.body || "You have a new alert"
+      const clickUrl = payload.data?.clickUrl || payload.fcmOptions?.link || "/dashboard"
+
+      self.registration.showNotification(title, {
+        body,
+        icon: "/icons/icon-192x192.png",
+        badge: "/icons/icon-192x192.png",
+        vibrate: [200, 100, 200],
+        tag: payload.data?.tag || "flashgain-fcm",
+        renotify: true,
+        data: { url: clickUrl, messageId: payload.messageId },
+        actions: [
+          { action: "open", title: "Open App" },
+          { action: "close", title: "Dismiss" },
+        ],
+      })
+    })
+  }
+} catch (error) {
+  console.warn("[sw] Firebase messaging unavailable in service worker", error)
+}
+
 // Install event
 self.addEventListener("install", (event) => {
   self.skipWaiting()

@@ -43,16 +43,10 @@ export async function registerServiceWorker(): Promise<ServiceWorkerRegistration
 }
 
 async function getFirebaseMessagingSW(): Promise<ServiceWorkerRegistration | null> {
-  if (!("serviceWorker" in navigator)) return null
-  try {
-    // FCM requires its own SW file at /firebase-messaging-sw.js
-    const reg = await navigator.serviceWorker.register("/firebase-messaging-sw.js", { scope: "/" })
-    await reg.update()
-    return reg
-  } catch (error) {
-    console.error("[notification-service] Firebase SW registration failed:", error)
-    return null
-  }
+  // Important: do NOT register a second worker on the same "/" scope.
+  // Use the main /sw.js registration for FCM as well, otherwise the workers
+  // replace each other and background delivery becomes unreliable.
+  return registerServiceWorker()
 }
 
 // ─── Permission ──────────────────────────────────────────────────────────────
