@@ -200,23 +200,14 @@ export default function TaskPage() {
           delete progressIntervals.current[taskId]
         }
         
-        // Show specific prompt based on time spent
+        // Show clear message that they didn't interact long enough
         const timeSpent = Math.round(elapsed)
-        if (timeSpent < 10) {
-          toast({
-            title: "Not Enough Time Spent ⏱️",
-            description: `You only spent ${timeSpent} seconds on the site. Please spend at least 10 seconds interacting with the external site to complete this task. Try again!`,
-            variant: "destructive",
-            duration: 5000,
-          })
-        } else {
-          toast({
-            title: "Incomplete Task ⚠️",
-            description: "The task was not completed successfully. Please try again!",
-            variant: "destructive",
-            duration: 5000,
-          })
-        }
+        toast({
+          title: "You didn't interact with the task ❌",
+          description: `You only spent ${timeSpent}s outside. Please tap the task again and stay on the page for at least 10 seconds before coming back.`,
+          variant: "destructive",
+          duration: 6000,
+        })
       },
       // isTaskCompleted checker
       (taskId: string) => {

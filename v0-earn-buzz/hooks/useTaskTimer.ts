@@ -37,12 +37,13 @@ export function useTaskTimer() {
           }
 
           if (elapsed >= 10000) {
-            // Task qualifies for completion
-            onTaskSuccess(taskId, elapsed)
+            // Task qualifies for completion (10+ seconds outside)
+            onTaskSuccess(taskId, elapsed / 1000)
             tasksToDelete.push(taskId)
           } else {
-            // Task incomplete — show warning, keep timestamp for retry
-            onTaskIncomplete(taskId, elapsed)
+            // Task incomplete — show warning, delete timer so user must re-tap
+            onTaskIncomplete(taskId, elapsed / 1000)
+            tasksToDelete.push(taskId)
           }
         })
 
