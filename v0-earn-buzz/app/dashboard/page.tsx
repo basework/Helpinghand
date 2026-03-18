@@ -105,6 +105,50 @@ export default function DashboardPage() {
 
     localStorage.setItem("tivexx-claim-ready-notified", "1")
   }, [toast, userData])
+
+  const notifyClaimSuccess = useCallback(
+    async (amount: number, newBalance: number) => {
+      if (typeof window === "undefined") return
+
+      const message = `You successfully claimed ₦${amount.toLocaleString()}. New balance: ₦${newBalance.toLocaleString()}.`
+
+      toast({
+        title: "Claim Successful!",
+        description: message,
+      })
+
+      if ("Notification" in window && Notification.permission === "default") {
+        await requestNotificationPermission()
+      }
+
+      showLocalNotification("Claim Successful!", {
+        body: message,
+        data: { url: "/dashboard" },
+      })
+
+      const storedUserRaw = localStorage.getItem("tivexx-user")
+      const storedUser = storedUserRaw ? JSON.parse(storedUserRaw) : null
+      const targetUserId = userData?.id || userData?.userId || storedUser?.id || storedUser?.userId
+
+      if (targetUserId) {
+        try {
+          await fetch("/api/notifications/send", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              uid: targetUserId,
+              title: "Claim Successful!",
+              body: message,
+              clickUrl: "/dashboard",
+            }),
+          })
+        } catch (error) {
+          console.error("Failed to send claim-success push:", error)
+        }
+      }
+    },
+    [toast, userData],
+  )
   // open chat if URL hash is #chat (on mount or when hash changes)
   useEffect(() => {
     const checkHash = () => {
@@ -295,6 +339,7 @@ export default function DashboardPage() {
 
       setShowClaimSuccess(true)
       setTimeout(() => setShowClaimSuccess(false), 3000)
+      void notifyClaimSuccess(1000, newBalance)
 
       if (newClaimCount >= 50) {
         const fiveHoursLater = Date.now() + 5 * 60 * 60 * 1000
