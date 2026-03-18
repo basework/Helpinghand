@@ -13,7 +13,7 @@ import { TutorialModal } from "@/components/tutorial-modal"
 import { ScrollingText } from "@/components/scrolling-text"
 import { LiveChat } from "@/components/live-chat"
 import { useToast } from "@/hooks/use-toast"
-import { registerForFCM, showLocalNotification } from "@/services/notification-service"
+import { registerForFCM, requestNotificationPermission, showLocalNotification } from "@/services/notification-service"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
 interface UserData {
@@ -69,12 +69,23 @@ export default function DashboardPage() {
     const alreadyNotified = localStorage.getItem("tivexx-claim-ready-notified") === "1"
     if (alreadyNotified) return
 
+    toast({
+      title: "Claim Ready!",
+      description: "Your timer is 00:00. Claim your ₦1,000 now.",
+    })
+
+    if ("Notification" in window && Notification.permission === "default") {
+      await requestNotificationPermission()
+    }
+
     showLocalNotification("Claim Ready!", {
       body: "Your timer is 00:00. Claim your ₦1,000 now.",
       data: { url: "/dashboard" },
     })
 
-    const targetUserId = userData?.id || userData?.userId
+    const storedUserRaw = localStorage.getItem("tivexx-user")
+    const storedUser = storedUserRaw ? JSON.parse(storedUserRaw) : null
+    const targetUserId = userData?.id || userData?.userId || storedUser?.id || storedUser?.userId
     if (targetUserId) {
       try {
         await fetch("/api/notifications/send", {
@@ -93,7 +104,7 @@ export default function DashboardPage() {
     }
 
     localStorage.setItem("tivexx-claim-ready-notified", "1")
-  }, [userData])
+  }, [toast, userData])
   // open chat if URL hash is #chat (on mount or when hash changes)
   useEffect(() => {
     const checkHash = () => {
