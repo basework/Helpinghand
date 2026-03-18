@@ -68,7 +68,6 @@ export default function RootLayout({
           </PageShell>
           <NotificationHelperTools />
         </ThemeProvider>
-        <script src="https://pl28642303.effectivegatecpm.com/45/a8/f9/45a8f9e6b9c71890da4d65396ab53e17.js"></script>
       </body>
     </html>
   )

@@ -33,6 +33,10 @@ function getSupabaseRestConfig() {
   return { url, serviceRoleKey }
 }
 
+function hasSupabaseRestConfig() {
+  return Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
+}
+
 async function supabaseRest(path, init) {
   const { url, serviceRoleKey } = getSupabaseRestConfig()
 
@@ -73,21 +77,29 @@ export async function saveNotificationSubscription(payload) {
     throw new Error("Missing uid")
   }
 
+  if (!hasSupabaseRestConfig()) {
+    return { type: payload.type, message: "Notification storage skipped (Supabase env not configured)" }
+  }
+
   if (payload.type === "fcm") {
     if (!payload.token) {
       throw new Error("Missing FCM token")
     }
 
-    await supabaseRest("notification_fcm_tokens?on_conflict=token", {
-      method: "POST",
-      headers: {
-        Prefer: "resolution=merge-duplicates,return=minimal",
-      },
-      body: JSON.stringify({
-        user_id: payload.uid,
-        token: payload.token,
-      }),
-    })
+    try {
+      await supabaseRest("notification_fcm_tokens?on_conflict=token", {
+        method: "POST",
+        headers: {
+          Prefer: "resolution=merge-duplicates,return=minimal",
+        },
+        body: JSON.stringify({
+          user_id: payload.uid,
+          token: payload.token,
+        }),
+      })
+    } catch (error) {
+      return { type: "fcm", message: `FCM token received but not stored: ${error instanceof Error ? error.message : "unknown error"}` }
+    }
 
     return { type: "fcm", message: "FCM token saved" }
   }
@@ -100,19 +112,23 @@ export async function saveNotificationSubscription(payload) {
     throw new Error("Missing webpush endpoint or keys")
   }
 
-  await supabaseRest("notification_webpush_subscriptions?on_conflict=endpoint", {
-    method: "POST",
-    headers: {
-      Prefer: "resolution=merge-duplicates,return=minimal",
-    },
-    body: JSON.stringify({
-      user_id: payload.uid,
-      endpoint,
-      p256dh_key: p256dh,
-      auth_key: auth,
-      expiration_time: payload.subscription?.expirationTime || null,
-    }),
-  })
+  try {
+    await supabaseRest("notification_webpush_subscriptions?on_conflict=endpoint", {
+      method: "POST",
+      headers: {
+        Prefer: "resolution=merge-duplicates,return=minimal",
+      },
+      body: JSON.stringify({
+        user_id: payload.uid,
+        endpoint,
+        p256dh_key: p256dh,
+        auth_key: auth,
+        expiration_time: payload.subscription?.expirationTime || null,
+      }),
+    })
+  } catch (error) {
+    return { type: "webpush", message: `Web Push subscription received but not stored: ${error instanceof Error ? error.message : "unknown error"}` }
+  }
 
   return { type: "webpush", message: "Web Push subscription saved" }
 }
@@ -136,17 +152,38 @@ export async function sendNotificationToUser(payload) {
     webpushSent: 0,
     webpushFailed: 0,
     cleaned: 0,
+    skipped: false,
+    reason: "",
   }
 
-  const fcmRows = await supabaseRest(
-    `notification_fcm_tokens?select=id,token&user_id=eq.${encodeURIComponent(payload.uid)}`,
-    { method: "GET", headers: { Prefer: "return=representation" } },
-  )
+  if (!hasSupabaseRestConfig()) {
+    stats.skipped = true
+    stats.reason = "Supabase env not configured"
+    return stats
+  }
 
-  const webpushRows = await supabaseRest(
-    `notification_webpush_subscriptions?select=id,endpoint,p256dh_key,auth_key&user_id=eq.${encodeURIComponent(payload.uid)}`,
-    { method: "GET", headers: { Prefer: "return=representation" } },
-  )
+  let fcmRows = []
+  let webpushRows = []
+
+  try {
+    fcmRows =
+      (await supabaseRest(
+        `notification_fcm_tokens?select=id,token&user_id=eq.${encodeURIComponent(payload.uid)}`,
+        { method: "GET", headers: { Prefer: "return=representation" } },
+      )) || []
+  } catch (error) {
+    stats.reason = `FCM token lookup failed: ${error instanceof Error ? error.message : "unknown error"}`
+  }
+
+  try {
+    webpushRows =
+      (await supabaseRest(
+        `notification_webpush_subscriptions?select=id,endpoint,p256dh_key,auth_key&user_id=eq.${encodeURIComponent(payload.uid)}`,
+        { method: "GET", headers: { Prefer: "return=representation" } },
+      )) || []
+  } catch (error) {
+    stats.reason = stats.reason || `Web Push lookup failed: ${error instanceof Error ? error.message : "unknown error"}`
+  }
 
   if (fcmRows?.length) {
     const messaging = getFirebaseMessaging()

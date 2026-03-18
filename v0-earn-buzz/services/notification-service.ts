@@ -23,7 +23,7 @@ export function showLocalNotification(title: string, options?: NotificationOptio
   if ("Notification" in window && Notification.permission === "granted") {
     new Notification(title, {
       icon: "/icons/icon-192x192.png",
-      badge: "/icons/icon-72x72.png",
+      badge: "/icons/icon-192x192.png",
       ...options,
     })
   }
