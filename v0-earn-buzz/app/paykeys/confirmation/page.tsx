@@ -219,18 +219,16 @@ function PayKeyConfirmationContent() {
 
           <button
             onClick={() => {
-              // Build transaction summary message — no User ID
+              // Build transaction summary message
               const msg = [
                 `📋 Payment Support Request`,
-                `━━━━━━━━━━━━━━━━━━━━`,
                 ``,
                 `👤 Name: ${fullName}`,
                 `💰 Amount: ₦${Number(amount).toLocaleString() || amount}`,
                 `🏦 Method: ${method}`,
-                `📧 Email: ${userEmail || "N/A"}`,
+                `🆔 User ID: ${userId || "N/A"}`,
                 `❌ Status: Failed / Not Confirmed`,
                 ``,
-                `━━━━━━━━━━━━━━━━━━━━`,
                 `I have made this payment but it was not verified. Please check and credit my account. Thank you.`,
               ].join("\n");
 
