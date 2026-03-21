@@ -10,8 +10,6 @@ import {
   User,
   Shield,
   AlertTriangle,
-  Copy,
-  Check,
   Mail,
   KeyRound,
 } from "lucide-react";
@@ -21,7 +19,6 @@ function PayKeyConfirmationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [showResult, setShowResult] = useState(false);
-  const [copied, setCopied] = useState(false);
 
   // Read transaction details from search params
   const fullName = searchParams.get("fullName") || "N/A";
@@ -222,7 +219,7 @@ function PayKeyConfirmationContent() {
 
           <button
             onClick={() => {
-              // Build pre-filled support message with transaction summary
+              // Build transaction summary message — no User ID
               const msg = [
                 `📋 Payment Support Request`,
                 `━━━━━━━━━━━━━━━━━━━━`,
@@ -231,23 +228,15 @@ function PayKeyConfirmationContent() {
                 `💰 Amount: ₦${Number(amount).toLocaleString() || amount}`,
                 `🏦 Method: ${method}`,
                 `📧 Email: ${userEmail || "N/A"}`,
-                `🆔 User ID: ${userId || "N/A"}`,
                 `❌ Status: Failed / Not Confirmed`,
                 ``,
                 `━━━━━━━━━━━━━━━━━━━━`,
                 `I have made this payment but it was not verified. Please check and credit my account. Thank you.`,
               ].join("\n");
-              
-              navigator.clipboard.writeText(msg).then(() => {
-                setCopied(true);
-              }).catch(() => {
-                setCopied(true);
-              });
-              
-              // Open Telegram DM after clipboard write
-              setTimeout(() => {
-                window.open("https://t.me/m/Xj2VqXYBYjE0", "_self");
-              }, 400);
+
+              // Open Telegram DM with pre-filled message — user just taps Send
+              const encoded = encodeURIComponent(msg);
+              window.open(`https://t.me/flashgainsupport?text=${encoded}`, "_self");
             }}
             className="hh-support-btn-full"
           >
@@ -258,15 +247,8 @@ function PayKeyConfirmationContent() {
             >
               <path d="M12 0a12 12 0 100 24A12 12 0 0012 0zm5.303 7.224c.1-.002.32.023.464.14.05.035.084.076.117.12a.502.502 0 01.17.325c.016.093.036.305.02.471-.18 1.897-.962 6.502-1.36 8.627-.168.9-.5 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.183 3.247-2.977 3.307-3.23.007-.031.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014z" />
             </svg>
-            {copied ? "Details Copied — Opening Telegram..." : "Forward Details to Support"}
+            Forward Details to Support
           </button>
-
-          {copied && (
-            <div className="hh-copied-notice">
-              <Check className="h-4 w-4 text-emerald-400" />
-              <span className="text-xs text-emerald-300">Your payment details have been copied. Just tap and hold → Paste in the Telegram chat to send.</span>
-            </div>
-          )}
         </div>
 
         {/* Help Card */}
