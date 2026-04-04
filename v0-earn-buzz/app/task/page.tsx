@@ -238,7 +238,7 @@ export default function TaskPage() {
         if (!prev[taskId]) return prev
         
         const elapsed = (Date.now() - prev[taskId].startTime) / 1000
-        const newProgress = Math.min((elapsed / 20) * 100, 100)
+        const newProgress = Math.min((elapsed / 10) * 100, 100)
         
         // Clear interval if progress reaches 100%
         if (newProgress >= 100) {
@@ -391,8 +391,8 @@ export default function TaskPage() {
       console.error("Failed to start task timer:", e)
     }
 
-    // Open link in a new tab
-    window.open(task.link, '_blank')
+    // Open link in same tab so visibilitychange/blur fires reliably on return
+    window.open(task.link, '_self')
   }
 
   const formatTime = (ms: number) => {
