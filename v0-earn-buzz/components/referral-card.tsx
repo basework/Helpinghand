@@ -31,7 +31,9 @@ export function ReferralCard({ userId }: ReferralCardProps) {
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch(`/api/user/${userId}`)
+      const response = await fetch(`/api/user/${userId}?t=${Date.now()}`, {
+        cache: "no-store",
+      })
       const data = await response.json()
       if (data.success) {
         setUserData(data.user)
