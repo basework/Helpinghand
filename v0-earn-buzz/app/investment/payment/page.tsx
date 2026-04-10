@@ -15,7 +15,7 @@ function InvestmentPaymentContent() {
   const referenceId = searchParams.get("ref") || "500404";
   const bankName = "Sparkle";
   const accountNumber = "1003072574";
-  const accountName = "Uchenna Solomn";
+  const accountName = "Uchenna Solomon";
 
   const [copiedField, setCopiedField] = React.useState<string | null>(null);
   const [showOpayWarning, setShowOpayWarning] = React.useState<boolean>(true);
