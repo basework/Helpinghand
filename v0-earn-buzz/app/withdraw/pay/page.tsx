@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState, Suspense } from "react"
 import { X, ArrowLeft, Copy, Check } from "lucide-react"
+import { getPaymentAccountDetails } from "@/lib/payment-account-details"
 
 function PayKeyPaymentContent() {
   const router = useRouter()
@@ -12,9 +13,11 @@ function PayKeyPaymentContent() {
 
   const fullName = searchParams.get("fullName") || ""
   const amount = searchParams.get("amount") || "5000"
-  const bankName = searchParams.get("bankName") || "Sparkle"
-  const accountNumber = searchParams.get("accountNumber") || "1003072574"
-  const accountName = searchParams.get("accountName") || "Uchenna Solomon";
+  const selectedBankName = searchParams.get("bankName") || undefined
+  const accountDetails = getPaymentAccountDetails({ selectedBankName })
+  const bankName = accountDetails.bankName
+  const accountNumber = accountDetails.accountNumber
+  const accountName = accountDetails.accountName
 
   const [copiedField, setCopiedField] = useState<string | null>(null)
   const [showPopup, setShowPopup] = useState(true)

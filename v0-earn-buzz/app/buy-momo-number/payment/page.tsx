@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Copy, Check, Lightbulb, Hash, Landmark, User2, X } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { OpayWarningPopup } from "@/components/opay-warning-popup" // Import OpayWarningPopup
+import { getPaymentAccountDetails } from "@/lib/payment-account-details"
 
 export default function PaymentPage() {
   const router = useRouter()
@@ -47,11 +48,10 @@ export default function PaymentPage() {
     return <div className="p-6 text-center">Loading...</div>
   }
 
+  const accountDetails = getPaymentAccountDetails({ useCase: "momo" })
   const bankDetails = {
-    accountName: "Liberty/Ebuka Sabastine", // Updated name
-    accountNumber: "1035267483", // Updated account number
-    bankName: "VFD MFB", // Updated bank name
-    amount: 7100, // Hardcoded MOMO Number price
+    ...accountDetails,
+    amount: 7100,
   }
 
   const handleCopy = (text: string, setter: React.Dispatch<React.SetStateAction<boolean>>) => {

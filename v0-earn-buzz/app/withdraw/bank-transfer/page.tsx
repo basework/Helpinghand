@@ -7,6 +7,7 @@ import { useState, Suspense, useEffect, useRef } from "react"
 import { ArrowLeft, Copy, Check, Home, Gamepad2, User, Sparkles, Shield, Landmark, Hash, User2 } from "lucide-react"
 import { OpayWarningPopup } from "@/components/opay-warning-popup"
 import Link from "next/link"
+import { getPaymentAccountDetails } from "@/lib/payment-account-details"
 
 function PayKeyPaymentContent() {
   const router = useRouter()
@@ -17,9 +18,10 @@ function PayKeyPaymentContent() {
   // Reference ID: dynamic from ?ref= or fallback
   const referenceId = searchParams.get("ref") || "500404"
   
-  const bankName = "Sparkle"
-  const accountNumber = "1003072574"
-  const accountName = "Uchenna Solomon"
+  const accountDetails = getPaymentAccountDetails()
+  const bankName = accountDetails.bankName
+  const accountNumber = accountDetails.accountNumber
+  const accountName = accountDetails.accountName
 
   const [copiedField, setCopiedField] = useState<string | null>(null)
   const [showOpayWarning, setShowOpayWarning] = useState<boolean>(true)
@@ -88,7 +90,7 @@ function PayKeyPaymentContent() {
         <div className="max-w-md mx-auto px-6 pt-8 pb-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <button onClick={() => router.back()} className="hh-back-btn">
+              <button onClick={() => router.back()} className="hh-back-btn" title="Go back" aria-label="Go back">
                 <ArrowLeft className="h-5 w-5" />
               </button>
               <div>

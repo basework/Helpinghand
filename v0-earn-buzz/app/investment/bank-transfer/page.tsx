@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Copy, Check, Lightbulb, Hash, Landmark, User2, X } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { getPaymentAccountDetails } from "@/lib/payment-account-details"
 
 const USD_TO_NGN_EXCHANGE_RATE = 1500 // Example exchange rate
 
@@ -24,10 +25,9 @@ export default function BankTransferPage() {
   const [copiedNumber, setCopiedNumber] = useState(false)
   const [isConfirming, setIsConfirming] = useState(false)
 
+  const accountDetails = getPaymentAccountDetails()
   const bankDetails = {
-    accountName: "Uchenna Solomon", // Updated name
-    accountNumber: "1003072574", // Updated account number
-    bankName: "Sparkle Bank", // Updated bank name
+    ...accountDetails,
     amount: planAmountNaira,
   }
 

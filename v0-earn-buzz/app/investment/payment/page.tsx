@@ -3,8 +3,9 @@
 import React, { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Copy, Check, Home, Gamepad2, User, Sparkles, Shield, Landmark, Hash, User2, Bank, CreditCard } from "lucide-react";
+import { ArrowLeft, Copy, Check, Home, Gamepad2, User, Sparkles, Shield, Landmark, Hash, User2 } from "lucide-react";
 import { OpayWarningPopup } from "@/components/opay-warning-popup";
+import { getPaymentAccountDetails } from "@/lib/payment-account-details";
 
 function InvestmentPaymentContent() {
   const searchParams = useSearchParams();
@@ -13,9 +14,10 @@ function InvestmentPaymentContent() {
   const planParam = searchParams.get("plan") || "";
   const fullName = searchParams.get("fullName") || "";
   const referenceId = searchParams.get("ref") || "500404";
-  const bankName = "Sparkle";
-  const accountNumber = "1003072574";
-  const accountName = "Uchenna Solomon";
+  const accountDetails = getPaymentAccountDetails();
+  const bankName = accountDetails.bankName;
+  const accountNumber = accountDetails.accountNumber;
+  const accountName = accountDetails.accountName;
 
   const [copiedField, setCopiedField] = React.useState<string | null>(null);
   const [showOpayWarning, setShowOpayWarning] = React.useState<boolean>(true);
@@ -79,7 +81,7 @@ function InvestmentPaymentContent() {
       <div className="max-w-md mx-auto px-6 pt-8 pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button onClick={() => router.back()} className="hh-back-btn">
+            <button onClick={() => router.back()} className="hh-back-btn" title="Go back" aria-label="Go back">
               <ArrowLeft className="h-5 w-5" />
             </button>
             <div>

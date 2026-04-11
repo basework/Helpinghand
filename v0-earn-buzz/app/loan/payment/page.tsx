@@ -8,6 +8,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Copy, Check, Lightbulb, Hash, Landmark, User2, X, ArrowLeft, Home, Gamepad2, User, Sparkles, Shield } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { getPaymentAccountDetails } from "@/lib/payment-account-details"
 
 export default function LoanPaymentPage() {
   const router = useRouter()
@@ -54,10 +55,9 @@ export default function LoanPaymentPage() {
     )
   }
 
+  const accountDetails = getPaymentAccountDetails({ useCase: "loan" })
   const bankDetails = {
-    accountName: "Liberty/Ebuka Sabastine",
-    accountNumber: "1035267483",
-    bankName: "VFD Microfinance bank",
+    ...accountDetails,
     amount: loanData.loanFee,
   }
 
@@ -106,7 +106,7 @@ export default function LoanPaymentPage() {
         <div className="max-w-md mx-auto px-6 pt-8 pb-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <button onClick={() => router.back()} className="hh-back-btn">
+              <button onClick={() => router.back()} className="hh-back-btn" title="Go back" aria-label="Go back">
                 <ArrowLeft className="h-5 w-5" />
               </button>
               <div>

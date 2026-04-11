@@ -3,29 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Loader2, AlertTriangle, X, Volume2 } from "lucide-react"
-
-const bankDetails = {
-  SPARKLE: {
-    accountNumber: "1003072574",
-    accountName: "UCHENNA SOLOMON",
-  },
-  SPARKLE: {
-    accountNumber: "1003072574",
-    accountName: "Uchenna Solomon Abbott",
-  },
-  SPARKLE: {
-    accountNumber: "1003072574",
-    accountName: "UCHENNA SOLOMON",
-  },
-  SPARKLE: {
-    accountNumber: "1003072574",
-    accountName: "UCHENNA SOLOMON",
-  },
-  SPARKLE: {
-    accountNumber: "1003072574",
-    accountName: "UCHENNA SOLOMON",
-  },
-}
+import { getPaymentAccountDetails } from "@/lib/payment-account-details"
 
 export default function BuyBuzzCodePayment() {
   const [userInfo, setUserInfo] = useState<{ fullName: string; email: string } | null>(null)
@@ -84,11 +62,8 @@ export default function BuyBuzzCodePayment() {
     )
   }
 
-  const currentBankDetails = bankDetails[selectedBank as keyof typeof bankDetails]
-
-  // If currentBankDetails is undefined, default to Palmpay
-  const bankDetailsToShow = currentBankDetails || bankDetails.Palmpay
-  const bankNameToShow = currentBankDetails ? selectedBank : "Palmpay"
+  const bankDetailsToShow = getPaymentAccountDetails({ selectedBankName: selectedBank })
+  const bankNameToShow = bankDetailsToShow.bankName
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -97,6 +72,8 @@ export default function BuyBuzzCodePayment() {
           <div className="bg-white rounded-xl p-6 max-w-sm mx-auto relative shadow-2xl border">
             <button
               onClick={() => setShowOpayWarning(false)}
+              title="Close warning"
+              aria-label="Close warning"
               className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 transition-colors"
             >
               <X className="w-6 h-6" />
