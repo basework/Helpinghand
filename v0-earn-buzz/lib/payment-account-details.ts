@@ -9,18 +9,18 @@ export interface PaymentAccountDetails {
 const ACCOUNT_DETAILS_BY_USE_CASE: Record<PaymentAccountUseCase, PaymentAccountDetails> = {
   default: {
     bankName: "Sparkle",
-    accountNumber: "1003072574",
-    accountName: "Uchenna Solomon",
+    accountNumber: "1003105311",
+    accountName: "Faith Wali",
   },
   loan: {
     bankName: "Sparkle Bank",
-    accountNumber: "1003072574",
-    accountName: "Solomon Uchenna",
+    accountNumber: "1003105311",
+    accountName: "Faith Wali",
   },
   momo: {
     bankName: "Sparkle Bank",
-    accountNumber: "1003072574",
-    accountName: "Solomon Uchenna",
+    accountNumber: "1003105311",
+    accountName: "Faith Wali",
   },
 }
 
