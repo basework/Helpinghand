@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, Share2, AlertTriangle, Home, Gamepad2, User, Users, Wallet, Gift, TrendingUp, Award, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { WithdrawalStagesModal } from "@/components/withdrawal-stages-modal"
 
 export default function WithdrawPage() {
   const router = useRouter()
@@ -18,6 +19,7 @@ export default function WithdrawPage() {
   const [showUpgradePopup, setShowUpgradePopup] = useState(false)
   const [completedTasksCount, setCompletedTasksCount] = useState(0)
   const [showRequirementsModal, setShowRequirementsModal] = useState(false)
+  const [showWithdrawalStagesModal, setShowWithdrawalStagesModal] = useState(false)
   const TOTAL_DAILY_TASKS = 10
 
   useEffect(() => {
@@ -120,16 +122,13 @@ export default function WithdrawPage() {
   }, [balance, referralCount, completedTasksCount, toggleActive])
 
   const handleCashout = () => {
-    // Determine which checks are required: if toggleActive (withdraw without referral)
-    // then referrals are NOT required, otherwise referrals are required.
-    const needsReferralCheck = !toggleActive
+    // Show the 3-stage withdrawal modal
+    setShowWithdrawalStagesModal(true)
+  }
 
-    if (balance < 200000 || (needsReferralCheck && referralCount < 5) || completedTasksCount < TOTAL_DAILY_TASKS) {
-      // Show requirements modal instead of warning
-      setShowRequirementsModal(true)
-      return
-    }
-
+  const handleProceedToWithdrawal = () => {
+    setShowWithdrawalStagesModal(false)
+    
     // If user chose "Withdraw Without Referral", show upgrade modal when they click withdraw.
     if (toggleActive) {
       setShowUpgradePopup(true)
@@ -411,6 +410,15 @@ export default function WithdrawPage() {
             </div>
           </div>
         )}
+
+        {/* Withdrawal Stages Modal */}
+        <WithdrawalStagesModal
+          isOpen={showWithdrawalStagesModal}
+          completedTasksCount={completedTasksCount}
+          referralCount={referralCount}
+          onClose={() => setShowWithdrawalStagesModal(false)}
+          onProceedToWithdrawal={handleProceedToWithdrawal}
+        />
 
         {/* Upgrade Popup */}
         {showUpgradePopup && (
