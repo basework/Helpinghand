@@ -265,7 +265,7 @@ export default function WithdrawPage() {
         {/* Progress Section */}
         <div className="hh-card hh-entry-4">
           <div className="space-y-4">
-            {/* Daily Tasks Progress - Always Show First */}
+            {/* Daily Tasks Progress - Always Show */}
             <div>
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
@@ -300,12 +300,6 @@ export default function WithdrawPage() {
                 </div>
               </div>
             )}
-                <div 
-                  className="hh-progress-fill hh-progress-tasks" 
-                  style={{ width: `${Math.min((completedTasksCount / TOTAL_DAILY_TASKS) * 100, 100)}%` }}
-                />
-              </div>
-            </div>
           </div>
         </div>
 
