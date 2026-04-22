@@ -148,6 +148,7 @@ export default function TaskPage() {
     Record<string, boolean>
   >({});
   const progressIntervals = useRef<Record<string, NodeJS.Timeout>>({});
+  const progressTimeouts = useRef<Record<string, NodeJS.Timeout>>({});
   const earlyReadyTimers = useRef<Record<string, NodeJS.Timeout>>({});
   const [showCoinRain, setShowCoinRain] = useState(false);
 
@@ -201,6 +202,7 @@ export default function TaskPage() {
       Object.values(progressIntervals.current).forEach((interval) =>
         clearInterval(interval),
       );
+      Object.values(progressTimeouts.current).forEach((t) => clearTimeout(t));
       Object.values(earlyReadyTimers.current).forEach((timer) =>
         clearTimeout(timer),
       );
@@ -313,6 +315,12 @@ export default function TaskPage() {
             delete progressIntervals.current[taskId];
           }
 
+          // clear forced timeout if set
+          if (progressTimeouts.current[taskId]) {
+            clearTimeout(progressTimeouts.current[taskId]);
+            delete progressTimeouts.current[taskId];
+          }
+
           // set final progress then mark claim-ready so user can tap to claim immediately
           const next = { ...prev } as typeof prev;
           if (next[taskId]) next[taskId] = { ...next[taskId], progress: 100 };
@@ -322,7 +330,6 @@ export default function TaskPage() {
 
           // small toast to inform user their timer completed
           try {
-            // Using toast if available in this closure
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (toast as any)?.({ title: "Ready to claim ✅", description: "You can now claim this task." });
           } catch (e) {}
@@ -338,6 +345,30 @@ export default function TaskPage() {
     }, 100);
 
     progressIntervals.current[taskId] = interval;
+
+    // As a fallback, ensure the task completes at 10s even if interval is throttled
+    if (progressTimeouts.current[taskId]) {
+      clearTimeout(progressTimeouts.current[taskId]);
+    }
+    progressTimeouts.current[taskId] = setTimeout(() => {
+      // force mark progress 100 and claim-ready
+      setVerifyingTasks((prev) => {
+        const next = { ...prev } as typeof prev;
+        if (next[taskId]) next[taskId] = { ...next[taskId], progress: 100 };
+        return next;
+      });
+      setClaimReadyTasks((cprev) => ({ ...cprev, [taskId]: true }));
+
+      if (progressIntervals.current[taskId]) {
+        clearInterval(progressIntervals.current[taskId]);
+        delete progressIntervals.current[taskId];
+      }
+
+      if (progressTimeouts.current[taskId]) {
+        clearTimeout(progressTimeouts.current[taskId]);
+        delete progressTimeouts.current[taskId];
+      }
+    }, 10000);
   };
 
   // Countdown for cooldowns
@@ -440,6 +471,11 @@ export default function TaskPage() {
     if (earlyReadyTimers.current[taskId]) {
       clearTimeout(earlyReadyTimers.current[taskId]);
       delete earlyReadyTimers.current[taskId];
+    }
+
+    if (progressTimeouts.current[taskId]) {
+      clearTimeout(progressTimeouts.current[taskId]);
+      delete progressTimeouts.current[taskId];
     }
 
     toast({
