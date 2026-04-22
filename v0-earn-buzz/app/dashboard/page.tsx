@@ -563,6 +563,7 @@ export default function DashboardPage() {
             const parsed = JSON.parse(stored)
             if (typeof parsed.balance === "number") {
               // Update local UI if balance changed while away
+              console.log('[dashboard] visibility refresh - stored balance:', parsed.balance, 'current balance:', balance)
               if (parsed.balance !== balance) {
                 setBalance(parsed.balance)
                 setAnimatedBalance(parsed.balance)
@@ -622,6 +623,7 @@ export default function DashboardPage() {
         const newReferralEarnings = referralEarnings - parseInt(lastSyncedReferrals)
         const totalBalance = baseBalance + Math.max(0, newReferralEarnings)
         
+        console.log('[dashboard] fetchUserBalance -> local:', localStorageBalance, 'db:', dbBalance, 'total:', totalBalance)
         setBalance(totalBalance)
         setAnimatedBalance(totalBalance)
         
@@ -645,9 +647,27 @@ export default function DashboardPage() {
 
       } catch (error) {
         console.error("[Dashboard] Error fetching user balance:", error)
-        setBalance(user.balance)
-        setAnimatedBalance(user.balance)
-        setUserData(user)
+        // Prefer most recent client-side stored value when network or server fails
+        try {
+          const storedLatestRaw = localStorage.getItem("tivexx-user")
+          const storedLatest = storedLatestRaw ? JSON.parse(storedLatestRaw) : null
+          if (storedLatest && typeof storedLatest.balance === 'number') {
+            console.log('[dashboard] fetchUserBalance error - using local stored balance:', storedLatest.balance)
+            setBalance(storedLatest.balance)
+            setAnimatedBalance(storedLatest.balance)
+            setUserData(storedLatest)
+          } else {
+            // fallback to previously known user object
+            setBalance(user.balance)
+            setAnimatedBalance(user.balance)
+            setUserData(user)
+          }
+        } catch (e) {
+          console.error('[dashboard] Error reading stored user in catch:', e)
+          setBalance(user.balance)
+          setAnimatedBalance(user.balance)
+          setUserData(user)
+        }
       }
     }
 
