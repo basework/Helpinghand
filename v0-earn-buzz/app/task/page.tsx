@@ -594,13 +594,8 @@ export default function TaskPage() {
     }
 
     // After 2s, flip the button to "Task Done ✅" regardless of whether redirect happened
-    if (earlyReadyTimers.current[task.id]) {
-      clearTimeout(earlyReadyTimers.current[task.id]);
-    }
-    earlyReadyTimers.current[task.id] = setTimeout(() => {
-      setEarlyReadyTasks((prev) => ({ ...prev, [task.id]: true }));
-      delete earlyReadyTimers.current[task.id];
-    }, 2000);
+    // Flip the button to "Task Done ✅" immediately so users see immediate feedback
+    setEarlyReadyTasks((prev) => ({ ...prev, [task.id]: true }));
 
     // Open link in same tab so visibilitychange/blur fires reliably on return
     window.open(task.link, "_self");
