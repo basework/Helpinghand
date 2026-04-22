@@ -21,14 +21,28 @@ const TAP_EMOJIS = ["💰", "⚡", "✨", "💎", "🔥"]
 const loadState = () => {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return { energy: MAX_ENERGY, earned: 0, lastTime: Date.now() }
+    const storedUser = localStorage.getItem("tivexx-user")
+    const currentBalance = storedUser ? JSON.parse(storedUser)?.balance || 0 : 0
+    
+    if (!raw) {
+      return { energy: MAX_ENERGY, earned: 0, lastTime: Date.now(), initialBalance: currentBalance }
+    }
+    
     const s = JSON.parse(raw)
     const elapsed = Date.now() - (s.lastTime || Date.now())
     const regen = Math.floor(elapsed / ENERGY_REGEN_MS)
     const energy = Math.min(MAX_ENERGY, (s.energy || 0) + regen)
-    return { energy, earned: s.earned || 0, lastTime: Date.now() }
+    
+    return { 
+      energy, 
+      earned: s.earned || 0, 
+      lastTime: Date.now(),
+      initialBalance: currentBalance
+    }
   } catch {
-    return { energy: MAX_ENERGY, earned: 0, lastTime: Date.now() }
+    const storedUser = localStorage.getItem("tivexx-user")
+    const currentBalance = storedUser ? JSON.parse(storedUser)?.balance || 0 : 0
+    return { energy: MAX_ENERGY, earned: 0, lastTime: Date.now(), initialBalance: currentBalance }
   }
 }
 
@@ -41,6 +55,7 @@ export default function TapAndEarnPage() {
   const [showPrompt, setShowPrompt] = useState(false)
   const particleId = useRef(0)
   const syncTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const accumulatedEarned = useRef(0)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -50,6 +65,29 @@ export default function TapAndEarnPage() {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state, lastTime: Date.now() }))
   }, [state])
+
+  useEffect(() => {
+    return () => {
+      if (syncTimeout.current) clearTimeout(syncTimeout.current)
+      
+      if (accumulatedEarned.current > 0) {
+        try {
+          const storedUser = localStorage.getItem("tivexx-user")
+          if (storedUser) {
+            const currentUser = JSON.parse(storedUser)
+            if (currentUser.id) {
+              currentUser.balance = (currentUser.balance || 0) + accumulatedEarned.current
+              localStorage.setItem("tivexx-user", JSON.stringify(currentUser))
+              console.log(`[Tap Earn] Unmount sync: ₦${accumulatedEarned.current} to balance. Final: ₦${currentUser.balance}`)
+              accumulatedEarned.current = 0
+            }
+          }
+        } catch (error) {
+          console.error("Unmount sync error:", error)
+        }
+      }
+    }
+  }, [])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -62,17 +100,22 @@ export default function TapAndEarnPage() {
   }, [])
 
   const syncToDb = useCallback((earnedAmount: number) => {
+    accumulatedEarned.current += earnedAmount
+    
     if (syncTimeout.current) clearTimeout(syncTimeout.current)
     syncTimeout.current = setTimeout(() => {
+      const totalEarned = accumulatedEarned.current
+      if (totalEarned === 0) return
+      
       try {
         const storedUser = localStorage.getItem("tivexx-user")
         if (storedUser) {
           const currentUser = JSON.parse(storedUser)
           if (currentUser.id) {
-            // Add the earned amount to balance
-            currentUser.balance = (currentUser.balance || 0) + earnedAmount
+            currentUser.balance = (currentUser.balance || 0) + totalEarned
             localStorage.setItem("tivexx-user", JSON.stringify(currentUser))
-            console.log(`[Tap Earn] Synced ₦${earnedAmount} to balance. New balance: ₦${currentUser.balance}`)
+            console.log(`[Tap Earn] Synced ₦${totalEarned} to balance. New balance: ₦${currentUser.balance}`)
+            accumulatedEarned.current = 0
           }
         }
       } catch (error) {
@@ -80,6 +123,44 @@ export default function TapAndEarnPage() {
       }
     }, 1500)
   }, [])
+
+  const pressEarningsToDb = useCallback((): Promise<boolean> => {
+    return new Promise((resolve) => {
+      try {
+        const totalEarned = accumulatedEarned.current
+        if (totalEarned === 0) {
+          resolve(false)
+          return
+        }
+
+        if (syncTimeout.current) {
+          clearTimeout(syncTimeout.current)
+        }
+
+        const storedUser = localStorage.getItem("tivexx-user")
+        if (storedUser) {
+          const currentUser = JSON.parse(storedUser)
+          if (currentUser.id) {
+            currentUser.balance = (currentUser.balance || 0) + totalEarned
+            localStorage.setItem("tivexx-user", JSON.stringify(currentUser))
+            console.log(`[Tap Earn] Force synced ₦${totalEarned} to balance. New balance: ₦${currentUser.balance}`)
+            accumulatedEarned.current = 0
+            resolve(true)
+            return
+          }
+        }
+        resolve(false)
+      } catch (error) {
+        console.error("Force sync error:", error)
+        resolve(false)
+      }
+    })
+  }, [])
+
+  const handleNavigateBack = useCallback(async () => {
+    await pressEarningsToDb()
+    router.push("/dashboard")
+  }, [pressEarningsToDb, router])
 
   const handleTap = useCallback(
     (e: React.MouseEvent<HTMLButtonElement> | React.TouchEvent<HTMLButtonElement>) => {
@@ -138,7 +219,7 @@ export default function TapAndEarnPage() {
       {/* Header */}
       <header className="sticky top-0 z-20 px-6 py-6 flex items-center gap-4 bg-gradient-to-b from-[#050d14]/95 to-[#050d14]/80 backdrop-blur-md border-b border-emerald-500/15 animate-fadeIn">
         <button
-          onClick={() => router.push("/dashboard")}
+          onClick={handleNavigateBack}
           className="p-2.5 rounded-12 bg-white/5 hover:bg-white/10 transition-all duration-200 hover:scale-105 active:scale-95"
           title="Go back to dashboard"
         >
@@ -306,8 +387,9 @@ export default function TapAndEarnPage() {
 
               <div className="flex flex-col gap-3">
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     setShowPrompt(false)
+                    await pressEarningsToDb()
                     router.push("/task")
                   }}
                   className="w-full py-3 rounded-14 font-black text-sm tracking-wide text-white flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 transition-all shadow-lg"
