@@ -1,24 +1,36 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import { ArrowLeft, CheckCircle2, Clock, Gift, Sparkles, TrendingUp, Home, Gamepad2, User, Award, Zap } from "lucide-react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { useRouter } from "next/navigation"
-import { useToast } from "@/hooks/use-toast"
-import { useTaskTimer } from "@/hooks/useTaskTimer"
+import { useState, useEffect, useRef } from "react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  Clock,
+  Gift,
+  Sparkles,
+  TrendingUp,
+  Home,
+  Gamepad2,
+  User,
+  Award,
+  Zap,
+} from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import { useTaskTimer } from "@/hooks/useTaskTimer";
 
 interface Task {
-  id: string
-  platform: string
-  description: string
-  category: string
-  reward: number
-  link: string
-  icon: string
+  id: string;
+  platform: string;
+  description: string;
+  category: string;
+  reward: number;
+  link: string;
+  icon: string;
 }
 
-const TASK_COOLDOWN_MS = 12 * 60 * 60 * 1000
+const TASK_COOLDOWN_MS = 12 * 60 * 60 * 1000;
 
 const AVAILABLE_TASKS: Task[] = [
   {
@@ -102,7 +114,6 @@ const AVAILABLE_TASKS: Task[] = [
     link: "https://creditbuzz.online",
     icon: "🎁",
   },
-
   {
     id: "Task 03",
     platform: "COMMUNITY TELEGRAM CHANNEL 3",
@@ -115,57 +126,86 @@ const AVAILABLE_TASKS: Task[] = [
 ];
 
 export default function TaskPage() {
-  const router = useRouter()
-  const { toast } = useToast()
-  const [completedTasks, setCompletedTasks] = useState<string[]>([])
-  const [balance, setBalance] = useState(0)
-  const [verifyingTasks, setVerifyingTasks] = useState<Record<string, {progress: number, startTime: number}>>({})
-  const [claimReadyTasks, setClaimReadyTasks] = useState<Record<string, boolean>>({})
-  const [cooldowns, setCooldowns] = useState<Record<string, number>>({})
-  const [shortPopupTasks, setShortPopupTasks] = useState<Record<string, boolean>>({})
-  const [partialReadyTasks, setPartialReadyTasks] = useState<Record<string, boolean>>({})
-  const progressIntervals = useRef<Record<string, NodeJS.Timeout>>({})
-  const [showCoinRain, setShowCoinRain] = useState(false)
-
+  const router = useRouter();
+  const { toast } = useToast();
+  const [completedTasks, setCompletedTasks] = useState<string[]>([]);
+  const [balance, setBalance] = useState(0);
+  const [verifyingTasks, setVerifyingTasks] = useState<
+    Record<string, { progress: number; startTime: number }>
+  >({});
+  const [claimReadyTasks, setClaimReadyTasks] = useState<
+    Record<string, boolean>
+  >({});
+  const [cooldowns, setCooldowns] = useState<Record<string, number>>({});
+  const [shortPopupTasks, setShortPopupTasks] = useState<
+    Record<string, boolean>
+  >({});
+  const [partialReadyTasks, setPartialReadyTasks] = useState<
+    Record<string, boolean>
+  >({});
+  // NEW: after 2s from tapping, button flips to "Task Done ✅" regardless of redirect
+  const [earlyReadyTasks, setEarlyReadyTasks] = useState<
+    Record<string, boolean>
+  >({});
+  const progressIntervals = useRef<Record<string, NodeJS.Timeout>>({});
+  const earlyReadyTimers = useRef<Record<string, NodeJS.Timeout>>({});
+  const [showCoinRain, setShowCoinRain] = useState(false);
 
   // Load user and tasks
   useEffect(() => {
-    const storedUser = localStorage.getItem("tivexx-user")
+    const storedUser = localStorage.getItem("tivexx-user");
     if (!storedUser) {
-      router.push("/login")
-      return
+      router.push("/login");
+      return;
     }
 
-    const user = JSON.parse(storedUser)
-    setBalance(user.balance || 0)
+    const user = JSON.parse(storedUser);
+    setBalance(user.balance || 0);
 
-    const completed = JSON.parse(localStorage.getItem("tivexx-completed-tasks") || "[]")
-    const savedCooldowns = JSON.parse(localStorage.getItem("tivexx-task-cooldowns") || "{}")
-    const now = Date.now()
+    const completed = JSON.parse(
+      localStorage.getItem("tivexx-completed-tasks") || "[]",
+    );
+    const savedCooldowns = JSON.parse(
+      localStorage.getItem("tivexx-task-cooldowns") || "{}",
+    );
+    const now = Date.now();
 
     const activeCooldowns = Object.fromEntries(
-      Object.entries(savedCooldowns).filter(([, expiry]) => Number(expiry) > now)
-    ) as Record<string, number>
+      Object.entries(savedCooldowns).filter(
+        ([, expiry]) => Number(expiry) > now,
+      ),
+    ) as Record<string, number>;
 
-    const activeCompleted = completed.filter((taskId: string) => activeCooldowns[taskId])
+    const activeCompleted = completed.filter(
+      (taskId: string) => activeCooldowns[taskId],
+    );
 
-    setCompletedTasks(activeCompleted)
-    setCooldowns(activeCooldowns)
-    localStorage.setItem("tivexx-completed-tasks", JSON.stringify(activeCompleted))
-    localStorage.setItem("tivexx-task-cooldowns", JSON.stringify(activeCooldowns))
-  }, [router])
+    setCompletedTasks(activeCompleted);
+    setCooldowns(activeCooldowns);
+    localStorage.setItem(
+      "tivexx-completed-tasks",
+      JSON.stringify(activeCompleted),
+    );
+    localStorage.setItem(
+      "tivexx-task-cooldowns",
+      JSON.stringify(activeCooldowns),
+    );
+  }, [router]);
 
   // Initialize task timer hook
-  const { attachFocusListener, startTaskTimer } = useTaskTimer()
+  const { attachFocusListener, startTaskTimer } = useTaskTimer();
 
-  // Clean up intervals on unmount
+  // Clean up intervals and timers on unmount
   useEffect(() => {
     return () => {
-      Object.values(progressIntervals.current).forEach(interval => {
-        clearInterval(interval)
-      })
-    }
-  }, [])
+      Object.values(progressIntervals.current).forEach((interval) =>
+        clearInterval(interval),
+      );
+      Object.values(earlyReadyTimers.current).forEach((timer) =>
+        clearTimeout(timer),
+      );
+    };
+  }, []);
 
   // Set up focus listener on mount
   useEffect(() => {
@@ -173,246 +213,294 @@ export default function TaskPage() {
       // onTaskSuccess callback (>=10s)
       (taskId: string) => {
         if (!completedTasks.includes(taskId)) {
-          setClaimReadyTasks((prev) => ({ ...prev, [taskId]: true }))
+          setClaimReadyTasks((prev) => ({ ...prev, [taskId]: true }));
 
           setVerifyingTasks((prev) => {
-            const next = { ...prev }
-            delete next[taskId]
-            return next
-          })
+            const next = { ...prev };
+            delete next[taskId];
+            return next;
+          });
 
           if (progressIntervals.current[taskId]) {
-            clearInterval(progressIntervals.current[taskId])
-            delete progressIntervals.current[taskId]
+            clearInterval(progressIntervals.current[taskId]);
+            delete progressIntervals.current[taskId];
           }
 
-          // Clear any partial state
-          setPartialReadyTasks(prev => {
-            const next = { ...prev }
-            delete next[taskId]
-            return next
-          })
+          setPartialReadyTasks((prev) => {
+            const next = { ...prev };
+            delete next[taskId];
+            return next;
+          });
+
+          // Clear early ready since claimReady takes precedence
+          setEarlyReadyTasks((prev) => {
+            const next = { ...prev };
+            delete next[taskId];
+            return next;
+          });
 
           toast({
             title: "Task Done ✅",
             description: "Tap the button to claim your reward.",
-          })
+          });
         }
       },
       // onTaskIncomplete callback (<10s)
       (taskId: string, elapsed: number) => {
-        // Clear verifying state
-        setVerifyingTasks(prev => {
-          const newState = { ...prev }
-          delete newState[taskId]
-          return newState
-        })
+        setVerifyingTasks((prev) => {
+          const newState = { ...prev };
+          delete newState[taskId];
+          return newState;
+        });
 
-        // Clear interval
         if (progressIntervals.current[taskId]) {
-          clearInterval(progressIntervals.current[taskId])
-          delete progressIntervals.current[taskId]
+          clearInterval(progressIntervals.current[taskId]);
+          delete progressIntervals.current[taskId];
         }
 
-        const timeSpent = Math.round(elapsed)
+        const timeSpent = Math.round(elapsed);
 
-        // If user spent at least 2 seconds, show partial-ready UI (Task Done button)
         if (elapsed >= 2) {
-          setPartialReadyTasks(prev => ({ ...prev, [taskId]: true }))
-          // Informational toast (not destructive)
+          setPartialReadyTasks((prev) => ({ ...prev, [taskId]: true }));
           toast({
             title: "Almost there ⏱️",
             description: `You spent ${timeSpent}s — tap 'Task Done' to attempt claim. You need 10s for a successful reward.`,
-          })
-          return
+          });
+          return;
         }
 
-        // Otherwise show clear message that they didn't interact long enough
         toast({
           title: "You didn't interact with the task ❌",
           description: `You only spent ${timeSpent}s outside. Please tap the task again and stay on the page for at least 10 seconds before coming back.`,
           variant: "destructive",
           duration: 6000,
-        })
+        });
       },
       // isTaskCompleted checker
       (taskId: string) => {
-        return completedTasks.includes(taskId)
-      }
-    )
-    return detach
+        return completedTasks.includes(taskId);
+      },
+    );
+    return detach;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [completedTasks, toast])
+  }, [completedTasks, toast]);
 
   // Start progress animation for a specific task
   const startProgressAnimation = (taskId: string) => {
-    // Clear any existing interval for this task
     if (progressIntervals.current[taskId]) {
-      clearInterval(progressIntervals.current[taskId])
+      clearInterval(progressIntervals.current[taskId]);
     }
-    
-    const startTime = Date.now()
-    
-    // Update verifying tasks state with start time
-    setVerifyingTasks(prev => ({
+
+    const startTime = Date.now();
+
+    setVerifyingTasks((prev) => ({
       ...prev,
-      [taskId]: {
-        progress: 0,
-        startTime
-      }
-    }))
-    
-    // Start progress interval
+      [taskId]: { progress: 0, startTime },
+    }));
+
     const interval = setInterval(() => {
-      setVerifyingTasks(prev => {
-        if (!prev[taskId]) return prev
-        
-        const elapsed = (Date.now() - prev[taskId].startTime) / 1000
-        const newProgress = Math.min((elapsed / 10) * 100, 100)
-        
-        // Clear interval if progress reaches 100%
+      setVerifyingTasks((prev) => {
+        if (!prev[taskId]) return prev;
+
+        const elapsed = (Date.now() - prev[taskId].startTime) / 1000;
+        const newProgress = Math.min((elapsed / 10) * 100, 100);
+
         if (newProgress >= 100) {
-          clearInterval(progressIntervals.current[taskId])
-          delete progressIntervals.current[taskId]
+          clearInterval(progressIntervals.current[taskId]);
+          delete progressIntervals.current[taskId];
         }
-        
+
         return {
           ...prev,
-          [taskId]: {
-            ...prev[taskId],
-            progress: newProgress
-          }
-        }
-      })
-    }, 1000)
-    
-    progressIntervals.current[taskId] = interval
-  }
+          [taskId]: { ...prev[taskId], progress: newProgress },
+        };
+      });
+    }, 1000);
+
+    progressIntervals.current[taskId] = interval;
+  };
 
   // Countdown for cooldowns
   useEffect(() => {
     const timer = setInterval(() => {
-      const now = Date.now()
-      const updated = { ...cooldowns }
-      const expiredTaskIds: string[] = []
+      const now = Date.now();
+      const updated = { ...cooldowns };
+      const expiredTaskIds: string[] = [];
 
       Object.keys(updated).forEach((key) => {
         if (updated[key] <= now) {
-          delete updated[key]
-          expiredTaskIds.push(key)
+          delete updated[key];
+          expiredTaskIds.push(key);
         }
-      })
+      });
 
       if (expiredTaskIds.length > 0) {
-        setCooldowns({ ...updated })
-        localStorage.setItem("tivexx-task-cooldowns", JSON.stringify(updated))
+        setCooldowns({ ...updated });
+        localStorage.setItem("tivexx-task-cooldowns", JSON.stringify(updated));
 
-        const nextCompleted = completedTasks.filter((taskId) => !expiredTaskIds.includes(taskId))
+        const nextCompleted = completedTasks.filter(
+          (taskId) => !expiredTaskIds.includes(taskId),
+        );
         if (nextCompleted.length !== completedTasks.length) {
-          setCompletedTasks(nextCompleted)
-          localStorage.setItem("tivexx-completed-tasks", JSON.stringify(nextCompleted))
+          setCompletedTasks(nextCompleted);
+          localStorage.setItem(
+            "tivexx-completed-tasks",
+            JSON.stringify(nextCompleted),
+          );
         }
       }
-    }, 1000)
-    return () => clearInterval(timer)
-  }, [cooldowns, completedTasks])
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [cooldowns, completedTasks]);
 
   const completeVerification = async (taskId: string) => {
-    const task = AVAILABLE_TASKS.find((t) => t.id === taskId)
-    if (!task) return
+    const task = AVAILABLE_TASKS.find((t) => t.id === taskId);
+    if (!task) return;
 
-    const newBalance = balance + task.reward
-    setBalance(newBalance)
+    const newBalance = balance + task.reward;
+    setBalance(newBalance);
 
-    const storedUser = localStorage.getItem("tivexx-user")
+    const storedUser = localStorage.getItem("tivexx-user");
     if (storedUser) {
-      const user = JSON.parse(storedUser)
-      user.balance = newBalance
-      localStorage.setItem("tivexx-user", JSON.stringify(user))
-      // Sync balance to server so DB triggers (referral processing) run
+      const user = JSON.parse(storedUser);
+      user.balance = newBalance;
+      localStorage.setItem("tivexx-user", JSON.stringify(user));
       try {
         await fetch(`/api/user-balance`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId: user.id || user.user_id || user.userId, balance: newBalance }),
-        })
+          body: JSON.stringify({
+            userId: user.id || user.user_id || user.userId,
+            balance: newBalance,
+          }),
+        });
       } catch (err) {
-        console.error("Failed to sync user balance to server:", err)
+        console.error("Failed to sync user balance to server:", err);
       }
     }
 
-    const newCompleted = [...completedTasks, task.id]
-    setCompletedTasks(newCompleted)
-    localStorage.setItem("tivexx-completed-tasks", JSON.stringify(newCompleted))
+    const newCompleted = [...completedTasks, task.id];
+    setCompletedTasks(newCompleted);
+    localStorage.setItem(
+      "tivexx-completed-tasks",
+      JSON.stringify(newCompleted),
+    );
 
-    const cooldownExpiry = Date.now() + TASK_COOLDOWN_MS
-    const newCooldowns = { ...cooldowns, [task.id]: cooldownExpiry }
-    setCooldowns(newCooldowns)
-    localStorage.setItem("tivexx-task-cooldowns", JSON.stringify(newCooldowns))
+    const cooldownExpiry = Date.now() + TASK_COOLDOWN_MS;
+    const newCooldowns = { ...cooldowns, [task.id]: cooldownExpiry };
+    setCooldowns(newCooldowns);
+    localStorage.setItem("tivexx-task-cooldowns", JSON.stringify(newCooldowns));
 
-    // Remove from verifying tasks
-    setVerifyingTasks(prev => {
-      const newState = { ...prev }
-      delete newState[taskId]
-      return newState
-    })
-
+    setVerifyingTasks((prev) => {
+      const n = { ...prev };
+      delete n[taskId];
+      return n;
+    });
     setClaimReadyTasks((prev) => {
-      const next = { ...prev }
-      delete next[taskId]
-      return next
-    })
+      const n = { ...prev };
+      delete n[taskId];
+      return n;
+    });
+    setPartialReadyTasks((prev) => {
+      const n = { ...prev };
+      delete n[taskId];
+      return n;
+    });
+    setEarlyReadyTasks((prev) => {
+      const n = { ...prev };
+      delete n[taskId];
+      return n;
+    });
 
-    // Clear any partial-ready state
-    setPartialReadyTasks(prev => {
-      const next = { ...prev }
-      delete next[taskId]
-      return next
-    })
-    
-    // Clear interval
     if (progressIntervals.current[taskId]) {
-      clearInterval(progressIntervals.current[taskId])
-      delete progressIntervals.current[taskId]
+      clearInterval(progressIntervals.current[taskId]);
+      delete progressIntervals.current[taskId];
+    }
+
+    if (earlyReadyTimers.current[taskId]) {
+      clearTimeout(earlyReadyTimers.current[taskId]);
+      delete earlyReadyTimers.current[taskId];
     }
 
     toast({
       title: "Reward Credited 🎉",
       description: `₦${task.reward.toLocaleString()} has been added to your balance.`,
-    })
+    });
 
-    // Trigger coin rain animation
-    setShowCoinRain(true)
-    setTimeout(() => setShowCoinRain(false), 3000)
-  }
+    setShowCoinRain(true);
+    setTimeout(() => setShowCoinRain(false), 3000);
+  };
 
   const handleTaskClick = (task: Task) => {
+    // ── 1. Already verified by focus listener — immediate claim ──
     if (claimReadyTasks[task.id]) {
       setClaimReadyTasks((prev) => {
-        const next = { ...prev }
-        delete next[task.id]
-        return next
-      })
-      completeVerification(task.id)
-      return
+        const n = { ...prev };
+        delete n[task.id];
+        return n;
+      });
+      completeVerification(task.id);
+      return;
     }
 
-    // If the task is only partially ready (spent >=2s but <10s), show 2s popup and revert
+    // ── 2. NEW: "Task Done ✅" shown after 2s — verify 10s requirement ──
+    if (earlyReadyTasks[task.id]) {
+      const started = verifyingTasks[task.id]?.startTime || 0;
+      const elapsed = started ? (Date.now() - started) / 1000 : 0;
+
+      if (elapsed >= 10) {
+        // 10s met — reward them
+        setEarlyReadyTasks((prev) => {
+          const n = { ...prev };
+          delete n[task.id];
+          return n;
+        });
+        completeVerification(task.id);
+      } else {
+        // Not enough time — show 2s popup then revert button back to "Claim Now"
+        setShortPopupTasks((prev) => ({ ...prev, [task.id]: true }));
+        setTimeout(() => {
+          setShortPopupTasks((prev) => {
+            const n = { ...prev };
+            delete n[task.id];
+            return n;
+          });
+          setEarlyReadyTasks((prev) => {
+            const n = { ...prev };
+            delete n[task.id];
+            return n;
+          });
+          // Revert verifying so the button goes cleanly back to "Claim Now"
+          setVerifyingTasks((prev) => {
+            const n = { ...prev };
+            delete n[task.id];
+            return n;
+          });
+          if (progressIntervals.current[task.id]) {
+            clearInterval(progressIntervals.current[task.id]);
+            delete progressIntervals.current[task.id];
+          }
+        }, 2000);
+      }
+      return;
+    }
+
+    // ── 3. Partial ready (focus listener returned with >=2s but <10s) ──
     if (partialReadyTasks[task.id]) {
-      setShortPopupTasks(prev => ({ ...prev, [task.id]: true }))
+      setShortPopupTasks((prev) => ({ ...prev, [task.id]: true }));
       setTimeout(() => {
-        setShortPopupTasks(prev => {
-          const next = { ...prev }
-          delete next[task.id]
-          return next
-        })
-        setPartialReadyTasks(prev => {
-          const next = { ...prev }
-          delete next[task.id]
-          return next
-        })
-      }, 2000)
-      return
+        setShortPopupTasks((prev) => {
+          const n = { ...prev };
+          delete n[task.id];
+          return n;
+        });
+        setPartialReadyTasks((prev) => {
+          const n = { ...prev };
+          delete n[task.id];
+          return n;
+        });
+      }, 2000);
+      return;
     }
 
     if (completedTasks.includes(task.id)) {
@@ -420,8 +508,8 @@ export default function TaskPage() {
         title: "Task Already Completed",
         description: "You have already earned the reward for this task.",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     if (cooldowns[task.id] && cooldowns[task.id] > Date.now()) {
@@ -429,80 +517,83 @@ export default function TaskPage() {
         title: "Task on Cooldown",
         description: "You can only do this task once every 12 hours.",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     if (!task.link) {
       toast({
         title: "No link set",
-        description: "This task doesn't have a link yet. Please add one before attempting.",
+        description:
+          "This task doesn't have a link yet. Please add one before attempting.",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
-    // If a verification is already in progress for this task, check elapsed time
+    // If verification already in progress, check elapsed time
     if (verifyingTasks[task.id]) {
-      const started = verifyingTasks[task.id].startTime || 0
-      const elapsed = (Date.now() - started) / 1000
-      const progress = verifyingTasks[task.id].progress || 0
+      const started = verifyingTasks[task.id].startTime || 0;
+      const elapsed = (Date.now() - started) / 1000;
+      const progress = verifyingTasks[task.id].progress || 0;
 
-      // If elapsed meets requirement or progress is complete, allow immediate claim
       if (elapsed >= 10 || progress >= 100) {
-        // mark as ready and complete
-        setClaimReadyTasks(prev => ({ ...prev, [task.id]: true }))
-        // small delay to give UI feedback
-        setTimeout(() => completeVerification(task.id), 300)
-        return
+        setClaimReadyTasks((prev) => ({ ...prev, [task.id]: true }));
+        setTimeout(() => completeVerification(task.id), 300);
+        return;
       }
 
-      // Otherwise show a 2s popup telling user to stay 10s, then revert
-      setShortPopupTasks(prev => ({ ...prev, [task.id]: true }))
+      setShortPopupTasks((prev) => ({ ...prev, [task.id]: true }));
       setTimeout(() => {
-        setShortPopupTasks(prev => {
-          const next = { ...prev }
-          delete next[task.id]
-          return next
-        })
-      }, 2000)
-      return
+        setShortPopupTasks((prev) => {
+          const n = { ...prev };
+          delete n[task.id];
+          return n;
+        });
+      }, 2000);
+      return;
     }
 
-    // Start task immediately (no interaction-confirmation modal)
-    confirmStartTask(task)
-  }
+    confirmStartTask(task);
+  };
 
   const confirmStartTask = (task: Task) => {
     toast({
       title: "Task Started ⏱️",
-      description: "Make sure to spend at least 10 seconds on the site before returning. If you return too quickly, you'll need to try again!",
+      description:
+        "Make sure to spend at least 10 seconds on the site before returning. If you return too quickly, you'll need to try again!",
       duration: 5000,
-    })
+    });
 
-    // Start progress animation for this specific task
-    startProgressAnimation(task.id)
-    // Start persistent session timer so returning focus can verify completion
+    startProgressAnimation(task.id);
+
     try {
-      startTaskTimer(task.id)
+      startTaskTimer(task.id);
     } catch (e) {
-      console.error("Failed to start task timer:", e)
+      console.error("Failed to start task timer:", e);
     }
 
+    // After 2s, flip the button to "Task Done ✅" regardless of whether redirect happened
+    if (earlyReadyTimers.current[task.id]) {
+      clearTimeout(earlyReadyTimers.current[task.id]);
+    }
+    earlyReadyTimers.current[task.id] = setTimeout(() => {
+      setEarlyReadyTasks((prev) => ({ ...prev, [task.id]: true }));
+      delete earlyReadyTimers.current[task.id];
+    }, 2000);
+
     // Open link in same tab so visibilitychange/blur fires reliably on return
-    window.open(task.link, '_self')
-  }
+    window.open(task.link, "_self");
+  };
 
   const formatTime = (ms: number) => {
-    if (ms <= 0) return "now"
-    const totalSeconds = Math.floor(ms / 1000)
-    const hours = Math.floor(totalSeconds / 3600)
-    const minutes = Math.floor((totalSeconds % 3600) / 60)
-    const seconds = totalSeconds % 60
-    return `${hours > 0 ? hours + "h " : ""}${minutes}m ${seconds}s`
-  }
-
-
+    if (ms <= 0) return "now";
+    const totalSeconds = Math.floor(ms / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return `${hours > 0 ? hours + "h " : ""}${minutes}m ${seconds}s`;
+  };
 
   return (
     <div className="hh-root min-h-screen pb-28 relative overflow-hidden">
@@ -515,8 +606,6 @@ export default function TaskPage() {
 
       {/* Mesh gradient overlay */}
       <div className="hh-mesh-overlay" aria-hidden="true"></div>
-
-      {/* (modal removed) */}
 
       {/* Coin Rain Animation */}
       {showCoinRain && (
@@ -553,20 +642,21 @@ export default function TaskPage() {
 
       {/* Main Content */}
       <div className="max-w-md mx-auto px-4 space-y-4 pt-2 relative z-10 pb-6">
-
         {/* Hero Card */}
         <div className="hh-card hh-card-hero hh-entry-1 relative overflow-hidden">
           <div className="hh-orb hh-orb-1" aria-hidden="true"></div>
           <div className="hh-orb hh-orb-2" aria-hidden="true"></div>
-          
+
           <div className="relative z-10">
             <div className="flex items-center gap-2 mb-3">
               <div className="hh-icon-ring">
                 <Zap className="h-5 w-5 text-amber-300" />
               </div>
-              <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Earn Extra Rewards</span>
+              <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
+                Earn Extra Rewards
+              </span>
             </div>
-            
+
             <p className="text-white/80 text-sm">
               Complete tasks to earn bonus credits and boost your earnings
             </p>
@@ -574,12 +664,16 @@ export default function TaskPage() {
             <div className="hh-stats-row mt-4">
               <div className="hh-stat-item">
                 <div className="hh-stat-label">Tasks Available</div>
-                <div className="hh-stat-value text-emerald-400">{AVAILABLE_TASKS.length - completedTasks.length}</div>
+                <div className="hh-stat-value text-emerald-400">
+                  {AVAILABLE_TASKS.length - completedTasks.length}
+                </div>
               </div>
               <div className="hh-stat-divider"></div>
               <div className="hh-stat-item">
                 <div className="hh-stat-label">Completed</div>
-                <div className="hh-stat-value text-amber-300">{completedTasks.length}</div>
+                <div className="hh-stat-value text-amber-300">
+                  {completedTasks.length}
+                </div>
               </div>
             </div>
           </div>
@@ -588,15 +682,17 @@ export default function TaskPage() {
         {/* Tasks List */}
         <div className="space-y-4">
           {AVAILABLE_TASKS.map((task, index) => {
-            const isVerifying = verifyingTasks[task.id] !== undefined
-            const progress = isVerifying ? verifyingTasks[task.id].progress : 0
-            const isClaimReady = claimReadyTasks[task.id] === true
-            const isPartialReady = partialReadyTasks[task.id] === true
-            const cooldown = cooldowns[task.id]
-            const isCompleted = completedTasks.includes(task.id)
-            const isPending = verifyingTasks[task.id] !== undefined
-            const isProcessing = isVerifying
-            const timeLeft = cooldown ? cooldown - Date.now() : 0
+            const isVerifying = verifyingTasks[task.id] !== undefined;
+            const progress = isVerifying ? verifyingTasks[task.id].progress : 0;
+            const isClaimReady = claimReadyTasks[task.id] === true;
+            const isEarlyReady = earlyReadyTasks[task.id] === true;
+            const isPartialReady = partialReadyTasks[task.id] === true;
+            const cooldown = cooldowns[task.id];
+            const isCompleted = completedTasks.includes(task.id);
+            const isPending = verifyingTasks[task.id] !== undefined;
+            // Button is disabled only when truly processing (not when earlyReady — user needs to tap it)
+            const isProcessing = isVerifying && !isEarlyReady;
+            const timeLeft = cooldown ? cooldown - Date.now() : 0;
 
             return (
               <div
@@ -620,27 +716,27 @@ export default function TaskPage() {
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <span className="hh-reward-badge">
-                        <Gift className="h-3 w-3" />
-                        ₦{task.reward.toLocaleString()}
+                        <Gift className="h-3 w-3" />₦
+                        {task.reward.toLocaleString()}
                       </span>
                       <span className="text-xs text-gray-500">reward</span>
                     </div>
-                    
+
                     {isCompleted && !isPending && (
                       <span className="hh-status-badge hh-status-completed">
                         <CheckCircle2 className="h-3 w-3" />
                         On Cooldown
                       </span>
                     )}
-                    
-                    {isPending && (
+
+                    {isPending && !isEarlyReady && !isClaimReady && (
                       <span className="hh-status-badge hh-status-pending">
                         <Clock className="h-3 w-3" />
                         Pending
                       </span>
                     )}
 
-                    {isClaimReady && !isCompleted && (
+                    {(isClaimReady || isEarlyReady) && !isCompleted && (
                       <span className="hh-status-badge hh-status-ready">
                         <CheckCircle2 className="h-3 w-3" />
                         Task Done
@@ -653,49 +749,55 @@ export default function TaskPage() {
                     disabled={isCompleted || isProcessing}
                     className={`hh-task-btn ${
                       isCompleted
-                        ? 'hh-task-btn-completed'
+                        ? "hh-task-btn-completed"
                         : isClaimReady
-                        ? 'hh-task-btn-ready'
-                        : isPending
-                        ? 'hh-task-btn-pending'
-                        : isProcessing
-                        ? 'hh-task-btn-processing'
-                        : 'hh-task-btn-available'
+                          ? "hh-task-btn-ready"
+                          : isEarlyReady
+                            ? "hh-task-btn-ready"
+                            : isPending
+                              ? "hh-task-btn-pending"
+                              : isProcessing
+                                ? "hh-task-btn-processing"
+                                : "hh-task-btn-available"
                     }`}
                   >
                     {shortPopupTasks[task.id]
-                      ? 'Please stay 10s to qualify'
+                      ? "Spend 10s on the task first ⏱️"
                       : isProcessing
-                      ? 'Processing...'
-                      : isClaimReady
-                      ? 'Task Done • Claim Reward'
-                      : isPartialReady
-                      ? 'Task Done'
-                      : isPending
-                      ? 'Verifying...'
-                      : isCompleted
-                      ? 'On Cooldown'
-                      : 'Claim Now'
-                    }
+                        ? "Processing..."
+                        : isClaimReady
+                          ? "Task Done • Claim Reward"
+                          : isEarlyReady
+                            ? "Task Done ✅"
+                            : isPartialReady
+                              ? "Task Done"
+                              : isPending
+                                ? "Verifying..."
+                                : isCompleted
+                                  ? "On Cooldown"
+                                  : "Claim Now"}
                   </button>
 
                   {shortPopupTasks[task.id] && (
                     <div className="hh-short-popup" role="status">
                       <div className="hh-short-popup-inner">
-                        Please spend at least 10 seconds on the task before returning.
+                        Please spend at least 10 seconds on the task before
+                        returning.
                       </div>
                     </div>
                   )}
 
-                  {isVerifying && (
+                  {isVerifying && !isEarlyReady && (
                     <div className="mt-3">
                       <div className="flex items-center justify-between text-xs mb-1">
                         <span className="text-gray-400">Verifying task</span>
-                        <span className="text-emerald-400 font-bold">{Math.floor(progress)}%</span>
+                        <span className="text-emerald-400 font-bold">
+                          {Math.floor(progress)}%
+                        </span>
                       </div>
                       <div className="hh-progress-track">
-                        <div 
-                          className="hh-progress-fill hh-progress-verify" 
+                        <div
+                          className="hh-progress-fill hh-progress-verify"
                           style={{ width: `${progress}%` }}
                         ></div>
                       </div>
@@ -710,17 +812,18 @@ export default function TaskPage() {
                   )}
                 </div>
 
-                  <div className="hh-task-warning">
-                    <div className="hh-task-warning-icon">✨</div>
-                    <div className="hh-task-warning-content">
-                      <span className="hh-task-warning-title">Quick tip</span>
-                      <span className="hh-task-warning-text">
-                        Interact with the page naturally and stay for at least 10 seconds before coming back to claim.
-                      </span>
-                    </div>
+                <div className="hh-task-warning">
+                  <div className="hh-task-warning-icon">✨</div>
+                  <div className="hh-task-warning-content">
+                    <span className="hh-task-warning-title">Quick tip</span>
+                    <span className="hh-task-warning-text">
+                      Interact with the page naturally and stay for at least 10
+                      seconds before coming back to claim.
+                    </span>
                   </div>
+                </div>
               </div>
-            )
+            );
           })}
         </div>
 
@@ -738,7 +841,6 @@ export default function TaskPage() {
             </div>
           </div>
         </div>
-
       </div>
 
       {/* Bottom Navigation */}
@@ -758,18 +860,15 @@ export default function TaskPage() {
       </div>
 
       <style jsx global>{`
-        /* ─── IMPORT FONT ─── */
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        @import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap");
 
-        /* ─── ROOT & BACKGROUND ─── */
         .hh-root {
-          font-family: 'Syne', sans-serif;
+          font-family: "Syne", sans-serif;
           background: #050d14;
           color: white;
           min-height: 100vh;
         }
 
-        /* ─── BUBBLES ─── */
         .hh-bubbles-container {
           position: fixed;
           inset: 0;
@@ -785,51 +884,207 @@ export default function TaskPage() {
           animation: hh-bubble-rise linear infinite;
         }
 
-        .hh-bubble-1  { width: 8px; height: 8px; left: 10%; background: radial-gradient(circle, rgba(16,185,129,0.6), transparent); animation-duration: 8s; animation-delay: 0s; }
-        .hh-bubble-2  { width: 14px; height: 14px; left: 25%; background: radial-gradient(circle, rgba(59,130,246,0.5), transparent); animation-duration: 11s; animation-delay: 1.5s; }
-        .hh-bubble-3  { width: 6px; height: 6px; left: 40%; background: radial-gradient(circle, rgba(16,185,129,0.7), transparent); animation-duration: 9s; animation-delay: 3s; }
-        .hh-bubble-4  { width: 18px; height: 18px; left: 55%; background: radial-gradient(circle, rgba(139,92,246,0.4), transparent); animation-duration: 13s; animation-delay: 0.5s; }
-        .hh-bubble-5  { width: 10px; height: 10px; left: 70%; background: radial-gradient(circle, rgba(16,185,129,0.5), transparent); animation-duration: 10s; animation-delay: 2s; }
-        .hh-bubble-6  { width: 5px; height: 5px; left: 82%; background: radial-gradient(circle, rgba(52,211,153,0.8), transparent); animation-duration: 7s; animation-delay: 4s; }
-        .hh-bubble-7  { width: 12px; height: 12px; left: 15%; background: radial-gradient(circle, rgba(59,130,246,0.4), transparent); animation-duration: 12s; animation-delay: 5s; }
-        .hh-bubble-8  { width: 7px; height: 7px; left: 35%; background: radial-gradient(circle, rgba(16,185,129,0.6), transparent); animation-duration: 9.5s; animation-delay: 2.5s; }
-        .hh-bubble-9  { width: 20px; height: 20px; left: 60%; background: radial-gradient(circle, rgba(16,185,129,0.2), transparent); animation-duration: 15s; animation-delay: 1s; }
-        .hh-bubble-10 { width: 9px; height: 9px; left: 88%; background: radial-gradient(circle, rgba(139,92,246,0.5), transparent); animation-duration: 10.5s; animation-delay: 6s; }
-        .hh-bubble-11 { width: 4px; height: 4px; left: 5%; background: radial-gradient(circle, rgba(52,211,153,0.9), transparent); animation-duration: 6.5s; animation-delay: 3.5s; }
-        .hh-bubble-12 { width: 16px; height: 16px; left: 48%; background: radial-gradient(circle, rgba(59,130,246,0.3), transparent); animation-duration: 14s; animation-delay: 7s; }
-
-        @keyframes hh-bubble-rise {
-          0%   { transform: translateY(100vh) scale(0.5); opacity: 0; }
-          10%  { opacity: 1; }
-          90%  { opacity: 0.6; }
-          100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+        .hh-bubble-1 {
+          width: 8px;
+          height: 8px;
+          left: 10%;
+          background: radial-gradient(
+            circle,
+            rgba(16, 185, 129, 0.6),
+            transparent
+          );
+          animation-duration: 8s;
+          animation-delay: 0s;
+        }
+        .hh-bubble-2 {
+          width: 14px;
+          height: 14px;
+          left: 25%;
+          background: radial-gradient(
+            circle,
+            rgba(59, 130, 246, 0.5),
+            transparent
+          );
+          animation-duration: 11s;
+          animation-delay: 1.5s;
+        }
+        .hh-bubble-3 {
+          width: 6px;
+          height: 6px;
+          left: 40%;
+          background: radial-gradient(
+            circle,
+            rgba(16, 185, 129, 0.7),
+            transparent
+          );
+          animation-duration: 9s;
+          animation-delay: 3s;
+        }
+        .hh-bubble-4 {
+          width: 18px;
+          height: 18px;
+          left: 55%;
+          background: radial-gradient(
+            circle,
+            rgba(139, 92, 246, 0.4),
+            transparent
+          );
+          animation-duration: 13s;
+          animation-delay: 0.5s;
+        }
+        .hh-bubble-5 {
+          width: 10px;
+          height: 10px;
+          left: 70%;
+          background: radial-gradient(
+            circle,
+            rgba(16, 185, 129, 0.5),
+            transparent
+          );
+          animation-duration: 10s;
+          animation-delay: 2s;
+        }
+        .hh-bubble-6 {
+          width: 5px;
+          height: 5px;
+          left: 82%;
+          background: radial-gradient(
+            circle,
+            rgba(52, 211, 153, 0.8),
+            transparent
+          );
+          animation-duration: 7s;
+          animation-delay: 4s;
+        }
+        .hh-bubble-7 {
+          width: 12px;
+          height: 12px;
+          left: 15%;
+          background: radial-gradient(
+            circle,
+            rgba(59, 130, 246, 0.4),
+            transparent
+          );
+          animation-duration: 12s;
+          animation-delay: 5s;
+        }
+        .hh-bubble-8 {
+          width: 7px;
+          height: 7px;
+          left: 35%;
+          background: radial-gradient(
+            circle,
+            rgba(16, 185, 129, 0.6),
+            transparent
+          );
+          animation-duration: 9.5s;
+          animation-delay: 2.5s;
+        }
+        .hh-bubble-9 {
+          width: 20px;
+          height: 20px;
+          left: 60%;
+          background: radial-gradient(
+            circle,
+            rgba(16, 185, 129, 0.2),
+            transparent
+          );
+          animation-duration: 15s;
+          animation-delay: 1s;
+        }
+        .hh-bubble-10 {
+          width: 9px;
+          height: 9px;
+          left: 88%;
+          background: radial-gradient(
+            circle,
+            rgba(139, 92, 246, 0.5),
+            transparent
+          );
+          animation-duration: 10.5s;
+          animation-delay: 6s;
+        }
+        .hh-bubble-11 {
+          width: 4px;
+          height: 4px;
+          left: 5%;
+          background: radial-gradient(
+            circle,
+            rgba(52, 211, 153, 0.9),
+            transparent
+          );
+          animation-duration: 6.5s;
+          animation-delay: 3.5s;
+        }
+        .hh-bubble-12 {
+          width: 16px;
+          height: 16px;
+          left: 48%;
+          background: radial-gradient(
+            circle,
+            rgba(59, 130, 246, 0.3),
+            transparent
+          );
+          animation-duration: 14s;
+          animation-delay: 7s;
         }
 
-        /* ─── MESH OVERLAY ─── */
+        @keyframes hh-bubble-rise {
+          0% {
+            transform: translateY(100vh) scale(0.5);
+            opacity: 0;
+          }
+          10% {
+            opacity: 1;
+          }
+          90% {
+            opacity: 0.6;
+          }
+          100% {
+            transform: translateY(-10vh) scale(1.2);
+            opacity: 0;
+          }
+        }
+
         .hh-mesh-overlay {
           position: fixed;
           inset: 0;
           background:
-            radial-gradient(ellipse 60% 40% at 20% 80%, rgba(16,185,129,0.07) 0%, transparent 60%),
-            radial-gradient(ellipse 50% 50% at 80% 20%, rgba(59,130,246,0.06) 0%, transparent 60%),
-            radial-gradient(ellipse 40% 30% at 50% 50%, rgba(139,92,246,0.04) 0%, transparent 60%);
+            radial-gradient(
+              ellipse 60% 40% at 20% 80%,
+              rgba(16, 185, 129, 0.07) 0%,
+              transparent 60%
+            ),
+            radial-gradient(
+              ellipse 50% 50% at 80% 20%,
+              rgba(59, 130, 246, 0.06) 0%,
+              transparent 60%
+            ),
+            radial-gradient(
+              ellipse 40% 30% at 50% 50%,
+              rgba(139, 92, 246, 0.04) 0%,
+              transparent 60%
+            );
           pointer-events: none;
           z-index: 0;
         }
 
-        /* ─── HEADER ─── */
         .hh-header {
-          background: linear-gradient(180deg, rgba(5,13,20,0.95) 0%, rgba(5,13,20,0.8) 100%);
+          background: linear-gradient(
+            180deg,
+            rgba(5, 13, 20, 0.95) 0%,
+            rgba(5, 13, 20, 0.8) 100%
+          );
           backdrop-filter: blur(12px);
-          border-bottom: 1px solid rgba(16,185,129,0.15);
+          border-bottom: 1px solid rgba(16, 185, 129, 0.15);
         }
 
         .hh-back-btn {
           width: 40px;
           height: 40px;
           border-radius: 12px;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -839,10 +1094,9 @@ export default function TaskPage() {
         }
 
         .hh-back-btn:hover {
-          background: rgba(255,255,255,0.1);
+          background: rgba(255, 255, 255, 0.1);
           transform: scale(1.05);
         }
-
         .hh-back-btn:active {
           transform: scale(0.95);
         }
@@ -853,43 +1107,60 @@ export default function TaskPage() {
           color: white;
           line-height: 1.2;
         }
-
         .hh-subtitle {
           font-size: 12px;
-          color: rgba(16,185,129,0.8);
+          color: rgba(16, 185, 129, 0.8);
         }
 
-        /* ─── CARDS ─── */
         .hh-card {
-          background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 100%);
-          border: 1px solid rgba(255,255,255,0.08);
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.06) 0%,
+            rgba(255, 255, 255, 0.02) 100%
+          );
+          border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 20px;
           padding: 20px;
           backdrop-filter: blur(12px);
           position: relative;
           overflow: hidden;
-          transition: transform 0.25s ease, box-shadow 0.25s ease;
+          transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease;
         }
 
         .hh-card:hover {
           transform: translateY(-2px);
-          box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(16,185,129,0.05);
+          box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.4),
+            0 0 30px rgba(16, 185, 129, 0.05);
         }
 
         .hh-card::before {
-          content: '';
+          content: "";
           position: absolute;
-          top: 0; left: 0; right: 0;
+          top: 0;
+          left: 0;
+          right: 0;
           height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.15),
+            transparent
+          );
         }
 
         .hh-card-hero {
-          background: linear-gradient(135deg, rgba(16,185,129,0.15) 0%, rgba(5,13,20,0.9) 50%, rgba(245,158,11,0.1) 100%);
-          border-color: rgba(16,185,129,0.2);
+          background: linear-gradient(
+            135deg,
+            rgba(16, 185, 129, 0.15) 0%,
+            rgba(5, 13, 20, 0.9) 50%,
+            rgba(245, 158, 11, 0.1) 100%
+          );
+          border-color: rgba(16, 185, 129, 0.2);
         }
 
-        /* ─── ORBS ─── */
         .hh-orb {
           position: absolute;
           border-radius: 50%;
@@ -898,43 +1169,64 @@ export default function TaskPage() {
         }
 
         .hh-orb-1 {
-          width: 150px; height: 150px;
-          background: radial-gradient(circle, rgba(16,185,129,0.2), transparent);
-          top: -40px; right: -40px;
+          width: 150px;
+          height: 150px;
+          background: radial-gradient(
+            circle,
+            rgba(16, 185, 129, 0.2),
+            transparent
+          );
+          top: -40px;
+          right: -40px;
           animation: hh-orb-float 6s ease-in-out infinite;
         }
 
         .hh-orb-2 {
-          width: 100px; height: 100px;
-          background: radial-gradient(circle, rgba(245,158,11,0.15), transparent);
-          bottom: 20px; left: -20px;
+          width: 100px;
+          height: 100px;
+          background: radial-gradient(
+            circle,
+            rgba(245, 158, 11, 0.15),
+            transparent
+          );
+          bottom: 20px;
+          left: -20px;
           animation: hh-orb-float 8s ease-in-out infinite reverse;
         }
 
         @keyframes hh-orb-float {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          33%       { transform: translate(8px, -8px) scale(1.05); }
-          66%       { transform: translate(-4px, 6px) scale(0.97); }
+          0%,
+          100% {
+            transform: translate(0, 0) scale(1);
+          }
+          33% {
+            transform: translate(8px, -8px) scale(1.05);
+          }
+          66% {
+            transform: translate(-4px, 6px) scale(0.97);
+          }
         }
 
-        /* ─── ICON RING ─── */
         .hh-icon-ring {
           width: 32px;
           height: 32px;
           border-radius: 10px;
-          background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(245,158,11,0.2));
-          border: 1px solid rgba(245,158,11,0.3);
+          background: linear-gradient(
+            135deg,
+            rgba(16, 185, 129, 0.2),
+            rgba(245, 158, 11, 0.2)
+          );
+          border: 1px solid rgba(245, 158, 11, 0.3);
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
-        /* ─── STATS ROW ─── */
         .hh-stats-row {
           display: flex;
           align-items: center;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.06);
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.06);
           border-radius: 12px;
           padding: 12px 16px;
         }
@@ -943,29 +1235,29 @@ export default function TaskPage() {
           flex: 1;
           text-align: center;
         }
-
         .hh-stat-divider {
           width: 1px;
           height: 32px;
-          background: rgba(255,255,255,0.08);
+          background: rgba(255, 255, 255, 0.08);
         }
-
         .hh-stat-label {
           font-size: 11px;
           color: #6b7280;
           font-weight: 500;
         }
-
         .hh-stat-value {
           font-size: 14px;
           font-weight: 800;
           margin-top: 2px;
         }
 
-        /* ─── TASK CARDS ─── */
         .hh-task-card {
-          background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
-          border: 1px solid rgba(255,255,255,0.08);
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.05) 0%,
+            rgba(255, 255, 255, 0.02) 100%
+          );
+          border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 20px;
           overflow: hidden;
           transition: all 0.3s ease;
@@ -974,21 +1266,25 @@ export default function TaskPage() {
 
         .hh-task-card:hover {
           transform: translateY(-2px);
-          border-color: rgba(16,185,129,0.3);
-          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+          border-color: rgba(16, 185, 129, 0.3);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .hh-task-header {
           padding: 16px;
-          border-bottom: 1px solid rgba(255,255,255,0.05);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .hh-task-icon {
           width: 48px;
           height: 48px;
           border-radius: 14px;
-          background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(245,158,11,0.1));
-          border: 1px solid rgba(16,185,129,0.2);
+          background: linear-gradient(
+            135deg,
+            rgba(16, 185, 129, 0.1),
+            rgba(245, 158, 11, 0.1)
+          );
+          border: 1px solid rgba(16, 185, 129, 0.2);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1000,12 +1296,10 @@ export default function TaskPage() {
           font-size: 15px;
           margin-bottom: 4px;
         }
-
         .hh-task-desc {
           font-size: 12px;
-          color: rgba(255,255,255,0.5);
+          color: rgba(255, 255, 255, 0.5);
         }
-
         .hh-task-body {
           padding: 16px;
         }
@@ -1014,8 +1308,12 @@ export default function TaskPage() {
           display: inline-flex;
           align-items: center;
           gap: 4px;
-          background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(245,158,11,0.1));
-          border: 1px solid rgba(245,158,11,0.3);
+          background: linear-gradient(
+            135deg,
+            rgba(245, 158, 11, 0.2),
+            rgba(245, 158, 11, 0.1)
+          );
+          border: 1px solid rgba(245, 158, 11, 0.3);
           border-radius: 20px;
           padding: 4px 10px;
           font-size: 13px;
@@ -1034,24 +1332,21 @@ export default function TaskPage() {
         }
 
         .hh-status-completed {
-          background: rgba(16,185,129,0.15);
-          border: 1px solid rgba(16,185,129,0.3);
+          background: rgba(16, 185, 129, 0.15);
+          border: 1px solid rgba(16, 185, 129, 0.3);
           color: #10b981;
         }
-
         .hh-status-pending {
-          background: rgba(245,158,11,0.15);
-          border: 1px solid rgba(245,158,11,0.3);
+          background: rgba(245, 158, 11, 0.15);
+          border: 1px solid rgba(245, 158, 11, 0.3);
           color: #fbbf24;
         }
-
         .hh-status-ready {
-          background: rgba(16,185,129,0.15);
-          border: 1px solid rgba(16,185,129,0.3);
+          background: rgba(16, 185, 129, 0.15);
+          border: 1px solid rgba(16, 185, 129, 0.3);
           color: #6ee7b7;
         }
 
-        /* ─── TASK BUTTONS ─── */
         .hh-task-btn {
           width: 100%;
           padding: 14px;
@@ -1067,76 +1362,70 @@ export default function TaskPage() {
         .hh-task-btn:hover {
           transform: translateY(-2px);
         }
-
         .hh-task-btn:active {
           transform: scale(0.98);
         }
 
         .hh-task-btn-available {
           background: linear-gradient(135deg, #10b981, #059669);
-          box-shadow: 0 4px 15px rgba(16,185,129,0.3);
+          box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
-
         .hh-task-btn-pending {
           background: linear-gradient(135deg, #fbbf24, #d97706);
-          box-shadow: 0 4px 15px rgba(245,158,11,0.3);
+          box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
         }
-
         .hh-task-btn-ready {
           background: linear-gradient(135deg, #14b8a6, #0d9488);
-          box-shadow: 0 4px 15px rgba(20,184,166,0.35);
+          box-shadow: 0 4px 15px rgba(20, 184, 166, 0.35);
         }
-
         .hh-task-btn-completed {
-          background: rgba(255,255,255,0.1);
+          background: rgba(255, 255, 255, 0.1);
           cursor: not-allowed;
-          color: rgba(255,255,255,0.4);
+          color: rgba(255, 255, 255, 0.4);
         }
-
         .hh-task-btn-processing {
-          background: rgba(59,130,246,0.3);
+          background: rgba(59, 130, 246, 0.3);
           cursor: not-allowed;
-          border: 1px solid rgba(59,130,246,0.3);
+          border: 1px solid rgba(59, 130, 246, 0.3);
         }
 
-        /* ─── PROGRESS TRACK ─── */
         .hh-progress-track {
           width: 100%;
           height: 6px;
-          background: rgba(255,255,255,0.08);
+          background: rgba(255, 255, 255, 0.08);
           border-radius: 10px;
           overflow: hidden;
         }
-
         .hh-progress-fill {
           height: 100%;
           border-radius: 10px;
           transition: width 0.3s ease;
         }
-
         .hh-progress-verify {
           background: linear-gradient(90deg, #fbbf24, #d97706);
-          box-shadow: 0 0 10px rgba(245,158,11,0.5);
+          box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
         }
 
-        /* ─── COOLDOWN ─── */
         .hh-cooldown {
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.05);
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.05);
           border-radius: 30px;
           padding: 8px 12px;
           font-size: 12px;
           color: #fbbf24;
         }
 
-        /* ─── TASK WARNING ─── */
         .hh-task-warning {
-          background: linear-gradient(135deg, rgba(245,158,11,0.14), rgba(251,191,36,0.08));
-          border-top: 1px solid rgba(251,191,36,0.22);
+          background: linear-gradient(
+            135deg,
+            rgba(245, 158, 11, 0.14),
+            rgba(251, 191, 36, 0.08)
+          );
+          border-top: 1px solid rgba(251, 191, 36, 0.22);
           padding: 12px 14px;
           display: flex;
           align-items: flex-start;
@@ -1147,8 +1436,8 @@ export default function TaskPage() {
           width: 28px;
           height: 28px;
           border-radius: 10px;
-          background: rgba(251,191,36,0.14);
-          border: 1px solid rgba(251,191,36,0.24);
+          background: rgba(251, 191, 36, 0.14);
+          border: 1px solid rgba(251, 191, 36, 0.24);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1162,39 +1451,39 @@ export default function TaskPage() {
           gap: 2px;
           min-width: 0;
         }
-
         .hh-task-warning-title {
           font-size: 12px;
           font-weight: 700;
           color: #fde68a;
           letter-spacing: 0.02em;
         }
-
         .hh-task-warning-text {
           font-size: 11px;
           line-height: 1.45;
-          color: rgba(255,255,255,0.78);
+          color: rgba(255, 255, 255, 0.78);
         }
 
-        /* ─── TIP CARD ─── */
         .hh-tip-card {
-          background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(16,185,129,0.05));
-          border: 1px solid rgba(16,185,129,0.2);
+          background: linear-gradient(
+            135deg,
+            rgba(16, 185, 129, 0.15),
+            rgba(16, 185, 129, 0.05)
+          );
+          border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
         .hh-tip-icon {
           width: 40px;
           height: 40px;
           border-radius: 12px;
-          background: rgba(245,158,11,0.15);
-          border: 1px solid rgba(245,158,11,0.3);
+          background: rgba(245, 158, 11, 0.15);
+          border: 1px solid rgba(245, 158, 11, 0.3);
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
         }
 
-        /* ─── COIN RAIN ─── */
         .coin-rain {
           position: fixed;
           top: 0;
@@ -1212,36 +1501,37 @@ export default function TaskPage() {
           background: linear-gradient(135deg, #fbbf24, #d97706);
           border-radius: 50%;
           animation: coin-fall 3s linear forwards;
-          box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
           top: -30px;
         }
 
         @keyframes coin-fall {
-          0% { 
+          0% {
             transform: translateY(0) rotate(0deg);
             opacity: 1;
           }
-          100% { 
+          100% {
             transform: translateY(100vh) rotate(720deg);
             opacity: 0;
           }
         }
 
-        /* ─── BOTTOM NAV ─── */
         .hh-bottom-nav {
           position: fixed;
-          bottom: 0; left: 0; right: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
           max-width: 448px;
           margin: 0 auto;
-          background: rgba(5,13,20,0.92);
+          background: rgba(5, 13, 20, 0.92);
           backdrop-filter: blur(20px);
-          border-top: 1px solid rgba(255,255,255,0.08);
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
           display: flex;
           justify-content: space-around;
           align-items: center;
           height: 64px;
           z-index: 100;
-          box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+          box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
         }
 
         .hh-nav-item {
@@ -1253,7 +1543,9 @@ export default function TaskPage() {
           text-decoration: none;
           font-size: 11px;
           font-weight: 600;
-          transition: color 0.2s, transform 0.2s;
+          transition:
+            color 0.2s,
+            transform 0.2s;
           padding: 8px 16px;
           border-radius: 12px;
         }
@@ -1262,16 +1554,13 @@ export default function TaskPage() {
           color: #10b981;
           transform: translateY(-2px);
         }
-
         .hh-nav-active {
           color: #10b981 !important;
         }
-
         .hh-nav-active svg {
-          filter: drop-shadow(0 0 6px rgba(16,185,129,0.6));
+          filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.6));
         }
 
-        /* ─── ANIMATIONS ─── */
         @keyframes hh-card-appear {
           from {
             opacity: 0;
@@ -1283,12 +1572,24 @@ export default function TaskPage() {
           }
         }
 
-        .hh-entry-1 { animation: hh-entry 0.5s ease-out 0.0s both; }
-        .hh-entry-2 { animation: hh-entry 0.5s ease-out 0.1s both; }
-        .hh-entry-3 { animation: hh-entry 0.5s ease-out 0.2s both; }
-        .hh-entry-4 { animation: hh-entry 0.5s ease-out 0.3s both; }
-        .hh-entry-5 { animation: hh-entry 0.5s ease-out 0.4s both; }
-        .hh-entry-6 { animation: hh-entry 0.5s ease-out 0.5s both; }
+        .hh-entry-1 {
+          animation: hh-entry 0.5s ease-out 0s both;
+        }
+        .hh-entry-2 {
+          animation: hh-entry 0.5s ease-out 0.1s both;
+        }
+        .hh-entry-3 {
+          animation: hh-entry 0.5s ease-out 0.2s both;
+        }
+        .hh-entry-4 {
+          animation: hh-entry 0.5s ease-out 0.3s both;
+        }
+        .hh-entry-5 {
+          animation: hh-entry 0.5s ease-out 0.4s both;
+        }
+        .hh-entry-6 {
+          animation: hh-entry 0.5s ease-out 0.5s both;
+        }
 
         @keyframes hh-entry {
           from {
@@ -1301,15 +1602,16 @@ export default function TaskPage() {
           }
         }
 
-        /* ─── REDUCED MOTION ─── */
         @media (prefers-reduced-motion: reduce) {
-          .hh-bubble, .hh-orb-1, .hh-orb-2, .hh-orb-3,
-          .coin, [class*="hh-entry-"] {
+          .hh-bubble,
+          .hh-orb-1,
+          .hh-orb-2,
+          .coin,
+          [class*="hh-entry-"] {
             animation: none !important;
           }
         }
 
-        /* ─── SHORT 2s POPUP ─── */
         .hh-short-popup {
           position: absolute;
           left: 50%;
@@ -1321,28 +1623,40 @@ export default function TaskPage() {
         }
 
         .hh-short-popup-inner {
-          background: rgba(0,0,0,0.8);
+          background: rgba(0, 0, 0, 0.85);
           color: #fff;
-          padding: 10px 14px;
+          padding: 10px 16px;
           border-radius: 12px;
           font-size: 13px;
-          border: 1px solid rgba(255,255,255,0.06);
-          box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
           pointer-events: none;
+          white-space: nowrap;
         }
 
         @keyframes hh-popup-fade {
-          0% { opacity: 0; transform: translateX(-50%) translateY(6px); }
-          10% { opacity: 1; transform: translateX(-50%) translateY(0); }
-          85% { opacity: 1; transform: translateX(-50%) translateY(0); }
-          100% { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+          0% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(6px);
+          }
+          10% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+          }
+          85% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+          }
+          100% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-6px);
+          }
         }
 
-        /* ─── MODAL ─── */
         .hh-modal-backdrop {
           position: fixed;
           inset: 0;
-          background: rgba(0,0,0,0.6);
+          background: rgba(0, 0, 0, 0.6);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1353,8 +1667,12 @@ export default function TaskPage() {
         .hh-modal {
           width: 100%;
           max-width: 440px;
-          background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-          border: 1px solid rgba(255,255,255,0.06);
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.03),
+            rgba(255, 255, 255, 0.01)
+          );
+          border: 1px solid rgba(255, 255, 255, 0.06);
           border-radius: 16px;
           padding: 18px;
           backdrop-filter: blur(8px);
@@ -1365,33 +1683,28 @@ export default function TaskPage() {
           color: white;
           margin-bottom: 8px;
         }
-
         .hh-modal-desc {
-          color: rgba(255,255,255,0.9);
+          color: rgba(255, 255, 255, 0.9);
           font-size: 14px;
           line-height: 1.35;
         }
-
         .hh-modal-actions {
           display: flex;
           justify-content: flex-end;
           gap: 10px;
           margin-top: 14px;
         }
-
         .hh-modal-btn {
           padding: 10px 14px;
           border-radius: 10px;
           font-weight: 700;
           cursor: pointer;
         }
-
         .hh-modal-cancel {
           background: transparent;
-          border: 1px solid rgba(255,255,255,0.06);
+          border: 1px solid rgba(255, 255, 255, 0.06);
           color: white;
         }
-
         .hh-modal-continue {
           background: linear-gradient(135deg, #10b981, #059669);
           color: white;
@@ -1399,5 +1712,5 @@ export default function TaskPage() {
         }
       `}</style>
     </div>
-  )
+  );
 }
