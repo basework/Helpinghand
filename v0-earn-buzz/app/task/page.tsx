@@ -143,6 +143,9 @@ export default function TaskPage() {
   const [shortPopupTasks, setShortPopupTasks] = useState<Set<string>>(
     new Set(),
   );
+  // For showing the cool time-remaining modal
+  const [timeRemainingTaskId, setTimeRemainingTaskId] = useState<string | null>(null);
+  const [timeRemaining, setTimeRemaining] = useState(0);
 
   // Ref to hold cleanup from focus listener
   const focusListenerCleanupRef = useRef<(() => void) | null>(null);
@@ -357,6 +360,9 @@ export default function TaskPage() {
     const task = AVAILABLE_TASKS.find((t) => t.id === taskId);
     if (!task) return;
 
+    // Clear time-remaining modal
+    setTimeRemainingTaskId(null);
+
     // Remove from ready and active sets
     setClaimReadyTasks((prev) => {
       const next = new Set(prev);
@@ -460,18 +466,14 @@ export default function TaskPage() {
           // Should have been caught by claimReady, but just in case
           completeVerification(task.id);
         } else {
-          // Show popup indicating not enough time
-          setShortPopupTasks((prev) => new Set(prev).add(task.id));
-          setTimeout(() => {
-            setShortPopupTasks((prev) => {
-              const next = new Set(prev);
-              next.delete(task.id);
-              return next;
-            });
-          }, 2000);
+          // Show cool time-remaining modal and toast
+          const timeLeft = Math.max(0, 10 - elapsed);
+          setTimeRemaining(Math.ceil(timeLeft));
+          setTimeRemainingTaskId(task.id);
+          setTimeout(() => setTimeRemainingTaskId(null), 3000);
           toast({
-            title: "Spend 10s on the task first ⏱️",
-            description: `You've only spent ${Math.round(elapsed)} seconds. Stay on the external page for at least 10 seconds before claiming.`,
+            title: "⏱️ Come back soon!",
+            description: `Need ${Math.ceil(timeLeft)}s more. Stay on the task page a bit longer!`,
             variant: "destructive",
           });
         }
@@ -772,6 +774,37 @@ export default function TaskPage() {
           </div>
         </div>
       </div>
+
+      {/* Cool Time-Remaining Modal */}
+      {timeRemainingTaskId && (
+        <div className="hh-time-remaining-overlay">
+          <div className="hh-time-remaining-modal">
+            <div className="hh-time-remaining-content">
+              <div className="hh-time-circle">
+                <svg className="hh-time-circle-svg" viewBox="0 0 200 200">
+                  <circle
+                    cx="100"
+                    cy="100"
+                    r="90"
+                    className="hh-time-circle-bg"
+                  />
+                  <circle
+                    cx="100"
+                    cy="100"
+                    r="90"
+                    className="hh-time-circle-progress"
+                    style={{
+                      strokeDasharray: `${(timeRemaining / 10) * 565.48} 565.48`,
+                    }}
+                  />
+                </svg>
+                <div className="hh-time-text">{timeRemaining}s</div>
+              </div>
+              <p className="hh-time-message">Stay a bit longer on the task!</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Bottom Navigation */}
       <div className="hh-bottom-nav">
@@ -1574,12 +1607,109 @@ export default function TaskPage() {
           }
         }
 
+        /* Time Remaining Modal */
+        .hh-time-remaining-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(8px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 999;
+          animation: hh-overlay-fade-in 0.3s ease-out;
+        }
+
+        @keyframes hh-overlay-fade-in {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+
+        .hh-time-remaining-modal {
+          background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
+          border: 2px solid rgba(16, 185, 129, 0.3);
+          border-radius: 24px;
+          padding: 40px;
+          backdrop-filter: blur(16px);
+          animation: hh-modal-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+
+        @keyframes hh-modal-pop {
+          from {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        .hh-time-remaining-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+        }
+
+        .hh-time-circle {
+          position: relative;
+          width: 160px;
+          height: 160px;
+        }
+
+        .hh-time-circle-svg {
+          width: 100%;
+          height: 100%;
+          transform: rotate(-90deg);
+        }
+
+        .hh-time-circle-bg {
+          fill: none;
+          stroke: rgba(255, 255, 255, 0.1);
+          stroke-width: 8;
+        }
+
+        .hh-time-circle-progress {
+          fill: none;
+          stroke: url(#hh-time-gradient);
+          stroke-width: 8;
+          stroke-linecap: round;
+          transition: stroke-dasharray 0.1s linear;
+        }
+
+        .hh-time-text {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-size: 48px;
+          font-weight: 900;
+          color: #10b981;
+          text-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+        }
+
+        .hh-time-message {
+          font-size: 16px;
+          font-weight: 600;
+          color: rgba(255, 255, 255, 0.9);
+          text-align: center;
+          letter-spacing: 0.5px;
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .hh-bubble,
           .hh-orb-1,
           .hh-orb-2,
           .coin,
-          [class*="hh-entry-"] {
+          [class*="hh-entry-"],
+          .hh-time-remaining-overlay,
+          .hh-time-remaining-modal {
             animation: none !important;
           }
         }
