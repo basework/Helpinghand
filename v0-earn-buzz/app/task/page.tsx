@@ -122,6 +122,7 @@ export default function TaskPage() {
   const [verifyingTasks, setVerifyingTasks] = useState<Record<string, {progress: number, startTime: number}>>({})
   const [claimReadyTasks, setClaimReadyTasks] = useState<Record<string, boolean>>({})
   const [cooldowns, setCooldowns] = useState<Record<string, number>>({})
+  const [shortPopupTasks, setShortPopupTasks] = useState<Record<string, boolean>>({})
   const progressIntervals = useRef<Record<string, NodeJS.Timeout>>({})
   const [showCoinRain, setShowCoinRain] = useState(false)
 
@@ -398,6 +399,33 @@ export default function TaskPage() {
       return
     }
 
+    // If a verification is already in progress for this task, check elapsed time
+    if (verifyingTasks[task.id]) {
+      const started = verifyingTasks[task.id].startTime || 0
+      const elapsed = (Date.now() - started) / 1000
+      const progress = verifyingTasks[task.id].progress || 0
+
+      // If elapsed meets requirement or progress is complete, allow immediate claim
+      if (elapsed >= 10 || progress >= 100) {
+        // mark as ready and complete
+        setClaimReadyTasks(prev => ({ ...prev, [task.id]: true }))
+        // small delay to give UI feedback
+        setTimeout(() => completeVerification(task.id), 300)
+        return
+      }
+
+      // Otherwise show a 2s popup telling user to stay 10s, then revert
+      setShortPopupTasks(prev => ({ ...prev, [task.id]: true }))
+      setTimeout(() => {
+        setShortPopupTasks(prev => {
+          const next = { ...prev }
+          delete next[task.id]
+          return next
+        })
+      }, 2000)
+      return
+    }
+
     // Start task immediately (no interaction-confirmation modal)
     confirmStartTask(task)
   }
@@ -591,12 +619,21 @@ export default function TaskPage() {
                         : 'hh-task-btn-available'
                     }`}
                   >
-                    {isProcessing ? 'Processing...' : 
+                    {shortPopupTasks[task.id] ? 'Please stay 10s to qualify' :
+                    isProcessing ? 'Processing...' : 
                      isClaimReady ? 'Task Done • Claim Reward' :
                      isPending ? 'Verifying...' : 
                     isCompleted ? 'On Cooldown' : 
                      'Claim Now'}
                   </button>
+
+                  {shortPopupTasks[task.id] && (
+                    <div className="hh-short-popup" role="status">
+                      <div className="hh-short-popup-inner">
+                        Please spend at least 10 seconds on the task before returning.
+                      </div>
+                    </div>
+                  )}
 
                   {isVerifying && (
                     <div className="mt-3">
@@ -1218,6 +1255,35 @@ export default function TaskPage() {
           .coin, [class*="hh-entry-"] {
             animation: none !important;
           }
+        }
+
+        /* ─── SHORT 2s POPUP ─── */
+        .hh-short-popup {
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          bottom: 18px;
+          z-index: 60;
+          pointer-events: none;
+          animation: hh-popup-fade 2s ease-out forwards;
+        }
+
+        .hh-short-popup-inner {
+          background: rgba(0,0,0,0.8);
+          color: #fff;
+          padding: 10px 14px;
+          border-radius: 12px;
+          font-size: 13px;
+          border: 1px solid rgba(255,255,255,0.06);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+          pointer-events: none;
+        }
+
+        @keyframes hh-popup-fade {
+          0% { opacity: 0; transform: translateX(-50%) translateY(6px); }
+          10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+          85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+          100% { opacity: 0; transform: translateX(-50%) translateY(-6px); }
         }
 
         /* ─── MODAL ─── */
