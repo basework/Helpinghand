@@ -982,26 +982,37 @@ export default function DashboardPage() {
         {/* ── QUICK ACTIONS ── */}
         <div className="hh-card hh-entry-4">
           <div className="hh-section-title">Quick Actions</div>
-          <div className="grid grid-cols-2 gap-3 mt-3">
-            {menuItems.map((item, idx) => {
-              const Icon = item.icon
-              const key = `qa-${idx}`
-              const content = (
-                <div className="hh-action-card" style={{ animationDelay: `${idx * 80 + 400}ms` }}>
-                  <div className="hh-action-card-icon">
-                    {item.emoji ? <span className="text-2xl">{item.emoji}</span> : Icon && <Icon size={20} className="text-white" />}
+          <div className="space-y-3 mt-3">
+            {/* Main 2-column grid for first 4 items */}
+            <div className="grid grid-cols-2 gap-3">
+              {menuItems.map((item, idx) => {
+                const Icon = item.icon
+                const key = `qa-${idx}`
+                const content = (
+                  <div className="hh-action-card" style={{ animationDelay: `${idx * 80 + 400}ms` }}>
+                    <div className="hh-action-card-icon">
+                      {item.emoji ? <span className="text-2xl">{item.emoji}</span> : Icon && <Icon size={20} className="text-white" />}
+                    </div>
+                    <div className="text-sm font-semibold text-white mt-2">{item.name}</div>
+                    <div className="hh-action-card-arrow">→</div>
                   </div>
-                  <div className="text-sm font-semibold text-white mt-2">{item.name}</div>
-                  <div className="hh-action-card-arrow">→</div>
-                </div>
-              )
+                )
 
-              return item.external ? (
-                <a key={key} href={item.link} className="block focus:outline-none">{content}</a>
-              ) : (
-                <Link key={key} href={item.link || "#"} className="block focus:outline-none">{content}</Link>
-              )
-            })}
+                return item.external ? (
+                  <a key={key} href={item.link} className="block focus:outline-none">{content}</a>
+                ) : (
+                  <Link key={key} href={item.link || "#"} className="block focus:outline-none">{content}</Link>
+                )
+              })}
+            </div>
+            
+            {/* Tap & Earn button - takes full width (2 boxes), slim design */}
+            <Link href="/earn/tap" className="block focus:outline-none">
+              <button className="w-full hh-action-btn hh-action-green" style={{ animationDelay: '660ms' }}>
+                <span className="hh-action-icon">🎮</span>
+                <span>Tap & Earn Game</span>
+              </button>
+            </Link>
           </div>
         </div>
 
