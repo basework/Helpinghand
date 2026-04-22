@@ -400,8 +400,10 @@ export default function TaskPage() {
 
     // Notify same-tab listeners that user/completed tasks updated
     try {
-      const detail = { user: storedUser ? JSON.parse(storedUser) : null, completedTasks: newCompleted };
-      window.dispatchEvent(new CustomEvent("tivexx:update", { detail }));
+      const latestUserRaw = localStorage.getItem("tivexx-user")
+      const latestUser = latestUserRaw ? JSON.parse(latestUserRaw) : null
+      const detail = { user: latestUser, completedTasks: newCompleted }
+      window.dispatchEvent(new CustomEvent("tivexx:update", { detail }))
     } catch (e) {
       // ignore
     }

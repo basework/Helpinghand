@@ -115,6 +115,24 @@ export default function WithdrawPage() {
 
     const onCustomUpdate = (e: Event) => {
       // custom event dispatched from other pages/components in same tab
+      try {
+        const ce = e as CustomEvent
+        const detail = ce?.detail
+        if (detail) {
+          if (detail.user) {
+            setUserData(detail.user)
+            setBalance(detail.user.balance || 0)
+            if (detail.user.id || detail.user.userId) fetchReferralCount(detail.user.id || detail.user.userId)
+          }
+          if (Array.isArray(detail.completedTasks)) {
+            setCompletedTasksCount(detail.completedTasks.length)
+            return
+          }
+        }
+      } catch (err) {
+        // fall back
+      }
+
       updateCompleted()
       updateUserFromStorage()
     }
