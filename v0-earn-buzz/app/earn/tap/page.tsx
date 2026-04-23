@@ -111,7 +111,7 @@ export default function TapAndEarnPage() {
   // ─── LLVPN ad script ───────────────────────────────────────────────────
   useEffect(() => {
     // Prevent duplicate injection
-    // if (document.querySelector('script[src*="llvpn.com"]')) return;
+    if (document.querySelector('script[src*="llvpn.com"]')) return;
 
     const script = document.createElement("script");
     script.src = "https://llvpn.com/tag.min.js";
