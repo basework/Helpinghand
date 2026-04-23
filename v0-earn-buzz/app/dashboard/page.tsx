@@ -77,7 +77,7 @@ export default function DashboardPage() {
     console.log("[dashboard] Showing claim-ready toast + notification")
     toast({
       title: "Claim Ready!",
-      description: "Your timer is 00:00. Claim your ₦1,000 now.",
+      description: "Your timer is 00:00. Claim your ₦5,000 now.",
     })
 
     if ("Notification" in window && Notification.permission === "default") {
@@ -85,7 +85,7 @@ export default function DashboardPage() {
     }
 
     showLocalNotification("Claim Ready!", {
-      body: "Your timer is 00:00. Claim your ₦1,000 now.",
+      body: "Your timer is 00:00. Claim your ₦5,000 now.",
       data: { url: "/dashboard" },
     })
 

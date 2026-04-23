@@ -200,7 +200,7 @@ export default function AboutPage() {
               <ul className="space-y-3 text-sm text-white/85">
                 <li className="hh-list-item">
                   <span className="hh-list-bullet"></span>
-                  Earn ₦1,000 every 1 minute by claiming through the daily
+                  Earn ₦5,000 every 1 minute by claiming through the daily
                   earnings button.
                 </li>
                 <li className="hh-list-item">

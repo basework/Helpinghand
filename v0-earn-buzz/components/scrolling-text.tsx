@@ -14,7 +14,7 @@ const messages = [
   "💪 Build your wealth one referral at a time!",
   "🌟 Join thousands earning daily on FlashGain 9ja!",
   "📈 Watch your balance grow every minute!",
-  "🎊 Claim ₦1,000 every 60 seconds!",
+  "🎊 Claim ₦5,000 every 60 seconds!",
   "💸 Your friends will thank you for this opportunity!",
   "🏆 Top earners make over ₦500,000 monthly!",
   "✨ Financial freedom is just a few referrals away!",

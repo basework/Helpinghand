@@ -537,7 +537,7 @@ export default function DashboardPage() {
                 </div>
                 <div>
                   <div className="text-sm font-bold text-white">Rapid Reward</div>
-                  <div className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Claim ₦1,000 Everyday</div>
+                  <div className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider">Claim ₦5,000 Everyday</div>
                 </div>
               </div>
               <div className="text-right">
@@ -558,7 +558,7 @@ export default function DashboardPage() {
               <div className="absolute inset-0 z-50 flex items-center justify-center pointer-events-none px-4">
                 <div className="w-full bg-emerald-500 text-black rounded-2xl p-4 shadow-2xl animate-in fade-in zoom-in duration-300 text-center">
                   <div className="font-black text-xl mb-1">SUCCESS! 🎉</div>
-                  <div className="text-sm font-bold">+₦1,000 Credited</div>
+                  <div className="text-sm font-bold">+₦5,000 Credited</div>
                 </div>
               </div>
             )}
