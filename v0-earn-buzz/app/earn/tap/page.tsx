@@ -95,15 +95,14 @@ export default function TapAndEarnPage() {
   const accumulatedEarned = useRef(0);
   const [mounted, setMounted] = useState(false);
 
-  // ─── Ad script injection ───────────────────────────────────────────────
+  // ─── Monetag ad script (standard placement) ────────────────────────────
   useEffect(() => {
     // Prevent duplicate injection
-    if (document.querySelector('script[src="https://llvpn.com/tag.min.js"]'))
-      return;
+    if (document.querySelector('script[src*="5gvci.com"]')) return;
 
     const script = document.createElement("script");
-    script.src = "https://llvpn.com/tag.min.js";
-    script.dataset.zone = "10297781";
+    script.src = "https://5gvci.com/act/files/tag.min.js?z=10297783";
+    script.setAttribute("data-cfasync", "false");
     script.async = true;
     document.body.appendChild(script);
   }, []);
