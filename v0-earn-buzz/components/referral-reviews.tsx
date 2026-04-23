@@ -77,7 +77,7 @@ export function ReferralReviews() {
   return (
     <div className="referral-reviews-container">
       <div className="referral-reviews-header">
-        <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Real Reviews</span>
+        <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Flashgain9ja Review</span>
         <h3 className="text-sm font-bold text-white">What Users Are Saying</h3>
       </div>
 
