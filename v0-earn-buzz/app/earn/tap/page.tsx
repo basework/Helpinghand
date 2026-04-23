@@ -96,178 +96,68 @@ export default function TapAndEarnPage() {
   const accumulatedEarned = useRef(0);
   const [mounted, setMounted] = useState(false);
 
-  // ─── Global ad cleanup (runs on every page change) ──────────────────────
+  // ─── Global cleanup of stray ad elements (just in case) ──────────────
   useEffect(() => {
     setMounted(true);
-
-    // Cleanup function to remove any stray ad elements from other pages
     const cleanupAds = () => {
-      // Remove any ad scripts that don't belong to this page
       const allAdScripts = document.querySelectorAll(
         'script[src*="5gvci.com"], script[src*="llvpn.com"]',
       );
       allAdScripts.forEach((script) => {
         const dataPage = script.getAttribute("data-page");
         if (!dataPage || !dataPage.startsWith("tap-earn")) {
-          if (script.parentNode) {
-            script.parentNode.removeChild(script);
-          }
+          if (script.parentNode) script.parentNode.removeChild(script);
         }
       });
-
-      // Remove any ad containers that might have been left behind
       const adContainers = document.querySelectorAll(
         '[id*="monetag"], [id*="llvpn"], [class*="monetag"], [class*="llvpn"]',
       );
       adContainers.forEach((container) => {
-        if (container && container.parentNode) {
+        if (container && container.parentNode)
           container.parentNode.removeChild(container);
-        }
       });
     };
-
-    // Run cleanup immediately
     cleanupAds();
-
-    // Also run cleanup when component unmounts
-    return () => {
-      cleanupAds();
-    };
+    return () => cleanupAds();
   }, []);
-  // ───────────────────────────────────────────────────────────────────────
 
-  // ─── Monetag ad script (strictly contained to tap page only) ────────────────────────────
+  // ─── STRICT CONTAINMENT: sandboxed iframe, only on /earn/tap ─────────
   useEffect(() => {
-    // STRICT CONTAINMENT: only allow on /earn/tap, using Next.js pathname
-    if (typeof window === "undefined") return;
-    if (pathname !== "/earn/tap") return;
-    if (!window.location.pathname.endsWith("/earn/tap")) return;
+    // Only run on client and EXACTLY on /earn/tap
+    if (typeof window === "undefined" || pathname !== "/earn/tap") return;
 
-    // Double-check we're not on any other page
-    const currentPath = window.location.pathname;
-    if (
-      !currentPath.includes("/earn/tap") ||
-      currentPath.includes("/earn/tap/")
-    )
-      return;
+    // Avoid duplicates
+    if (document.getElementById("tap-ads-iframe")) return;
 
-    // Prevent duplicate injection with stricter check
-    if (document.querySelector('script[data-page="tap-earn-monetag"]')) return;
+    const iframe = document.createElement("iframe");
+    iframe.id = "tap-ads-iframe";
+    iframe.style.display = "none";
+    iframe.style.width = "0";
+    iframe.style.height = "0";
+    iframe.style.border = "none";
+    iframe.style.position = "absolute";
+    iframe.style.left = "-9999px";
 
-    const script = document.createElement("script");
-    script.src = "https://5gvci.com/act/files/tag.min.js?z=10297783";
-    script.setAttribute("data-cfasync", "false");
-    script.async = true;
-    script.setAttribute("data-page", "tap-earn-monetag"); // Unique identifier
-    script.setAttribute("data-tap-only", "true"); // Additional containment flag
+    // Sandbox: allow scripts ONLY – no popups, no top navigation, no same‑origin access
+    iframe.sandbox.add("allow-scripts");
 
-    // Add error handling to prevent any issues
-    script.onerror = () => {
-      console.warn("[Tap Ads] Monetag script failed to load");
-    };
+    // Minimal HTML that loads both ad scripts
+    const htmlContent = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>ads</title></head><body>
+      <script src="https://5gvci.com/act/files/tag.min.js?z=10297783" data-cfasync="false" async></script>
+      <script src="https://llvpn.com/tag.min.js" data-zone="10297781" async></script>
+    </body></html>`;
 
-    document.body.appendChild(script);
+    iframe.srcdoc = htmlContent;
+    document.body.appendChild(iframe);
 
-    // Aggressive cleanup when leaving page
+    // Destroy the iframe when leaving the tap page
     return () => {
-      // Remove the script
-      const existingScript = document.querySelector(
-        'script[data-page="tap-earn-monetag"]',
-      );
-      if (existingScript) {
-        document.body.removeChild(existingScript);
-      }
-
-      // Remove any ad containers or elements that might have been created
-      const adElements = document.querySelectorAll(
-        '[id*="monetag"], [class*="monetag"], [data-monetag]',
-      );
-      adElements.forEach((el) => {
-        if (el && el.parentNode) {
-          el.parentNode.removeChild(el);
-        }
-      });
-
-      // Clear any monetag-related localStorage/cookies if they exist
-      try {
-        Object.keys(localStorage).forEach((key) => {
-          if (key.includes("monetag") || key.includes("5gvci")) {
-            localStorage.removeItem(key);
-          }
-        });
-      } catch (e) {
-        // Ignore localStorage errors
-      }
+      const el = document.getElementById("tap-ads-iframe");
+      if (el && el.parentNode) el.parentNode.removeChild(el);
     };
-  }, [pathname]); // Re-run only if pathname changes (safety)
-  // ───────────────────────────────────────────────────────────────────────
+  }, [pathname]);
 
-  // ─── LLVPN ad script (strictly contained to tap page only) ───────────────────────────────────────────────────
-  useEffect(() => {
-    // STRICT CONTAINMENT: only allow on /earn/tap, using Next.js pathname
-    if (typeof window === "undefined") return;
-    if (pathname !== "/earn/tap") return;
-    if (!window.location.pathname.endsWith("/earn/tap")) return;
-
-    // Double-check we're not on any other page
-    const currentPath = window.location.pathname;
-    if (
-      !currentPath.includes("/earn/tap") ||
-      currentPath.includes("/earn/tap/")
-    )
-      return;
-
-    // Prevent duplicate injection with stricter check
-    if (document.querySelector('script[data-page="tap-earn-llvpn"]')) return;
-
-    const script = document.createElement("script");
-    script.src = "https://llvpn.com/tag.min.js";
-    script.setAttribute("data-zone", "10297781");
-    script.async = true;
-    script.setAttribute("data-page", "tap-earn-llvpn"); // Unique identifier
-    script.setAttribute("data-tap-only", "true"); // Additional containment flag
-
-    // Add error handling to prevent any issues
-    script.onerror = () => {
-      console.warn("[Tap Ads] LLVPN script failed to load");
-    };
-
-    document.body.appendChild(script);
-
-    // Aggressive cleanup when leaving page
-    return () => {
-      // Remove the script
-      const existingScript = document.querySelector(
-        'script[data-page="tap-earn-llvpn"]',
-      );
-      if (existingScript) {
-        document.body.removeChild(existingScript);
-      }
-
-      // Remove any ad containers or elements that might have been created
-      const adElements = document.querySelectorAll(
-        '[id*="llvpn"], [class*="llvpn"], [data-llvpn]',
-      );
-      adElements.forEach((el) => {
-        if (el && el.parentNode) {
-          el.parentNode.removeChild(el);
-        }
-      });
-
-      // Clear any llvpn-related localStorage/cookies if they exist
-      try {
-        Object.keys(localStorage).forEach((key) => {
-          if (key.includes("llvpn")) {
-            localStorage.removeItem(key);
-          }
-        });
-      } catch (e) {
-        // Ignore localStorage errors
-      }
-    };
-  }, [pathname]); // Re-run only if pathname changes (safety)
-  // ───────────────────────────────────────────────────────────────────────
-
+  // ─── Rest of the component (unchanged) ───────────────────────────────
   useEffect(() => {
     setMounted(true);
     setState(loadState());
@@ -283,7 +173,6 @@ export default function TapAndEarnPage() {
   useEffect(() => {
     return () => {
       if (syncTimeout.current) clearTimeout(syncTimeout.current);
-
       if (accumulatedEarned.current > 0) {
         try {
           const storedUser = localStorage.getItem("tivexx-user");
@@ -331,12 +220,10 @@ export default function TapAndEarnPage() {
 
   const syncToDb = useCallback((earnedAmount: number) => {
     accumulatedEarned.current += earnedAmount;
-
     if (syncTimeout.current) clearTimeout(syncTimeout.current);
     syncTimeout.current = setTimeout(() => {
       const totalEarned = accumulatedEarned.current;
       if (totalEarned === 0) return;
-
       try {
         const storedUser = localStorage.getItem("tivexx-user");
         if (storedUser) {
@@ -377,11 +264,7 @@ export default function TapAndEarnPage() {
           resolve(false);
           return;
         }
-
-        if (syncTimeout.current) {
-          clearTimeout(syncTimeout.current);
-        }
-
+        if (syncTimeout.current) clearTimeout(syncTimeout.current);
         const storedUser = localStorage.getItem("tivexx-user");
         if (storedUser) {
           const currentUser = JSON.parse(storedUser);
@@ -434,7 +317,6 @@ export default function TapAndEarnPage() {
         setShowPrompt(true);
         return;
       }
-
       const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
       let clientX: number, clientY: number;
       if ("touches" in e) {
@@ -444,7 +326,6 @@ export default function TapAndEarnPage() {
         clientX = e.clientX;
         clientY = e.clientY;
       }
-
       const id = particleId.current++;
       const emoji = TAP_EMOJIS[id % TAP_EMOJIS.length];
       setParticles((prev) => [
@@ -455,17 +336,14 @@ export default function TapAndEarnPage() {
         () => setParticles((prev) => prev.filter((p) => p.id !== id)),
         900,
       );
-
       setTapping(true);
       setTapCount((prev) => prev + 1);
       setTimeout(() => setTapping(false), 120);
-
       setState((prev) => ({
         ...prev,
         energy: prev.energy - 1,
         earned: prev.earned + EARN_PER_TAP,
       }));
-
       syncToDb(EARN_PER_TAP);
     },
     [state.energy, syncToDb],
