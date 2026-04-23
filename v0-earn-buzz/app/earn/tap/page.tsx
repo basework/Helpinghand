@@ -547,24 +547,14 @@ export default function TapAndEarnPage() {
 
       {/* ── Energy Depleted Modal (fixed fullscreen flex overlay) ── */}
       {showPrompt && (
-        <>
-          {/* Backdrop with flex centering */}
-          <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 te-fadeIn flex items-center justify-center p-4"
-            onClick={() => setShowPrompt(false)}
-          />
-          {/* Modal container – centered both horizontally and vertically */}
+        <div
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 te-fadeIn flex items-center justify-center p-4"
+          onClick={() => setShowPrompt(false)}
+        >
+          {/* Modal container – centered by parent flex layout */}
           <div 
-            className="fixed z-50 te-slideUp"
-            style={{
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: 'calc(100% - 32px)',
-              maxWidth: '420px',
-              maxHeight: '85vh',
-              overflow: 'auto'
-            }}
+            className="te-slideUp w-full max-w-[420px] h-auto max-h-[85vh] overflow-auto z-50"
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="hh-modal">
               {/* Glow accent */}
@@ -610,7 +600,7 @@ export default function TapAndEarnPage() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
 
       {/* ── Global styles ── */}
