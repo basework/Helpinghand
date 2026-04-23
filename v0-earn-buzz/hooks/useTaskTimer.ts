@@ -50,9 +50,10 @@ export function useTaskTimer() {
             onTaskSuccess(taskId, elapsed / 1000)
             tasksToDelete.push(taskId)
           } else {
-            // Task incomplete — show warning, delete timer so user must re-tap
+            // Task incomplete — inform caller but KEEP the timer so UI
+            // progress and active state remain (user may return later to finish)
             onTaskIncomplete(taskId, elapsed / 1000)
-            tasksToDelete.push(taskId)
+            // do NOT push to tasksToDelete: leave timer in sessionStorage
           }
         })
 

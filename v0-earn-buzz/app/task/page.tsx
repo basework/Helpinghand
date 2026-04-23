@@ -235,16 +235,19 @@ export default function TaskPage() {
 
     const handleTaskIncomplete = (taskId: string, elapsed: number) => {
       // Called when user returns but spent <10s
-      setActiveTasks((prev) => {
+      // Keep the active state and sessionStorage timer so the
+      // progress bar and yellow "Task Done ✅" button remain.
+      setShortPopupTasks((prev) => {
         const next = new Set(prev);
-        next.delete(taskId);
+        next.add(taskId);
         return next;
       });
-      sessionStorage.removeItem(`task_start_${taskId}`);
+
+      // Show appropriate toast but DO NOT remove the timer or active state
       if (elapsed < 2) {
         toast({
           title: "You didn't interact with the task ❌",
-          description: `You only spent ${Math.round(elapsed)}s outside. Please tap the task again and stay on the page for at least 10 seconds before coming back.`,
+          description: `You only spent ${Math.round(elapsed)}s outside. Stay on the task a bit longer to earn the reward.`,
           variant: "destructive",
           duration: 6000,
         });
@@ -254,6 +257,15 @@ export default function TaskPage() {
           description: `You spent ${Math.round(elapsed)}s — you need 10 seconds for a successful reward. Please try again.`,
         });
       }
+
+      // Auto-hide the short popup after a few seconds
+      setTimeout(() => {
+        setShortPopupTasks((prev) => {
+          const next = new Set(prev);
+          next.delete(taskId);
+          return next;
+        });
+      }, 4000);
     };
 
     const isTaskCompleted = (taskId: string) => {
