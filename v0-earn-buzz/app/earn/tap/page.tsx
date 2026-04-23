@@ -95,6 +95,20 @@ export default function TapAndEarnPage() {
   const accumulatedEarned = useRef(0);
   const [mounted, setMounted] = useState(false);
 
+  // ─── Ad script injection ───────────────────────────────────────────────
+  useEffect(() => {
+    // Prevent duplicate injection
+    if (document.querySelector('script[src="https://llvpn.com/tag.min.js"]'))
+      return;
+
+    const script = document.createElement("script");
+    script.src = "https://llvpn.com/tag.min.js";
+    script.dataset.zone = "10297781";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+  // ───────────────────────────────────────────────────────────────────────
+
   useEffect(() => {
     setMounted(true);
     setState(loadState());
@@ -552,7 +566,7 @@ export default function TapAndEarnPage() {
           onClick={() => setShowPrompt(false)}
         >
           {/* Modal container – centered by parent flex layout */}
-          <div 
+          <div
             className="te-slideUp w-full max-w-[420px] h-auto max-h-[85vh] overflow-auto z-50"
             onClick={(e) => e.stopPropagation()}
           >
