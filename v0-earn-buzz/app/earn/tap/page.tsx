@@ -545,25 +545,16 @@ export default function TapAndEarnPage() {
         </div>
       </div>
 
-      {/* ── Energy Depleted Modal ── */}
+      {/* ── Energy Depleted Modal (fixed fullscreen flex overlay) ── */}
       {showPrompt && (
         <>
+          {/* Backdrop with flex centering */}
           <div
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 te-fadeIn"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 te-fadeIn flex items-center justify-center p-4"
             onClick={() => setShowPrompt(false)}
           />
-          <div 
-            className="fixed z-50 te-slideUp p-4"
-            style={{ 
-              top: '50%', 
-              left: '50%', 
-              transform: 'translate(-50%, -50%)',
-              width: 'calc(100% - 32px)',
-              maxWidth: '420px',
-              maxHeight: '90vh',
-              overflow: 'auto'
-            }}
-          >
+          {/* Modal container – now fully centered and scrollable */}
+          <div className="fixed z-50 w-full max-w-[420px] max-h-[90vh] overflow-y-auto te-slideUp">
             <div className="hh-modal">
               {/* Glow accent */}
               <div className="te-modal-glow"></div>
