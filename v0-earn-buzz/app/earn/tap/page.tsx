@@ -15,7 +15,7 @@ import {
 
 const MAX_ENERGY = 100;
 const EARN_PER_TAP = 100;
-const ENERGY_REGEN_MS = 600000;
+const ENERGY_REGEN_MS = 6000; // 6 seconds per energy point = 100 energy in 10 minutes
 const STORAGE_KEY = "tap_earn_state";
 
 interface TapParticle {
