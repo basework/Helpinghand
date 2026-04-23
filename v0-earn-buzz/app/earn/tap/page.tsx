@@ -553,8 +553,12 @@ export default function TapAndEarnPage() {
             onClick={() => setShowPrompt(false)}
           />
           <div 
-            className="fixed left-1/2 -translate-x-1/2 w-[92%] max-w-sm z-50 te-slideUp"
-            style={{ top: '50vh', transform: 'translate(-50%, -50%)' }}
+            className="fixed w-[92%] max-w-sm z-50 te-slideUp"
+            style={{ 
+              top: '50%', 
+              left: '50%', 
+              transform: 'translate(-50%, -50%)'
+            }}
           >
             <div className="hh-modal">
               {/* Glow accent */}
