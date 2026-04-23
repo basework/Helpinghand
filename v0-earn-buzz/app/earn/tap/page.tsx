@@ -553,11 +553,15 @@ export default function TapAndEarnPage() {
             onClick={() => setShowPrompt(false)}
           />
           <div 
-            className="fixed w-[92%] max-w-sm z-50 te-slideUp"
+            className="fixed z-50 te-slideUp p-4"
             style={{ 
               top: '50%', 
               left: '50%', 
-              transform: 'translate(-50%, -50%)'
+              transform: 'translate(-50%, -50%)',
+              width: 'calc(100% - 32px)',
+              maxWidth: '420px',
+              maxHeight: '90vh',
+              overflow: 'auto'
             }}
           >
             <div className="hh-modal">
