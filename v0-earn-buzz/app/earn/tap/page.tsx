@@ -97,6 +97,7 @@ export default function TapAndEarnPage() {
   const [showTaskPopup, setShowTaskPopup] = useState(false);
   const [completedTasksCount, setCompletedTasksCount] = useState(0);
   const [hasShownTaskPopup, setHasShownTaskPopup] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   // ─── Global cleanup of stray ad elements (just in case) ──────────────
   useEffect(() => {
